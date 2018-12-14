@@ -8,6 +8,7 @@ struct Bullet
 	float Radius;
 	float Speed;
 	int Damage;
+	int Spacing;
 
 	bool bIsHit;
 	bool bActive;
