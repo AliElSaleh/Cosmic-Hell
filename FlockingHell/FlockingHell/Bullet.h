@@ -10,4 +10,5 @@ struct Bullet
 	int Damage;
 
 	bool bIsHit;
+	bool bActive;
 };

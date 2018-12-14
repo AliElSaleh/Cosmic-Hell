@@ -4,7 +4,7 @@
 
 struct Player
 {
-	struct Bullet Bullet[100];
+	struct Bullet Bullet[50];
 
 	Vector2 Location;
 	Vector2 Rotation;
