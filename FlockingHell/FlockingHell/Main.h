@@ -28,6 +28,7 @@ int FramesCounter = 0;
 
 // bools
 bool bShowDebugHit = false;
+bool bDebug = false;
 
 
 // Function Declarations
@@ -48,5 +49,23 @@ void UpdateSplashScreen();
 void DrawSplashScreen();
 void UpdateGame();
 void DrawGame();
-void UpdateMenu();
-void DrawMenu();
+void UpdateMenuScreen();
+void DrawMenuScreen();
+void UpdatePauseScreen();
+void UpdateDeathScreen();
+void UpdateWinScreen();
+void UpdateLoseScreen();
+void UpdateStatsScreen();
+void UpdateHighscoreScreen();
+void DrawPauseScreen();
+void DrawDeathScreen();
+void DrawWinScreen();
+void DrawLoseScreen();
+void DrawStatsScreen();
+void DrawHighscoreScreen();
+void ResetGame();
+void DrawGameUI();
+void DrawStars();
+void DrawPlayer();
+void DrawEnemyBullets();
+void DrawDebugInfo();
