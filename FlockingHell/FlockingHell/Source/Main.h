@@ -7,7 +7,6 @@
 #include "State.h"
 
 #define MAX_SMALL_BULLETS 20
-#define MAX_PLAYER_BULLETS 50
 #define MAX_SMALL_STARS 30
 
 // Variable Declarations
@@ -22,8 +21,6 @@ enum State GameState;
 // ints
 const int SCREEN_WIDTH = 700;
 const int SCREEN_HEIGHT = 800;
-int ShootRate = 0;
-int Offset = 0;
 int FramesCounter = 0;
 
 // bools
@@ -36,13 +33,11 @@ bool bDebug = false;
 void Init();
 void Update();
 void Draw();
-void MovePlayer();
 void CheckWindowCollision();
 void UpdateBullet();
 void CheckBulletCollision();
 void CheckBulletOutsideWindow();
 void CheckPlayerHealth();
-void UpdatePlayerBullet();
 void UpdateStars();
 void CheckStarsOutsideWindow();
 void UpdateSplashScreen();
@@ -69,3 +64,4 @@ void DrawStars();
 void DrawPlayer();
 void DrawEnemyBullets();
 void DrawDebugInfo();
+void UnloadTextures();
