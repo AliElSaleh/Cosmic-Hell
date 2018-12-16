@@ -7,7 +7,11 @@
 
 struct Player
 {
+	Player();
+
+	void Init();
 	void Update();
+	void Draw();
 
 	struct Bullet Bullet[50];
 

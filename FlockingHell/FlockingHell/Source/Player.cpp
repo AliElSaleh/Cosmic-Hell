@@ -1,5 +1,65 @@
 #include "Player.h"
 
+Player::Player()
+{
+	XOffset = 15;
+	YOffset = 50;
+	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
+	Location.y = float(GetScreenHeight()) - 100;
+	bIsDead = false;
+	Size = 20.0f;
+	Hitbox.width = 6;
+	Hitbox.height = 6;
+	Health = 100;
+	Name = "Scarlet";
+	
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+	{
+		Bullet[i].Location = Location;
+		Bullet[i].Radius = 3.0f;
+		Bullet[i].Speed = 500.0f;
+		Bullet[i].Damage = GetRandomValue(20, 40);
+		Bullet[i].bActive = false;
+	}
+}
+
+void Player::Init()
+{
+	Texture = LoadTexture("Sprites/Scarlet.png");
+
+	XOffset = 15;
+	YOffset = 50;
+	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
+	Location.y = float(GetScreenHeight()) - 100;
+	BulletSpawnLocation.x = Location.x + float(Texture.width/4 )- XOffset;
+	BulletSpawnLocation.y = Location.y;
+	bIsDead = false;
+	Size = 20.0f;
+	Hitbox.x = Location.x + float(Texture.width/4) + float(XOffset);
+	Hitbox.y = Location.y + float(Texture.height/4);
+	Hitbox.width = 6;
+	Hitbox.height = 6;
+	Health = 100;
+	Name = "Scarlet";
+	
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+	FrameRec.width = float(Texture.width)/4;
+	FrameRec.height = float(Texture.height);
+
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+	{
+		Bullet[i].Location = Location;
+		Bullet[i].Radius = 3.0f;
+		Bullet[i].Speed = 500.0f;
+		Bullet[i].Damage = GetRandomValue(20, 40);
+		Bullet[i].bActive = false;
+	}
+}
+
 void Player::Update()
 {
 	/// Player sprite
@@ -91,4 +151,15 @@ void Player::Update()
 		bIsDead = true;
 		*GameState = DEATH;
 	}
+}
+
+void Player::Draw()
+{
+	// Player bullets
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+		if (Bullet[i].bActive)
+			DrawCircleGradient(int(Bullet[i].Location.x), int(Bullet[i].Location.y), Bullet[i].Radius, VIOLET, RED);
+   
+	// Player sprite
+    DrawTextureRec(Texture, FrameRec, Location, WHITE);  // Draw part of the texture
 }

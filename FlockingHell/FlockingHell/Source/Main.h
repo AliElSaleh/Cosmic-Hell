@@ -31,9 +31,9 @@ bool bDebug = false;
 // Function Declarations
 //-----------------------------------------
 void Init();
+void InitGame();
 void Update();
 void Draw();
-void CheckWindowCollision();
 void UpdateBullet();
 void CheckBulletCollision();
 void CheckBulletOutsideWindow();
