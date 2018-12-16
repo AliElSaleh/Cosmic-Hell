@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Bullet.h"
 
 Player::Player()
 {
@@ -6,29 +7,30 @@ Player::Player()
 	YOffset = 50;
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
-	bIsDead = false;
-	Size = 20.0f;
+	BulletSpawnLocation = {0.0f, 0.0f};
+	Rotation = {0.0f, 0.0f};
 	Hitbox.width = 6;
 	Hitbox.height = 6;
 	Health = 100;
 	Name = "Scarlet";
+	*Bullet = {};
+	Texture = {};
 	
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
 
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-	{
-		Bullet[i].Location = Location;
-		Bullet[i].Radius = 3.0f;
-		Bullet[i].Speed = 500.0f;
-		Bullet[i].Damage = GetRandomValue(20, 40);
-		Bullet[i].bActive = false;
-	}
+	bFirstLaunch = true;
+	bIsDead = false;
+	bIsHit = false;
 }
 
 void Player::Init()
 {
-	Texture = LoadTexture("Sprites/Scarlet.png");
+	if (bFirstLaunch) // If we are opening the application the first time and to prevent loading the same texture every time we die or go to main menu
+	{
+		Texture = LoadTexture("Sprites/Scarlet.png");
+		bFirstLaunch = false;
+	}
 
 	XOffset = 15;
 	YOffset = 50;
@@ -36,8 +38,7 @@ void Player::Init()
 	Location.y = float(GetScreenHeight()) - 100;
 	BulletSpawnLocation.x = Location.x + float(Texture.width/4 )- XOffset;
 	BulletSpawnLocation.y = Location.y;
-	bIsDead = false;
-	Size = 20.0f;
+	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(Texture.width/4) + float(XOffset);
 	Hitbox.y = Location.y + float(Texture.height/4);
 	Hitbox.width = 6;
@@ -58,6 +59,9 @@ void Player::Init()
 		Bullet[i].Damage = GetRandomValue(20, 40);
 		Bullet[i].bActive = false;
 	}
+
+	bIsDead = false;
+	bIsHit = false;
 }
 
 void Player::Update()
@@ -131,17 +135,17 @@ void Player::Update()
 	}
 
 	/// Player Collision check
-	if (Location.x + Size > GetScreenWidth())
-		Location.x = GetScreenWidth() - Size;
+	if (Location.x + Texture.width/4 > GetScreenWidth())
+		Location.x = GetScreenWidth() - Texture.width/4;
 	
-	if (Location.y + Size > GetScreenHeight())
-		Location.y = GetScreenHeight() - Size;
+	if (Location.y + Texture.height > GetScreenHeight())
+		Location.y = GetScreenHeight() - Texture.height;
 
-	if (Location.x - Size < 0)
-		Location.x = Size;
+	if (Location.x - Texture.width/4 < 0)
+		Location.x = Texture.width/4;
 	
-	if (Location.y - Size < 0)
-		Location.y = Size;
+	if (Location.y - Texture.height < 0)
+		Location.y = Texture.height;
 
 	/// Player health check
 	if (Health <= 0)
@@ -162,4 +166,9 @@ void Player::Draw()
    
 	// Player sprite
     DrawTextureRec(Texture, FrameRec, Location, WHITE);  // Draw part of the texture
+}
+
+Player& Player::GetCurrentPlayer()
+{
+	return *this;
 }

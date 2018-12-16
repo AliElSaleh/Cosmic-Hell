@@ -6,7 +6,6 @@
 #include "Star.h"
 #include "State.h"
 
-#define MAX_SMALL_BULLETS 20
 #define MAX_SMALL_STARS 30
 
 // Variable Declarations
@@ -34,10 +33,6 @@ void Init();
 void InitGame();
 void Update();
 void Draw();
-void UpdateBullet();
-void CheckBulletCollision();
-void CheckBulletOutsideWindow();
-void CheckPlayerHealth();
 void UpdateStars();
 void CheckStarsOutsideWindow();
 void UpdateSplashScreen();
@@ -62,6 +57,5 @@ void ResetGame();
 void DrawGameUI();
 void DrawStars();
 void DrawPlayer();
-void DrawEnemyBullets();
 void DrawDebugInfo();
 void UnloadTextures();

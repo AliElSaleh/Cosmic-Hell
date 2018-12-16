@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
-#include "Bullet.h"
 #include "State.h"
+#include "Bullet.h"
 
 #define MAX_PLAYER_BULLETS 50
 
@@ -12,6 +12,8 @@ struct Player
 	void Init();
 	void Update();
 	void Draw();
+
+	Player& GetCurrentPlayer();
 
 	struct Bullet Bullet[50];
 
@@ -25,7 +27,6 @@ struct Player
 
 	State* GameState = nullptr;
 
-	float Size;
 	signed short XOffset;
 	signed short YOffset;
 	signed short Health;
@@ -36,6 +37,7 @@ struct Player
 
 	bool bIsHit;
 	bool bIsDead;
+	bool bFirstLaunch;
 
 	const char* Name;
 };
