@@ -7,7 +7,7 @@ Player::Player()
 	YOffset = 50;
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
-	BulletSpawnLocation = {0.0f, 0.0f};
+	BulletSpawnLocation = Location;
 	Rotation = {0.0f, 0.0f};
 	Hitbox.width = 6;
 	Hitbox.height = 6;

@@ -53,7 +53,7 @@ void Bullet::Update()
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
 		if (CheckCollisionCircles(Player->Bullet[i].Location, Player->Bullet[i].Radius, Location, Radius))
-			if (!bIsHit)
+			if (Player->Bullet[i].bActive && !bIsHit)
 				bActive = false;
 	}
 
@@ -73,7 +73,6 @@ void Bullet::Update()
 		}
 	}
 
-
 	// Bullet collision with bottom of window
 	if (((FramesCounter/60)%2) == 1)
     {   
@@ -90,6 +89,6 @@ void Bullet::Update()
 
 void Bullet::Draw()
 {
-	if (bActive)
+	if (bActive && !bIsHit)
 		DrawCircleGradient(int(Location.x), int(Location.y), Radius, WHITE, RED);
 }
