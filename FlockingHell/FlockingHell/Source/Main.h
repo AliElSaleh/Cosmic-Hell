@@ -55,3 +55,4 @@ void DrawGameUI();
 void DrawPlayer();
 void DrawDebugInfo();
 void UnloadTextures();
+void SetGameState(State state);
