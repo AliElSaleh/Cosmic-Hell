@@ -36,11 +36,11 @@ void Player::Init()
 	YOffset = 50;
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
-	BulletSpawnLocation.x = Location.x + float(Texture.width/4 )- XOffset;
+	BulletSpawnLocation.x = Location.x + float(Texture.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
 	Rotation = {0.0f, 0.0f};
-	Hitbox.x = Location.x + float(Texture.width/4) + float(XOffset);
-	Hitbox.y = Location.y + float(Texture.height/4);
+	Hitbox.x = Location.x + float(Texture.width)/4 + float(XOffset);
+	Hitbox.y = Location.y + float(Texture.height)/4;
 	Hitbox.width = 6;
 	Hitbox.height = 6;
 	Health = 100;
@@ -71,7 +71,7 @@ void Player::Update()
 	{
 		SpriteFramesCounter++;
 
-		Location.x = GetMousePosition().x - XOffset;
+		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
 
 		Hitbox.x = GetMousePosition().x - Hitbox.width/4;
@@ -135,17 +135,17 @@ void Player::Update()
 	}
 
 	/// Player Collision check
-	if (Location.x + Texture.width/4 > GetScreenWidth())
-		Location.x = GetScreenWidth() - Texture.width/4;
+	if (Location.x + float(Texture.width)/4 > GetScreenWidth())
+		Location.x = GetScreenWidth() - float(Texture.width)/4;
 	
 	if (Location.y + Texture.height > GetScreenHeight())
 		Location.y = GetScreenHeight() - Texture.height;
 
-	if (Location.x - Texture.width/4 < 0)
-		Location.x = Texture.width/4;
+	if (Location.x < 0)
+		Location.x = 0;
 	
-	if (Location.y - Texture.height < 0)
-		Location.y = Texture.height;
+	if (Location.y < 0)
+		Location.y = 0;
 
 	/// Player health check
 	if (Health <= 0)

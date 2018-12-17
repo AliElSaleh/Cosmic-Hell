@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Bullet.h" />

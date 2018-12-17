@@ -14,7 +14,6 @@
 struct Player Player;
 struct Bullet Bullet[MAX_SMALL_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Vector2 BulletLocation[MAX_SMALL_BULLETS];
 enum State GameState;
 
 // ints
@@ -33,8 +32,6 @@ void Init();
 void InitGame();
 void Update();
 void Draw();
-void UpdateStars();
-void CheckStarsOutsideWindow();
 void UpdateSplashScreen();
 void DrawSplashScreen();
 void UpdateGame();
@@ -55,7 +52,6 @@ void DrawStatsScreen();
 void DrawHighscoreScreen();
 void ResetGame();
 void DrawGameUI();
-void DrawStars();
 void DrawPlayer();
 void DrawDebugInfo();
 void UnloadTextures();
