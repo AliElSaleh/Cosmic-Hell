@@ -18,7 +18,7 @@ Bullet::Bullet()
 void Bullet::Init()
 {
 	Spacing = 35;
-	Location.x = float(Spacing) + float(Player->Texture.width)/12;
+	Location.x = float(Spacing) + float(Player->PlayerSprite.width)/12;
 	Location.y = 0;
 	Speed = 200.0f;
 	Radius = 5.0f;
@@ -31,7 +31,7 @@ void Bullet::Init()
 void Bullet::InitArray(const int i)
 {
 	Spacing = 35;
-	Location.x = float(i) * float(Spacing) + float(Player->Texture.width)/12;
+	Location.x = float(i) * float(Spacing) + float(Player->PlayerSprite.width)/12;
 	Location.y = 0;
 	Speed = 200.0f;
 	Radius = 5.0f;

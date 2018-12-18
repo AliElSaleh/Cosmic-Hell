@@ -21,17 +21,21 @@ struct Player
 	Vector2 Rotation;
 	Vector2 BulletSpawnLocation;
 
-	Texture2D Texture;
+	Texture2D PlayerSprite;
+	Texture2D BulletSprite;
 	Rectangle Hitbox;
-	Rectangle FrameRec;
+	Rectangle PlayerFrameRec;
+	Rectangle BulletFrameRec;
 
 	State* GameState = nullptr;
 
 	signed short XOffset;
 	signed short YOffset;
 	signed short Health;
-	signed short SpriteFramesCounter = 0;
-	signed short CurrentFrame = 0;
+	signed short PlayerSpriteFramesCounter = 0;
+	signed short BulletSpriteFramesCounter = 0;
+	signed short PlayerCurrentFrame = 0;
+	signed short BulletCurrentFrame = 0;
 	signed short FramesSpeed = 10;
 	unsigned short ShootRate = 0;
 

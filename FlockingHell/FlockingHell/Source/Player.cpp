@@ -14,10 +14,11 @@ Player::Player()
 	Health = 100;
 	Name = "Scarlet";
 	*Bullet = {};
-	Texture = {};
+	PlayerSprite = {};
+	BulletSprite = {};
 	
-	FrameRec.x = 0.0f;
-	FrameRec.y = 0.0f;
+	PlayerFrameRec.x = 0.0f;
+	PlayerFrameRec.y = 0.0f;
 
 	bFirstLaunch = true;
 	bIsDead = false;
@@ -28,7 +29,8 @@ void Player::Init()
 {
 	if (bFirstLaunch) // If we are opening the application the first time and to prevent loading the same texture every time we die or go to main menu
 	{
-		Texture = LoadTexture("Sprites/Scarlet.png");
+		PlayerSprite = LoadTexture("Sprites/Scarlet.png");
+		BulletSprite = LoadTexture("Sprites/BlueBullet.png");
 		bFirstLaunch = false;
 	}
 
@@ -36,20 +38,25 @@ void Player::Init()
 	YOffset = 50;
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
-	BulletSpawnLocation.x = Location.x + float(Texture.width)/4 - XOffset;
+	BulletSpawnLocation.x = Location.x + float(PlayerSprite.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
 	Rotation = {0.0f, 0.0f};
-	Hitbox.x = Location.x + float(Texture.width)/4 + float(XOffset);
-	Hitbox.y = Location.y + float(Texture.height)/4;
+	Hitbox.x = Location.x + float(PlayerSprite.width)/4 + float(XOffset);
+	Hitbox.y = Location.y + float(PlayerSprite.height)/4;
 	Hitbox.width = 6;
 	Hitbox.height = 6;
 	Health = 100;
 	Name = "Scarlet";
 	
-	FrameRec.x = 0.0f;
-	FrameRec.y = 0.0f;
-	FrameRec.width = float(Texture.width)/4;
-	FrameRec.height = float(Texture.height);
+	PlayerFrameRec.x = 0.0f;
+	PlayerFrameRec.y = 0.0f;
+	PlayerFrameRec.width = float(PlayerSprite.width)/4; // 4 frames
+	PlayerFrameRec.height = float(PlayerSprite.height);
+
+	BulletFrameRec.x = 0.0f;
+	BulletFrameRec.y = 0.0f;
+	BulletFrameRec.width = float(BulletSprite.width)/4; // 4 frames
+	BulletFrameRec.height = float(BulletSprite.height);
 
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
@@ -69,7 +76,8 @@ void Player::Update()
 	/// Player sprite
 	if (!bIsDead)
 	{
-		SpriteFramesCounter++;
+		PlayerSpriteFramesCounter++;
+		BulletSpriteFramesCounter++;
 
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
@@ -77,18 +85,31 @@ void Player::Update()
 		Hitbox.x = GetMousePosition().x - Hitbox.width/4;
 		Hitbox.y = GetMousePosition().y - Hitbox.height/4 - 5;
 
-		BulletSpawnLocation.x = Location.x + float(Texture.width)/4 - XOffset;
+		BulletSpawnLocation.x = Location.x + float(PlayerSprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
 
-		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		// Player sprite animation
+		if (PlayerSpriteFramesCounter >= (GetFPS()/FramesSpeed))
 	    {
-			SpriteFramesCounter = 0;
-			CurrentFrame++;
+			PlayerSpriteFramesCounter = 0;
+			PlayerCurrentFrame++;
 	        
-			if (CurrentFrame > 4)
-				CurrentFrame = 0;
+			if (PlayerCurrentFrame > 4)
+				PlayerCurrentFrame = 0;
 
-			FrameRec.x = float(CurrentFrame)*float(Texture.width)/4;
+			PlayerFrameRec.x = float(PlayerCurrentFrame)*float(PlayerSprite.width)/4;
+		}
+
+		// Bullet sprite animation
+		if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		{
+			BulletSpriteFramesCounter = 0;
+			BulletCurrentFrame++;
+
+			if (BulletCurrentFrame > 4)
+				BulletCurrentFrame = 0;
+
+			BulletFrameRec.x = float(BulletCurrentFrame)*float(BulletSprite.width)/4;
 		}
 	}
 
@@ -135,11 +156,11 @@ void Player::Update()
 	}
 
 	/// Player Collision check
-	if (Location.x + float(Texture.width)/4 > GetScreenWidth())
-		Location.x = GetScreenWidth() - float(Texture.width)/4;
+	if (Location.x + float(PlayerSprite.width)/4 > GetScreenWidth())
+		Location.x = GetScreenWidth() - float(PlayerSprite.width)/4;
 	
-	if (Location.y + Texture.height > GetScreenHeight())
-		Location.y = GetScreenHeight() - Texture.height;
+	if (Location.y + PlayerSprite.height > GetScreenHeight())
+		Location.y = GetScreenHeight() - PlayerSprite.height;
 
 	if (Location.x < 0)
 		Location.x = 0;
@@ -162,10 +183,10 @@ void Player::Draw()
 	// Player bullets
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 		if (Bullet[i].bActive)
-			DrawCircleGradient(int(Bullet[i].Location.x), int(Bullet[i].Location.y), Bullet[i].Radius, VIOLET, RED);
+			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
    
 	// Player sprite
-    DrawTextureRec(Texture, FrameRec, Location, WHITE);  // Draw part of the texture
+    DrawTextureRec(PlayerSprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
 }
 
 Player& Player::GetCurrentPlayer()
