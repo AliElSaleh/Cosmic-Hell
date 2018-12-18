@@ -41,6 +41,32 @@ void Bullet::InitArray(const int i)
 	FramesCounter = 0;
 }
 
+void Bullet::InitWave(int Wave)
+{
+	switch (Wave)
+	{
+		case 1:
+
+		break;
+
+		case 2:
+			Speed = 300.0f;
+		break;
+
+		case 3:
+		break;
+
+		case 4:
+		break;
+
+		case 5:
+		break;
+
+		default:
+		break;
+	}
+}
+
 void Bullet::Update()
 {
 	FramesCounter++;
@@ -48,15 +74,50 @@ void Bullet::Update()
 	// Movement
 	Location.y += Speed * GetFrameTime();
 
-	/// Collision
-	// Player bullet collision with enemy bullets
+	// Collision checks
+	CheckCollisionWithPlayerBullets();
+	CheckCollisionWithPlayer();
+
+	if (IsOutsideWindow())
+	{
+		// Do stuff...
+	}
+
+	FramesCounter = 0;
+}
+
+void Bullet::Draw() const
+{
+	if (bActive && !bIsHit)
+		DrawCircleGradient(int(Location.x), int(Location.y), Radius, WHITE, RED);
+}
+
+bool Bullet::IsOutsideWindow() const
+{
+	bool bOutsideWindow = false;
+
+	// Bullet collision with bottom of window 
+	if (Location.y - Radius > GetScreenHeight())
+	{
+		bOutsideWindow = true;
+	}
+
+	return bOutsideWindow;
+}
+
+void Bullet::CheckCollisionWithPlayerBullets()
+{
+	// Player bullet collision with this bullet
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
 		if (CheckCollisionCircles(Player->Bullet[i].Location, Player->Bullet[i].Radius, Location, Radius))
 			if (Player->Bullet[i].bActive && !bIsHit)
 				bActive = false;
 	}
+}
 
+void Bullet::CheckCollisionWithPlayer()
+{
 	// Enemy bullet collision with player
 	if (CheckCollisionCircleRec(Location, Radius, Player->Hitbox) && !Player->bIsDead)
 	{
@@ -72,23 +133,4 @@ void Bullet::Update()
 			}
 		}
 	}
-
-	// Bullet collision with bottom of window
-	if (((FramesCounter/60)%2) == 1)
-    {   
-		if (Location.y - Radius > GetScreenHeight())
-		{
-			Location.y = 0;
-			bIsHit = false;
-			bActive = true;
-		}
-
-		FramesCounter = 0;
-    }
-}
-
-void Bullet::Draw()
-{
-	if (bActive && !bIsHit)
-		DrawCircleGradient(int(Location.x), int(Location.y), Radius, WHITE, RED);
 }

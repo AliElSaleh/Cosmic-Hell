@@ -11,9 +11,7 @@ struct Player
 
 	void Init();
 	void Update();
-	void Draw();
-
-	Player& GetCurrentPlayer();
+	void Draw() const;
 
 	struct Bullet Bullet[50];
 
@@ -44,4 +42,12 @@ struct Player
 	bool bFirstLaunch;
 
 	const char* Name;
+
+private:
+	void UpdatePlayerAnimation(); // Loop through the 4 frames of the player sprite sheet
+	void UpdateBulletAnimation(); // Loop through the 4 frames of the bullet sprite sheet
+	void UpdateBullet(); // Update movement when space bar is pressed
+	void CheckBulletOutsideWindow();
+	void CheckCollisionWithWindow();
+	void CheckPlayerHealth();
 };

@@ -5,13 +5,14 @@
 #include "Bullet.h"
 #include "Star.h"
 #include "State.h"
-
+#include <vector>
 
 // Variable Declarations
 //-----------------------------------------
 // Structs
 struct Player Player;
-struct Bullet Bullet[MAX_SMALL_BULLETS];
+struct Bullet BulletW1[WAVE_ONE_BULLETS];
+struct Bullet BulletW2[WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
 enum State GameState;
 

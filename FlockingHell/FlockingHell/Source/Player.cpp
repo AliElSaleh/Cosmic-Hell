@@ -73,7 +73,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	/// Player sprite
+	// Update Player location and animation if player is still alive
 	if (!bIsDead)
 	{
 		PlayerSpriteFramesCounter++;
@@ -88,32 +88,51 @@ void Player::Update()
 		BulletSpawnLocation.x = Location.x + float(PlayerSprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
 
-		// Player sprite animation
-		if (PlayerSpriteFramesCounter >= (GetFPS()/FramesSpeed))
-	    {
-			PlayerSpriteFramesCounter = 0;
-			PlayerCurrentFrame++;
-	        
-			if (PlayerCurrentFrame > 4)
-				PlayerCurrentFrame = 0;
+		UpdatePlayerAnimation();
 
-			PlayerFrameRec.x = float(PlayerCurrentFrame)*float(PlayerSprite.width)/4;
-		}
-
-		// Bullet sprite animation
-		if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
-		{
-			BulletSpriteFramesCounter = 0;
-			BulletCurrentFrame++;
-
-			if (BulletCurrentFrame > 4)
-				BulletCurrentFrame = 0;
-
-			BulletFrameRec.x = float(BulletCurrentFrame)*float(BulletSprite.width)/4;
-		}
+		UpdateBulletAnimation();
 	}
 
-	/// Player's bullets
+	CheckCollisionWithWindow();
+	CheckPlayerHealth();
+
+	// Bullet
+	UpdateBullet();
+	CheckBulletOutsideWindow();
+}
+
+void Player::UpdatePlayerAnimation()
+{
+	// Player sprite animation
+	if (PlayerSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	{
+		PlayerSpriteFramesCounter = 0;
+		PlayerCurrentFrame++;
+	        
+		if (PlayerCurrentFrame > 4)
+			PlayerCurrentFrame = 0;
+
+		PlayerFrameRec.x = float(PlayerCurrentFrame)*float(PlayerSprite.width)/4;
+	}
+}
+
+void Player::UpdateBulletAnimation()
+{
+	// Bullet sprite animation
+	if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	{
+		BulletSpriteFramesCounter = 0;
+		BulletCurrentFrame++;
+
+		if (BulletCurrentFrame > 4)
+			BulletCurrentFrame = 0;
+
+		BulletFrameRec.x = float(BulletCurrentFrame)*float(BulletSprite.width)/4;
+	}
+}
+
+void Player::UpdateBullet()
+{
 	// Initialise bullets
 	if (IsKeyDown(KEY_SPACE))
 	{
@@ -121,64 +140,71 @@ void Player::Update()
 		{
 			ShootRate += 2;
 
-	        for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-	        {
-	            if (!Bullet[i].bActive && ShootRate % 20 == 0)
-	            {
-	                Bullet[i].Location = BulletSpawnLocation;
+			for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				{
+					Bullet[i].Location = BulletSpawnLocation;
 					Bullet[i].Damage = GetRandomValue(20, 40);
-	                Bullet[i].bActive = true;
-	                break;
-	            }
+					Bullet[i].bActive = true;
+					break;
+				}
 			}
 		}
 	}
 
 	// Apply movement to bullets when they become active
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-    {
-        if (Bullet[i].bActive)
-        {
-            // Bullet movement
-            Bullet[i].Location.y -= Bullet[i].Speed * GetFrameTime();
+	{
+		if (Bullet[i].bActive)
+		{
+			// Bullet movement
+			Bullet[i].Location.y -= Bullet[i].Speed * GetFrameTime();
 		}
 	}
+}
 
-	/// Check bullets outside window
+void Player::CheckBulletOutsideWindow()
+{
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
-		if (Bullet[i].Location.y - Bullet[i].Radius < 0)
+		if (Bullet[i].Location.y + BulletSprite.height < 0)
 		{
 			Bullet[i].bActive = false;
 			Bullet[i].Location = Location;
 			ShootRate = 0;
 		}
 	}
+}
 
-	/// Player Collision check
+void Player::CheckCollisionWithWindow()
+{
 	if (Location.x + float(PlayerSprite.width)/4 > GetScreenWidth())
 		Location.x = GetScreenWidth() - float(PlayerSprite.width)/4;
 	
 	if (Location.y + PlayerSprite.height > GetScreenHeight())
-		Location.y = GetScreenHeight() - PlayerSprite.height;
+		Location.y = GetScreenHeight() - float(PlayerSprite.height);
 
 	if (Location.x < 0)
 		Location.x = 0;
 	
 	if (Location.y < 0)
 		Location.y = 0;
+}
 
-	/// Player health check
+void Player::CheckPlayerHealth()
+{
 	if (Health <= 0)
 	{
 		// Prevent negative health values
 		Health = 0;
 		bIsDead = true;
+		
 		*GameState = DEATH;
 	}
 }
 
-void Player::Draw()
+void Player::Draw() const
 {
 	// Player bullets
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
@@ -187,9 +213,4 @@ void Player::Draw()
    
 	// Player sprite
     DrawTextureRec(PlayerSprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
-}
-
-Player& Player::GetCurrentPlayer()
-{
-	return *this;
 }

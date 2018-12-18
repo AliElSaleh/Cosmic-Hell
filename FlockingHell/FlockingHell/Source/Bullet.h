@@ -1,7 +1,8 @@
 #pragma once
 #include "raylib.h"
 
-#define MAX_SMALL_BULLETS 20
+#define WAVE_ONE_BULLETS 20
+#define WAVE_TWO_BULLETS 30
 
 struct Bullet
 {
@@ -9,8 +10,11 @@ struct Bullet
 
 	void Init();
 	void InitArray(int i);
+	void InitWave(int Wave);
 	void Update();
-	void Draw();
+	void Draw() const;
+
+	bool IsOutsideWindow() const;
 
 	Vector2 Location;
 
@@ -25,4 +29,8 @@ struct Bullet
 
 	bool bIsHit;
 	bool bActive;
+
+private:
+	void CheckCollisionWithPlayerBullets();
+	void CheckCollisionWithPlayer();
 };
