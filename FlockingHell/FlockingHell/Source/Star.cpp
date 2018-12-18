@@ -22,7 +22,7 @@ void Star::Update()
 		Location.y = Radius;
 }
 
-void Star::Draw()
+void Star::Draw() const
 {
 	DrawCircle(int(Location.x), int(Location.y), Radius, WHITE);
 }

@@ -6,7 +6,6 @@
 #include "Star.h"
 #include "State.h"
 
-#define MAX_SMALL_STARS 30
 
 // Variable Declarations
 //-----------------------------------------
@@ -28,14 +27,14 @@ bool bDebug = false;
 
 // Function Declarations
 //-----------------------------------------
-void Init();
-void InitGame();
-void Update();
-void Draw();
+void Init(); // Initialise application
+void InitGame(); // Create instances of objects and initialise their member variables
+void Update(); // Update logic depending on the current game state
+void Draw(); // Render graphics depending on the current game state
 void UpdateSplashScreen();
 void DrawSplashScreen();
-void UpdateGame();
-void DrawGame();
+void UpdateGame(); // Game Update loop
+void DrawGame(); // Game Render loop
 void UpdateMenuScreen();
 void DrawMenuScreen();
 void UpdatePauseScreen();
@@ -54,5 +53,5 @@ void ResetGame();
 void DrawGameUI();
 void DrawPlayer();
 void DrawDebugInfo();
-void UnloadTextures();
-void SetGameState(State state);
+void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()
+void SetGameState(State state); // Sets the next frame's current game state to the specified state
