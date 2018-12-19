@@ -11,10 +11,10 @@
 //-----------------------------------------
 // Structs
 struct Player Player;
-struct Bullet BulletW1[100];
-struct Bullet BulletW2[100];
+struct Bullet BulletW1[WAVE_ONE_BULLETS];
+struct Bullet BulletW2[WAVE_TWO_BULLETS];
 std::vector<struct Bullet> Bullets;
-std::vector<std::vector<struct Bullet>> BulletWaves;
+std::vector<std::vector<struct Bullet>> BulletWave;
 struct Star SmallStars[MAX_SMALL_STARS];
 enum State GameState;
 
