@@ -1,11 +1,11 @@
 #include "Bullet.h"
 #include "Player.h"
 #include <iostream>
+
 Bullet::Bullet()
 {
 	Spacing = 35;
-	Location.x = 0.0f;
-	Location.y = 0.0f;
+	Location = {0.0f, 0.0f};
 	Speed = 200.0f;
 	Radius = 5.0f;
 	Damage = GetRandomValue(10, 15);
@@ -20,9 +20,6 @@ Bullet::Bullet(Vector2 Location, struct Player * Player, float Radius, float Spe
 {
 	std::cout << "Constructed" << std::endl;
 }
-
-
-
 
 void Bullet::Init()
 {
@@ -110,7 +107,7 @@ bool Bullet::IsOutsideWindow() const
 	return bOutsideWindow;
 }
 
-bool Bullet::IsLocationYGreaterThan(float Y)
+bool Bullet::IsLocationYGreaterThan(float Y) const
 {
 	bool bGreaterThanY = false;
 

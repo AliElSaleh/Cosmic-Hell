@@ -16,7 +16,7 @@ struct Bullet
 	void Draw() const;
 
 	bool IsOutsideWindow() const;
-	bool IsLocationYGreaterThan(float Y); // Is this bullet greater than (Y) on the Y axis
+	bool IsLocationYGreaterThan(float Y) const; // Is this bullet greater than (Y) on the Y axis
 
 	void ResetBullet();
 

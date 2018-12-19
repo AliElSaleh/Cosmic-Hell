@@ -17,12 +17,13 @@ Player::Player()
 	PlayerSprite = {};
 	BulletSprite = {};
 	
-	PlayerFrameRec.x = 0.0f;
-	PlayerFrameRec.y = 0.0f;
+	PlayerFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
+	BulletFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
 
 	bFirstLaunch = true;
 	bIsDead = false;
 	bIsHit = false;
+	bDebug = false;
 }
 
 void Player::Init()
