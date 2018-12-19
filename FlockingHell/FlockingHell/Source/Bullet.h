@@ -4,10 +4,12 @@
 #define WAVE_ONE_BULLETS 20
 #define WAVE_TWO_BULLETS 30
 
+struct Player;
+
 struct Bullet
 {
 	Bullet();
-	Bullet(Vector2 Location, struct Player* Player, float Radius, float Speed, int FramesCounter, int Damage, int Spacing, bool bIsHit, bool bActive);
+	Bullet(Vector2 Location, float Radius, float Speed, int Damage, int Spacing, bool bActive);
 
 	void Init();
 	void InitArray(int i);
@@ -22,7 +24,7 @@ struct Bullet
 
 	Vector2 Location;
 
-	struct Player* Player;
+	Player* Player;
 
 	float Radius;
 	float Speed;

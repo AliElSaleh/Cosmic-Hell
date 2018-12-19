@@ -15,8 +15,8 @@ Bullet::Bullet()
 	FramesCounter = 0;
 }
 
-Bullet::Bullet(Vector2 Location, struct Player * Player, float Radius, float Speed, int FramesCounter, int Damage, int Spacing, bool bIsHit, bool bActive)
-	:Location(Location), Player(Player), Radius(Radius), Speed(Speed), FramesCounter(FramesCounter), Damage(Damage), Spacing(Spacing), bIsHit(bIsHit), bActive(bActive)
+Bullet::Bullet(Vector2 Location = {0.0f, 0.0f}, float Radius = 20.0f, float Speed = 200.0f, int Damage = 20, int Spacing = 35, bool bActive = true)
+	:Location(Location), Radius(Radius), Speed(Speed), Damage(Damage), Spacing(Spacing), bActive(bActive)
 {
 	std::cout << "Constructed" << std::endl;
 }

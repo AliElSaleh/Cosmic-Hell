@@ -13,7 +13,7 @@ struct Player
 	void Update();
 	void Draw() const;
 
-	struct Bullet Bullet[50];
+	Bullet Bullet[50];
 
 	Vector2 Location;
 	Vector2 Rotation;
@@ -35,7 +35,7 @@ struct Player
 	signed short PlayerCurrentFrame = 0;
 	signed short BulletCurrentFrame = 0;
 	signed short FramesSpeed = 10;
-	unsigned short ShootRate = 0;
+	signed short ShootRate = 0;
 
 	bool bIsHit;
 	bool bIsDead;
