@@ -82,8 +82,8 @@ void Player::Update()
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
 
-		Hitbox.x = GetMousePosition().x - Hitbox.width/4;
-		Hitbox.y = GetMousePosition().y - Hitbox.height/4 - 5;
+		Hitbox.x = Location.x + PlayerSprite.width/4 - 45;
+		Hitbox.y = Location.y + PlayerSprite.height/4 + 20;
 
 		BulletSpawnLocation.x = Location.x + float(PlayerSprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
@@ -213,4 +213,7 @@ void Player::Draw() const
    
 	// Player sprite
     DrawTextureRec(PlayerSprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
+
+	if (bDebug)
+		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, WHITE);
 }

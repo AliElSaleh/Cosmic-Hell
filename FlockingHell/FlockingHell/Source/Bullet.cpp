@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "Player.h"
-
+#include <iostream>
 Bullet::Bullet()
 {
 	Spacing = 35;
@@ -15,11 +15,20 @@ Bullet::Bullet()
 	FramesCounter = 0;
 }
 
+Bullet::Bullet(Vector2 Location, struct Player * Player, float Radius, float Speed, int FramesCounter, int Damage, int Spacing, bool bIsHit, bool bActive)
+	:Location(Location), Player(Player), Radius(Radius), Speed(Speed), FramesCounter(FramesCounter), Damage(Damage), Spacing(Spacing), bIsHit(bIsHit), bActive(bActive)
+{
+	std::cout << "Constructed" << std::endl;
+}
+
+
+
+
 void Bullet::Init()
 {
 	Spacing = 35;
 	Location.x = float(Spacing) + float(Player->PlayerSprite.width)/12;
-	Location.y = 0;
+	Location.y = -20;
 	Speed = 200.0f;
 	Radius = 5.0f;
 	Damage = GetRandomValue(10, 15);
@@ -32,7 +41,7 @@ void Bullet::InitArray(const int i)
 {
 	Spacing = 35;
 	Location.x = float(i) * float(Spacing) + float(Player->PlayerSprite.width)/12;
-	Location.y = 0;
+	Location.y = -20;
 	Speed = 200.0f;
 	Radius = 5.0f;
 	Damage = GetRandomValue(10, 15);
@@ -41,16 +50,19 @@ void Bullet::InitArray(const int i)
 	FramesCounter = 0;
 }
 
-void Bullet::InitWave(int Wave)
+void Bullet::InitWave(const int Wave)
 {
 	switch (Wave)
 	{
 		case 1:
-
+			Speed = 200.0f;
 		break;
 
 		case 2:
+			Location.y = 0.0f;
 			Speed = 300.0f;
+			Radius = 8.0f;
+			Damage = GetRandomValue(15, 25);
 		break;
 
 		case 3:
@@ -98,11 +110,19 @@ bool Bullet::IsOutsideWindow() const
 
 	// Bullet collision with bottom of window 
 	if (Location.y - Radius > GetScreenHeight())
-	{
 		bOutsideWindow = true;
-	}
 
 	return bOutsideWindow;
+}
+
+bool Bullet::IsLocationYGreaterThan(float Y)
+{
+	bool bGreaterThanY = false;
+
+	if (Location.y - Radius > Y)
+		bGreaterThanY = true;
+
+	return bGreaterThanY;
 }
 
 void Bullet::CheckCollisionWithPlayerBullets()

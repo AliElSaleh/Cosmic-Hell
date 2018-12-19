@@ -40,6 +40,7 @@ struct Player
 	bool bIsHit;
 	bool bIsDead;
 	bool bFirstLaunch;
+	bool bDebug;
 
 	const char* Name;
 
