@@ -18,6 +18,8 @@ struct Bullet
 	bool IsOutsideWindow() const;
 	bool IsLocationYGreaterThan(float Y); // Is this bullet greater than (Y) on the Y axis
 
+	void ResetBullet();
+
 	Vector2 Location;
 
 	struct Player* Player;

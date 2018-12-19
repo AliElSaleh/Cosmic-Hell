@@ -90,11 +90,6 @@ void Bullet::Update()
 	CheckCollisionWithPlayerBullets();
 	CheckCollisionWithPlayer();
 
-	if (IsOutsideWindow())
-	{
-		// Do stuff...
-	}
-
 	FramesCounter = 0;
 }
 
@@ -153,4 +148,11 @@ void Bullet::CheckCollisionWithPlayer()
 			}
 		}
 	}
+}
+
+void Bullet::ResetBullet()
+{
+	Location.y = 0.0f;
+	bActive = true;
+	bIsHit = false;
 }
