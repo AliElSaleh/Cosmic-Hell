@@ -177,16 +177,29 @@ void Player::CheckBulletOutsideWindow()
 void Player::CheckCollisionWithWindow()
 {
 	if (Location.x + float(Sprite.width)/4 > GetScreenWidth())
+	{
 		Location.x = GetScreenWidth() - float(Sprite.width)/4;
+		Hitbox.x = GetScreenWidth() -  float(Sprite.width)/6 - 3.0f;
+	}
 	
-	if (Location.y + Sprite.height > GetScreenHeight())
-		Location.y = GetScreenHeight() - float(Sprite.height);
+	if (Location.y + float(Sprite.height)/2 > GetScreenHeight())
+	{
+		Location.y = float(GetScreenHeight()) - float(Sprite.height)/2;
+		Hitbox.y =  float(GetScreenHeight() - 7.0f);
+		BulletSpawnLocation.y = float(GetScreenHeight()) - float(Sprite.height)/2;
+	}
 
-	if (Location.x < 0)
-		Location.x = 0;
+	if (Location.x < 0.0f)
+	{
+		Location.x = 0.0f;
+		Hitbox.x = float(Sprite.width)/12 - 3.0f;
+	}
 	
-	if (Location.y < 0)
-		Location.y = 0;
+	if (Location.y < 0.0f)
+	{
+		Location.y = 0.0f;
+		Hitbox.y =  float(Sprite.height)/2 - 7.0f;
+	}
 }
 
 void Player::CheckPlayerHealth()

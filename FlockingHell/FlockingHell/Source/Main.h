@@ -26,8 +26,6 @@ Texture2D RedBullet;
 enum State GameState;
 
 // ints
-const int SCREEN_WIDTH = 700;
-const int SCREEN_HEIGHT = 800;
 int FramesCounter = 0;
 
 // bools
@@ -38,6 +36,7 @@ bool bDebug = false;
 // Function Declarations
 //-----------------------------------------
 void Init(); // Initialise application
+void LoadTextures(); // Load textures into GPU (VRAM)
 void InitGame(); // Create instances of objects and initialise their member variables
 void SetGameState(State state); // Sets the next frame's current game state to the specified state
 
@@ -67,5 +66,4 @@ void DrawHighscoreScreen();
 void DrawDebugInfo();
 
 void ResetGame();
-void LoadTextures();
 void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()
