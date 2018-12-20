@@ -45,9 +45,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>&amp;(SolutionDir)FlockingHell\Source\Public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>&amp;(SolutionDir)FlockingHell\Source\Public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -57,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\raylib\raylib\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;C:\raylib\raylib\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -77,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\raylib\raylib\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;C:\raylib\raylib\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -91,17 +93,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Bullet.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\Star.cpp" />
+    <ClCompile Include="Source\Private\Enemy.cpp" />
+    <ClCompile Include="Source\Private\Bullet.cpp" />
+    <ClCompile Include="Source\Private\Main.cpp" />
+    <ClCompile Include="Source\Private\Player.cpp" />
+    <ClCompile Include="Source\Private\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Bullet.h" />
-    <ClInclude Include="Source\Main.h" />
-    <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\Star.h" />
-    <ClInclude Include="Source\State.h" />
+    <ClInclude Include="Source\Public\Enemy.h" />
+    <ClInclude Include="Source\Public\Bullet.h" />
+    <ClInclude Include="Source\Public\Main.h" />
+    <ClInclude Include="Source\Public\Player.h" />
+    <ClInclude Include="Source\Public\Star.h" />
+    <ClInclude Include="Source\Public\State.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprites\Scarlet.png" />

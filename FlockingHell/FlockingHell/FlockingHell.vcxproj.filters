@@ -15,33 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp">
+    <ClCompile Include="Source\Private\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
+    <ClCompile Include="Source\Private\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Bullet.cpp">
+    <ClCompile Include="Source\Private\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Star.cpp">
+    <ClCompile Include="Source\Private\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\Star.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Main.h">
+    <ClInclude Include="Source\Public\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h">
+    <ClInclude Include="Source\Public\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Star.h">
+    <ClInclude Include="Source\Public\Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\State.h">
+    <ClInclude Include="Source\Public\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Bullet.h">
+    <ClInclude Include="Source\Public\Star.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

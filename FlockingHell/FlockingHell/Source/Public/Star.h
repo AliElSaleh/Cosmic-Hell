@@ -1,5 +1,5 @@
 #pragma once
-#include "raylib.h"
+#include <raylib.h>
 
 #define MAX_SMALL_STARS 30
 

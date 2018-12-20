@@ -1,10 +1,10 @@
 #pragma once
 
-#include "raylib.h"
 #include "Player.h"
 #include "Bullet.h"
 #include "Star.h"
 #include "State.h"
+#include "Enemy.h"
 #include <vector>
 
 
@@ -14,6 +14,7 @@
 struct Player Player;
 struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
+struct Enemy WeakEnemy[10];
 
 // vectors
 std::vector<struct Bullet> Bullets;
@@ -21,6 +22,7 @@ std::vector<std::vector<struct Bullet>> BulletWave;
 
 // textures
 Texture2D RedBullet;
+Texture2D WeakEnemySprite;
 
 // enums
 enum State GameState;
