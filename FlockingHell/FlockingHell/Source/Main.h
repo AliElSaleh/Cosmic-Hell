@@ -19,6 +19,9 @@ struct Star SmallStars[MAX_SMALL_STARS];
 std::vector<struct Bullet> Bullets;
 std::vector<std::vector<struct Bullet>> BulletWave;
 
+// textures
+Texture2D RedBullet;
+
 // enums
 enum State GameState;
 

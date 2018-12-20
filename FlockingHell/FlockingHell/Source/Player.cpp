@@ -44,8 +44,8 @@ void Player::Init()
 	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(PlayerSprite.width)/4 + float(XOffset);
 	Hitbox.y = Location.y + float(PlayerSprite.height)/4;
-	Hitbox.width = 6;
-	Hitbox.height = 6;
+	Hitbox.width = 4;
+	Hitbox.height = 4;
 	Health = 100;
 	Name = "Scarlet";
 	
@@ -84,7 +84,7 @@ void Player::Update()
 		Location.y = GetMousePosition().y - YOffset;
 
 		Hitbox.x = Location.x + PlayerSprite.width/4 - 45;
-		Hitbox.y = Location.y + PlayerSprite.height/4 + 20;
+		Hitbox.y = Location.y + PlayerSprite.height/4 + 22;
 
 		BulletSpawnLocation.x = Location.x + float(PlayerSprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;

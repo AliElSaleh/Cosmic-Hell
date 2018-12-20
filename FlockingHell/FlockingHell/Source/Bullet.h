@@ -23,6 +23,9 @@ struct Bullet
 	void ResetBullet();
 
 	Vector2 Location;
+	Vector2 CollisionOffset;
+
+	Texture2D Texture;
 
 	Player* Player;
 

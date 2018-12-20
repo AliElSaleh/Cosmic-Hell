@@ -23,15 +23,17 @@ Bullet::Bullet(Vector2 Location = {0.0f, 0.0f}, float Radius = 20.0f, float Spee
 
 void Bullet::Init()
 {
-	Spacing = 35;
+	Spacing = 30;
 	Location.x = float(Spacing) + float(Player->PlayerSprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = 5.0f;
+	Radius = Texture.width/2;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
 	FramesCounter = 0;
+	CollisionOffset.x = Location.x + Texture.width/2;
+	CollisionOffset.y = Location.y + Texture.height/2;
 }
 
 void Bullet::InitArray(const int i)
@@ -40,11 +42,13 @@ void Bullet::InitArray(const int i)
 	Location.x = float(i) * float(Spacing) + float(Player->PlayerSprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = 5.0f;
+	Radius = Texture.width/2;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
 	FramesCounter = 0;
+	CollisionOffset.x = Location.x + Texture.width/2;
+	CollisionOffset.y = Location.y + Texture.height/2;
 }
 
 void Bullet::InitWave(const int Wave)
@@ -84,6 +88,8 @@ void Bullet::Update()
 	Location.y += Speed * GetFrameTime();
 
 	// Collision checks
+	CollisionOffset.x = Location.x + float(Texture.width/2);
+	CollisionOffset.y = Location.y + float(Texture.height/2);
 	CheckCollisionWithPlayerBullets();
 	CheckCollisionWithPlayer();
 
@@ -93,7 +99,8 @@ void Bullet::Update()
 void Bullet::Draw() const
 {
 	if (bActive && !bIsHit)
-		DrawCircleGradient(int(Location.x), int(Location.y), Radius, WHITE, RED);
+		DrawTexture(Texture, int(Location.x), int(Location.y), WHITE);
+
 }
 
 bool Bullet::IsOutsideWindow() const
@@ -131,7 +138,7 @@ void Bullet::CheckCollisionWithPlayerBullets()
 void Bullet::CheckCollisionWithPlayer()
 {
 	// Enemy bullet collision with player
-	if (CheckCollisionCircleRec(Location, Radius, Player->Hitbox) && !Player->bIsDead)
+	if (CheckCollisionCircleRec(CollisionOffset, Radius, Player->Hitbox) && !Player->bIsDead)
 	{
 		if (!bIsHit)
 		{
