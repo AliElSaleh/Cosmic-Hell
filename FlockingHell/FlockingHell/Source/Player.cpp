@@ -249,6 +249,7 @@ void Player::CheckCollisionWithWindow()
 	{
 		Location.x = GetScreenWidth() - float(Sprite.width)/4;
 		Hitbox.x = GetScreenWidth() -  float(Sprite.width)/6 - 3.0f;
+		BulletSpawnLocation.x = GetScreenWidth() - float(Sprite.width)/6 + 23.0f;
 	}
 	
 	if (Location.y + float(Sprite.height)/2 > GetScreenHeight())
@@ -262,6 +263,7 @@ void Player::CheckCollisionWithWindow()
 	{
 		Location.x = 0.0f;
 		Hitbox.x = float(Sprite.width)/12 - 3.0f;
+		BulletSpawnLocation.x = float(Sprite.width)/6 + 3.0f;
 	}
 	
 	if (Location.y < 0.0f)

@@ -27,8 +27,8 @@ struct Player
 
 	State* GameState = nullptr;
 
-	unsigned short XOffset;
-	unsigned short YOffset;
+	unsigned short XOffset; // Offset sprite location by X amount of pixels from mouse position
+	unsigned short YOffset; // Offset sprite location by Y amount of pixels from mouse position
 	signed short Health;
 	unsigned short PlayerSpriteFramesCounter = 0;
 	unsigned short BulletSpriteFramesCounter = 0;
