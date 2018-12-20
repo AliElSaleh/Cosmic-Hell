@@ -67,4 +67,5 @@ void DrawHighscoreScreen();
 void DrawDebugInfo();
 
 void ResetGame();
+void LoadTextures();
 void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()

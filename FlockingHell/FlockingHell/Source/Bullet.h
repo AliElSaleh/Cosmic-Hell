@@ -9,7 +9,6 @@ struct Player;
 struct Bullet
 {
 	Bullet();
-	Bullet(Vector2 Location, float Radius, float Speed, int Damage, int Spacing, bool bActive);
 
 	void Init();
 	void InitArray(int i);
@@ -22,10 +21,10 @@ struct Bullet
 
 	void ResetBullet();
 
-	Vector2 Location;
-	Vector2 CollisionOffset;
+	Vector2 Location{};
+	Vector2 CollisionOffset{};
 
-	Texture2D Sprite;
+	Texture2D Sprite{};
 
 	Player* Player;
 

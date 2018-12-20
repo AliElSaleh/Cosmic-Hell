@@ -4,7 +4,6 @@
 Bullet::Bullet()
 {
 	Spacing = 35;
-	Location = {0.0f, 0.0f};
 	Speed = 200.0f;
 	Radius = 5.0f;
 	Damage = GetRandomValue(10, 15);
@@ -14,19 +13,13 @@ Bullet::Bullet()
 	FramesCounter = 0;
 }
 
-Bullet::Bullet(Vector2 Location = {0.0f, 0.0f}, float Radius = 20.0f, float Speed = 200.0f, int Damage = 20, int Spacing = 35, bool bActive = true)
-	:Location(Location), Radius(Radius), Speed(Speed), Damage(Damage), Spacing(Spacing), bActive(bActive)
-{
-	//std::cout << "Constructed" << std::endl;
-}
-
 void Bullet::Init()
 {
 	Spacing = 35;
 	Location.x = float(Spacing) + float(Player->Sprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = float(Sprite.width/2);
+	Radius = float(Sprite.width)/2;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
@@ -41,7 +34,7 @@ void Bullet::InitArray(const int i)
 	Location.x = 650 - float(i) * float(Spacing) + float(Player->Sprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = float(Sprite.width/2);
+	Radius = float(Sprite.width)/2;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;

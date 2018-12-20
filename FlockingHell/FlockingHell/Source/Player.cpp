@@ -8,14 +8,10 @@ Player::Player()
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
 	BulletSpawnLocation = Location;
-	Rotation = {0.0f, 0.0f};
 	Hitbox.width = 6;
 	Hitbox.height = 6;
 	Health = 100;
 	Name = "Scarlet";
-	*Bullet = {};
-	Sprite = {};
-	BulletSprite = {};
 	
 	PlayerFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
 	BulletFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -83,8 +79,8 @@ void Player::Update()
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
 
-		Hitbox.x = Location.x + float(Sprite.width/4 - 45);
-		Hitbox.y = Location.y + float(Sprite.height/4 + 22);
+		Hitbox.x = Location.x + float(Sprite.width)/4 - 45;
+		Hitbox.y = Location.y + float(Sprite.height)/4 + 22;
 
 		BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
@@ -216,5 +212,5 @@ void Player::Draw() const
     DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
 
 	if (bDebug)
-		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, WHITE);
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
 }

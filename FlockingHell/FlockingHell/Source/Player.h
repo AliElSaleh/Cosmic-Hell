@@ -15,15 +15,15 @@ struct Player
 
 	Bullet Bullet[50];
 
-	Vector2 Location;
-	Vector2 Rotation;
-	Vector2 BulletSpawnLocation;
+	Vector2 Location{};
+	Vector2 Rotation{};
+	Vector2 BulletSpawnLocation{};
 
-	Texture2D Sprite;
-	Texture2D BulletSprite;
-	Rectangle Hitbox;
-	Rectangle PlayerFrameRec;
-	Rectangle BulletFrameRec;
+	Texture2D Sprite{};
+	Texture2D BulletSprite{};
+	Rectangle Hitbox{};
+	Rectangle PlayerFrameRec{};
+	Rectangle BulletFrameRec{};
 
 	State* GameState = nullptr;
 
