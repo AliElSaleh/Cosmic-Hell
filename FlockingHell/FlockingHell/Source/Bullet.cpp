@@ -1,6 +1,5 @@
 #include "Bullet.h"
 #include "Player.h"
-#include <iostream>
 
 Bullet::Bullet()
 {
@@ -18,37 +17,37 @@ Bullet::Bullet()
 Bullet::Bullet(Vector2 Location = {0.0f, 0.0f}, float Radius = 20.0f, float Speed = 200.0f, int Damage = 20, int Spacing = 35, bool bActive = true)
 	:Location(Location), Radius(Radius), Speed(Speed), Damage(Damage), Spacing(Spacing), bActive(bActive)
 {
-	std::cout << "Constructed" << std::endl;
+	//std::cout << "Constructed" << std::endl;
 }
 
 void Bullet::Init()
 {
-	Spacing = 30;
-	Location.x = float(Spacing) + float(Player->PlayerSprite.width)/12;
+	Spacing = 35;
+	Location.x = float(Spacing) + float(Player->Sprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = Texture.width/2;
+	Radius = float(Sprite.width/2);
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
 	FramesCounter = 0;
-	CollisionOffset.x = Location.x + Texture.width/2;
-	CollisionOffset.y = Location.y + Texture.height/2;
+	CollisionOffset.x = Location.x + Radius;
+	CollisionOffset.y = Location.y + Radius;
 }
 
 void Bullet::InitArray(const int i)
 {
 	Spacing = 35;
-	Location.x = float(i) * float(Spacing) + float(Player->PlayerSprite.width)/12;
+	Location.x = 650 - float(i) * float(Spacing) + float(Player->Sprite.width)/12;
 	Location.y = -20;
 	Speed = 200.0f;
-	Radius = Texture.width/2;
+	Radius = float(Sprite.width/2);
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
 	FramesCounter = 0;
-	CollisionOffset.x = Location.x + Texture.width/2;
-	CollisionOffset.y = Location.y + Texture.height/2;
+	CollisionOffset.x = Location.x + Radius;
+	CollisionOffset.y = Location.y + Radius;
 }
 
 void Bullet::InitWave(const int Wave)
@@ -60,9 +59,9 @@ void Bullet::InitWave(const int Wave)
 		break;
 
 		case 2:
-			Location.y = 0.0f;
+			Spacing = 20;
+			//Location.y = 0.0f;
 			Speed = 300.0f;
-			Radius = 8.0f;
 			Damage = GetRandomValue(15, 25);
 		break;
 
@@ -88,8 +87,8 @@ void Bullet::Update()
 	Location.y += Speed * GetFrameTime();
 
 	// Collision checks
-	CollisionOffset.x = Location.x + float(Texture.width/2);
-	CollisionOffset.y = Location.y + float(Texture.height/2);
+	CollisionOffset.x = Location.x + Radius;
+	CollisionOffset.y = Location.y + Radius;
 	CheckCollisionWithPlayerBullets();
 	CheckCollisionWithPlayer();
 
@@ -99,7 +98,7 @@ void Bullet::Update()
 void Bullet::Draw() const
 {
 	if (bActive && !bIsHit)
-		DrawTexture(Texture, int(Location.x), int(Location.y), WHITE);
+		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 
 }
 

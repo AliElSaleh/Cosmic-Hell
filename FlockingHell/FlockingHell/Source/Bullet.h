@@ -25,7 +25,7 @@ struct Bullet
 	Vector2 Location;
 	Vector2 CollisionOffset;
 
-	Texture2D Texture;
+	Texture2D Sprite;
 
 	Player* Player;
 

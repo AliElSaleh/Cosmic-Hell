@@ -19,7 +19,7 @@ struct Player
 	Vector2 Rotation;
 	Vector2 BulletSpawnLocation;
 
-	Texture2D PlayerSprite;
+	Texture2D Sprite;
 	Texture2D BulletSprite;
 	Rectangle Hitbox;
 	Rectangle PlayerFrameRec;
