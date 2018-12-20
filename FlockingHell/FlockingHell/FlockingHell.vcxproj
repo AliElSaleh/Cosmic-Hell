@@ -46,10 +46,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>&amp;(SolutionDir)FlockingHell\Source\Public;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>&amp;(SolutionDir)FlockingHell\Source\Public;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -59,7 +63,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;C:\raylib\raylib\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;$(SolutionDir)FlockingHell\Source\Raylib\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -79,7 +83,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;C:\raylib\raylib\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FlockingHell\Source\Public;$(SolutionDir)FlockingHell\Source\Raylib\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
