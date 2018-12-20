@@ -106,7 +106,7 @@ bool Bullet::IsOutsideWindow() const
 	return bOutsideWindow;
 }
 
-bool Bullet::IsLocationYGreaterThan(float Y) const
+bool Bullet::IsLocationYGreaterThan(const float Y) const
 {
 	bool bGreaterThanY = false;
 
@@ -123,7 +123,10 @@ void Bullet::CheckCollisionWithPlayerBullets()
 	{
 		if (CheckCollisionCircles(Player->Bullet[i].Location, Player->Bullet[i].Radius, Location, Radius))
 			if (Player->Bullet[i].bActive && !bIsHit)
+			{
 				bActive = false;
+				Player->EnemiesKilled++;
+			}
 	}
 }
 

@@ -8,6 +8,7 @@ Player::Player()
 	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
 	BulletSpawnLocation = Location;
+	BulletXOffset = 5;
 	Hitbox.width = 6;
 	Hitbox.height = 6;
 	Health = 100;
@@ -39,6 +40,7 @@ void Player::Init()
 	Location.y = float(GetScreenHeight()) - 100;
 	BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
+	BulletXOffset = 5;
 	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(Sprite.width)/4 + float(XOffset);
 	Hitbox.y = Location.y + float(Sprite.height)/4;
@@ -67,6 +69,7 @@ void Player::Init()
 	}
 
 	BulletLevel = 1;
+	EnemiesKilled = 0;
 
 	bIsDead = false;
 	bIsHit = false;
@@ -122,6 +125,7 @@ void Player::InitBulletLevel(const signed short Level)
 	switch (Level)
 	{
 		case 1:
+			// Center of gun
 			for (int i = 0; i < MAX_PLAYER_BULLETS/2; i++)
 			{
 				if (!Bullet[i].bActive && ShootRate % 20 == 0)
@@ -135,11 +139,25 @@ void Player::InitBulletLevel(const signed short Level)
 		break;
 
 		case 2:
+			// Left of gun
+			for (int i = 0; i < MAX_PLAYER_BULLETS/2; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset; // Offset to the left by 5 pixels to make room for other half of bullets
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
+
+			// Right of gun
 			for (int i = 25; i < MAX_PLAYER_BULLETS; i++)
 			{
 				if (!Bullet[i].bActive && ShootRate % 20 == 0)
 				{
-					Bullet[i].Location.x = BulletSpawnLocation.x + 15;
+					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset; // Offset to the right by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
 					Bullet[i].Damage = GetRandomValue(20, 40);
 					Bullet[i].bActive = true;
@@ -202,13 +220,10 @@ void Player::UpdateBullet()
 				break;
 
 				case 2:
-					InitBulletLevel(1);
 					InitBulletLevel(2);
 				break;
 
 				case 3:
-					InitBulletLevel(1);
-					InitBulletLevel(2);
 					InitBulletLevel(3);
 				break;
 

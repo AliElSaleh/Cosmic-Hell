@@ -29,6 +29,7 @@ struct Player
 
 	unsigned short XOffset; // Offset sprite location by X amount of pixels from mouse position
 	unsigned short YOffset; // Offset sprite location by Y amount of pixels from mouse position
+	unsigned short BulletXOffset = 5;
 	signed short Health;
 	unsigned short PlayerSpriteFramesCounter = 0;
 	unsigned short BulletSpriteFramesCounter = 0;
