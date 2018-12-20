@@ -1,8 +1,8 @@
 #pragma once
 #include "raylib.h"
 
-#define WAVE_ONE_BULLETS 20
-#define WAVE_TWO_BULLETS 30
+#define WAVE_ONE_BULLETS unsigned short(20)
+#define WAVE_TWO_BULLETS unsigned short(30)
 
 struct Player;
 
@@ -31,9 +31,9 @@ struct Bullet
 	float Radius;
 	float Speed;
 
-	int FramesCounter;
-	int Damage;
-	int Spacing;
+	unsigned short FramesCounter;
+	unsigned short Damage;
+	unsigned short Spacing;
 
 	bool bIsHit;
 	bool bActive;

@@ -27,15 +27,15 @@ struct Player
 
 	State* GameState = nullptr;
 
-	signed short XOffset;
-	signed short YOffset;
+	unsigned short XOffset;
+	unsigned short YOffset;
 	signed short Health;
-	signed short PlayerSpriteFramesCounter = 0;
-	signed short BulletSpriteFramesCounter = 0;
-	signed short PlayerCurrentFrame = 0;
-	signed short BulletCurrentFrame = 0;
-	signed short FramesSpeed = 10;
-	signed short ShootRate = 0;
+	unsigned short PlayerSpriteFramesCounter = 0;
+	unsigned short BulletSpriteFramesCounter = 0;
+	unsigned short PlayerCurrentFrame = 0;
+	unsigned short BulletCurrentFrame = 0;
+	unsigned short FramesSpeed = 10;
+	unsigned short ShootRate = 0;
 
 	bool bIsHit;
 	bool bIsDead;

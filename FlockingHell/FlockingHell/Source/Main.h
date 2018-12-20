@@ -26,7 +26,7 @@ Texture2D RedBullet;
 enum State GameState;
 
 // ints
-int FramesCounter = 0;
+unsigned short FramesCounter = 0;
 
 // bools
 bool bShowDebugHit = false;
