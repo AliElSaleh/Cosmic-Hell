@@ -13,7 +13,7 @@ struct Player
 	void Update();
 	void Draw() const;
 
-	Bullet Bullet[50];
+	struct Bullet Bullet[MAX_PLAYER_BULLETS];
 
 	Vector2 Location{};
 	Vector2 Rotation{};
@@ -36,6 +36,8 @@ struct Player
 	unsigned short BulletCurrentFrame = 0;
 	unsigned short FramesSpeed = 10;
 	unsigned short ShootRate = 0;
+	unsigned short BulletLevel = 1;
+	unsigned short EnemiesKilled = 0;
 
 	bool bIsHit;
 	bool bIsDead;
@@ -45,10 +47,12 @@ struct Player
 	const char* Name;
 
 private:
+	void InitBulletLevel(signed short Level);
 	void UpdatePlayerAnimation(); // Loop through the 4 frames of the player sprite sheet
 	void UpdateBulletAnimation(); // Loop through the 4 frames of the bullet sprite sheet
-	void UpdateBullet(); // Update movement when space bar is pressed
+	void UpdateBullet(); // Release bullets when space bar is pressed
 	void CheckBulletOutsideWindow();
 	void CheckCollisionWithWindow();
 	void CheckPlayerHealth();
+	void CheckBulletLevel();
 };

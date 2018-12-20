@@ -16,6 +16,8 @@ Player::Player()
 	PlayerFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
 	BulletFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
 
+	BulletLevel = 1;
+
 	bFirstLaunch = true;
 	bIsDead = false;
 	bIsHit = false;
@@ -24,7 +26,7 @@ Player::Player()
 
 void Player::Init()
 {
-	if (bFirstLaunch) // If we are opening the application the first time and to prevent loading the same texture every time we die or go to main menu
+	if (bFirstLaunch) // If we are opening the application the first time (To prevent loading the same texture every time we die or go to main menu)
 	{
 		Sprite = LoadTexture("Sprites/Scarlet.png");
 		BulletSprite = LoadTexture("Sprites/BlueBullet.png");
@@ -64,6 +66,8 @@ void Player::Init()
 		Bullet[i].bActive = false;
 	}
 
+	BulletLevel = 1;
+
 	bIsDead = false;
 	bIsHit = false;
 }
@@ -93,9 +97,63 @@ void Player::Update()
 	CheckCollisionWithWindow();
 	CheckPlayerHealth();
 
-	// Bullet
+	// Update bullets movement on key press
 	UpdateBullet();
 	CheckBulletOutsideWindow();
+	CheckBulletLevel();
+}
+
+void Player::Draw() const
+{
+	// Player bullets
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+		if (Bullet[i].bActive)
+			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
+   
+	// Player sprite
+    DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
+
+	if (bDebug)
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
+}
+
+void Player::InitBulletLevel(const signed short Level)
+{
+	switch (Level)
+	{
+		case 1:
+			for (int i = 0; i < MAX_PLAYER_BULLETS/2; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				{
+					Bullet[i].Location = BulletSpawnLocation;
+					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
+		break;
+
+		case 2:
+			for (int i = 25; i < MAX_PLAYER_BULLETS; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x + 15;
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
+		break;
+
+		case 3:
+		break;
+
+		default:
+		break;
+	}
 }
 
 void Player::UpdatePlayerAnimation()
@@ -137,15 +195,26 @@ void Player::UpdateBullet()
 		{
 			ShootRate += 2;
 
-			for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+			switch (BulletLevel)
 			{
-				if (!Bullet[i].bActive && ShootRate % 20 == 0)
-				{
-					Bullet[i].Location = BulletSpawnLocation;
-					Bullet[i].Damage = GetRandomValue(20, 40);
-					Bullet[i].bActive = true;
-					break;
-				}
+				case 1:
+					InitBulletLevel(1);
+				break;
+
+				case 2:
+					InitBulletLevel(1);
+					InitBulletLevel(2);
+				break;
+
+				case 3:
+					InitBulletLevel(1);
+					InitBulletLevel(2);
+					InitBulletLevel(3);
+				break;
+
+				default:
+					InitBulletLevel(1);
+				break;
 			}
 		}
 	}
@@ -214,16 +283,10 @@ void Player::CheckPlayerHealth()
 	}
 }
 
-void Player::Draw() const
+void Player::CheckBulletLevel()
 {
-	// Player bullets
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (Bullet[i].bActive)
-			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
-   
-	// Player sprite
-    DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
-
-	if (bDebug)
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
+	if (EnemiesKilled > 0)
+	{
+		BulletLevel = 2;
+	}
 }
