@@ -14,7 +14,8 @@
 struct Player Player;
 struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Enemy WeakEnemy;
+struct Enemy Demon;
+struct Enemy Alien;
 
 // vectors
 std::vector<struct Bullet> Bullets;
@@ -23,6 +24,7 @@ std::vector<std::vector<struct Bullet>> BulletWave;
 // textures
 Texture2D RedBullet;
 Texture2D DemonSprite;
+Texture2D AlienSprite;
 
 // enums
 enum State GameState;
