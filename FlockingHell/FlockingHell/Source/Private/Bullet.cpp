@@ -67,7 +67,6 @@ void Bullet::Update()
 	// Collision checks
 	CollisionOffset.x = Location.x + Radius;
 	CollisionOffset.y = Location.y + Radius;
-	CheckCollisionWithPlayerBullets();
 	CheckCollisionWithPlayer();
 
 	FramesCounter = 0;
@@ -103,16 +102,6 @@ bool Bullet::IsLocationYGreaterThan(const float Y) const
 	return bGreaterThanY;
 }
 
-void Bullet::CheckCollisionWithPlayerBullets()
-{
-	// Player bullet collision with this bullet
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-	{
-		if (CheckCollisionCircles(Player->Bullet[i].Location, Player->Bullet[i].Radius, Location, Radius))
-			if (Player->Bullet[i].bActive && !bIsHit)
-				bActive = false;
-	}
-}
 
 void Bullet::CheckCollisionWithPlayer()
 {

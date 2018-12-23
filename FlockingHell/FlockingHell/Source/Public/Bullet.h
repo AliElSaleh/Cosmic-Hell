@@ -38,7 +38,6 @@ struct Bullet
 	bool bActive{};
 
 private:
-	void CheckCollisionWithPlayerBullets();
 	void CheckCollisionWithPlayer();
 
 	bool bDebug{};
