@@ -19,6 +19,7 @@ struct Enemy
 	Vector2 Destination;
 	Texture2D Sprite;
 	Rectangle Hitbox;
+	Rectangle SpriteBox;
 
 	float Speed;
 
@@ -33,12 +34,13 @@ struct Enemy
 	Player* Player = nullptr;
 
 protected:
+	virtual void CheckCollisionWithPlayer();
 	virtual void CheckCollisionWithPlayerBullets();
 	virtual void CheckHealth();
 
 	void SetDestLocation(Vector2 DestLocation);
 	void MoveToLocation(Vector2 DestLocation);
-	void IsAtLocation(Vector2 DesiredLocation);
+	void IsAtLocation(Vector2 GoalLocation);
 
 	virtual bool IsLowHealth() const;
 

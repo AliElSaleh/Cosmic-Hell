@@ -6,14 +6,15 @@ void Demon::Init()
 	Location = {300.0f, 100.0f};
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/11, float(Sprite.height)/4};
+	SpriteBox = {Location.x, Location.y, float(Sprite.width), float(Sprite.height)};
 	Health = 500;
 	Speed = 120.0f;
-	Damage = GetRandomValue(20, 30);
+	Damage = GetRandomValue(1, 3);
 	bActive = true;
 	bIsDead = false;
 	bDebug = false;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, 200))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, 150))});
 }
 
 void Demon::Update()
@@ -23,12 +24,16 @@ void Demon::Update()
 		if (!IsLowHealth())
 			MoveToLocation(Destination);
 		else
-			MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 200))});
+			MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 150))});
+
+		SpriteBox.x = Location.x;
+		SpriteBox.y = Location.y;
 
 		Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
 	}
 
+	CheckCollisionWithPlayer();
 	CheckCollisionWithPlayerBullets();
 	CheckHealth();
 
@@ -44,9 +49,16 @@ void Demon::Draw() const
 	// Draw debug information
 	if (bDebug && bActive && !bIsDead)
 	{
+		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
 	}	
+}
+
+void Demon::CheckCollisionWithPlayer()
+{
+	if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
+		Player->Health -= Damage;
 }
 
 void Demon::CheckCollisionWithPlayerBullets()
@@ -57,7 +69,7 @@ void Demon::CheckCollisionWithPlayerBullets()
 			{
 				Player->ResetBullet(i);
 
-				Health -= Player->Damage;
+				Health -= Player->BulletDamage;
 			}
 }
 

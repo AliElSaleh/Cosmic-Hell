@@ -16,6 +16,7 @@ struct Demon : Enemy
 	struct Player* Player = nullptr;
 
 protected:
+	void CheckCollisionWithPlayer() override;
 	void CheckCollisionWithPlayerBullets() override;
 	void CheckHealth() override;
 

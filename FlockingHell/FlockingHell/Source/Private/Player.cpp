@@ -70,7 +70,7 @@ void Player::Init()
 
 	BulletLevel = 1;
 	EnemiesKilled = 0;
-	Damage = GetRandomValue(5, 15);
+	BulletDamage = GetRandomValue(10, 15);
 
 	bIsDead = false;
 	bIsHit = false;
@@ -140,6 +140,8 @@ void Player::InitBulletLevel(const signed short Level)
 	switch (Level)
 	{
 		case 1:
+			ShootRate += 2;
+
 			// Center of gun
 			for (int i = 0; i < MAX_PLAYER_BULLETS/2; i++)
 			{
@@ -154,10 +156,12 @@ void Player::InitBulletLevel(const signed short Level)
 		break;
 
 		case 2:
+			ShootRate += 3;
+
 			// Left of gun
 			for (int i = 0; i < MAX_PLAYER_BULLETS/2; i++)
 			{
-				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				if (!Bullet[i].bActive && ShootRate % 24 == 0)
 				{
 					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset; // Offset to the left by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
@@ -170,7 +174,7 @@ void Player::InitBulletLevel(const signed short Level)
 			// Right of gun
 			for (int i = 25; i < MAX_PLAYER_BULLETS; i++)
 			{
-				if (!Bullet[i].bActive && ShootRate % 20 == 0)
+				if (!Bullet[i].bActive && ShootRate % 24 == 0)
 				{
 					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset; // Offset to the right by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
@@ -226,8 +230,6 @@ void Player::UpdateBullet()
 	{
 		if (!bIsDead)
 		{
-			ShootRate += 2;
-
 			switch (BulletLevel)
 			{
 				case 1:

@@ -41,7 +41,7 @@ struct Player
 	unsigned short ShootRate = 0;
 	unsigned short BulletLevel = 1;
 	unsigned short EnemiesKilled = 0;
-	unsigned short Damage = 0;
+	unsigned short BulletDamage = 0;
 
 	bool bIsHit;
 	bool bIsDead;
