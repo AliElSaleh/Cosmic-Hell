@@ -8,7 +8,7 @@ Enemy::Enemy()
 	  Destination(),
 	  Sprite(),
 	  Hitbox(),
-	  Speed(100.0f),
+	  Speed(500.0f),
 	  Health(800),
 	  Damage(GetRandomValue(20, 30)),
 	  bIsDestinationSet(false),
@@ -23,7 +23,7 @@ void Enemy::Init()
 	Location = {300.0f, 100.0f};
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/11, float(Sprite.height)/4};
-	Health = 100;
+	Health = 500;
 	Speed = 120.0f;
 	Damage = GetRandomValue(20, 30);
 	bActive = true;
@@ -59,7 +59,7 @@ void Enemy::Draw() const
 
 	if (bDebug && bActive && !bIsDead)
 	{
-		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, WHITE);
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED);
 	}
 }
@@ -117,11 +117,11 @@ void Enemy::IsAtLocation(Vector2 DesiredLocation)
 	}
 }
 
-bool Enemy::IsLowHealth()
+bool Enemy::IsLowHealth() const
 {
 	bool bLowHealth = false;
 	
-	if (Health <= 50)
+	if (Health <= 150)
 	{
 		bLowHealth = true;
 	}
