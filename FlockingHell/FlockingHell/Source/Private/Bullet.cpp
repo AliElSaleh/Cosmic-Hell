@@ -16,8 +16,10 @@ Bullet::Bullet()
 void Bullet::Init()
 {
 	Spacing = 35;
-	Location.x = float(Spacing) + float(Player->Sprite.width)/12;
-	Location.y = -20;
+	Location.x = 0.0f;
+	Location.y = -20.0f;
+	Center.x = Location.x + float(Sprite.width)/8;
+	Center.y = Location.y + float(Sprite.height);
 	Speed = 200.0f;
 	Radius = float(Sprite.width)/2;
 	Damage = GetRandomValue(10, 15);
@@ -26,21 +28,14 @@ void Bullet::Init()
 	FramesCounter = 0;
 	CollisionOffset.x = Location.x + Radius;
 	CollisionOffset.y = Location.y + Radius;
+	bDebug = false;
 }
 
 void Bullet::InitArray(const int i)
 {
-	Spacing = 35;
+	Init();
+
 	Location.x = 650 - float(i) * float(Spacing) + float(Player->Sprite.width)/12;
-	Location.y = -20;
-	Speed = 200.0f;
-	Radius = float(Sprite.width)/2;
-	Damage = GetRandomValue(10, 15);
-	bActive = true;
-	bIsHit = false;
-	FramesCounter = 0;
-	CollisionOffset.x = Location.x + Radius;
-	CollisionOffset.y = Location.y + Radius;
 }
 
 void Bullet::InitWave(const int Wave)
@@ -53,7 +48,6 @@ void Bullet::InitWave(const int Wave)
 
 		case 2:
 			Spacing = 20;
-			//Location.y = 0.0f;
 			Speed = 300.0f;
 			Damage = GetRandomValue(15, 25);
 		break;
@@ -78,6 +72,8 @@ void Bullet::Update()
 
 	// Movement
 	Location.y += Speed * GetFrameTime();
+	Center.x = Location.x + float(Sprite.width)/8;
+	Center.y = Location.y + float(Sprite.height);
 
 	// Collision checks
 	CollisionOffset.x = Location.x + Radius;
@@ -90,9 +86,11 @@ void Bullet::Update()
 
 void Bullet::Draw() const
 {
+	if (bDebug)
+		DrawCircle(Location.x + float(Sprite.width)/2, Location.y + float(Sprite.height)/2, Radius, WHITE); // Enemy red bullets
+
 	if (bActive && !bIsHit)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
-
 }
 
 bool Bullet::IsOutsideWindow() const
@@ -123,10 +121,7 @@ void Bullet::CheckCollisionWithPlayerBullets()
 	{
 		if (CheckCollisionCircles(Player->Bullet[i].Location, Player->Bullet[i].Radius, Location, Radius))
 			if (Player->Bullet[i].bActive && !bIsHit)
-			{
 				bActive = false;
-				Player->EnemiesKilled++;
-			}
 	}
 }
 

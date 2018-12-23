@@ -13,6 +13,8 @@ struct Player
 	void Update();
 	void Draw() const;
 
+	void ResetBullet(short Index);
+
 	struct Bullet Bullet[MAX_PLAYER_BULLETS];
 
 	Vector2 Location{};
@@ -39,11 +41,11 @@ struct Player
 	unsigned short ShootRate = 0;
 	unsigned short BulletLevel = 1;
 	unsigned short EnemiesKilled = 0;
+	unsigned short Damage = 0;
 
 	bool bIsHit;
 	bool bIsDead;
 	bool bFirstLaunch;
-	bool bDebug;
 
 	const char* Name;
 
@@ -54,6 +56,8 @@ private:
 	void UpdateBullet(); // Release bullets when space bar is pressed
 	void CheckBulletOutsideWindow();
 	void CheckCollisionWithWindow();
-	void CheckPlayerHealth();
+	void CheckHealth();
 	void CheckBulletLevel();
+
+	bool bDebug;
 };

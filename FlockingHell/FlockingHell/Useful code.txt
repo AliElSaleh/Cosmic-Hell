@@ -1,0 +1,2 @@
+This code makes the enemy shake violently, which can make a cool rage effect when low on health with lots of bullets spawning from enemy
+MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 200))});

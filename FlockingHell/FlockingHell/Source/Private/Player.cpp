@@ -70,9 +70,11 @@ void Player::Init()
 
 	BulletLevel = 1;
 	EnemiesKilled = 0;
+	Damage = GetRandomValue(5, 15);
 
 	bIsDead = false;
 	bIsHit = false;
+	bDebug = false;
 }
 
 void Player::Update()
@@ -93,15 +95,14 @@ void Player::Update()
 		BulletSpawnLocation.y = Location.y;
 
 		UpdatePlayerAnimation();
-
-		UpdateBulletAnimation();
 	}
 
 	CheckCollisionWithWindow();
-	CheckPlayerHealth();
+	CheckHealth();
 
-	// Update bullets movement on key press
+	// Update bullets movement on key press [space]
 	UpdateBullet();
+	UpdateBulletAnimation();
 	CheckBulletOutsideWindow();
 	CheckBulletLevel();
 }
@@ -117,7 +118,21 @@ void Player::Draw() const
     DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
 
 	if (bDebug)
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
+	{
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE); // Player hitbox
+	
+		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+			DrawCircle(Bullet[i].Center.x, Bullet[i].Center.y, Bullet[i].Radius, RED); // Player Bullets hitbox
+	}
+}
+
+void Player::ResetBullet(const short Index)
+{
+	Bullet[Index].bActive = false;		
+	Bullet[Index].bIsHit = true;
+	Bullet[Index].Location = Location;
+	Bullet[Index].Center = Bullet[Index].Location;
+	ShootRate = 0;
 }
 
 void Player::InitBulletLevel(const signed short Level)
@@ -241,21 +256,21 @@ void Player::UpdateBullet()
 		{
 			// Bullet movement
 			Bullet[i].Location.y -= Bullet[i].Speed * GetFrameTime();
+
+			// Move the center location with bullet movement
+			Bullet[i].Center.x = Bullet[i].Location.x + float(BulletSprite.width)/8;
+			Bullet[i].Center.y = Bullet[i].Location.y + float(BulletSprite.height);
 		}
+		else
+			Bullet[i].Location = Location;
 	}
 }
 
 void Player::CheckBulletOutsideWindow()
 {
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-	{
 		if (Bullet[i].Location.y + BulletSprite.height < 0)
-		{
-			Bullet[i].bActive = false;
-			Bullet[i].Location = Location;
-			ShootRate = 0;
-		}
-	}
+			ResetBullet(i);
 }
 
 void Player::CheckCollisionWithWindow()
@@ -288,7 +303,7 @@ void Player::CheckCollisionWithWindow()
 	}
 }
 
-void Player::CheckPlayerHealth()
+void Player::CheckHealth()
 {
 	if (Health <= 0)
 	{

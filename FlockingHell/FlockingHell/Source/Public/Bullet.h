@@ -23,6 +23,7 @@ struct Bullet
 
 	Vector2 Location{};
 	Vector2 CollisionOffset{};
+	Vector2 Center;
 
 	Texture2D Sprite{};
 
@@ -41,4 +42,6 @@ struct Bullet
 private:
 	void CheckCollisionWithPlayerBullets();
 	void CheckCollisionWithPlayer();
+
+	bool bDebug;
 };
