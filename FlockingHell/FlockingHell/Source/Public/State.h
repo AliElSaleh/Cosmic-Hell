@@ -2,13 +2,14 @@
 
 enum State
 {
-	SPLASH = 0,
-	MENU = 1,
-	GAME = 2,
-	PAUSE = 3,
-	DEATH = 4,
-	WIN = 5,
-	LOSE = 6,
-	STATS = 7,
-	HIGHSCORE = 8
+	TEST = 0,
+	SPLASH = 1,
+	MENU = 2,
+	GAME = 3,
+	PAUSE = 4,
+	DEATH = 5,
+	WIN = 6,
+	LOSE = 7,
+	STATS = 8,
+	HIGHSCORE = 9
 };

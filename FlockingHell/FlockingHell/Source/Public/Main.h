@@ -55,6 +55,7 @@ void UpdateWinScreen();
 void UpdateLoseScreen();
 void UpdateStatsScreen();
 void UpdateHighscoreScreen();
+void UpdateTestScene();
 
 void DrawSplashScreen();
 void DrawGame(); // Game Render loop
@@ -66,6 +67,7 @@ void DrawWinScreen();
 void DrawLoseScreen();
 void DrawStatsScreen();
 void DrawHighscoreScreen();
+void DrawTestScene();
 void DrawDebugInfo();
 
 void ResetGame();
