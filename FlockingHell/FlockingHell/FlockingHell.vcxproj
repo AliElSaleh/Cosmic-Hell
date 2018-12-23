@@ -113,9 +113,6 @@
     <ClInclude Include="Source\Public\Star.h" />
     <ClInclude Include="Source\Public\State.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Sprites\Scarlet.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
