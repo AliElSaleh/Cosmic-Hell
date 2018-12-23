@@ -2,29 +2,14 @@
 #include "Player.h"
 #include <raymath.h>
 
-Enemy::Enemy()
-	: Location(),
-	  HitboxOffset(),
-	  Destination(),
-	  Sprite(),
-	  Hitbox(),
-	  Speed(500.0f),
-	  Health(800),
-	  Damage(GetRandomValue(20, 30)),
-	  bIsDestinationSet(false),
-	  bActive(true),
-	  bIsDead(false),
-	  bDebug(false)
-{
-}
 
 void Enemy::Init()
 {
-	Location = {300.0f, 100.0f};
+	Location = {300.0f, -300.0f};
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/11, float(Sprite.height)/4};
 	Health = 500;
-	Speed = 120.0f;
+	Speed = 100.0f;
 	Damage = GetRandomValue(20, 30);
 	bActive = true;
 	bIsDead = false;
@@ -66,25 +51,12 @@ void Enemy::Draw() const
 
 void Enemy::CheckCollisionWithPlayerBullets()
 {
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (CheckCollisionCircleRec(Player->Bullet[i].Center, Player->Bullet[i].Radius, Hitbox))
-			if (bActive && !bIsDead)
-			{
-				Player->ResetBullet(i);
 
-				Health -= Player->Damage;
-			}
 }
 
 void Enemy::CheckHealth()
 {
-	if (Health <= 0 && bActive && !bIsDead)
-	{
-		Health = 0;
-		Player->EnemiesKilled++;
-		bActive = false;
-		bIsDead = true;
-	}
+
 }
 
 void Enemy::SetDestLocation(const Vector2 DestLocation)
@@ -119,12 +91,5 @@ void Enemy::IsAtLocation(Vector2 DesiredLocation)
 
 bool Enemy::IsLowHealth() const
 {
-	bool bLowHealth = false;
-	
-	if (Health <= 150)
-	{
-		bLowHealth = true;
-	}
-
-	return bLowHealth;
+	return false;
 }

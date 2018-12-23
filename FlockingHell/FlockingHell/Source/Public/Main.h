@@ -4,7 +4,7 @@
 #include "Bullet.h"
 #include "Star.h"
 #include "State.h"
-#include "Enemy.h"
+#include "Demon.h"
 #include <vector>
 
 
@@ -14,15 +14,14 @@
 struct Player Player;
 struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Enemy Demon;
-struct Enemy Alien;
+struct Demon Demon;
 
 // vectors
 std::vector<struct Bullet> Bullets;
 std::vector<std::vector<struct Bullet>> BulletWave;
 
 // textures
-Texture2D RedBullet;
+Texture2D RedBulletSprite;
 Texture2D DemonSprite;
 Texture2D AlienSprite;
 

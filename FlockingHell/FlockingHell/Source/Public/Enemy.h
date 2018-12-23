@@ -7,11 +7,10 @@ constexpr auto TOLERANCE = 1.0f;
 
 struct Enemy
 {
-	Enemy();
-
-	void Init();
-	void Update();
-	void Draw() const;
+	virtual ~Enemy() = default;
+	virtual void Init();
+	virtual void Update();
+	virtual void Draw() const;
 
 	Bullet Bullet[MAX_ENEMY_BULLETS];
 
@@ -34,16 +33,15 @@ struct Enemy
 	Player* Player = nullptr;
 
 protected:
-	void CheckCollisionWithPlayerBullets();
-	void CheckHealth();
+	virtual void CheckCollisionWithPlayerBullets();
+	virtual void CheckHealth();
 
 	void SetDestLocation(Vector2 DestLocation);
 	void MoveToLocation(Vector2 DestLocation);
 	void IsAtLocation(Vector2 DesiredLocation);
 
-	bool IsLowHealth() const;
+	virtual bool IsLowHealth() const;
 
-private:
-	bool bDebug;
+	bool bDebug = false;
 };
 
