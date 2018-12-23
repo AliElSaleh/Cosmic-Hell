@@ -12,26 +12,26 @@ struct Enemy
 	virtual void Update();
 	virtual void Draw() const;
 
-	Bullet Bullet[MAX_ENEMY_BULLETS];
+	struct Bullet Bullet[MAX_ENEMY_BULLETS];
 
-	Vector2 Location;
-	Vector2 HitboxOffset;
-	Vector2 Destination;
-	Texture2D Sprite;
-	Rectangle Hitbox;
-	Rectangle SpriteBox;
+	Vector2 Location{};
+	Vector2 HitboxOffset{};
+	Vector2 Destination{};
+	Texture2D Sprite{};
+	Rectangle Hitbox{};
+	Rectangle SpriteBox{};
 
-	float Speed;
+	float Speed{};
 
-	signed short Health;
-	unsigned short Damage;
+	signed short Health{};
+	unsigned short Damage{};
 
-	bool bIsDestinationSet;
-	bool bActive;
-	bool bIsDead;
+	bool bIsDestinationSet{};
+	bool bActive{};
+	bool bIsDead{};
 
 	// References to other classes
-	Player* Player = nullptr;
+	struct Player* Player = nullptr;
 
 protected:
 	virtual void CheckCollisionWithPlayer();

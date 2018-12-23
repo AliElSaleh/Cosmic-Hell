@@ -7,8 +7,6 @@
 
 struct Player
 {
-	Player();
-
 	void Init();
 	void Update();
 	void Draw() const;
@@ -29,10 +27,10 @@ struct Player
 
 	State* GameState = nullptr;
 
-	unsigned short XOffset; // Offset sprite location by X amount of pixels from mouse position
-	unsigned short YOffset; // Offset sprite location by Y amount of pixels from mouse position
+	unsigned short XOffset{}; // Offset sprite location by X amount of pixels from mouse position
+	unsigned short YOffset{}; // Offset sprite location by Y amount of pixels from mouse position
 	unsigned short BulletXOffset = 5;
-	signed short Health;
+	signed short Health{};
 	unsigned short PlayerSpriteFramesCounter = 0;
 	unsigned short BulletSpriteFramesCounter = 0;
 	unsigned short PlayerCurrentFrame = 0;
@@ -43,11 +41,11 @@ struct Player
 	unsigned short EnemiesKilled = 0;
 	unsigned short BulletDamage = 0;
 
-	bool bIsHit;
-	bool bIsDead;
-	bool bFirstLaunch;
+	bool bIsHit{};
+	bool bIsDead{};
+	bool bFirstLaunch{true};
 
-	const char* Name;
+	const char* Name{};
 
 private:
 	void InitBulletLevel(signed short Level);
@@ -59,5 +57,5 @@ private:
 	void CheckHealth();
 	void CheckBulletLevel();
 
-	bool bDebug;
+	bool bDebug{};
 };

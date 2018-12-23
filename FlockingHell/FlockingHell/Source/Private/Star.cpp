@@ -1,8 +1,5 @@
 #include "Star.h"
 
-Star::Star()
-{
-}
 
 void Star::Init()
 {

@@ -8,8 +8,6 @@ struct Player;
 
 struct Bullet
 {
-	Bullet();
-
 	void Init();
 	void InitArray(int i);
 	void InitWave(int Wave);
@@ -23,25 +21,25 @@ struct Bullet
 
 	Vector2 Location{};
 	Vector2 CollisionOffset{};
-	Vector2 Center;
+	Vector2 Center{};
 
 	Texture2D Sprite{};
 
-	Player* Player;
+	struct Player* Player{};
 
-	float Radius;
-	float Speed;
+	float Radius{};
+	float Speed{};
 
-	unsigned short FramesCounter;
-	unsigned short Damage;
-	unsigned short Spacing;
+	unsigned short FramesCounter{};
+	unsigned short Damage{};
+	unsigned short Spacing{};
 
-	bool bIsHit;
-	bool bActive;
+	bool bIsHit{};
+	bool bActive{};
 
 private:
 	void CheckCollisionWithPlayerBullets();
 	void CheckCollisionWithPlayer();
 
-	bool bDebug;
+	bool bDebug{};
 };

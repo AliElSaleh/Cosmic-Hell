@@ -5,8 +5,6 @@
 
 struct Star
 {
-	Star();
-
 	void Init();
 	void Update();
 	void Draw() const;

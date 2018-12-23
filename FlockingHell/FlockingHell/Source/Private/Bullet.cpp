@@ -1,17 +1,6 @@
 #include "Bullet.h"
 #include "Player.h"
 
-Bullet::Bullet()
-{
-	Spacing = 35;
-	Speed = 200.0f;
-	Radius = 5.0f;
-	Damage = GetRandomValue(10, 15);
-	bActive = true;
-	bIsHit = false;
-	Player = nullptr;
-	FramesCounter = 0;
-}
 
 void Bullet::Init()
 {

@@ -1,29 +1,6 @@
 #include "Player.h"
 #include "Bullet.h"
 
-Player::Player()
-{
-	XOffset = 15;
-	YOffset = 50;
-	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
-	Location.y = float(GetScreenHeight()) - 100;
-	BulletSpawnLocation = Location;
-	BulletXOffset = 5;
-	Hitbox.width = 6;
-	Hitbox.height = 6;
-	Health = 100;
-	Name = "Scarlet";
-	
-	PlayerFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
-	BulletFrameRec = {0.0f, 0.0f, 0.0f, 0.0f};
-
-	BulletLevel = 1;
-
-	bFirstLaunch = true;
-	bIsDead = false;
-	bIsHit = false;
-	bDebug = false;
-}
 
 void Player::Init()
 {
