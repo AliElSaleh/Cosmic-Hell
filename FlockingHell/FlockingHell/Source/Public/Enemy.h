@@ -41,7 +41,7 @@ protected:
 	void MoveToLocation(Vector2 DestLocation);
 	void IsAtLocation(Vector2 DesiredLocation);
 
-	bool IsLowHealth();
+	bool IsLowHealth() const;
 
 private:
 	bool bDebug;
