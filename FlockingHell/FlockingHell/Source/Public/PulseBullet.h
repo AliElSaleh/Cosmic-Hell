@@ -18,6 +18,7 @@ struct PulseBullet
 	unsigned short Spacing{};
 	unsigned short SpawnOffset{};
 	unsigned short AmountToSpawn{};
+	unsigned short LoopAmount{};
 
 	float Speed{};
 	float CircleRadius{};
