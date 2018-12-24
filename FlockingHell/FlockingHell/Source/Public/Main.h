@@ -5,6 +5,7 @@
 #include "Star.h"
 #include "State.h"
 #include "Demon.h"
+#include "PulseBullet.h"
 #include <vector>
 
 
@@ -15,6 +16,7 @@ struct Player Player;
 struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Demon Demon;
+struct PulseBullet PulseBullet;
 
 // vectors
 std::vector<struct Bullet> Bullets;
