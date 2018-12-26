@@ -10,7 +10,7 @@ struct Enemy
 	virtual ~Enemy() = default;
 	virtual void Init();
 	virtual void Update();
-	virtual void Draw() const;
+	virtual void Draw();
 
 	struct Bullet Bullet[MAX_ENEMY_BULLETS];
 
@@ -25,7 +25,9 @@ struct Enemy
 
 	signed short Health{};
 	unsigned short Damage{};
+	int FramesCounter{};
 
+	bool bFirstLaunch{};
 	bool bIsDestinationSet{};
 	bool bActive{};
 	bool bIsDead{};

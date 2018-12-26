@@ -16,7 +16,8 @@ struct Player Player;
 struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Demon Demon;
-struct PulseBullet PulseBullet;
+//struct PulseBullet PulseBullet[10];
+//struct PulseBullet PulseBullet2;
 
 // vectors
 std::vector<struct Bullet> Bullets;

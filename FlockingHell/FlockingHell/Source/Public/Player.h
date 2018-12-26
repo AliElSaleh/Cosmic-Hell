@@ -10,6 +10,7 @@ struct Player
 	void Init();
 	void Update();
 	void Draw() const;
+	void DrawBullets() const;
 
 	void ResetBullet(short Index);
 

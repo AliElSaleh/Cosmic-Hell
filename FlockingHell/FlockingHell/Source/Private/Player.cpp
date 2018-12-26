@@ -21,8 +21,8 @@ void Player::Init()
 	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(Sprite.width)/4 + float(XOffset);
 	Hitbox.y = Location.y + float(Sprite.height)/4;
-	Hitbox.width = 4;
-	Hitbox.height = 4;
+	Hitbox.width = 3;
+	Hitbox.height = 3;
 	Health = 100;
 	Name = "Scarlet";
 	
@@ -85,12 +85,7 @@ void Player::Update()
 }
 
 void Player::Draw() const
-{
-	// Player bullets
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (Bullet[i].bActive)
-			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
-   
+{   
 	// Player sprite
     DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
 
@@ -101,6 +96,14 @@ void Player::Draw() const
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 			DrawCircle(Bullet[i].Center.x, Bullet[i].Center.y, Bullet[i].Radius, RED); // Player Bullets hitbox
 	}
+}
+
+void Player::DrawBullets() const
+{
+	// Player bullets
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+		if (Bullet[i].bActive)
+			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
 }
 
 void Player::ResetBullet(const short Index)

@@ -13,6 +13,7 @@ void Enemy::Init()
 	Damage = GetRandomValue(20, 30);
 	bActive = true;
 	bIsDead = false;
+	bFirstLaunch = true;
 	bDebug = false;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, 150))});
@@ -37,7 +38,7 @@ void Enemy::Update()
 	IsAtLocation(Destination);
 }
 
-void Enemy::Draw() const
+void Enemy::Draw()
 {
 	if (bActive && !bIsDead)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);

@@ -10,7 +10,7 @@ void Bullet::Init()
 	Center.x = Location.x + float(Sprite.width)/8;
 	Center.y = Location.y + float(Sprite.height);
 	Speed = 200.0f;
-	Radius = float(Sprite.width)/2;
+	Radius = float(Sprite.width)/2 - 4;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;
@@ -74,11 +74,12 @@ void Bullet::Update()
 
 void Bullet::Draw() const
 {
+	if (bActive && !bIsHit)
+		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
+
 	if (bDebug)
 		DrawCircle(Location.x + float(Sprite.width)/2, Location.y + float(Sprite.height)/2, Radius, WHITE); // Enemy red bullets
 
-	if (bActive && !bIsHit)
-		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 }
 
 bool Bullet::IsOutsideWindow() const

@@ -14,6 +14,8 @@ struct Bullet
 	void Update();
 	void Draw() const;
 
+	void CheckCollisionWithPlayer();
+
 	bool IsOutsideWindow() const;
 	bool IsLocationYGreaterThan(float Y) const; // Is this bullet greater than (Y) on the Y axis
 
@@ -38,7 +40,6 @@ struct Bullet
 	bool bActive{};
 
 private:
-	void CheckCollisionWithPlayer();
 
 	bool bDebug{};
 };

@@ -5,6 +5,13 @@
 
 struct PulseBullet
 {
+	enum TYPE
+	{
+		PULSE, // Repeatedly firing bullets
+		ONELOOP, // Fire bullets once
+		MULTILOOP // Loop one set of bullets depending on loop amount
+	};
+
 	void Init();
 	void Update();
 	void Draw() const;
@@ -15,6 +22,10 @@ struct PulseBullet
 	Vector2 SpawnPoint[MAX_PULSE_BULLETS]{};
 	Vector2 Direction[MAX_PULSE_BULLETS]{};
 
+	TYPE BulletType{};
+
+	void SetBulletType(TYPE BulletType);
+
 	unsigned short Spacing{};
 	unsigned short SpawnOffset{};
 	unsigned short AmountToSpawn{};
@@ -23,10 +34,12 @@ struct PulseBullet
 	float Speed{};
 	float CircleRadius{};
 
-	bool bKeyPressed{};
+	bool bRelease{};
 	bool bDebug{};
 
+	bool IsOutsideWindow() const;
+
 private:
-	void CheckBulletsOutsideWindow();
+	void CheckBulletWindowCollision();
 };
 
