@@ -11,6 +11,7 @@ void Demon::Init()
 	Health = 500;
 	Speed = 120.0f;
 	Damage = GetRandomValue(1, 3);
+	ShootRate = 5;
 	bActive = true;
 	bIsDead = false;
 	bFirstLaunch = true;
@@ -26,13 +27,18 @@ void Demon::Init()
 	{
 		PulseBullet.Bullet[i].Sprite = BulletSprite;
 		PulseBullet2ndWave.Bullet[i].Sprite = BulletSprite; // Probably use a different bullet sprite for each wave
+		PulseBullet2ndWave.Bullet[i].Speed = 400.0f; // Probably use a different bullet sprite for each wave
 	}
 	
-	PulseBullet.Init();
 	PulseBullet.SetBulletType(PulseBullet::MULTILOOP);
+	PulseBullet.AmountToSpawn = 30;
+	PulseBullet.CircleRadius = 20.0f;
+	PulseBullet.Init();
 
-	PulseBullet2ndWave.Init();
 	PulseBullet2ndWave.SetBulletType(PulseBullet::PULSE);
+	PulseBullet2ndWave.AmountToSpawn = 70;
+	PulseBullet2ndWave.CircleRadius = 30.0f;
+	PulseBullet2ndWave.Init();
 
 	BulletWave = FIRST;
 
@@ -41,6 +47,9 @@ void Demon::Init()
 
 void Demon::Update()
 {
+	if (IsLowHealth())
+		BulletWave = RAGE;
+
 	// Update enemy sprite position and its components
 	if (bActive && !bIsDead)
 	{
@@ -70,7 +79,7 @@ void Demon::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE); // Demon sprite
-
+	
 	DrawBullet();
 
 	// Draw debug information
@@ -87,7 +96,7 @@ void Demon::UpdateBullet()
 	switch (BulletWave)
 	{
 		case FIRST:
-			if (bIsDestinationSet) // If enemy has set a new location to go to
+			if (IsAtLocation(Destination)) // If enemy has set a new location to go to
 				PulseBullet.bRelease = true;
 
 			PulseBullet.SpawnLocation = {Hitbox.x, Hitbox.y};
@@ -99,15 +108,29 @@ void Demon::UpdateBullet()
 
 		case SECOND:
 			FramesCounter++;
-
-			if (bIsDestinationSet) // If enemy has set a new location to go to
-				PulseBullet2ndWave.bRelease = true;
 			
 			PulseBullet2ndWave.SpawnLocation = {Hitbox.x, Hitbox.y};
- 			PulseBullet2ndWave.Update();
 
-			if (PulseBullet2ndWave.IsOutsideWindow())
-				BulletWave = THIRD;
+			if (((FramesCounter/12)%2) == 1) // 0.125 second
+			{
+				PulseBullet2ndWave.ReleaseAmount += ShootRate;
+				PulseBullet2ndWave.bRelease = true;
+				FramesCounter = 0;
+				StopMoving();
+			}
+
+
+			// To prevent game from crashing/accessing null memory
+			if (PulseBullet2ndWave.ReleaseAmount > PulseBullet2ndWave.AmountToSpawn)
+			{
+				PulseBullet2ndWave.ReleaseAmount = PulseBullet2ndWave.AmountToSpawn;
+				StartMoving();
+			}
+
+			PulseBullet2ndWave.Update();
+
+			//if (PulseBullet2ndWave.IsOutsideWindow())
+			//	BulletWave = THIRD;
 		break;
 
 		case THIRD:
@@ -121,24 +144,24 @@ void Demon::UpdateBullet()
 	}
 }
 
-void Demon::DrawBullet() const
+void Demon::DrawBullet()
 {
 	switch (BulletWave)
 	{
 		case FIRST:
-			if (bIsDestinationSet) // If enemy has a new location to go to
+			if (PulseBullet.bRelease) // If enemy has a new location to go to
 				PulseBullet.Draw();
 		break;
 
 		case SECOND:
-			//if (bIsDestinationSet)
-			//	PulseBullet2ndWave.Draw();
+			PulseBullet2ndWave.Draw();
 		break;
 
 		case THIRD:
 		break;
 
 		case RAGE:
+			DrawText("RAGE MODE", 10, 50, 20, RED);
 		break;
 
 		default:

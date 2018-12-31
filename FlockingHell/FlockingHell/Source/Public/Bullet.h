@@ -20,6 +20,7 @@ struct Bullet
 	bool IsLocationYGreaterThan(float Y) const; // Is this bullet greater than (Y) on the Y axis
 
 	void ResetBullet();
+	void Clear();
 
 	Vector2 Location{};
 	Vector2 CollisionOffset{};

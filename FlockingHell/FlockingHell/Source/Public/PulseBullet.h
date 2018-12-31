@@ -14,7 +14,7 @@ struct PulseBullet
 
 	void Init();
 	void Update();
-	void Draw() const;
+	void Draw();
 
 	struct Bullet Bullet[MAX_PULSE_BULLETS];
 
@@ -30,6 +30,7 @@ struct PulseBullet
 	unsigned short SpawnOffset{};
 	unsigned short AmountToSpawn{};
 	unsigned short LoopAmount{};
+	unsigned short ReleaseAmount{};
 
 	float Speed{};
 	float CircleRadius{};

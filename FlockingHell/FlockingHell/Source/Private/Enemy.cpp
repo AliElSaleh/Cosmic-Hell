@@ -11,12 +11,13 @@ void Enemy::Init()
 	Health = 500;
 	Speed = 100.0f;
 	Damage = GetRandomValue(20, 30);
+	ShootRate = 5;
 	bActive = true;
 	bIsDead = false;
 	bFirstLaunch = true;
 	bDebug = false;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, 150))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, GetScreenHeight() - 650))});
 }
 
 void Enemy::Update()
@@ -35,7 +36,7 @@ void Enemy::Update()
 	CheckCollisionWithPlayerBullets();
 	CheckHealth();
 
-	IsAtLocation(Destination);
+	//IsAtLocation(Destination);
 }
 
 void Enemy::Draw()
@@ -70,7 +71,7 @@ void Enemy::SetDestLocation(const Vector2 DestLocation)
 	Destination = DestLocation;
 }
 
-void Enemy::MoveToLocation(Vector2 DestLocation)
+void Enemy::MoveToLocation(const Vector2& DestLocation)
 {
 	// Calculate the direction to destination
 	Vector2 Direction = Vector2Subtract(DestLocation, Location);
@@ -81,18 +82,32 @@ void Enemy::MoveToLocation(Vector2 DestLocation)
 	Location.y += Direction.y * Speed * GetFrameTime();
 }
 
-void Enemy::IsAtLocation(Vector2 GoalLocation)
+bool Enemy::IsAtLocation(const Vector2& GoalLocation)
 {
-	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE)
+	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE) // Is at the goal location?
 	{
 		bIsDestinationSet = false;
 
 		if (!bIsDestinationSet)
 		{
-			SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 - Sprite.height/4, 150))});
+			SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
 			bIsDestinationSet = true;
 		}
 	}
+	else
+		bIsDestinationSet = false;
+
+	return bIsDestinationSet;
+}
+
+void Enemy::StartMoving()
+{
+	Speed = 100.0f;
+}
+
+void Enemy::StopMoving()
+{
+	Speed = 0.0f;
 }
 
 bool Enemy::IsLowHealth() const

@@ -129,3 +129,19 @@ void Bullet::ResetBullet()
 	bActive = true;
 	bIsHit = false;
 }
+
+void Bullet::Clear()
+{
+	Spacing = 35;
+	Location.x = 0.0f;
+	Location.y = 0.0f;
+	Center.x = 0;
+	Center.y = 0;
+	Speed = 200.0f;
+	Radius = float(Sprite.width)/2 - 4;
+	bActive = true;
+	bIsHit = false;
+	FramesCounter = 0;
+	CollisionOffset.x = Location.x + Radius;
+	CollisionOffset.y = Location.y + Radius;
+}

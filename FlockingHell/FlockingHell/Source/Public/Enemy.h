@@ -25,6 +25,7 @@ struct Enemy
 
 	signed short Health{};
 	unsigned short Damage{};
+	unsigned short ShootRate{};
 	int FramesCounter{};
 
 	bool bFirstLaunch{};
@@ -41,8 +42,11 @@ protected:
 	virtual void CheckHealth();
 
 	void SetDestLocation(Vector2 DestLocation);
-	void MoveToLocation(Vector2 DestLocation);
-	void IsAtLocation(Vector2 GoalLocation);
+	void MoveToLocation(const Vector2& DestLocation);
+	bool IsAtLocation(const Vector2& GoalLocation);
+
+	void StartMoving();
+	void StopMoving();
 
 	virtual bool IsLowHealth() const;
 

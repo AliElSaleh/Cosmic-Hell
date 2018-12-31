@@ -31,7 +31,7 @@ struct Demon : Enemy
 
 protected:
 	void UpdateBullet();
-	void DrawBullet() const;
+	void DrawBullet();
 
 	void CheckCollisionWithPlayer() override;
 	void CheckCollisionWithPlayerBullets() override;
