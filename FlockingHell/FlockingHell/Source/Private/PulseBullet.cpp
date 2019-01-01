@@ -222,14 +222,6 @@ void PulseBullet::Update()
 					Direction[i] = Vector2Normalize(Direction[i]);
 				}
 			}
-
-			if (IsKeyPressed(KEY_ENTER))
-			{
-				LoopAmount = 0;
-
-				for (int i = 0; i < AmountToSpawn; i++)
-					Bullet[i].Location = SpawnPoint[i];
-			}
 		
 			if (bRelease)
 				for (int i = 0; i < AmountToSpawn; i++)
