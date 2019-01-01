@@ -4,6 +4,7 @@
 #include "PulseBullet.h"
 
 #define MAX_DEMON_BULLETS 10
+#define MAX_DEMON_RAGE_BULLETS 5
 
 struct Demon : Enemy
 {
@@ -21,6 +22,7 @@ struct Demon : Enemy
 
 	struct PulseBullet PulseBullet;
 	struct PulseBullet PulseBullet2ndWave;
+	struct PulseBullet BulletRage[MAX_DEMON_RAGE_BULLETS];
 
 	Vector2 SpawnLocation{};
 	Texture2D BulletSprite;
@@ -31,7 +33,7 @@ struct Demon : Enemy
 
 protected:
 	void UpdateBullet();
-	void DrawBullet();
+	void DrawBullet() const;
 
 	void CheckCollisionWithPlayer() override;
 	void CheckCollisionWithPlayerBullets() override;

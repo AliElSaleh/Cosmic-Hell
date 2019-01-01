@@ -9,12 +9,13 @@ struct PulseBullet
 	{
 		PULSE, // Repeatedly firing bullets
 		ONELOOP, // Fire bullets once
-		MULTILOOP // Loop one set of bullets depending on loop amount
+		MULTILOOP, // Loop one set of bullets depending on loop amount
+		RAGE // When low health, enemy will burst out bullets in a fit of RAGE!!!
 	};
 
 	void Init();
 	void Update();
-	void Draw();
+	void Draw() const;
 
 	struct Bullet Bullet[MAX_PULSE_BULLETS];
 
@@ -26,7 +27,7 @@ struct PulseBullet
 
 	void SetBulletType(TYPE BulletType);
 
-	unsigned short Spacing{};
+	signed short Spacing{};
 	unsigned short SpawnOffset{};
 	unsigned short AmountToSpawn{};
 	unsigned short LoopAmount{};
@@ -40,7 +41,6 @@ struct PulseBullet
 
 	bool IsOutsideWindow() const;
 
-private:
 	void CheckBulletWindowCollision();
 };
 

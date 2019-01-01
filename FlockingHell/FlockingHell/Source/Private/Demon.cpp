@@ -28,6 +28,12 @@ void Demon::Init()
 		PulseBullet.Bullet[i].Sprite = BulletSprite;
 		PulseBullet2ndWave.Bullet[i].Sprite = BulletSprite; // Probably use a different bullet sprite for each wave
 		PulseBullet2ndWave.Bullet[i].Speed = 400.0f; // Probably use a different bullet sprite for each wave
+
+		for (int j = 0; j < MAX_DEMON_RAGE_BULLETS; j++)
+		{
+			BulletRage[j].Bullet[i].Sprite = BulletSprite;
+			BulletRage[j].Bullet[i].Speed = 300.0f;
+		}
 	}
 	
 	PulseBullet.SetBulletType(PulseBullet::MULTILOOP);
@@ -39,6 +45,19 @@ void Demon::Init()
 	PulseBullet2ndWave.AmountToSpawn = 70;
 	PulseBullet2ndWave.CircleRadius = 30.0f;
 	PulseBullet2ndWave.Init();
+
+	for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+	{
+		BulletRage[i].SetBulletType(PulseBullet::RAGE);
+		BulletRage[i].AmountToSpawn = 60.0f;
+		BulletRage[i].CircleRadius = 20.0f;
+		BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
+		
+		for (int j = 0; j < MAX_PULSE_BULLETS; j++)
+			BulletRage[i].Bullet[j].Player = Player;
+		
+		BulletRage[i].Init();
+	}
 
 	BulletWave = FIRST;
 
@@ -119,7 +138,6 @@ void Demon::UpdateBullet()
 				StopMoving();
 			}
 
-
 			// To prevent game from crashing/accessing null memory
 			if (PulseBullet2ndWave.ReleaseAmount > PulseBullet2ndWave.AmountToSpawn)
 			{
@@ -137,6 +155,23 @@ void Demon::UpdateBullet()
 		break;
 
 		case RAGE:
+			FramesCounter++;
+			
+			for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+			{
+				BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
+
+				if (((FramesCounter/40)%2) == 1 && !BulletRage[i].bRelease) // 0.3 second
+				{
+					BulletRage[i].bRelease = true;
+					FramesCounter = 0;
+				}
+			
+				BulletRage[i].Update();
+
+				if (!bIsDead)
+					BulletRage[i].CheckBulletWindowCollision();
+			}
 		break;
 
 		default:
@@ -144,7 +179,7 @@ void Demon::UpdateBullet()
 	}
 }
 
-void Demon::DrawBullet()
+void Demon::DrawBullet() const
 {
 	switch (BulletWave)
 	{
@@ -161,7 +196,8 @@ void Demon::DrawBullet()
 		break;
 
 		case RAGE:
-			DrawText("RAGE MODE", 10, 50, 20, RED);
+			for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+				BulletRage[i].Draw();
 		break;
 
 		default:
