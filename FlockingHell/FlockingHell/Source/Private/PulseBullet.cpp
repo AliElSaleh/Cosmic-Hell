@@ -13,7 +13,7 @@ void PulseBullet::Init()
 	Spacing = CircleRadius - AmountToSpawn - PI;
 
 	bRelease = false;
-	bDebug = false;
+	bDebug = true;
 
 	if (AmountToSpawn > MAX_PULSE_BULLETS) // Max
 		AmountToSpawn = MAX_PULSE_BULLETS;
@@ -265,19 +265,19 @@ void PulseBullet::Draw() const
 		switch (BulletType)
 		{
 			case PULSE:
-				DrawText("Pulse MODE", 10, 50, 20, WHITE);
+				DrawText("Pulse MODE", 10, 70, 20, WHITE);
 			break;
 
 			case ONELOOP:
-				DrawText(FormatText("Loop %i of %i", LoopAmount, 1), 10, 50, 20, WHITE);
+				DrawText(FormatText("Loop %i of %i", LoopAmount, 1), 10, 70, 20, WHITE);
 			break;
 
 			case MULTILOOP:
-				DrawText(FormatText("Loop %i of %i", LoopAmount, 4), 10, 50, 20, WHITE);
+				DrawText(FormatText("Loop %i of %i", LoopAmount, 4), 10, 70, 20, WHITE);
 			break;
 
 			case RAGE:
-				DrawText("RAGE MODE", 10, 50, 20, RED);
+				DrawText("RAGE MODE", 10, 70, 20, RED);
 			break;
 		}
 	}

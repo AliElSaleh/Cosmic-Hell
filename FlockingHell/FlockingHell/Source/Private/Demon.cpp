@@ -184,15 +184,20 @@ void Demon::DrawBullet() const
 	switch (BulletWave)
 	{
 		case FIRST:
+			DrawText("First WAVE", 10, 50, 20, WHITE);
+
 			if (PulseBullet.bRelease) // If enemy has a new location to go to
 				PulseBullet.Draw();
 		break;
 
 		case SECOND:
+			DrawText("Second WAVE", 10, 50, 20, WHITE);
+
 			PulseBullet2ndWave.Draw();
 		break;
 
 		case THIRD:
+			DrawText("Third WAVE", 10, 50, 20, WHITE);
 		break;
 
 		case RAGE:
