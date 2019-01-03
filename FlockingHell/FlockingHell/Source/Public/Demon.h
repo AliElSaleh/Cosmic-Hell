@@ -22,6 +22,7 @@ struct Demon : Enemy
 
 	struct PulseBullet PulseBullet;
 	struct PulseBullet PulseBullet2ndWave;
+	struct PulseBullet PulseBullet3rdWave;
 	struct PulseBullet BulletRage[MAX_DEMON_RAGE_BULLETS];
 
 	Vector2 SpawnLocation{};

@@ -151,6 +151,51 @@ void PulseBullet::Update()
 		break;
 
 		case ONELOOP:
+			for (int i = 0; i < AmountToSpawn; i++)
+			{
+				SpawnPoint[i].x = SpawnLocation.x + CircleRadius * cosf(SpawnOffset*DEG2RAD);
+				SpawnPoint[i].y = SpawnLocation.y + CircleRadius * sinf(SpawnOffset*DEG2RAD);
+			
+				SpawnOffset += Spacing;
+
+				if (!bRelease)
+				{
+					// Set bullet location to spawn point location
+					Bullet[i].Location = SpawnPoint[i];
+
+					// Calculate each bullet's direction
+					Direction[i] = Vector2Subtract(SpawnLocation, Bullet[i].Location);
+					Direction[i] = Vector2Normalize(Direction[i]);
+				}
+			}
+
+			if (IsKeyPressed(KEY_ENTER))
+			{
+				LoopAmount = 0;
+
+				for (int i = 0; i < AmountToSpawn; i++)
+					Bullet[i].Location = SpawnPoint[i];
+			}
+
+			if (bRelease)
+				for (int i = 0; i < ReleaseAmount; i++)
+				{
+					// Movement
+					Bullet[i].Location.x += -Direction[i].x * Bullet[i].Speed * GetFrameTime();
+					Bullet[i].Location.y += -Direction[i].y * Bullet[i].Speed * GetFrameTime();
+
+					// Center
+					Bullet[i].Center.x = Bullet[i].Location.x + float(Bullet[i].Sprite.width)/8;
+					Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
+
+					// Collision hit box
+					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius;
+					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius;
+
+					Bullet[i].CheckCollisionWithPlayer();					
+				}
+
+			CheckBulletWindowCollision();
 		break;
 
 		case MULTILOOP:
@@ -317,13 +362,25 @@ void PulseBullet::CheckBulletWindowCollision()
 					Bullet[i].Location = SpawnPoint[i];
 
 					Direction[i] = Vector2Negate(Direction[i]);
-
 				}
 			}
 			
 		break;
 
 		case ONELOOP:
+			for (int i = 0; i < AmountToSpawn; i++)
+			{
+				if (Bullet[i].Location.x - Bullet[i].Radius > GetScreenWidth() || 
+					Bullet[i].Location.x + Bullet[i].Radius < 0 ||
+					Bullet[i].Location.y - Bullet[i].Radius > GetScreenHeight() ||
+					Bullet[i].Location.y + Bullet[i].Radius < 0)
+				{
+					Bullet[i].Speed = 500.0f;
+					Bullet[i].Location = SpawnPoint[i];
+
+					Direction[i] = Vector2Negate(Direction[i]);
+				}
+			}
 		break;
 
 		case MULTILOOP:
