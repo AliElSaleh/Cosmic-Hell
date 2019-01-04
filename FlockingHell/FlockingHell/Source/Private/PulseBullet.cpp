@@ -364,7 +364,6 @@ void PulseBullet::CheckBulletWindowCollision()
 					Direction[i] = Vector2Negate(Direction[i]);
 				}
 			}
-			
 		break;
 
 		case ONELOOP:
@@ -375,7 +374,7 @@ void PulseBullet::CheckBulletWindowCollision()
 					Bullet[i].Location.y - Bullet[i].Radius > GetScreenHeight() ||
 					Bullet[i].Location.y + Bullet[i].Radius < 0)
 				{
-					Bullet[i].Speed = 500.0f;
+					Bullet[i].Speed = 400.0f;
 					Bullet[i].Location = SpawnPoint[i];
 
 					Direction[i] = Vector2Negate(Direction[i]);
