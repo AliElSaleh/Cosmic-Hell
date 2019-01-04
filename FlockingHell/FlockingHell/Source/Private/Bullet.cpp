@@ -10,7 +10,7 @@ void Bullet::Init()
 	Center.x = Location.x + float(Sprite.width)/8;
 	Center.y = Location.y + float(Sprite.height);
 	Speed = 200.0f;
-	Radius = float(Sprite.width)/2 - 4;
+	Radius = 100;
 	Damage = GetRandomValue(10, 15);
 	bActive = true;
 	bIsHit = false;

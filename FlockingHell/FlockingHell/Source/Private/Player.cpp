@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "Bullet.h"
 
-
 void Player::Init()
 {
 	if (bFirstLaunch) // If we are opening the application the first time (To prevent loading the same texture every time we die or go to main menu)
@@ -31,6 +30,8 @@ void Player::Init()
 	PlayerFrameRec.width = float(Sprite.width)/4; // 4 frames
 	PlayerFrameRec.height = float(Sprite.height);
 
+	Center = {Location.x - float(Sprite.width)/12, Location.y + float(Sprite.height)/2};
+
 	BulletFrameRec.x = 0.0f;
 	BulletFrameRec.y = 0.0f;
 	BulletFrameRec.width = float(BulletSprite.width)/4; // 4 frames
@@ -51,7 +52,7 @@ void Player::Init()
 
 	bIsDead = false;
 	bIsHit = false;
-	bDebug = false;
+	bDebug = true;
 }
 
 void Player::Update()
@@ -67,6 +68,8 @@ void Player::Update()
 
 		Hitbox.x = Location.x + float(Sprite.width)/4 - 45;
 		Hitbox.y = Location.y + float(Sprite.height)/4 + 22;
+
+		Center = {Location.x + float(Sprite.width)/12 - 2.0f, Location.y + float(Sprite.height)/2 - 5.0f};
 
 		BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
@@ -95,6 +98,8 @@ void Player::Draw() const
 	
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 			DrawCircle(Bullet[i].Center.x, Bullet[i].Center.y, Bullet[i].Radius, RED); // Player Bullets hitbox
+
+		DrawCircle(Center.x, Center.y, 2.0f, WHITE);
 	}
 }
 

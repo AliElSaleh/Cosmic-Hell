@@ -394,7 +394,7 @@ void PulseBullet::CheckBulletWindowCollision()
 					Bullet[i].Location = SpawnPoint[i];
 
 					// Calculate direction to player
-					Direction[i] = Vector2Subtract(Bullet[i].Player->Location, Bullet[i].Location);
+					Direction[i] = Vector2Subtract(Bullet[i].Player->Center, Bullet[i].Location);
 					Direction[i] = Vector2Normalize(Direction[i]);
 
 					Direction[i] = Vector2Negate(Direction[i]);

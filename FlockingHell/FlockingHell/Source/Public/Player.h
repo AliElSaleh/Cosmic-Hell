@@ -18,6 +18,7 @@ struct Player
 
 	Vector2 Location{};
 	Vector2 Rotation{};
+	Vector2 Center{};
 	Vector2 BulletSpawnLocation{};
 
 	Texture2D Sprite{};
