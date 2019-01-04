@@ -52,7 +52,7 @@ void Player::Init()
 
 	bIsDead = false;
 	bIsHit = false;
-	bDebug = true;
+	bDebug = false;
 }
 
 void Player::Update()

@@ -137,8 +137,8 @@ void PulseBullet::Update()
 					Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
 
 					// Collision hit box
-					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius;
-					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius;
+					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius - 1.0f;
+					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius + 0.5f;
 
 					Bullet[i].CheckCollisionWithPlayer();					
 				}
@@ -189,8 +189,8 @@ void PulseBullet::Update()
 					Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
 
 					// Collision hit box
-					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius;
-					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius;
+					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius - 1.0f;
+					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius + 0.5f;
 
 					Bullet[i].CheckCollisionWithPlayer();					
 				}
@@ -232,8 +232,8 @@ void PulseBullet::Update()
 					Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
 
 					// Collision hit box
-					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius;
-					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius;
+					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius - 1.0f;
+					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius + 0.5f;
 
 					// Movement
 					Bullet[i].Location.x += -Direction[i].x * Bullet[i].Speed * GetFrameTime();
@@ -280,8 +280,8 @@ void PulseBullet::Update()
 					Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
 
 					// Collision hit box
-					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius;
-					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius;
+					Bullet[i].CollisionOffset.x = Bullet[i].Location.x + Bullet[i].Radius - 1.0f;
+					Bullet[i].CollisionOffset.y = Bullet[i].Location.y + Bullet[i].Radius + 0.5f;
 
 					Bullet[i].CheckCollisionWithPlayer();					
 				}

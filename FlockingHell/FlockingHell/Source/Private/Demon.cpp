@@ -6,7 +6,7 @@ void Demon::Init()
 	Location = {300.0f, 100.0f};
 	SpawnLocation = {50.0f, 105.0f};
 	HitboxOffset = {50.0f, 105.0f};
-	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/11, float(Sprite.height)/4};
+	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/4, float(Sprite.height)/4};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width), float(Sprite.height)};
 	Health = 600;
 	Speed = 120.0f;
@@ -115,7 +115,7 @@ void Demon::Draw()
 	if (bDebug && bActive && !bIsDead)
 	{
 		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE); // Hitbox
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
 	}	
 }
