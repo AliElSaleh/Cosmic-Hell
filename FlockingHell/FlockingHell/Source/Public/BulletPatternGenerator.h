@@ -11,6 +11,7 @@ struct BulletPatternGenerator
 		LINEAR_AIMING,
 		SPIRAL_RIGHT,
 		SPIRAL_LEFT,
+		SPIRAL_DOUBLE,
 		SPIRAL_MULTI_RIGHT,
 		SPIRAL_MULTI_LEFT,
 		SPIRAL_MULTI_DOUBLE,
@@ -45,14 +46,19 @@ struct BulletPatternGenerator
 	void Pause();
 
 	void StartShotRoutine();
-	void UpdateBulletLockOn();
-	void UpdateBullet();
 	void SetBulletPattern(Pattern NewPattern);
 	void AddBullet();
-	void CalculateDirection(int i);
+	void CalculateDirection(int i, Vector2 Target);
+
+	// Bullet pattern updates
+	void UpdateBullet();
+	void UpdateBulletLockOn();
+	void UpdateBulletSpiral(bool Left, bool Right);
 
 	Vector2 Center{}; // The spawn location
 	Vector2 DummyLocation{};
+	Vector2 PointOnCircle{};
+	Vector2 PointOnCircle2{};
 
 	Pattern CurrentPattern{};
 
@@ -65,9 +71,12 @@ struct BulletPatternGenerator
 	unsigned short NumOfWay{};
 	unsigned short NumOfSpiral{};
 	unsigned short ShootRate{};
-	signed short Index{};
-	float Speed{};
-	float Angle{};
+	float BulletSpeed{};
+	float RotationSpeed{};
+	float BulletRadius{};
+	float CircleRadius{};
+	float Angle{}; // In Degrees
+	float Angle2{}; // In Degrees
 	float DummySpeed{};
 
 	bool bIsInProgress{};
