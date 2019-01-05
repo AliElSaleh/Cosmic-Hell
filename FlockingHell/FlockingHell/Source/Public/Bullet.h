@@ -25,12 +25,13 @@ struct Bullet
 	Vector2 Location{};
 	Vector2 CollisionOffset{};
 	Vector2 Center{};
+	Vector2 Direction{};
 
 	Texture2D Sprite{};
 
 	struct Player* Player{};
 
-	float Radius{};
+	float Radius{10};
 	float Speed{};
 
 	unsigned short FramesCounter{};

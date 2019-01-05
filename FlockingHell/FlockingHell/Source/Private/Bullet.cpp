@@ -7,6 +7,7 @@ void Bullet::Init()
 	Spacing = 35;
 	Location.x = 0.0f;
 	Location.y = -20.0f;
+	Direction = {0.0f, 0.0f};
 	Center.x = Location.x + float(Sprite.width)/8;
 	Center.y = Location.y + float(Sprite.height);
 	Speed = 200.0f;

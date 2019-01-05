@@ -1,27 +1,19 @@
 #pragma once
 
 #include "Player.h"
-#include "Bullet.h"
 #include "Star.h"
 #include "State.h"
 #include "Demon.h"
-#include "PulseBullet.h"
-#include <vector>
+#include "BulletPatternGenerator.h"
 
 
 // Variable Declarations
 //-----------------------------------------
 // Structs
 struct Player Player;
-struct Bullet Bullet[WAVE_ONE_BULLETS + WAVE_TWO_BULLETS];
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Demon Demon;
-//struct PulseBullet PulseBullet[10];
-//struct PulseBullet PulseBullet2;
-
-// vectors
-std::vector<struct Bullet> Bullets;
-std::vector<std::vector<struct Bullet>> BulletWave;
+struct BulletPatternGenerator BulletPattern;
 
 // textures
 Texture2D RedBulletSprite;
