@@ -50,15 +50,10 @@ struct BulletPatternGenerator
 	void AddBullet();
 	void CalculateDirection(int i, Vector2 Target);
 
-	// Bullet pattern updates
-	void UpdateBullet();
-	void UpdateBulletLockOn();
-	void UpdateBulletSpiral(bool Left, bool Right);
 
 	Vector2 Center{}; // The spawn location
 	Vector2 DummyLocation{};
 	Vector2 PointOnCircle{};
-	Vector2 PointOnCircle2{};
 
 	Pattern CurrentPattern{};
 
@@ -66,6 +61,8 @@ struct BulletPatternGenerator
 	Texture2D DummySprite{};
 
 	std::vector<struct Bullet> Bullet{};
+	std::vector<struct Vector2> Points{}; // Points on circle
+	std::vector<float> Angles{};
 
 	unsigned short NumOfBullets{};
 	unsigned short NumOfWay{};
@@ -76,7 +73,6 @@ struct BulletPatternGenerator
 	float BulletRadius{};
 	float CircleRadius{};
 	float Angle{}; // In Degrees
-	float Angle2{}; // In Degrees
 	float DummySpeed{};
 
 	bool bIsInProgress{};
@@ -84,6 +80,13 @@ struct BulletPatternGenerator
 	bool bDebug{};
 
 private:
+	// Bullet pattern updates
+	void UpdateBullet();
+	void UpdateBulletLockOn();
+	void UpdateBulletSpiral(bool Left, bool Right);
+	void UpdateBulletSpiralMulti(bool Left, bool Right);
+	void AddDebugCode();
+
 	void CheckBulletOutsideWindow();
 };
 
