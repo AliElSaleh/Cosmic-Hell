@@ -1,4 +1,5 @@
 #pragma once
+
 #include <raylib.h>
 #include <vector>
 
@@ -47,15 +48,6 @@ struct BulletPatternGenerator
 
 	void StartShotRoutine();
 	void SetBulletPattern(Pattern NewPattern);
-	void AddBullet();
-	void CalculateDirection(int i, Vector2 Target);
-
-
-	Vector2 Center{}; // The spawn location
-	Vector2 DummyLocation{};
-	Vector2 PointOnCircle{};
-
-	Pattern CurrentPattern{};
 
 	Texture2D BulletSprite{};
 	Texture2D DummySprite{};
@@ -65,28 +57,56 @@ struct BulletPatternGenerator
 	std::vector<float> Angles{};
 
 	unsigned short NumOfBullets{};
-	unsigned short NumOfWay{};
 	unsigned short NumOfSpiral{};
+	unsigned short NumOfWay{};
 	unsigned short ShootRate{};
+
 	float BulletSpeed{};
 	float RotationSpeed{};
 	float BulletRadius{};
 	float CircleRadius{};
-	float Angle{}; // In Degrees
+	float Angle{0.0f}; // In Degrees
 	float DummySpeed{};
+
+private:
+	// Pattern initialisations
+	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
+	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
+	void CreateSpiralMultiPattern(bool Double, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
+
+	// Bullet updates
+	void UpdateLinearBullet(bool LockOn);
+	void UpdateSpiralBullet(bool Double);
+	void UpdateSpiralMultiBullet();
+
+	// Bullet pattern updates
+	void UpdateLinearPattern();
+	void UpdateLinearTargetPattern();
+	void UpdateSpiralPattern(bool Left, bool Right);
+	void UpdateSpiralMultiPattern(bool Left, bool Right);
+
+	// Draw functions
+	void DrawDummy() const;
+	void DrawDebugPoint() const;
+	void DrawDebugPoints(unsigned short Amount);
+
+	// Useful functions
+	void AddBullet();
+	void CalculateDirection(int i, Vector2 Target);
+	void CheckBulletOutsideWindow();
+
+	// Debug
+	void AddDebugInitCode();
+	void AddDebugUpdateCode();
+	
+	Vector2 Center{}; // The spawn location
+	Vector2 DummyLocation{};
+	Vector2 PointOnCircle{};
+
+	Pattern CurrentPattern{};
 
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
 	bool bDebug{};
-
-private:
-	// Bullet pattern updates
-	void UpdateBullet();
-	void UpdateBulletLockOn();
-	void UpdateBulletSpiral(bool Left, bool Right);
-	void UpdateBulletSpiralMulti(bool Left, bool Right);
-	void AddDebugCode();
-
-	void CheckBulletOutsideWindow();
 };
 
