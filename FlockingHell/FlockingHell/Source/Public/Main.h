@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Star.h"
 #include "State.h"
+#include "EnemyManager.h"
 #include "Demon.h"
 #include "BulletPatternGenerator.h"
 
@@ -13,6 +14,7 @@
 struct Player Player;
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Demon Demon;
+struct EnemyManager EnemyManager;
 struct BulletPatternGenerator BulletPattern;
 
 // textures

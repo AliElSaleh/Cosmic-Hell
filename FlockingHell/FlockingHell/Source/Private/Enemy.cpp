@@ -35,8 +35,6 @@ void Enemy::Update()
 
 	CheckCollisionWithPlayerBullets();
 	CheckHealth();
-
-	//IsAtLocation(Destination);
 }
 
 void Enemy::Draw()
@@ -74,7 +72,7 @@ void Enemy::SetDestLocation(const Vector2 DestLocation)
 void Enemy::MoveToLocation(const Vector2& DestLocation)
 {
 	// Calculate the direction to destination
-	Vector2 Direction = Vector2Subtract(DestLocation, Location);
+	Direction = Vector2Subtract(DestLocation, Location);
 	Direction = Vector2Normalize(Direction);
 
 	// Move to destination

@@ -6,8 +6,8 @@ void Demon::Init()
 	Location = {300.0f, 100.0f};
 	SpawnLocation = {50.0f, 105.0f};
 	HitboxOffset = {50.0f, 105.0f};
-	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/4, float(Sprite.height)/4};
-	SpriteBox = {Location.x, Location.y, float(Sprite.width), float(Sprite.height)};
+	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
+	SpriteBox = {Location.x, Location.y, float(Sprite.width)/10, float(Sprite.height)};
 	Health = 600;
 	Speed = 120.0f;
 	Damage = GetRandomValue(1, 3);
@@ -16,6 +16,11 @@ void Demon::Init()
 	bIsDead = false;
 	bFirstLaunch = true;
 	bDebug = false;
+
+	DemonFrameRec.x = 0.0f;
+	DemonFrameRec.y = 0.0f;
+	DemonFrameRec.width = float(Sprite.width)/10; // 10 frames
+	DemonFrameRec.height = float(Sprite.height);
 
 	if (bFirstLaunch)
 	{
@@ -71,7 +76,7 @@ void Demon::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, 150))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 + Sprite.height, 150))});
 }
 
 void Demon::Update()
@@ -82,6 +87,8 @@ void Demon::Update()
 	// Update enemy sprite position and its components
 	if (bActive && !bIsDead)
 	{
+		DemonSpriteFramesCounter++;
+
 		if (!IsLowHealth())
 			MoveToLocation(Destination);
 		else
@@ -92,6 +99,8 @@ void Demon::Update()
 
 		Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
+
+		UpdateDemonAnimation();
 	}
 
 	UpdateBullet();
@@ -105,19 +114,21 @@ void Demon::Update()
 
 void Demon::Draw()
 {
-	// Draw the demon sprite
-	if (bActive && !bIsDead)
-		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE); // Demon sprite
-	
-	DrawBullet();
-
 	// Draw debug information
 	if (bDebug && bActive && !bIsDead)
 	{
 		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
-	}	
+		DrawText(FormatText("X: %01i", Direction.x), 10, 100, 18, WHITE);
+	}
+
+	// Draw the demon sprite
+	if (bActive && !bIsDead)
+		DrawTextureRec(Sprite, DemonFrameRec, Location, WHITE);  // Draw part of the demon texture
+	
+	DrawBullet();
+
 }
 
 void Demon::UpdateBullet()
@@ -212,6 +223,38 @@ void Demon::UpdateBullet()
 	}
 }
 
+void Demon::UpdateDemonAnimation()
+{
+	if (Direction.x > 0)
+	{
+		// Demon sprite animation
+		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		{
+			DemonSpriteFramesCounter = 0;
+			DemonCurrentFrame++;
+		
+			if (DemonCurrentFrame > 4)
+				DemonCurrentFrame = 0;
+		
+			DemonFrameRec.x = float(DemonCurrentFrame)*float(Sprite.width)/10;
+		}
+	}
+	else if (Direction.x < 0)
+	{
+		// Demon sprite animation
+		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		{
+			DemonSpriteFramesCounter = 0;
+			DemonCurrentFrame++;
+		
+			if (DemonCurrentFrame > 9)
+				DemonCurrentFrame = 5;
+		
+			DemonFrameRec.x = float(DemonCurrentFrame)*float(Sprite.width)/10;
+		}
+	}
+}
+
 void Demon::DrawBullet() const
 {
 	switch (BulletWave)
@@ -273,6 +316,24 @@ void Demon::CheckHealth()
 		bActive = false;
 		bIsDead = true;
 	}
+}
+
+bool Demon::IsAtLocation(const Vector2 & GoalLocation)
+{
+	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE) // Is at the goal location?
+	{
+		bIsDestinationSet = false;
+
+		if (!bIsDestinationSet)
+		{
+			SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
+			bIsDestinationSet = true;
+		}
+	}
+	else
+		bIsDestinationSet = false;
+
+	return bIsDestinationSet;
 }
 
 bool Demon::IsLowHealth() const

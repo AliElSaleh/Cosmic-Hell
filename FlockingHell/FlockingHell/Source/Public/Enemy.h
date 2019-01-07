@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include <vector>
 #include "Bullet.h" // <--- Forward declares player struct
 
 #define MAX_ENEMY_BULLETS 50
@@ -15,11 +16,14 @@ struct Enemy
 	struct Bullet Bullet[MAX_ENEMY_BULLETS];
 
 	Vector2 Location{};
+	Vector2 Direction{};
 	Vector2 HitboxOffset{};
 	Vector2 Destination{};
 	Texture2D Sprite{};
 	Rectangle Hitbox{};
 	Rectangle SpriteBox{};
+
+	std::vector<struct Enemy> Enemies;
 
 	float Speed{};
 
@@ -43,7 +47,7 @@ protected:
 
 	void SetDestLocation(Vector2 DestLocation);
 	void MoveToLocation(const Vector2& DestLocation);
-	bool IsAtLocation(const Vector2& GoalLocation);
+	virtual bool IsAtLocation(const Vector2& GoalLocation);
 
 	void StartMoving();
 	void StopMoving();
