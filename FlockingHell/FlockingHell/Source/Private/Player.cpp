@@ -1,14 +1,14 @@
 #include "Player.h"
 #include "Bullet.h"
+#include "Assets.h"
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 void Player::Init()
 {
-	if (bFirstLaunch) // If we are opening the application the first time (To prevent loading the same texture every time we die or go to main menu)
-	{
-		Sprite = LoadTexture("Sprites/Scarlet.png");
-		BulletSprite = LoadTexture("Sprites/BlueBullet.png");
-		bFirstLaunch = false;
-	}
+	Sprite = GetAsset(Player);
+	BulletSprite = GetAsset(BlueBullet);
 
 	XOffset = 15;
 	YOffset = 50;

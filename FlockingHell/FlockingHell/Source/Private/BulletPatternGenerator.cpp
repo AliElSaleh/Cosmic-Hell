@@ -1,8 +1,13 @@
 #include "BulletPatternGenerator.h"
 #include "Bullet.h"
+#include "Assets.h"
+
 #include <raymath.h>
 
 #define Stringify(name) #name
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 const char* PatternNames[] = 
 {
@@ -39,6 +44,9 @@ const char* PatternNames[] =
 
 void BulletPatternGenerator::Init()
 {
+	BulletSprite = GetAsset(RedBullet);
+	DummySprite = GetAsset(Alien);
+
 	Bullet.clear();
 	Angles.clear();
 	Points.clear();

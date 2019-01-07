@@ -2,7 +2,6 @@
 #include "Player.h"
 #include <raymath.h>
 
-
 void Enemy::Init()
 {
 	Location = {300.0f, -300.0f};
@@ -14,7 +13,6 @@ void Enemy::Init()
 	ShootRate = 5;
 	bActive = true;
 	bIsDead = false;
-	bFirstLaunch = true;
 	bDebug = false;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, GetScreenHeight() - 650))});

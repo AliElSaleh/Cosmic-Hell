@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Star.h"
 #include "State.h"
-#include "EnemyManager.h"
+//#include "EnemyManager.h"
 #include "Demon.h"
 #include "BulletPatternGenerator.h"
 
@@ -14,13 +14,8 @@
 struct Player Player;
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Demon Demon;
-struct EnemyManager EnemyManager;
+//struct EnemyManager EnemyManager;
 struct BulletPatternGenerator BulletPattern;
-
-// textures
-Texture2D RedBulletSprite;
-Texture2D DemonSprite;
-Texture2D AlienSprite;
 
 // enums
 enum State GameState;
@@ -36,7 +31,6 @@ bool bDebug = false;
 // Function Declarations
 //-----------------------------------------
 void Init(); // Initialise application
-void LoadTextures(); // Load textures into GPU (VRAM)
 void InitGame(); // Create instances of objects and initialise their member variables
 void SetGameState(State state); // Sets the next frame's current game state to the specified state
 

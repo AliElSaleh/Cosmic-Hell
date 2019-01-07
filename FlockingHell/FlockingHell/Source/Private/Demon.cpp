@@ -1,8 +1,15 @@
 #include "Demon.h"
 #include "Player.h"
+#include "Assets.h"
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 void Demon::Init()
 {
+	BulletSprite = GetAsset(RedBullet);
+	Sprite = GetAsset(Demon);
+
 	Location = {300.0f, 100.0f};
 	SpawnLocation = {50.0f, 105.0f};
 	HitboxOffset = {50.0f, 105.0f};
@@ -14,7 +21,6 @@ void Demon::Init()
 	ShootRate = 5;
 	bActive = true;
 	bIsDead = false;
-	bFirstLaunch = true;
 	bDebug = false;
 
 	DemonFrameRec.x = 0.0f;
@@ -22,11 +28,6 @@ void Demon::Init()
 	DemonFrameRec.width = float(Sprite.width)/10; // 10 frames
 	DemonFrameRec.height = float(Sprite.height);
 
-	if (bFirstLaunch)
-	{
-		BulletSprite = LoadTexture("Sprites/RedBullet.png");
-		bFirstLaunch = false;
-	}
 
 	// Bullet wave setup
 	for (int i = 0; i < MAX_PULSE_BULLETS; i++)

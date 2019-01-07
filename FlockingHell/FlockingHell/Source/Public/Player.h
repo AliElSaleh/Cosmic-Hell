@@ -45,7 +45,6 @@ struct Player
 
 	bool bIsHit{};
 	bool bIsDead{};
-	bool bFirstLaunch{true};
 
 	const char* Name{};
 

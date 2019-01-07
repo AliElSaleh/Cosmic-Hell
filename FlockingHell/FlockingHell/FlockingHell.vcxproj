@@ -97,6 +97,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\Assets.cpp" />
+    <ClCompile Include="Source\Private\Alien.cpp" />
     <ClCompile Include="Source\Private\EnemyManager.cpp" />
     <ClCompile Include="Source\Private\BulletPatternGenerator.cpp" />
     <ClCompile Include="Source\Private\PulseBullet.cpp" />
@@ -108,6 +110,8 @@
     <ClCompile Include="Source\Private\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\Assets.h" />
+    <ClInclude Include="Source\Public\Alien.h" />
     <ClInclude Include="Source\Public\EnemyManager.h" />
     <ClInclude Include="Source\Public\BulletPatternGenerator.h" />
     <ClInclude Include="Source\Public\PulseBullet.h" />

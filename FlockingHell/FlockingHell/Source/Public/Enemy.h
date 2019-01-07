@@ -32,7 +32,6 @@ struct Enemy
 	unsigned short ShootRate{};
 	int FramesCounter{};
 
-	bool bFirstLaunch{};
 	bool bIsDestinationSet{};
 	bool bActive{};
 	bool bIsDead{};
