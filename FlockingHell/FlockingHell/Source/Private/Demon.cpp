@@ -5,6 +5,11 @@
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
+Demon::Demon()
+{
+	Demon::Init();
+}
+
 void Demon::Init()
 {
 	BulletSprite = GetAsset(RedBullet);
@@ -33,18 +38,22 @@ void Demon::Init()
 	for (int i = 0; i < MAX_PULSE_BULLETS; i++)
 	{
 		PulseBullet.Bullet[i].Sprite = BulletSprite;
+		PulseBullet.Bullet[i].Player = Player;
 		PulseBullet2ndWave.Bullet[i].Sprite = BulletSprite; // Probably use a different bullet sprite for each wave
+		PulseBullet2ndWave.Bullet[i].Player = Player;
 		PulseBullet2ndWave.Bullet[i].Speed = 400.0f; // Probably use a different bullet sprite for each wave
 		PulseBullet3rdWave.Bullet[i].Sprite = BulletSprite;
+		PulseBullet3rdWave.Bullet[i].Player = Player;
 		PulseBullet3rdWave.Bullet[i].Speed = 400.0f;
 
 		for (int j = 0; j < MAX_DEMON_RAGE_BULLETS; j++)
 		{
 			BulletRage[j].Bullet[i].Sprite = BulletSprite;
+			BulletRage[j].Bullet[i].Player = Player;
 			BulletRage[j].Bullet[i].Speed = 300.0f;
 		}
 	}
-
+	
 	PulseBullet.SetBulletType(PulseBullet::MULTILOOP);
 	PulseBullet.AmountToSpawn = 30;
 	PulseBullet.CircleRadius = 20.0f;

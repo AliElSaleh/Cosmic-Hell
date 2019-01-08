@@ -3,8 +3,7 @@
 #include "Player.h"
 #include "Star.h"
 #include "State.h"
-//#include "EnemyManager.h"
-#include "Demon.h"
+#include "EnemyManager.h"
 #include "BulletPatternGenerator.h"
 
 
@@ -13,15 +12,14 @@
 // Structs
 struct Player Player;
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Demon Demon;
-//struct EnemyManager EnemyManager;
+struct EnemyManager EnemyManager;
 struct BulletPatternGenerator BulletPattern;
 
 // enums
 enum State GameState;
 
 // ints
-unsigned short FramesCounter = 0;
+unsigned short FramesCounter = 0; // To time the splash screen
 
 // bools
 bool bShowDebugHit = false;

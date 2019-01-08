@@ -8,6 +8,8 @@
 
 struct Demon : Enemy
 {
+	Demon();
+
 	enum WAVE
 	{
 		FIRST,
@@ -36,9 +38,8 @@ struct Demon : Enemy
 
 	WAVE BulletWave;
 
-	struct Player* Player = nullptr;
-
 protected:
+
 	void UpdateBullet();
 	void UpdateDemonAnimation();
 	void DrawBullet() const;

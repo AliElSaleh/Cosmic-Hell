@@ -1,5 +1,5 @@
 #include "EnemyManager.h"
-#include "Enemy.h"
+#include "Demon.h"
 #include "Alien.h"
 
 EnemyManager::EnemyManager()
@@ -7,87 +7,62 @@ EnemyManager::EnemyManager()
 	Init();
 }
 
-EnemyManager::~EnemyManager()
+EnemyManager::~EnemyManager() = default;
+
+void EnemyManager::AddEnemy(Enemy *NewEnemyType)
 {
-	Dispose();
-}
-
-EnemyManager::EnemyManager(const EnemyManager &OldEnemyManager)
-{
-	Enemies = OldEnemyManager.Enemies;
-}
-
-EnemyManager::EnemyManager(EnemyManager &&OldEnemyManager) noexcept
-{
-	Enemies = OldEnemyManager.Enemies;
-}
-
-EnemyManager &EnemyManager::operator=(const EnemyManager &OtherManager)
-{
-	if (this != &OtherManager)
-    {
-		Enemies.clear();
-
-		Enemies = OtherManager.Enemies;
-	}
-
-	return *this;
-}
-
-EnemyManager & EnemyManager::operator=(EnemyManager &&OtherManager) noexcept
-{
-	if (this != &OtherManager)
-	{
-		Enemies.clear();
-
-		Enemies = OtherManager.Enemies;
-	}
-
-	return *this;
-}
-
-void EnemyManager::Init()
-{
-	Enemies.emplace_back(Alien());
-}
-
-void EnemyManager::CreateEnemy(Enemy* NewEnemy)
-{
-	Enemies.reserve(5);
-	Enemies.emplace_back(*NewEnemy);
-}
-
-void EnemyManager::AddExistingEnemy(const Enemy & ExistingEnemy)
-{
-	Enemies.push_back(ExistingEnemy);
+	Enemies.emplace_back(NewEnemyType);
 }
 
 void EnemyManager::Update()
 {
-	if (!Enemies.empty())
-		for (unsigned int i = 0; i < Enemies.size(); i++)
-			Enemies[i].Update();
+	// Make all enemies inactive if not in the first element of vector
+	if (!bIsEnemyDead)
+		for (unsigned short i = 1; i < Enemies.size(); i++)
+			Enemies[i]->bActive = false;
 
-	for (unsigned int i = 0; i < Enemies.size(); i++)
-		if (Enemies[i].Health < 150)
-			RemoveEnemy(i);
-		
+	// Remove enemy from vector on death
+	if (Enemies[0]->bIsDead)
+	{
+		if (dynamic_cast<Demon*>(Enemies[0])->BulletRage->IsOutsideWindow()) // TODO: Change the demon bullet system AND change condition to "if bullets == 0" in vector
+		{
+			RemoveEnemy(0);
+			bIsEnemyDead = true;
+
+			Enemies[0]->bActive = true;
+			bIsEnemyDead = false;
+		}
+	}
+
+	// Update the currently active enemy
+	if (!Enemies.empty())
+		for (unsigned short i = 0; i < Enemies.size(); i++)
+				Enemies[i]->Update();
 }
 
 void EnemyManager::Draw()
 {
+	if (!bIsEnemyDead)
+		Enemies[0]->Draw();
+
+	// Draw the currently active enemy
 	if (!Enemies.empty())
-		for (unsigned int i = 0; i < Enemies.size(); i++)
-			Enemies[i].Draw();
+		for (unsigned short i = 0; i < Enemies.size(); i++)
+			Enemies[i]->Draw();
+}
+
+void EnemyManager::Init()
+{
+	Enemies.reserve(3);
+	Enemies.emplace_back(new Demon());
+	Enemies.emplace_back(new Alien());
+	Enemies.emplace_back(new Alien());
+
+	bIsEnemyDead = false;
 }
 
 void EnemyManager::RemoveEnemy(const unsigned short Where)
 {
 	if (!Enemies.empty())
 		Enemies.erase(Enemies.begin()+Where);
-}
-
-void EnemyManager::Dispose()
-{
-	Enemies.clear();
 }

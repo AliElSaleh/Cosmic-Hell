@@ -6,6 +6,11 @@
 
 Alien::Alien()
 {
+	Alien::Init();
+}
+
+void Alien::Init()
+{
 	Location = {300.0f, 300.0f};
 	Health = 120;
 	Speed = 100.0f;
@@ -16,12 +21,6 @@ Alien::Alien()
 	bDebug = false;
 }
 
-void Alien::Init()
-{
-	Location = {300.0f, 300.0f};
-	
-}
-
 void Alien::Update()
 {
 	Location = {300.0f, 300.0f};
@@ -30,6 +29,7 @@ void Alien::Update()
 
 void Alien::Draw()
 {
-	DrawTexture(GetAsset(Alien), Location.x, Location.y, WHITE);
+	if (!bIsDead && bActive)
+		DrawTexture(GetAsset(Alien), Location.x, Location.y, WHITE);
 }
 
