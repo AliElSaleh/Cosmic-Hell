@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Star.h"
 #include "State.h"
+#include "Demon.h"
 #include "EnemyManager.h"
 #include "BulletPatternGenerator.h"
 
