@@ -35,15 +35,19 @@ struct BulletPatternGenerator
 		RANDOM_AIMING,
 		RANDOM_SPIRAL,
 		SINE_WAVE_MULTI_WAY_AIMING
+		// Possibility
+		// WAVING_FOUR_WAY
+		// WAVING_EIGHT_WAY (ALL ROUND THE CIRCLE)
+		// SPREAD_SEVEN_WAY_LOCK_ON
 	};
 
-	void Init();
-	void Update();
-	void Draw();
+	virtual void Init();
+	virtual void Update();
+	virtual void Draw();
 
-	void Delay();
-	void Resume();
-	void Pause();
+	virtual void Delay();
+	virtual void Resume();
+	virtual void Pause();
 
 	void StartShotRoutine();
 	void SetBulletPattern(Pattern NewPattern);
@@ -67,7 +71,13 @@ struct BulletPatternGenerator
 	float Angle{0.0f}; // In Degrees
 	float DummySpeed{};
 
-private:
+protected:
+	Pattern CurrentPattern{};
+
+	// Debug
+	void AddDebugInitCode();
+	void AddDebugUpdateCode();
+
 	// Pattern initialisations
 	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
 	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
@@ -98,16 +108,10 @@ private:
 	void ApplyBulletMovement();
 	void CalculateDirection(int i, Vector2 Target);
 	void CheckBulletOutsideWindow();
-
-	// Debug
-	void AddDebugInitCode();
-	void AddDebugUpdateCode();
 	
 	Vector2 Center{}; // The spawn location
 	Vector2 DummyLocation{};
 	Vector2 PointOnCircle{};
-
-	Pattern CurrentPattern{};
 
 	unsigned short FramesCounter{0};
 

@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\LinearPattern.cpp" />
     <ClCompile Include="Source\Private\EnemyManager.cpp" />
     <ClCompile Include="Source\Private\Assets.cpp" />
     <ClCompile Include="Source\Private\Alien.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="Source\Private\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\LinearPattern.h" />
     <ClInclude Include="Source\Public\EnemyManager.h" />
     <ClInclude Include="Source\Public\Assets.h" />
     <ClInclude Include="Source\Public\Alien.h" />

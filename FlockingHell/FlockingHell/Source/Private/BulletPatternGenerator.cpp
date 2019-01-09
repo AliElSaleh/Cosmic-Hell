@@ -118,7 +118,7 @@ void BulletPatternGenerator::Init()
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			CreateLinearMultiPattern(200, 11, 300.0f, 1.0f);
+			CreateLinearMultiPattern(242, 11, 300.0f, 1.0f);
 
 			AddDebugInitCode();
 		break;
@@ -470,7 +470,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 	}
 }
 
-void BulletPatternGenerator::UpdateLinearMultiBullet(bool Aiming)
+void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 {
 	if (IsKeyPressed(KEY_SPACE))
 		bIsSpacePressed = true;
@@ -487,10 +487,14 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(bool Aiming)
 				// Update spawn point on circle
 				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
+
+				//if (Aiming)
+				//	Angles[i] = DummyLocation.x;
 			}
 			
 			k += NumOfBullets/NumOfWay;
 		}
+
 	}
 	else
 	{
@@ -1072,7 +1076,7 @@ void BulletPatternGenerator::UpdateSpiralMultiPattern(const bool Left, const boo
 	ApplyBulletMovement();
 }
 
-void BulletPatternGenerator::UpdateLinearMultiPattern(bool Aiming)
+void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 {
 	ShootRate += 2;
 
@@ -1123,9 +1127,7 @@ void BulletPatternGenerator::AddBullet()
 			Bullet[i].Location = Center;
 
 			// Calculate direction to target
-			Bullet[i].Direction = Vector2Subtract(Center, DummyLocation);
-			Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
-			Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
+			CalculateDirection(i, DummyLocation);
 		}
 	}
 }
