@@ -1,10 +1,14 @@
 #pragma once
 
+#include "Bullet.h"
+
 #include <raylib.h>
 #include <vector>
 
 struct BulletPatternGenerator
 {
+	virtual ~BulletPatternGenerator() = default;
+
 	enum Pattern
 	{
 		LINEAR,
@@ -52,6 +56,8 @@ struct BulletPatternGenerator
 	void StartShotRoutine();
 	void SetBulletPattern(Pattern NewPattern);
 
+	void SetDebug(bool Condition);
+
 	Texture2D BulletSprite{};
 	Texture2D DummySprite{};
 
@@ -91,13 +97,6 @@ protected:
 	void UpdateSpiralMultiBullet();
 	void UpdateLinearMultiBullet(bool Aiming);
 
-	// Bullet pattern updates
-	void UpdateLinearPattern();
-	void UpdateLinearTargetPattern();
-	void UpdateSpiralPattern(bool Left, bool Right);
-	void UpdateSpiralMultiPattern(bool Left, bool Right);
-	void UpdateLinearMultiPattern(bool Aiming);
-
 	// Draw functions
 	void DrawDummy() const;
 	void DrawDebugPoint() const;
@@ -118,5 +117,13 @@ protected:
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
 	bool bDebug{};
+
+private:
+	// Bullet pattern updates
+	void UpdateLinearPattern();
+	void UpdateLinearTargetPattern();
+	void UpdateSpiralPattern(bool Left, bool Right);
+	void UpdateSpiralMultiPattern(bool Left, bool Right);
+	void UpdateLinearMultiPattern(bool Aiming);
 };
 

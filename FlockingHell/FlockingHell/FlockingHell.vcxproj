@@ -109,6 +109,7 @@
     <ClCompile Include="Source\Private\Main.cpp" />
     <ClCompile Include="Source\Private\Player.cpp" />
     <ClCompile Include="Source\Private\Star.cpp" />
+    <ClCompile Include="Source\Private\SpiralPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\LinearPattern.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Source\Public\Player.h" />
     <ClInclude Include="Source\Public\Star.h" />
     <ClInclude Include="Source\Public\State.h" />
+    <ClInclude Include="Source\Public\SpiralPattern.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

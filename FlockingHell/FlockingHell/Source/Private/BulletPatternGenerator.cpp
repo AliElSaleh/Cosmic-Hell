@@ -610,10 +610,10 @@ void BulletPatternGenerator::CreateSpiralPattern(const bool Double, const unsign
 {
 	if (Double)
 	{
-		NumOfBullets = 400;
-		BulletSpeed = 200.0f;
-		RotationSpeed = 400.0f;
-		CircleRadius = 1.0f;
+		NumOfBullets = AmountOfBullets;
+		BulletSpeed = Speed;
+		RotationSpeed = RotSpeed;
+		CircleRadius = Radius;
 
 		Bullet.reserve(NumOfBullets);
 		Points.reserve(2);
@@ -1159,4 +1159,9 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 				NumOfBullets--;
 			}
 		}
+}
+
+void BulletPatternGenerator::SetDebug(const bool Condition)
+{
+	bDebug = Condition;
 }

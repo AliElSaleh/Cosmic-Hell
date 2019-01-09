@@ -1,6 +1,5 @@
-#include  "Assets.h"
 #include "LinearPattern.h"
-#include "Bullet.h"
+#include "Assets.h"
 
 #define Stringify(name) #name
 
@@ -31,7 +30,6 @@ void LinearPattern::Init()
 	DummySpeed = 200.0f;
 	bIsSpacePressed = false;
 	bIsInProgress = false;
-	bDebug = true;
 
 	switch (CurrentPattern)
 	{

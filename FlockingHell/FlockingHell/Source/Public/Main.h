@@ -7,6 +7,7 @@
 #include "EnemyManager.h"
 #include "BulletPatternGenerator.h"
 #include "LinearPattern.h"
+#include "SpiralPattern.h"
 
 
 // Variable Declarations
@@ -18,6 +19,7 @@ struct EnemyManager EnemyManager;
 //struct BulletPatternGenerator BulletPattern;
 
 struct LinearPattern LinearBullet;
+struct SpiralPattern SpiralBullet;
 
 // enums
 enum State GameState;

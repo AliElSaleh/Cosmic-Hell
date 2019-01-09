@@ -2,13 +2,15 @@
 
 #include "BulletPatternGenerator.h"
 
-struct LinearPattern : BulletPatternGenerator
+struct SpiralPattern : BulletPatternGenerator
 {
-	LinearPattern();
-	virtual ~LinearPattern() = default;
+	SpiralPattern();
 
 	void Init() override;
 	void Update() override;
 	void Draw() override;
+
+private:
+	void DrawDebugInfo();
 };
 
