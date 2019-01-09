@@ -1107,13 +1107,6 @@ void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Targe
 	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
 }
 
-void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Source, const Vector2 Target)
-{
-	Bullet[i].Direction = Vector2Subtract(Source, Target);
-	Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
-	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
-}
-
 void BulletPatternGenerator::AddBullet()
 {
 	// Create bullet and place in vector

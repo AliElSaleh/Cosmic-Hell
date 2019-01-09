@@ -97,7 +97,6 @@ private:
 	void AddBullet();
 	void ApplyBulletMovement();
 	void CalculateDirection(int i, Vector2 Target);
-	void CalculateDirection(int i, Vector2 Source, Vector2 Target);
 	void CheckBulletOutsideWindow();
 
 	// Debug
