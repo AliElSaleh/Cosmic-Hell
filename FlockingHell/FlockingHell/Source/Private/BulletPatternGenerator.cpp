@@ -20,14 +20,13 @@ const char* PatternNames[] =
 	Stringify(SPIRAL MULTI RIGHT),
 	Stringify(SPIRAL MULTI LEFT),
 	Stringify(SPIRAL MULTI DOUBLE),
+	Stringify(SPIRAL MIX),
 	Stringify(FIVE WAY LINEAR),
-	Stringify(FIVE WAY LINEAR LOCK ON),
 	Stringify(SIX WAY LINEAR),
-	Stringify(SIX WAY LINEAR LOCK ON),
 	Stringify(SEVEN WAY),
 	Stringify(EIGHT WAY LINEAR),
-	Stringify(EIGHT WAY LINEAR LOCK ON),
 	Stringify(ELEVEN WAY AIMING),
+	Stringify(TWENTY WAY),
 	Stringify(THIRTY WAY),
 	Stringify(SPIRAL FOUR WAY),
 	Stringify(SPIRAL MULTI FOUR WAY),
@@ -98,31 +97,38 @@ void BulletPatternGenerator::Init()
 			CreateSpiralMultiPattern(true, 400, 4, 200.0f, 100.0f, 1.0f);
 		break;
 
-		case FIVE_WAY_LINEAR:
+		case SPIRAL_MIX:
+			//CreateSpiralMixPattern(true, 400, 4, 200.0f, 100.0f, 1.0f);
 		break;
 
-		case FIVE_WAY_LINEAR_LOCK_ON:
+		case FIVE_WAY_LINEAR:
+			CreateLinearMultiPattern(200, 5, 300.0f, 30.0f);
 		break;
 
 		case SIX_WAY_LINEAR:
-		break;
-
-		case SIX_WAY_LINEAR_LOCK_ON:
+			CreateLinearMultiPattern(300, 6, 300.0f, 1.0f);
 		break;
 
 		case SEVEN_WAY:
+			CreateLinearMultiPattern(700, 7, 300.0f, 1.0f);
 		break;
 
 		case EIGHT_WAY_LINEAR:
-		break;
-
-		case EIGHT_WAY_LINEAR_LOCK_ON:
+			CreateLinearMultiPattern(200, 8, 300.0f, 1.0f);
 		break;
 
 		case ELEVEN_WAY_AIMING:
+			CreateLinearMultiPattern(200, 11, 300.0f, 1.0f);
+
+			AddDebugInitCode();
+		break;
+
+		case TWENTY_WAY:
+			CreateLinearMultiPattern(400, 20, 300.0f, 1.0f);
 		break;
 
 		case THIRTY_WAY:
+			CreateLinearMultiPattern(600, 30, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_FOUR_WAY:
@@ -242,32 +248,39 @@ void BulletPatternGenerator::Update()
 		case SPIRAL_MULTI_DOUBLE:
 			UpdateSpiralMultiBullet();
 		break;
-
-		case FIVE_WAY_LINEAR:
+		
+		case SPIRAL_MIX:
+			//UpdateSpiralMultiBullet();
 		break;
 
-		case FIVE_WAY_LINEAR_LOCK_ON:
+		case FIVE_WAY_LINEAR:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SIX_WAY_LINEAR:
-		break;
-
-		case SIX_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SEVEN_WAY:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case EIGHT_WAY_LINEAR:
-		break;
-
-		case EIGHT_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case ELEVEN_WAY_AIMING:
+			UpdateLinearMultiBullet(true);
+
+			AddDebugUpdateCode();
+		break;
+
+		case TWENTY_WAY:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case THIRTY_WAY:
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SPIRAL_FOUR_WAY:
@@ -352,6 +365,20 @@ void BulletPatternGenerator::Draw()
 				DrawDebugPoints(NumOfSpiral);
 
 				DrawText(FormatText("Spirals: %0i", NumOfSpiral), 10, 120, 18, WHITE);
+			break;
+
+			case FIVE_WAY_LINEAR:
+				DrawDebugPoints(NumOfWay);
+
+				DrawText(FormatText("Ways: %0i", NumOfWay), 10, 120, 18, WHITE);
+			break;
+
+			case ELEVEN_WAY_AIMING:
+				DrawDummy();
+				DrawDebugPoints(NumOfWay);
+
+				DrawText(FormatText("Ways: %0i", NumOfWay), 10, 120, 18, WHITE);
+			break;
 
 			default:
 			break;
@@ -434,6 +461,35 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 			}
 
 			k += NumOfBullets/NumOfSpiral;
+		}
+	}
+	else
+	{
+		StartShotRoutine();
+		CheckBulletOutsideWindow();
+	}
+}
+
+void BulletPatternGenerator::UpdateLinearMultiBullet(bool Aiming)
+{
+	if (IsKeyPressed(KEY_SPACE))
+		bIsSpacePressed = true;
+
+	if(!bIsSpacePressed)
+	{
+		int k = 0;
+		for (int i = 0; i < NumOfWay; i++)
+		{
+			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+			
+			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
+			{
+				// Update spawn point on circle
+				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+				Bullet[j].Location = Points[i];
+			}
+			
+			k += NumOfBullets/NumOfWay;
 		}
 	}
 	else
@@ -649,6 +705,48 @@ void BulletPatternGenerator::CreateSpiralMultiPattern(const bool Double, const u
 	}
 }
 
+void BulletPatternGenerator::CreateSpiralMixPattern(const bool Left, const unsigned short AmountOfBullets, unsigned short AmountOfSpirals, const float Speed, const float RotSpeed, const float Radius)
+{
+
+}
+
+void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short AmountOfBullets, const unsigned short AmountOfWays, const float Speed, const float Radius)
+{
+	NumOfBullets = AmountOfBullets;
+	NumOfWay = AmountOfWays;
+	BulletSpeed = Speed;
+	CircleRadius = Radius;
+	Angle = 38.0f;
+
+	Bullet.reserve(NumOfBullets);
+	Points.reserve(NumOfWay);
+	Angles.reserve(NumOfWay);
+
+	for (int i = 0; i < NumOfBullets; i++)
+		Bullet.emplace_back(::Bullet());
+
+	float Offset = 90.0f/NumOfWay;
+	
+	if (NumOfWay == 7 || NumOfWay >= 30 || NumOfWay == 20)
+	{
+		Angle = 0.0f;
+		Offset = 360.0f/NumOfWay;
+	}
+	else if (NumOfWay == 11)
+	{
+		Angle = 15.0f;
+		Offset = 140.0f/NumOfWay;
+	}
+	
+	for (int i = 0; i < NumOfWay; i++)
+	{
+		Angles.emplace_back(Angle+=Offset);
+		Points.emplace_back(Vector2{Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)});
+	}
+
+	BulletRadius = Bullet[0].Radius;
+}
+
 void BulletPatternGenerator::Delay()
 {
 }
@@ -701,31 +799,37 @@ void BulletPatternGenerator::StartShotRoutine()
 			UpdateSpiralMultiPattern(true, true);
 		break;
 
-		case FIVE_WAY_LINEAR:
+		case SPIRAL_MIX:
+			//UpdateSpiralMultiPattern(false, true);
+			//UpdateSpiralMultiPattern(true, true);
 		break;
 
-		case FIVE_WAY_LINEAR_LOCK_ON:
+		case FIVE_WAY_LINEAR:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case SIX_WAY_LINEAR:
-		break;
-
-		case SIX_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case SEVEN_WAY:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case EIGHT_WAY_LINEAR:
-		break;
-
-		case EIGHT_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case ELEVEN_WAY_AIMING:
+			UpdateLinearMultiPattern(true);
+		break;
+
+		case TWENTY_WAY:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case THIRTY_WAY:
+			UpdateLinearMultiPattern(false);
 		break;
 
 		case SPIRAL_FOUR_WAY:
@@ -788,8 +892,6 @@ void BulletPatternGenerator::UpdateLinearPattern()
 			// Bullet movement
 			Bullet[i].Location.y += BulletSpeed * GetFrameTime();
 		}
-		else
-			Bullet[i].Location = Center;
 	}
 }
 
@@ -808,82 +910,12 @@ void BulletPatternGenerator::UpdateLinearTargetPattern()
 		}
 	}
 
-	for (int i = 0; i < NumOfBullets; i++)
-	{
-		if (Bullet[i].bActive)
-		{
-			// Bullet movement
-			Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-			Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
-		}
-	}
+	ApplyBulletMovement();
 }
 
 void BulletPatternGenerator::UpdateSpiralPattern(const bool Left, const bool Right)
 {
-	if (Left && !Right)
-	{ 
-		ShootRate += 4;
-
-		// Rotate the spawn point on circle
-		PointOnCircle = {Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD)};
-		Angle -= RotationSpeed * GetFrameTime();
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (!Bullet[i].bActive && ShootRate % 28 == 0)
-			{
-				Bullet[i].Location = PointOnCircle;
-				Bullet[i].Damage = GetRandomValue(20, 40);
-				Bullet[i].bActive = true;
-				CalculateDirection(i, PointOnCircle);
-
-				break;
-			}
-		}
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (Bullet[i].bActive)
-			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
-			}
-		}
-	}
-	else if (Right && !Left)
-	{
-		ShootRate += 4;
-
-		// Rotate the spawn point on circle
-		PointOnCircle = {Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD)};
-		Angle += RotationSpeed * GetFrameTime();
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (!Bullet[i].bActive && ShootRate % 16 == 0)
-			{
-				Bullet[i].Location = PointOnCircle;
-				Bullet[i].Damage = GetRandomValue(20, 40);
-				Bullet[i].bActive = true;
-				CalculateDirection(i, PointOnCircle);
-
-				break;
-			}
-		}
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (Bullet[i].bActive)
-			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
-			}
-		}
-	}
-	else if (Left && Right)
+	if (Left && Right)
 	{
 		ShootRate += 4;
 
@@ -920,90 +952,44 @@ void BulletPatternGenerator::UpdateSpiralPattern(const bool Left, const bool Rig
 				break;
 			}
 		}
+	}
+	else
+	{
+		ShootRate += 4;
+
+		if (Left && !Right)
+		{
+			// Rotate the spawn point on circle counter-clockwise
+			PointOnCircle = {Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD)};
+			Angle -= RotationSpeed * GetFrameTime();
+		}
+		else if (Right && !Left)
+		{
+			// Rotate the spawn point on circle clockwise
+			PointOnCircle = {Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD)};
+			Angle += RotationSpeed * GetFrameTime();
+		}
 
 		for (int i = 0; i < NumOfBullets; i++)
 		{
-			if (Bullet[i].bActive)
+			if (!Bullet[i].bActive && ShootRate % 28 == 0)
 			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
+				Bullet[i].Location = PointOnCircle;
+				Bullet[i].Damage = GetRandomValue(20, 40);
+				Bullet[i].bActive = true;
+				CalculateDirection(i, PointOnCircle);
+
+				break;
 			}
 		}
 	}
+
+	ApplyBulletMovement();
 }
 
-void BulletPatternGenerator::UpdateSpiralMultiPattern(bool Left, bool Right)
-{
-	if (Left && !Right)
-	{
-		ShootRate += 4;
-
-		for (int i = 0; i < NumOfSpiral; i++)
-		{
-			// Rotate the spawn point on circle
-			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-			Angles[i] -= RotationSpeed * GetFrameTime();
-
-			for (int j = 0; j < NumOfBullets; j++)
-			{
-				if (!Bullet[j].bActive && ShootRate % 28 == 0)
-				{
-					Bullet[j].Location = Points[i];
-					Bullet[j].Damage = GetRandomValue(20, 40);
-					Bullet[j].bActive = true;
-					CalculateDirection(j, Points[i]);
-
-					break;
-				}
-			}
-		}
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (Bullet[i].bActive)
-			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
-			}
-		}
-	}
-	else if (Right && !Left)
-	{
-		ShootRate += 4;
-
-		for (int i = 0; i < NumOfSpiral; i++)
-		{
-			// Rotate the spawn point on circle
-			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-			Angles[i] += RotationSpeed * GetFrameTime();
-
-			for (int j = 0; j < NumOfBullets; j++)
-			{
-				if (!Bullet[j].bActive && ShootRate % 28 == 0)
-				{
-					Bullet[j].Location = Points[i];
-					Bullet[j].Damage = GetRandomValue(20, 40);
-					Bullet[j].bActive = true;
-					CalculateDirection(j, Points[i]);
-
-					break;
-				}
-			}
-		}
-
-		for (int i = 0; i < NumOfBullets; i++)
-		{
-			if (Bullet[i].bActive)
-			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
-			}
-		}
-	}
-	else if (Left && Right)
+void BulletPatternGenerator::UpdateSpiralMultiPattern(const bool Left, const bool Right)
+{	
+	if (Left && Right)
 	{
 		ShootRate += 4;
 
@@ -1048,17 +1034,65 @@ void BulletPatternGenerator::UpdateSpiralMultiPattern(bool Left, bool Right)
 				}
 			}
 		}
+	}
+	else
+	{
+		ShootRate += 4;
 
-		for (int i = 0; i < NumOfBullets; i++)
+		for (int i = 0; i < NumOfSpiral; i++)
 		{
-			if (Bullet[i].bActive)
+			if(Left && !Right)
 			{
-				// Bullet movement
-				Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
-				Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
+				// Rotate the spawn point on circle counter-clockwise
+				Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+				Angles[i] -= RotationSpeed * GetFrameTime();
+			}
+			else if(Right && !Left)
+			{
+				// Rotate the spawn point on circle clockwise
+				Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+				Angles[i] += RotationSpeed * GetFrameTime();
+			}
+
+			for (int j = 0; j < NumOfBullets; j++)
+			{
+				if (!Bullet[j].bActive && ShootRate % 28 == 0)
+				{
+					Bullet[j].Location = Points[i];
+					Bullet[j].Damage = GetRandomValue(20, 40);
+					Bullet[j].bActive = true;
+					CalculateDirection(j, Points[i]);
+
+					break;
+				}
 			}
 		}
 	}
+
+	ApplyBulletMovement();
+}
+
+void BulletPatternGenerator::UpdateLinearMultiPattern(bool Aiming)
+{
+	ShootRate += 2;
+
+	for (int i = 0; i < NumOfWay; i++)
+	{
+		for (int j = 0; j < NumOfBullets; j++)
+		{
+			if (!Bullet[j].bActive && ShootRate % 20 == 0)
+			{
+				Bullet[j].Location = Points[i];
+				Bullet[j].Damage = GetRandomValue(20, 40);
+				Bullet[j].bActive = true;
+				CalculateDirection(j, Points[i]);
+
+				break;
+			}
+		}
+	}
+
+	ApplyBulletMovement();
 }
 
 void BulletPatternGenerator::SetBulletPattern(const Pattern NewPattern)
@@ -1066,9 +1100,16 @@ void BulletPatternGenerator::SetBulletPattern(const Pattern NewPattern)
 	CurrentPattern = NewPattern;
 }
 
-void BulletPatternGenerator::CalculateDirection(const int i, Vector2 Target)
+void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Target)
 {
 	Bullet[i].Direction = Vector2Subtract(Center, Target);
+	Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
+	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
+}
+
+void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Source, const Vector2 Target)
+{
+	Bullet[i].Direction = Vector2Subtract(Source, Target);
 	Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
 	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
 }
@@ -1092,6 +1133,19 @@ void BulletPatternGenerator::AddBullet()
 			Bullet[i].Direction = Vector2Subtract(Center, DummyLocation);
 			Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
 			Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
+		}
+	}
+}
+
+void BulletPatternGenerator::ApplyBulletMovement()
+{
+	for (int i = 0; i < NumOfBullets; i++)
+	{
+		if (Bullet[i].bActive)
+		{
+			// Bullet movement
+			Bullet[i].Location.x += Bullet[i].Direction.x * BulletSpeed * GetFrameTime();
+			Bullet[i].Location.y += Bullet[i].Direction.y * BulletSpeed * GetFrameTime();
 		}
 	}
 }

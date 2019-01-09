@@ -16,14 +16,13 @@ struct BulletPatternGenerator
 		SPIRAL_MULTI_RIGHT,
 		SPIRAL_MULTI_LEFT,
 		SPIRAL_MULTI_DOUBLE,
+		SPIRAL_MIX,
 		FIVE_WAY_LINEAR,
-		FIVE_WAY_LINEAR_LOCK_ON,
 		SIX_WAY_LINEAR,
-		SIX_WAY_LINEAR_LOCK_ON,
 		SEVEN_WAY,
 		EIGHT_WAY_LINEAR,
-		EIGHT_WAY_LINEAR_LOCK_ON,
 		ELEVEN_WAY_AIMING,
+		TWENTY_WAY,
 		THIRTY_WAY,
 		SPIRAL_FOUR_WAY,
 		SPIRAL_MULTI_FOUR_WAY,
@@ -73,17 +72,21 @@ private:
 	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
 	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
 	void CreateSpiralMultiPattern(bool Double, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
+	void CreateSpiralMixPattern(bool Left, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
+	void CreateLinearMultiPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
 
 	// Bullet updates
 	void UpdateLinearBullet(bool LockOn);
 	void UpdateSpiralBullet(bool Double);
 	void UpdateSpiralMultiBullet();
+	void UpdateLinearMultiBullet(bool Aiming);
 
 	// Bullet pattern updates
 	void UpdateLinearPattern();
 	void UpdateLinearTargetPattern();
 	void UpdateSpiralPattern(bool Left, bool Right);
 	void UpdateSpiralMultiPattern(bool Left, bool Right);
+	void UpdateLinearMultiPattern(bool Aiming);
 
 	// Draw functions
 	void DrawDummy() const;
@@ -92,7 +95,9 @@ private:
 
 	// Useful functions
 	void AddBullet();
+	void ApplyBulletMovement();
 	void CalculateDirection(int i, Vector2 Target);
+	void CalculateDirection(int i, Vector2 Source, Vector2 Target);
 	void CheckBulletOutsideWindow();
 
 	// Debug
@@ -104,6 +109,8 @@ private:
 	Vector2 PointOnCircle{};
 
 	Pattern CurrentPattern{};
+
+	unsigned short FramesCounter{0};
 
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
