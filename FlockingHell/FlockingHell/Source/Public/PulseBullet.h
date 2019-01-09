@@ -27,8 +27,9 @@ struct PulseBullet
 
 	void SetBulletType(TYPE BulletType);
 
-	signed short Spacing{};
-	unsigned short SpawnOffset{};
+	float Spacing{};
+	float SpawnOffset{};
+
 	unsigned short AmountToSpawn{};
 	unsigned short LoopAmount{};
 	unsigned short ReleaseAmount{};

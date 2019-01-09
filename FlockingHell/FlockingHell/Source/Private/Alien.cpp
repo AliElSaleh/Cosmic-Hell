@@ -24,12 +24,11 @@ void Alien::Init()
 void Alien::Update()
 {
 	Location = {300.0f, 300.0f};
-	
 }
 
 void Alien::Draw()
 {
 	if (!bIsDead && bActive)
-		DrawTexture(GetAsset(Alien), Location.x, Location.y, WHITE);
+		DrawTexture(GetAsset(Alien), int(Location.x), int(Location.y), WHITE);
 }
 

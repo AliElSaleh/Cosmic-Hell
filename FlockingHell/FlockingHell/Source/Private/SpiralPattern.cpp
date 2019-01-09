@@ -51,7 +51,6 @@ void SpiralPattern::Init()
 		break;
 
 		default:
-			CurrentPattern = SPIRAL_RIGHT;
 		break;
 	}
 }
@@ -102,7 +101,6 @@ void SpiralPattern::Update()
 		break;
 
 		default:
-			CurrentPattern = SPIRAL_RIGHT;
 		break;
 	}
 }

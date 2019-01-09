@@ -107,6 +107,7 @@ protected:
 	void ApplyBulletMovement();
 	void CalculateDirection(int i, Vector2 Target);
 	void CheckBulletOutsideWindow();
+	virtual void DrawDebugInfo();
 	
 	Vector2 Center{}; // The spawn location
 	Vector2 DummyLocation{};

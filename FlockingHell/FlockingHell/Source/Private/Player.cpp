@@ -97,9 +97,9 @@ void Player::Draw() const
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE); // Player hitbox
 	
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-			DrawCircle(Bullet[i].Center.x, Bullet[i].Center.y, Bullet[i].Radius, RED); // Player Bullets hitbox
+			DrawCircle(int(Bullet[i].Center.x), int(Bullet[i].Center.y), Bullet[i].Radius, RED); // Player Bullets hitbox
 
-		DrawCircle(Center.x, Center.y, 2.0f, WHITE);
+		DrawCircle(int(Center.x), int(Center.y), 2.0f, WHITE);
 	}
 }
 

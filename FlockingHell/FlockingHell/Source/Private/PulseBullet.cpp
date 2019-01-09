@@ -295,16 +295,16 @@ void PulseBullet::Update()
 void PulseBullet::Draw() const
 {
 	for (int i = 0; i < AmountToSpawn; i++)
-		DrawTexture(Bullet[i].Sprite, Bullet[i].Location.x - Bullet[i].Radius, Bullet[i].Location.y - Bullet[i].Radius, WHITE); // Bullets
+		DrawTexture(Bullet[i].Sprite, int(Bullet[i].Location.x) - int(Bullet[i].Radius), int(Bullet[i].Location.y) - int(Bullet[i].Radius), WHITE); // Bullets
 
 	if (bDebug)
 	{
-		DrawCircleLines(SpawnLocation.x, SpawnLocation.y, CircleRadius, WHITE); // White circle outline
+		DrawCircleLines(int(SpawnLocation.x), int(SpawnLocation.y), CircleRadius, WHITE); // White circle outline
 
 		for (int i = 0; i < AmountToSpawn; i++)
 		{
-			DrawCircle(SpawnPoint[i].x, SpawnPoint[i].y, 2.0f, BLUE); // SpawnPoints on circle
-			DrawCircle(Bullet[i].CollisionOffset.x, Bullet[i].CollisionOffset.y, Bullet[i].Radius, WHITE);
+			DrawCircle(int(SpawnPoint[i].x), int(SpawnPoint[i].y), 2.0f, BLUE); // SpawnPoints on circle
+			DrawCircle(int(Bullet[i].CollisionOffset.x), int(Bullet[i].CollisionOffset.y), Bullet[i].Radius, WHITE);
 		}
 
 		switch (BulletType)

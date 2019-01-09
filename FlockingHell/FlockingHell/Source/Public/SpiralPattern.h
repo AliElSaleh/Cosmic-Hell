@@ -2,6 +2,11 @@
 
 #include "BulletPatternGenerator.h"
 
+#define Stringify(name) #name
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
+
 struct SpiralPattern : BulletPatternGenerator
 {
 	SpiralPattern();
@@ -10,7 +15,6 @@ struct SpiralPattern : BulletPatternGenerator
 	void Update() override;
 	void Draw() override;
 
-private:
-	void DrawDebugInfo();
+	void DrawDebugInfo() override;
 };
 

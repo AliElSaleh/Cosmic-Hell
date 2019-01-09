@@ -582,7 +582,7 @@ void BulletPatternGenerator::DrawDebugPoints(const unsigned short Amount)
 	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
 
 	for (int i = 0; i < Amount; i++)
-		DrawCircle(int(Points[i].x), int(Points[i].y), 2.0f, BLUE);
+		DrawCircle(int(Points[i].x + BulletRadius), int(Points[i].y + BulletRadius), 2.0f, BLUE);
 }
 
 void BulletPatternGenerator::DrawDebugPoint() const
@@ -1159,6 +1159,10 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 				NumOfBullets--;
 			}
 		}
+}
+
+void BulletPatternGenerator::DrawDebugInfo()
+{
 }
 
 void BulletPatternGenerator::SetDebug(const bool Condition)

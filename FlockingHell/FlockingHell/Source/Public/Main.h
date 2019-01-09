@@ -8,6 +8,7 @@
 #include "BulletPatternGenerator.h"
 #include "LinearPattern.h"
 #include "SpiralPattern.h"
+#include "LinearMultiPattern.h"
 
 
 // Variable Declarations
@@ -24,6 +25,9 @@ PatternType Pattern;
 struct LinearPattern LinearBullet;
 struct SpiralPattern SpiralBullet;
 
+// typedefs
+typedef LinearMultiPattern BulletType;
+
 // enums
 enum State GameState;
 
@@ -31,8 +35,7 @@ enum State GameState;
 unsigned short FramesCounter = 0; // To time the splash screen
 
 // bools
-bool bShowDebugHit = false;
-bool bDebug = false;
+bool bDebug;
 
 
 // Function Declarations

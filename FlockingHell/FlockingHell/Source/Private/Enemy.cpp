@@ -37,7 +37,7 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	DrawCircle(Location.x, Location.y, 50.0f, WHITE);
+	DrawCircle(int(Location.x), int(Location.y), 50.0f, WHITE);
 
 	if (bActive && !bIsDead)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);

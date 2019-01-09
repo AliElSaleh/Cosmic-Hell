@@ -1,11 +1,6 @@
 #include "LinearPattern.h"
 #include "Assets.h"
 
-#define Stringify(name) #name
-
-#define ASSETS Assets::Get()
-#define GetAsset(Name) ASSETS.GetSprite(#Name)
-
 const char* LinearPatternNames[]
 {
 	Stringify(LINEAR),

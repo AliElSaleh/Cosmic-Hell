@@ -7,12 +7,14 @@
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
-struct LinearPattern : BulletPatternGenerator
+struct LinearMultiPattern : BulletPatternGenerator
 {
-	LinearPattern();
+	LinearMultiPattern();
 
 	void Init() override;
 	void Update() override;
 	void Draw() override;
+
+	void DrawDebugInfo() override;
 };
 

@@ -74,7 +74,7 @@ void Demon::Init()
 	for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
 	{
 		BulletRage[i].SetBulletType(PulseBullet::RAGE);
-		BulletRage[i].AmountToSpawn = 60.0f;
+		BulletRage[i].AmountToSpawn = 60;
 		BulletRage[i].CircleRadius = 20.0f;
 		BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
 		
