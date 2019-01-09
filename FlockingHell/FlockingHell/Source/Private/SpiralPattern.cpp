@@ -10,10 +10,7 @@ const char* SpiralPatternNames[]
 {
 	Stringify(SPIRAL RIGHT),
 	Stringify(SPIRAL LEFT),
-	Stringify(SPIRAL DOUBLE),
-	Stringify(SPIRAL MULTI RIGHT),
-	Stringify(SPIRAL MULTI LEFT),
-	Stringify(SPIRAL MULTI DOUBLE),
+	Stringify(SPIRAL DOUBLE)
 };
 
 SpiralPattern::SpiralPattern()
@@ -57,34 +54,8 @@ void SpiralPattern::Init()
 
 void SpiralPattern::Update()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
-		bIsInProgress = true;
-	else
-		bIsInProgress = false;
-
-	// Switch bullet types with arrow keys when not firing/in progress
-	if (!bIsInProgress)
-	{
-		if (IsKeyPressed(KEY_LEFT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_RIGHT)
-				SetBulletPattern(static_cast<Pattern>(SPIRAL_DOUBLE));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
-
-			Init();
-		}
-
-		if (IsKeyPressed(KEY_RIGHT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > SPIRAL_DOUBLE)
-				SetBulletPattern(static_cast<Pattern>(SPIRAL_RIGHT));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
-
-			Init();
-		}
-	}
+	if (bDebug)
+		AddDebugSwitchPatternCode();
 
 	switch (CurrentPattern)
 	{
@@ -126,7 +97,6 @@ void SpiralPattern::Draw()
 			break;
 
 			default:
-				CurrentPattern = SPIRAL_RIGHT;
 			break;
 		}
 
@@ -140,6 +110,38 @@ void SpiralPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
+
+void SpiralPattern::AddDebugSwitchPatternCode()
+{
+	if (!Bullet.empty() && bIsSpacePressed)
+		bIsInProgress = true;
+	else
+		bIsInProgress = false;
+
+	// Switch bullet types with arrow keys when not firing/in progress
+	if (!bIsInProgress)
+	{
+		if (IsKeyPressed(KEY_LEFT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_RIGHT)
+				SetBulletPattern(static_cast<Pattern>(SPIRAL_DOUBLE));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
+
+			Init();
+		}
+
+		if (IsKeyPressed(KEY_RIGHT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > SPIRAL_DOUBLE)
+				SetBulletPattern(static_cast<Pattern>(SPIRAL_RIGHT));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
+
+			Init();
+		}
+	}
+}
 
 void SpiralPattern::DrawDebugInfo()
 {

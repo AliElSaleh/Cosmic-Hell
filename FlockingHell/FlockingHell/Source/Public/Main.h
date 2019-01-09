@@ -9,6 +9,7 @@
 #include "LinearPattern.h"
 #include "SpiralPattern.h"
 #include "LinearMultiPattern.h"
+#include "SpiralMultiPattern.h"
 
 
 // Variable Declarations
@@ -26,7 +27,7 @@ struct LinearPattern LinearBullet;
 struct SpiralPattern SpiralBullet;
 
 // typedefs
-typedef LinearMultiPattern BulletType;
+typedef SpiralMultiPattern BulletType;
 
 // enums
 enum State GameState;

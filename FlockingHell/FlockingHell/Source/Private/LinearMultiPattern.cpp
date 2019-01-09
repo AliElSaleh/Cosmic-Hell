@@ -70,34 +70,8 @@ void LinearMultiPattern::Init()
 
 void LinearMultiPattern::Update()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
-		bIsInProgress = true;
-	else
-		bIsInProgress = false;
-
-	// Switch bullet types with arrow keys when not firing/in progress
-	if (!bIsInProgress)
-	{
-		if (IsKeyPressed(KEY_LEFT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < FIVE_WAY_LINEAR)
-				SetBulletPattern(static_cast<Pattern>(THIRTY_WAY));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
-
-			Init();
-		}
-
-		if (IsKeyPressed(KEY_RIGHT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > THIRTY_WAY)
-				SetBulletPattern(static_cast<Pattern>(FIVE_WAY_LINEAR));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
-
-			Init();
-		}
-	}
+	if (bDebug)
+		AddDebugSwitchPatternCode();
 
 	switch (CurrentPattern)
 	{
@@ -184,6 +158,38 @@ void LinearMultiPattern::Draw()
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+}
+
+void LinearMultiPattern::AddDebugSwitchPatternCode()
+{
+	if (!Bullet.empty() && bIsSpacePressed)
+		bIsInProgress = true;
+	else
+		bIsInProgress = false;
+
+	// Switch bullet types with arrow keys when not firing/in progress
+	if (!bIsInProgress)
+	{
+		if (IsKeyPressed(KEY_LEFT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < FIVE_WAY_LINEAR)
+				SetBulletPattern(static_cast<Pattern>(THIRTY_WAY));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
+
+			Init();
+		}
+
+		if (IsKeyPressed(KEY_RIGHT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > THIRTY_WAY)
+				SetBulletPattern(static_cast<Pattern>(FIVE_WAY_LINEAR));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
+
+			Init();
+		}
+	}
 }
 
 void LinearMultiPattern::DrawDebugInfo()

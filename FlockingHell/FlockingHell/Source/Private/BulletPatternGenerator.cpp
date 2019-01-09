@@ -171,33 +171,8 @@ void BulletPatternGenerator::Init()
 
 void BulletPatternGenerator::Update()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
-		bIsInProgress = true;
-	else
-		bIsInProgress = false;
-
-	if (!bIsInProgress)
-	{
-		if (IsKeyPressed(KEY_LEFT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < 0)
-				SetBulletPattern(static_cast<Pattern>(SINE_WAVE_MULTI_WAY_AIMING));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
-
-			Init();
-		}
-
-		if (IsKeyPressed(KEY_RIGHT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > SINE_WAVE_MULTI_WAY_AIMING)
-				SetBulletPattern(static_cast<Pattern>(0));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
-
-			Init();
-		}
-	}
+	if (bDebug)
+		AddDebugSwitchPatternCode();
 
 	switch (CurrentPattern)
 	{
@@ -577,6 +552,37 @@ void BulletPatternGenerator::AddDebugUpdateCode()
 	}
 }
 
+void BulletPatternGenerator::AddDebugSwitchPatternCode()
+{
+	if (!Bullet.empty() && bIsSpacePressed)
+		bIsInProgress = true;
+	else
+		bIsInProgress = false;
+
+	if (!bIsInProgress)
+	{
+		if (IsKeyPressed(KEY_LEFT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < 0)
+				SetBulletPattern(static_cast<Pattern>(SINE_WAVE_MULTI_WAY_AIMING));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
+
+			Init();
+		}
+
+		if (IsKeyPressed(KEY_RIGHT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > SINE_WAVE_MULTI_WAY_AIMING)
+				SetBulletPattern(static_cast<Pattern>(0));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
+
+			Init();
+		}
+	}
+}
+
 void BulletPatternGenerator::DrawDebugPoints(const unsigned short Amount)
 {
 	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
@@ -709,11 +715,6 @@ void BulletPatternGenerator::CreateSpiralMultiPattern(const bool Double, const u
 	}
 }
 
-void BulletPatternGenerator::CreateSpiralMixPattern(const bool Left, const unsigned short AmountOfBullets, unsigned short AmountOfSpirals, const float Speed, const float RotSpeed, const float Radius)
-{
-
-}
-
 void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short AmountOfBullets, const unsigned short AmountOfWays, const float Speed, const float Radius)
 {
 	NumOfBullets = AmountOfBullets;
@@ -804,8 +805,7 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case SPIRAL_MIX:
-			//UpdateSpiralMultiPattern(false, true);
-			//UpdateSpiralMultiPattern(true, true);
+			UpdateSpiralMultiPattern(true, true);
 		break;
 
 		case FIVE_WAY_LINEAR:

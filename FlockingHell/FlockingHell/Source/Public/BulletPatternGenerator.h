@@ -83,12 +83,12 @@ protected:
 	// Debug
 	void AddDebugInitCode();
 	void AddDebugUpdateCode();
+	virtual void AddDebugSwitchPatternCode();
 
 	// Pattern initialisations
 	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
 	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
 	void CreateSpiralMultiPattern(bool Double, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
-	void CreateSpiralMixPattern(bool Left, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
 	void CreateLinearMultiPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
 
 	// Bullet updates

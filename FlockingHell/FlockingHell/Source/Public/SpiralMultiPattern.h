@@ -1,15 +1,17 @@
 #pragma once
 
 #include "BulletPatternGenerator.h"
+#include "SpiralPattern.h"
 
 #define Stringify(name) #name
 
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
-struct SpiralPattern : BulletPatternGenerator
+
+struct SpiralMultiPattern : BulletPatternGenerator
 {
-	SpiralPattern();
+	SpiralMultiPattern();
 
 	void Init() override;
 	void Update() override;
@@ -17,5 +19,8 @@ struct SpiralPattern : BulletPatternGenerator
 
 	void AddDebugSwitchPatternCode() override;
 	void DrawDebugInfo() override;
+
+private:
+	struct SpiralPattern SpiralPattern;
 };
 

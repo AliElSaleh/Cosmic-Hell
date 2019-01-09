@@ -15,6 +15,7 @@ struct LinearMultiPattern : BulletPatternGenerator
 	void Update() override;
 	void Draw() override;
 
+	void AddDebugSwitchPatternCode() override;
 	void DrawDebugInfo() override;
 };
 
