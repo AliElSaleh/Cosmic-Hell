@@ -111,9 +111,6 @@ protected:
 	
 	Vector2 Center{}; // The spawn location
 	Vector2 DummyLocation{};
-	Vector2 PointOnCircle{};
-
-	unsigned short FramesCounter{0};
 
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
