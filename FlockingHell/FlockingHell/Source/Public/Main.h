@@ -18,6 +18,9 @@ struct Star SmallStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
 //struct BulletPatternGenerator BulletPattern;
 
+template<typename PatternType>
+PatternType Pattern;
+
 struct LinearPattern LinearBullet;
 struct SpiralPattern SpiralBullet;
 
