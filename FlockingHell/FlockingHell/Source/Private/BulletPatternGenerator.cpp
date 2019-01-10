@@ -228,32 +228,32 @@ void BulletPatternGenerator::Update()
 		break;
 
 		case FIVE_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SIX_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SEVEN_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case EIGHT_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(true);
 			AddDebugUpdateCode();
 		break;
 
 		case TWENTY_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case THIRTY_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SPIRAL_FOUR_WAY:
@@ -443,7 +443,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 	}
 }
 
-void BulletPatternGenerator::UpdateLinearMultiBullet()
+void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 {
 	if (IsKeyPressed(KEY_SPACE))
 		bIsSpacePressed = true;
@@ -452,7 +452,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet()
 	{
 		if (NumOfWay == 5)
 			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
-		else if (NumOfWay == 6)
+		if (NumOfWay == 6)
 			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
 		else if (NumOfWay == 8)
 			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
@@ -462,7 +462,8 @@ void BulletPatternGenerator::UpdateLinearMultiBullet()
 		int k = 0;
 		for (int i = 0; i < NumOfWay; i++)
 		{
-			Angles[i] = Angle += Offset;
+			if (Aiming)
+				Angles[i] = Angle += Offset;
 		
 			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 			

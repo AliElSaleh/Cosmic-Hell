@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Bullet.h"
-//#include "LinearPattern.h"
 
 #include <raylib.h>
 #include <vector>
@@ -103,7 +102,7 @@ protected:
 	void UpdateLinearBullet(bool LockOn);
 	void UpdateSpiralBullet(bool Double);
 	void UpdateSpiralMultiBullet();
-	void UpdateLinearMultiBullet();
+	void UpdateLinearMultiBullet(bool Aiming);
 
 	// Draw functions
 	void DrawDummy() const;
@@ -129,7 +128,5 @@ private:
 	void UpdateSpiralPattern(bool Left, bool Right);
 	void UpdateSpiralMultiPattern(bool Left, bool Right);
 	void UpdateLinearMultiPattern(bool Aiming);
-
-	//struct LinearPattern LinearPattern;
 };
 

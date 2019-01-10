@@ -42,7 +42,7 @@ void LinearMultiPattern::Init()
 		break;
 
 		case FIVE_WAY_LINEAR_LOCK_ON:
-			CreateLinearMultiPattern(100, 5, 300.0f, 30.0f);
+			CreateLinearMultiPattern(100, 5, 300.0f, 1.0f);
 			AddDebugInitCode();
 		break;
 
@@ -51,7 +51,7 @@ void LinearMultiPattern::Init()
 		break;
 
 		case SIX_WAY_LINEAR_LOCK_ON:
-			CreateLinearMultiPattern(120, 6, 300.0f, 30.0f);
+			CreateLinearMultiPattern(120, 6, 300.0f, 1.0f);
 			AddDebugInitCode();
 		break;
 
@@ -64,12 +64,12 @@ void LinearMultiPattern::Init()
 		break;
 
 		case EIGHT_WAY_LINEAR_LOCK_ON:
-			CreateLinearMultiPattern(160, 8, 300.0f, 30.0f);
+			CreateLinearMultiPattern(160, 8, 300.0f, 1.0f);
 			AddDebugInitCode();
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			CreateLinearMultiPattern(484, 11, 300.0f, 30.0f);
+			CreateLinearMultiPattern(484, 11, 300.0f, 1.0f);
 			AddDebugInitCode();			
 		break;
 
@@ -94,47 +94,47 @@ void LinearMultiPattern::Update()
 	switch (CurrentPattern)
 	{
 		case FIVE_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case FIVE_WAY_LINEAR_LOCK_ON:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(true);
 			AddDebugUpdateCode();
 		break;
 
 		case SIX_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case SIX_WAY_LINEAR_LOCK_ON:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(true);
 			AddDebugUpdateCode();
 		break;
 
 		case SEVEN_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case EIGHT_WAY_LINEAR:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case EIGHT_WAY_LINEAR_LOCK_ON:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(true);
 			AddDebugUpdateCode();
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 			AddDebugUpdateCode();
 		break;
 
 		case TWENTY_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		case THIRTY_WAY:
-			UpdateLinearMultiBullet();
+			UpdateLinearMultiBullet(false);
 		break;
 
 		default:
