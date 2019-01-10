@@ -60,6 +60,9 @@
     <ClCompile Include="Source\Private\SpiralMultiPattern.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Private\SpiralOneWayPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Bullet.h">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\SpiralMultiPattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\SpiralOneWayPattern.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

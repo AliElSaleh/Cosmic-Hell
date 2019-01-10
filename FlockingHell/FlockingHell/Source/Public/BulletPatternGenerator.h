@@ -92,12 +92,14 @@ protected:
 	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
 	void CreateSpiralMultiPattern(bool Double, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
 	void CreateLinearMultiPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
+	void CreateSpiralMultiPattern(unsigned short AmountOfBullets, unsigned short AmountOfSpirals, unsigned short AmountOfWays, float Speed, float RotSpeed, float Radius);
 
 	// Bullet updates
 	void UpdateLinearBullet(bool LockOn);
 	void UpdateSpiralBullet(bool Double);
 	void UpdateSpiralMultiBullet();
 	void UpdateLinearMultiBullet(bool Aiming);
+	void UpdateSpiralMultiBullet(unsigned short AmountOfSpirals);
 
 	// Draw functions
 	void DrawDummy() const;
@@ -127,5 +129,6 @@ private:
 	void UpdateSpiralPattern(bool Left, bool Right);
 	void UpdateSpiralMultiPattern(bool Left, bool Right);
 	void UpdateLinearMultiPattern(bool Aiming);
+	void UpdateSpiralMultiPattern(unsigned short AmountOfSpirals);
 };
 

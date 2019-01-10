@@ -1,19 +1,18 @@
-#include "SpiralPattern.h"
+#include "SpiralOneWayPattern.h"
 #include "Assets.h"
 
-const char* SpiralPatternNames[]
+
+const char* SpiralOneWayPatternNames[]
 {
-	Stringify(SPIRAL RIGHT),
-	Stringify(SPIRAL LEFT),
-	Stringify(SPIRAL DOUBLE)
+	Stringify(SPIRAL FOUR WAY)
 };
 
-SpiralPattern::SpiralPattern()
+SpiralOneWayPattern::SpiralOneWayPattern()
 {
-	SpiralPattern::Init();
+	SpiralOneWayPattern::Init();
 }
 
-void SpiralPattern::Init()
+void SpiralOneWayPattern::Init()
 {
 	BulletSprite = GetAsset(RedBullet);
 	DummySprite = GetAsset(Alien);
@@ -30,16 +29,8 @@ void SpiralPattern::Init()
 
 	switch (CurrentPattern)
 	{
-		case SPIRAL_RIGHT:
-			CreateSpiralPattern(false, 200, 100.0f, 800.0f, 1.0f);
-		break;
-
-		case SPIRAL_LEFT:
-			CreateSpiralPattern(false, 100, 150.0f, 200.0f, 1.0f);
-		break;
-
-		case SPIRAL_DOUBLE:
-			CreateSpiralPattern(true, 400, 250.0f, 150.0f, 20.0f);
+		case SPIRAL_FOUR_WAY:
+			CreateSpiralMultiPattern(unsigned short(800), 1, 4, 150.0f, 300.0f, 1.0f);
 		break;
 
 		default:
@@ -47,23 +38,15 @@ void SpiralPattern::Init()
 	}
 }
 
-void SpiralPattern::Update()
+void SpiralOneWayPattern::Update()
 {
 	if (bDebug)
 		AddDebugSwitchPatternCode();
 
 	switch (CurrentPattern)
 	{
-		case SPIRAL_RIGHT:
-			UpdateSpiralBullet(false);
-		break;
-
-		case SPIRAL_LEFT:
-			UpdateSpiralBullet(false);
-		break;
-
-		case SPIRAL_DOUBLE:
-			UpdateSpiralBullet(true);
+		case SPIRAL_FOUR_WAY:
+			UpdateSpiralMultiBullet(NumOfSpiral);
 		break;
 
 		default:
@@ -71,7 +54,7 @@ void SpiralPattern::Update()
 	}
 }
 
-void SpiralPattern::Draw()
+void SpiralOneWayPattern::Draw()
 {
 	if (bDebug)
 	{
@@ -79,23 +62,15 @@ void SpiralPattern::Draw()
 		
 		switch (CurrentPattern)
 		{
-			case SPIRAL_RIGHT:
+			case SPIRAL_FOUR_WAY:
 				DrawDebugPoint();
-			break;
-
-			case SPIRAL_LEFT:
-				DrawDebugPoint();
-			break;
-
-			case SPIRAL_DOUBLE:
-				DrawDebugPoints(2);
 			break;
 
 			default:
 			break;
 		}
 
-		DrawText(SpiralPatternNames[CurrentPattern-3], 10, 60, 20, WHITE);
+		DrawText(SpiralOneWayPatternNames[CurrentPattern-20], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 	}
 
@@ -105,8 +80,7 @@ void SpiralPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
-
-void SpiralPattern::AddDebugSwitchPatternCode()
+void SpiralOneWayPattern::AddDebugSwitchPatternCode()
 {
 	if (!Bullet.empty() && bIsSpacePressed)
 		bIsInProgress = true;
@@ -118,8 +92,8 @@ void SpiralPattern::AddDebugSwitchPatternCode()
 	{
 		if (IsKeyPressed(KEY_LEFT))
 		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_RIGHT)
-				SetBulletPattern(static_cast<Pattern>(SPIRAL_DOUBLE));
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_FOUR_WAY)
+				SetBulletPattern(static_cast<Pattern>(SPIRAL_FOUR_WAY));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
 
@@ -128,8 +102,8 @@ void SpiralPattern::AddDebugSwitchPatternCode()
 
 		if (IsKeyPressed(KEY_RIGHT))
 		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > SPIRAL_DOUBLE)
-				SetBulletPattern(static_cast<Pattern>(SPIRAL_RIGHT));
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > SPIRAL_FOUR_WAY)
+				SetBulletPattern(static_cast<Pattern>(SPIRAL_FOUR_WAY));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
 
@@ -138,7 +112,7 @@ void SpiralPattern::AddDebugSwitchPatternCode()
 	}
 }
 
-void SpiralPattern::DrawDebugInfo()
+void SpiralOneWayPattern::DrawDebugInfo()
 {
 	DrawDebugPoints(NumOfSpiral);
 	DrawText(FormatText("Spirals: %0i", NumOfSpiral), 10, 120, 18, WHITE);

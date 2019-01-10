@@ -112,6 +112,7 @@
     <ClCompile Include="Source\Private\Star.cpp" />
     <ClCompile Include="Source\Private\SpiralPattern.cpp" />
     <ClCompile Include="Source\Private\SpiralMultiPattern.cpp" />
+    <ClCompile Include="Source\Private\SpiralOneWayPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\LinearMultiPattern.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Source\Public\State.h" />
     <ClInclude Include="Source\Public\SpiralPattern.h" />
     <ClInclude Include="Source\Public\SpiralMultiPattern.h" />
+    <ClInclude Include="Source\Public\SpiralOneWayPattern.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
