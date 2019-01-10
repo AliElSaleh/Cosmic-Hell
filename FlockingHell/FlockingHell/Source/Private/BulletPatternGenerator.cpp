@@ -7,262 +7,26 @@ BulletPatternGenerator::~BulletPatternGenerator() = default;
 
 void BulletPatternGenerator::Init()
 {
-
 }
 
 void BulletPatternGenerator::Update()
 {
-
 }
 
 void BulletPatternGenerator::Draw()
 {
-
 }
 
-void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
+void BulletPatternGenerator::Delay()
 {
-	if (Double)
-	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
-
-		if(!bIsSpacePressed)
-		{
-			for (int i = 0; i < 2; i++)
-			{
-				Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-				Bullet[i].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
-			}
-
-			for (int i = 0; i < NumOfBullets; i++)
-			{
-				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
-			}				
-		}
-		else
-		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
-		}
-	}
-	else
-	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
-
-		if (!bIsSpacePressed)
-			for (int i = 0; i < NumOfBullets; i++)
-			{
-				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
-				Points[0] = { Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD) };
-
-				Bullet[i].Location = { Points[0].x - BulletRadius, Points[0].y - BulletRadius };
-			}
-		else
-		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
-		}
-	}
 }
 
-void BulletPatternGenerator::UpdateSpiralMultiBullet()
+void BulletPatternGenerator::Resume()
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
-
-	if(!bIsSpacePressed)
-	{
-		int k = 0;
-		for (int i = 0; i < NumOfSpiral; i++)
-		{
-			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-
-			for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
-			{
-				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius}; // Spawn point
-
-				Bullet[j].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
-			}
-
-			k += NumOfBullets/NumOfSpiral;
-		}
-	}
-	else
-	{
-		StartShotRoutine();
-		CheckBulletOutsideWindow();
-	}
 }
 
-void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
+void BulletPatternGenerator::Pause()
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
-
-	if(!bIsSpacePressed)
-	{
-		if (NumOfWay == 5)
-			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
-		if (NumOfWay == 6)
-			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
-		else if (NumOfWay == 8)
-			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
-		else
-			Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
-
-		int k = 0;
-		for (int i = 0; i < NumOfWay; i++)
-		{
-			if (Aiming)
-				Angles[i] = Angle += Offset;
-		
-			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-			
-			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
-			{
-				// Update spawn point on circle
-				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
-				Bullet[j].Location = Points[i];
-			}
-			
-			k += NumOfBullets/NumOfWay;
-		}
-	}
-	else
-	{
-		StartShotRoutine();
-		CheckBulletOutsideWindow();
-	}
-}
-
-void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
-{
-	if (LockOn)
-	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
-
-		if(!bIsSpacePressed)
-		{
-			for (int i = 0; i < NumOfBullets; i++)
-			{
-				// Update bullet location to spawn location
-				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
-				Bullet[i].Location = Center;
-				
-				// Calculate direction to target
-				CalculateDirection(i, DummyLocation);
-			}
-		}
-		else
-		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
-		}
-	}
-	else
-	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
-
-		if (!bIsSpacePressed)
-			for (int i = 0; i < NumOfBullets; i++)
-			{
-				// Update bullet location to spawn location
-				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
-				Bullet[i].Location = Center;
-			}
-		else
-		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
-		}
-
-		// Calculate direction to target
-		for (int i = 0; i < NumOfBullets; i++)
-			CalculateDirection(i, DummyLocation);
-	}
-}
-
-void BulletPatternGenerator::AddDebugInitCode()
-{
-	if (bDebug)
-		DummyLocation = {500.0f, 600.0f};
-}
-
-void BulletPatternGenerator::AddDebugUpdateCode()
-{
-	if (bDebug)
-	{
-		// Add bullets to vector
-		if (IsKeyPressed(KEY_ENTER))
-			AddBullet();
-
-		// Move dummy
-		if (IsKeyDown(KEY_A))
-			DummyLocation.x -= DummySpeed * GetFrameTime();
-
-		if (IsKeyDown(KEY_D))
-			DummyLocation.x += DummySpeed * GetFrameTime();
-
-		if (IsKeyDown(KEY_S))
-			DummyLocation.y += DummySpeed * GetFrameTime();
-
-		if (IsKeyDown(KEY_W))
-			DummyLocation.y -= DummySpeed * GetFrameTime();
-	}
-}
-
-void BulletPatternGenerator::AddDebugSwitchPatternCode()
-{
-	if (!Bullet.empty() && bIsSpacePressed)
-		bIsInProgress = true;
-	else
-		bIsInProgress = false;
-
-	if (!bIsInProgress)
-	{
-		if (IsKeyPressed(KEY_LEFT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < 0)
-				SetBulletPattern(static_cast<Pattern>(SINE_WAVE_MULTI_WAY_AIMING));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
-
-			Init();
-		}
-
-		if (IsKeyPressed(KEY_RIGHT))
-		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > SINE_WAVE_MULTI_WAY_AIMING)
-				SetBulletPattern(static_cast<Pattern>(0));
-			else
-				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
-
-			Init();
-		}
-	}
-}
-
-void BulletPatternGenerator::DrawDebugPoints(const unsigned short Amount)
-{
-	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
-
-	for (int i = 0; i < Amount; i++)
-		DrawCircle(int(Points[i].x + BulletRadius), int(Points[i].y + BulletRadius), 2.0f, BLUE);
-}
-
-void BulletPatternGenerator::DrawDebugPoint() const
-{
-	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
-	DrawCircle(int(Points[0].x), int(Points[0].y), 2.0f, BLUE);
-}
-
-void BulletPatternGenerator::DrawDummy() const
-{
-	DrawTexture(DummySprite, int(DummyLocation.x), int(DummyLocation.y), WHITE);
 }
 
 void BulletPatternGenerator::CreateLinearPattern(const unsigned short AmountOfBullets, const float Speed)
@@ -422,16 +186,170 @@ void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short Amoun
 	BulletRadius = Bullet[0].Radius;
 }
 
-void BulletPatternGenerator::Delay()
+void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 {
+	if (LockOn)
+	{
+		if (IsKeyPressed(KEY_SPACE))
+			bIsSpacePressed = true;
+
+		if(!bIsSpacePressed)
+		{
+			for (int i = 0; i < NumOfBullets; i++)
+			{
+				// Update bullet location to spawn location
+				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+				Bullet[i].Location = Center;
+				
+				// Calculate direction to target
+				CalculateDirection(i, DummyLocation);
+			}
+		}
+		else
+		{
+			StartShotRoutine();
+			CheckBulletOutsideWindow();
+		}
+	}
+	else
+	{
+		if (IsKeyPressed(KEY_SPACE))
+			bIsSpacePressed = true;
+
+		if (!bIsSpacePressed)
+			for (int i = 0; i < NumOfBullets; i++)
+			{
+				// Update bullet location to spawn location
+				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
+				Bullet[i].Location = Center;
+			}
+		else
+		{
+			StartShotRoutine();
+			CheckBulletOutsideWindow();
+		}
+
+		// Calculate direction to target
+		for (int i = 0; i < NumOfBullets; i++)
+			CalculateDirection(i, DummyLocation);
+	}
 }
 
-void BulletPatternGenerator::Resume()
+void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 {
+	if (Double)
+	{
+		if (IsKeyPressed(KEY_SPACE))
+			bIsSpacePressed = true;
+
+		if(!bIsSpacePressed)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+				Bullet[i].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
+			}
+
+			for (int i = 0; i < NumOfBullets; i++)
+			{
+				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+			}				
+		}
+		else
+		{
+			StartShotRoutine();
+			CheckBulletOutsideWindow();
+		}
+	}
+	else
+	{
+		if (IsKeyPressed(KEY_SPACE))
+			bIsSpacePressed = true;
+
+		if (!bIsSpacePressed)
+			for (int i = 0; i < NumOfBullets; i++)
+			{
+				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
+				Points[0] = { Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD) };
+
+				Bullet[i].Location = { Points[0].x - BulletRadius, Points[0].y - BulletRadius };
+			}
+		else
+		{
+			StartShotRoutine();
+			CheckBulletOutsideWindow();
+		}
+	}
 }
 
-void BulletPatternGenerator::Pause()
+void BulletPatternGenerator::UpdateSpiralMultiBullet()
 {
+	if (IsKeyPressed(KEY_SPACE))
+		bIsSpacePressed = true;
+
+	if(!bIsSpacePressed)
+	{
+		int k = 0;
+		for (int i = 0; i < NumOfSpiral; i++)
+		{
+			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+
+			for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
+			{
+				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius}; // Spawn point
+
+				Bullet[j].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
+			}
+
+			k += NumOfBullets/NumOfSpiral;
+		}
+	}
+	else
+	{
+		StartShotRoutine();
+		CheckBulletOutsideWindow();
+	}
+}
+
+void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
+{
+	if (IsKeyPressed(KEY_SPACE))
+		bIsSpacePressed = true;
+
+	if(!bIsSpacePressed)
+	{
+		if (NumOfWay == 5)
+			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
+		if (NumOfWay == 6)
+			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
+		else if (NumOfWay == 8)
+			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
+		else
+			Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
+
+		int k = 0;
+		for (int i = 0; i < NumOfWay; i++)
+		{
+			if (Aiming)
+				Angles[i] = Angle += Offset;
+		
+			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+			
+			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
+			{
+				// Update spawn point on circle
+				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+				Bullet[j].Location = Points[i];
+			}
+			
+			k += NumOfBullets/NumOfWay;
+		}
+	}
+	else
+	{
+		StartShotRoutine();
+		CheckBulletOutsideWindow();
+	}
 }
 
 void BulletPatternGenerator::StartShotRoutine()
@@ -788,16 +706,88 @@ void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 	ApplyBulletMovement();
 }
 
-void BulletPatternGenerator::SetBulletPattern(const Pattern NewPattern)
+void BulletPatternGenerator::DrawDummy() const
 {
-	CurrentPattern = NewPattern;
+	DrawTexture(DummySprite, int(DummyLocation.x), int(DummyLocation.y), WHITE);
 }
 
-void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Target)
+void BulletPatternGenerator::DrawDebugPoint() const
 {
-	Bullet[i].Direction = Vector2Subtract(Center, Target);
-	Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
-	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
+	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
+	DrawCircle(int(Points[0].x), int(Points[0].y), 2.0f, BLUE);
+}
+
+void BulletPatternGenerator::DrawDebugPoints(const unsigned short Amount)
+{
+	DrawCircleLines(int(Center.x + BulletRadius), int(Center.y + BulletRadius), CircleRadius, WHITE);
+
+	for (int i = 0; i < Amount; i++)
+		DrawCircle(int(Points[i].x + BulletRadius), int(Points[i].y + BulletRadius), 2.0f, BLUE);
+}
+
+void BulletPatternGenerator::DrawDebugInfo()
+{
+}
+
+
+void BulletPatternGenerator::AddDebugInitCode()
+{
+	if (bDebug)
+		DummyLocation = {500.0f, 600.0f};
+}
+
+void BulletPatternGenerator::AddDebugUpdateCode()
+{
+	if (bDebug)
+	{
+		// Add bullets to vector
+		if (IsKeyPressed(KEY_ENTER))
+			AddBullet();
+
+		// Move dummy
+		if (IsKeyDown(KEY_A))
+			DummyLocation.x -= DummySpeed * GetFrameTime();
+
+		if (IsKeyDown(KEY_D))
+			DummyLocation.x += DummySpeed * GetFrameTime();
+
+		if (IsKeyDown(KEY_S))
+			DummyLocation.y += DummySpeed * GetFrameTime();
+
+		if (IsKeyDown(KEY_W))
+			DummyLocation.y -= DummySpeed * GetFrameTime();
+	}
+}
+
+void BulletPatternGenerator::AddDebugSwitchPatternCode()
+{
+	if (!Bullet.empty() && bIsSpacePressed)
+		bIsInProgress = true;
+	else
+		bIsInProgress = false;
+
+	if (!bIsInProgress)
+	{
+		if (IsKeyPressed(KEY_LEFT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < 0)
+				SetBulletPattern(static_cast<Pattern>(SINE_WAVE_MULTI_WAY_AIMING));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
+
+			Init();
+		}
+
+		if (IsKeyPressed(KEY_RIGHT))
+		{
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > SINE_WAVE_MULTI_WAY_AIMING)
+				SetBulletPattern(static_cast<Pattern>(0));
+			else
+				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
+
+			Init();
+		}
+	}
 }
 
 void BulletPatternGenerator::AddBullet()
@@ -834,6 +824,13 @@ void BulletPatternGenerator::ApplyBulletMovement()
 	}
 }
 
+void BulletPatternGenerator::CalculateDirection(const int i, const Vector2 Target)
+{
+	Bullet[i].Direction = Vector2Subtract(Center, Target);
+	Bullet[i].Direction = Vector2Normalize(Bullet[i].Direction);
+	Bullet[i].Direction = Vector2Negate(Bullet[i].Direction);
+}
+
 void BulletPatternGenerator::CheckBulletOutsideWindow()
 {
 	if (NumOfBullets > 0)
@@ -850,8 +847,9 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 		}
 }
 
-void BulletPatternGenerator::DrawDebugInfo()
+void BulletPatternGenerator::SetBulletPattern(const Pattern NewPattern)
 {
+	CurrentPattern = NewPattern;
 }
 
 void BulletPatternGenerator::SetDebug(const bool Condition)

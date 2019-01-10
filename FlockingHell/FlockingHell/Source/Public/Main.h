@@ -5,10 +5,6 @@
 #include "State.h"
 #include "Demon.h"
 #include "EnemyManager.h"
-#include "BulletPatternGenerator.h"
-#include "LinearPattern.h"
-#include "SpiralPattern.h"
-#include "LinearMultiPattern.h"
 #include "SpiralMultiPattern.h"
 
 
@@ -18,13 +14,9 @@
 struct Player Player;
 struct Star SmallStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
-//struct BulletPatternGenerator BulletPattern;
 
 template<typename PatternType>
 PatternType Pattern;
-
-struct LinearPattern LinearBullet;
-struct SpiralPattern SpiralBullet;
 
 // typedefs
 typedef SpiralMultiPattern BulletType;

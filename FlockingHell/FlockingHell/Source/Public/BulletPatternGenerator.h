@@ -57,8 +57,8 @@ struct BulletPatternGenerator
 	virtual void Pause();
 
 	void StartShotRoutine();
-	void SetBulletPattern(Pattern NewPattern);
 
+	void SetBulletPattern(Pattern NewPattern);
 	void SetDebug(bool Condition);
 
 	Texture2D BulletSprite{};
@@ -87,11 +87,6 @@ protected:
 
 	Pattern CurrentPattern{};
 
-	// Debug
-	void AddDebugInitCode();
-	void AddDebugUpdateCode();
-	virtual void AddDebugSwitchPatternCode();
-
 	// Pattern initialisations
 	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
 	void CreateSpiralPattern(bool Double, unsigned short AmountOfBullets, float Speed, float RotSpeed, float Radius);
@@ -108,8 +103,12 @@ protected:
 	void DrawDummy() const;
 	void DrawDebugPoint() const;
 	void DrawDebugPoints(unsigned short Amount);
-
 	virtual void DrawDebugInfo();
+
+	// Debug
+	void AddDebugInitCode();
+	void AddDebugUpdateCode();
+	virtual void AddDebugSwitchPatternCode();
 
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
