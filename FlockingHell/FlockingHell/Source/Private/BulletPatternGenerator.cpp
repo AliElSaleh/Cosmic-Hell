@@ -391,22 +391,19 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const unsigned short Amount
 
 	if(!bIsSpacePressed)
 	{
-		for (int i = 0; i < AmountOfSpirals; i++)
+		int l = 0;
+		for (int j = 0; j < NumOfWay; j++)
 		{
-			int l = 0;
-			for (int j = 0; j < NumOfWay; j++)
+			Points[j] = {Center.x + CircleRadius * cosf(Angles[j]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[j]*DEG2RAD)};
+			
+			for (int k = l; k < NumOfBullets/NumOfWay+l; k++)
 			{
-				Points[j] = {Center.x + CircleRadius * cosf(Angles[j]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[j]*DEG2RAD)};
-				
-				for (int k = l; k < NumOfBullets/NumOfWay+l; k++)
-				{
-					// Update spawn point on circle
-					Center = {GetMousePosition().x - Bullet[k].Radius, GetMousePosition().y - Bullet[k].Radius};
-					Bullet[k].Location = Points[j];
-				}
-				
-				l += NumOfBullets/NumOfWay;
+				// Update spawn point on circle
+				Center = {GetMousePosition().x - Bullet[k].Radius, GetMousePosition().y - Bullet[k].Radius};
+				Bullet[k].Location = Points[j];
 			}
+			
+			l += NumOfBullets/NumOfWay;
 		}
 	}
 	else
@@ -775,30 +772,25 @@ void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 void BulletPatternGenerator::UpdateSpiralMultiPattern(const unsigned short AmountOfSpirals)
 {
 	ShootRate += 4;
-	
+
 	Angle = Vector2Angle(Center, Points[0]);
 
-	// Rotate the spawn point on circle clockwise
-	for (int i = 0; i < AmountOfSpirals; i++)
+	for (int i = 0; i < NumOfWay; i++)
 	{
-		for (int j = 0; j < NumOfWay; j++)
+		for (int j = 0; j < NumOfBullets; j++)
 		{
-			for (int k = 0; k < NumOfBullets; k++)
+			if (!Bullet[j].bActive && ShootRate % 28 == 0)
 			{
-				if (!Bullet[k].bActive && ShootRate % 28 == 0)
-				{
-					Bullet[k].Location = Points[j];
-					Bullet[k].Damage = GetRandomValue(20, 40);
-					Bullet[k].bActive = true;
-					CalculateDirection(k, Points[j]);
-
-					break;
-				}
+				Bullet[j].Location = Points[i];
+				Bullet[j].Damage = GetRandomValue(20, 40);
+				Bullet[j].bActive = true;
+				CalculateDirection(j, Points[i]);
+				break;
 			}
-
-			Angles[j] += RotationSpeed * GetFrameTime();
-			Points[j] = {Center.x + CircleRadius * cosf(Angles[j]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[j]*DEG2RAD)};
 		}
+
+		Angles[i] += RotationSpeed * GetFrameTime();
+		Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 	}
 
 	ApplyBulletMovement();
