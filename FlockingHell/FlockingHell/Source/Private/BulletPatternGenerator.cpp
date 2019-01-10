@@ -186,15 +186,9 @@ void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short Amoun
 	BulletRadius = Bullet[0].Radius;
 }
 
-void BulletPatternGenerator::CreateSpiralMultiPattern(const unsigned short AmountOfBullets, unsigned short AmountOfSpirals, const unsigned short AmountOfWays, const float Speed, const float RotSpeed, const float Radius)
+void BulletPatternGenerator::CreateSpiralMultiPattern(const unsigned short AmountOfBullets, const unsigned short AmountOfWays, const float Speed, const float RotSpeed, const float Radius)
 {
-	if (AmountOfSpirals < 1)
-		AmountOfSpirals = 1;
-	else if (AmountOfSpirals > 8)
-		AmountOfSpirals = 8;
-
 	NumOfBullets = AmountOfBullets;
-	NumOfSpiral = AmountOfSpirals;
 	NumOfWay = AmountOfWays;
 	RotationSpeed = RotSpeed;
 	BulletSpeed = Speed;

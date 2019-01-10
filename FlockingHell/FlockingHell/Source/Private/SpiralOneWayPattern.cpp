@@ -30,7 +30,7 @@ void SpiralOneWayPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPIRAL_FOUR_WAY:
-			CreateSpiralMultiPattern(unsigned short(800), 1, 4, 150.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(unsigned short(800), 4, 250.0f, 300.0f, 20.0f);
 		break;
 
 		default:
