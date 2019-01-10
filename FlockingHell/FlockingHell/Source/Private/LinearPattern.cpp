@@ -60,17 +60,11 @@ void LinearPattern::Update()
 
 		case LINEAR_LOCK_ON:
 			UpdateLinearBullet(true);
-
 			AddDebugUpdateCode();
 		break;
 
 		case LINEAR_AIMING:
 			UpdateLinearBullet(false);
-
-			// Calculate direction to target
-			for (int i = 0; i < NumOfBullets; i++)
-				CalculateDirection(i, DummyLocation);
-
 			AddDebugUpdateCode();
 		break;
 

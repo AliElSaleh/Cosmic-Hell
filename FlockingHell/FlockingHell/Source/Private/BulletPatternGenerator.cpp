@@ -41,6 +41,8 @@ const char* PatternNames[] =
 	Stringify(SINE WAVE MULTI WAY AIMING)
 };
 
+BulletPatternGenerator::~BulletPatternGenerator() = default;
+
 void BulletPatternGenerator::Init()
 {
 	BulletSprite = GetAsset(RedBullet);
@@ -453,7 +455,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet()
 		else if (NumOfWay == 6)
 			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
 		else if (NumOfWay == 8)
-			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 65 for 8 way
+			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
 		else
 			Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
 
@@ -522,7 +524,11 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 		{
 			StartShotRoutine();
 			CheckBulletOutsideWindow();
-		}	
+		}
+
+		// Calculate direction to target
+		for (int i = 0; i < NumOfBullets; i++)
+			CalculateDirection(i, DummyLocation);
 	}
 }
 
