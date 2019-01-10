@@ -1,2 +1,40 @@
 This code makes the enemy shake violently, which can make a cool rage effect when low on health with lots of bullets spawning from enemy
 MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 200))});
+
+Bullet pattern names, so I don't have to manually type this thing
+#define Stringify(name) #name
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
+
+const char* PatternNames[] = 
+{
+	Stringify(LINEAR),
+	Stringify(LINEAR LOCK ON),
+	Stringify(LINEAR AIMING),
+	Stringify(SPIRAL RIGHT),
+	Stringify(SPIRAL LEFT),
+	Stringify(SPIRAL DOUBLE),
+	Stringify(SPIRAL MULTI RIGHT),
+	Stringify(SPIRAL MULTI LEFT),
+	Stringify(SPIRAL MULTI DOUBLE),
+	Stringify(SPIRAL MIX),
+	Stringify(FIVE WAY LINEAR),
+	Stringify(SIX WAY LINEAR),
+	Stringify(SEVEN WAY),
+	Stringify(EIGHT WAY LINEAR),
+	Stringify(ELEVEN WAY AIMING),
+	Stringify(TWENTY WAY),
+	Stringify(THIRTY WAY),
+	Stringify(SPIRAL FOUR WAY),
+	Stringify(SPIRAL MULTI FOUR WAY),
+	Stringify(SPREAD EIGHT WAY),
+	Stringify(SPREAD EIGHT WAY LOCK ON),
+	Stringify(CIRCLE),
+	Stringify(CIRCLE HOLE),
+	Stringify(CIRCLE HOLE LOCK ON),
+	Stringify(RANDOM),
+	Stringify(RANDOM AIMING),
+	Stringify(RANDOM SPIRAL),
+	Stringify(SINE WAVE MULTI WAY AIMING)
+};
