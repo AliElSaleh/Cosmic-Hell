@@ -27,7 +27,7 @@ struct LinearPattern LinearBullet;
 struct SpiralPattern SpiralBullet;
 
 // typedefs
-typedef SpiralMultiPattern BulletType;
+typedef LinearMultiPattern BulletType;
 
 // enums
 enum State GameState;

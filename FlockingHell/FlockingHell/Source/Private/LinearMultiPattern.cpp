@@ -4,9 +4,12 @@
 const char* LinearMultiPatternNames[]
 {
 	Stringify(FIVE WAY LINEAR),
+	Stringify(FIVE WAY LINEAR LOCK ON),
 	Stringify(SIX WAY LINEAR),
+	Stringify(SIX WAY LINEAR LOCK ON),
 	Stringify(SEVEN WAY),
 	Stringify(EIGHT WAY LINEAR),
+	Stringify(EIGHT WAY LINEAR LOCK ON),
 	Stringify(ELEVEN WAY AIMING),
 	Stringify(TWENTY WAY),
 	Stringify(THIRTY WAY)
@@ -38,8 +41,18 @@ void LinearMultiPattern::Init()
 			CreateLinearMultiPattern(100, 5, 300.0f, 1.0f);
 		break;
 
+		case FIVE_WAY_LINEAR_LOCK_ON:
+			CreateLinearMultiPattern(100, 5, 300.0f, 30.0f);
+			AddDebugInitCode();
+		break;
+
 		case SIX_WAY_LINEAR:
-			CreateLinearMultiPattern(100, 6, 300.0f, 1.0f);
+			CreateLinearMultiPattern(120, 6, 300.0f, 1.0f);
+		break;
+
+		case SIX_WAY_LINEAR_LOCK_ON:
+			CreateLinearMultiPattern(120, 6, 300.0f, 30.0f);
+			AddDebugInitCode();
 		break;
 
 		case SEVEN_WAY:
@@ -50,8 +63,13 @@ void LinearMultiPattern::Init()
 			CreateLinearMultiPattern(160, 8, 300.0f, 1.0f);
 		break;
 
+		case EIGHT_WAY_LINEAR_LOCK_ON:
+			CreateLinearMultiPattern(160, 8, 300.0f, 30.0f);
+			AddDebugInitCode();
+		break;
+
 		case ELEVEN_WAY_AIMING:
-			CreateLinearMultiPattern(242, 11, 300.0f, 1.0f);
+			CreateLinearMultiPattern(484, 11, 300.0f, 30.0f);
 			AddDebugInitCode();			
 		break;
 
@@ -76,32 +94,47 @@ void LinearMultiPattern::Update()
 	switch (CurrentPattern)
 	{
 		case FIVE_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
+		break;
+
+		case FIVE_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiBullet();
+			AddDebugUpdateCode();
 		break;
 
 		case SIX_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
+		break;
+
+		case SIX_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiBullet();
+			AddDebugUpdateCode();
 		break;
 
 		case SEVEN_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case EIGHT_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
+		break;
+
+		case EIGHT_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiBullet();
+			AddDebugUpdateCode();
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			UpdateLinearMultiBullet(true);
+			UpdateLinearMultiBullet();
 			AddDebugUpdateCode();
 		break;
 
 		case TWENTY_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case THIRTY_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		default:
@@ -121,7 +154,17 @@ void LinearMultiPattern::Draw()
 				DrawDebugInfo();
 			break;
 
+			case FIVE_WAY_LINEAR_LOCK_ON:
+				DrawDummy();
+				DrawDebugInfo();
+			break;
+
 			case SIX_WAY_LINEAR:
+				DrawDebugInfo();
+			break;
+
+			case SIX_WAY_LINEAR_LOCK_ON:
+				DrawDummy();
 				DrawDebugInfo();
 			break;
 
@@ -130,6 +173,11 @@ void LinearMultiPattern::Draw()
 			break;
 
 			case EIGHT_WAY_LINEAR:
+				DrawDebugInfo();
+			break;
+
+			case EIGHT_WAY_LINEAR_LOCK_ON:
+				DrawDummy();
 				DrawDebugInfo();
 			break;
 

@@ -98,7 +98,6 @@ void BulletPatternGenerator::Init()
 		break;
 
 		case SPIRAL_MIX:
-			//CreateSpiralMixPattern(true, 400, 4, 200.0f, 100.0f, 1.0f);
 		break;
 
 		case FIVE_WAY_LINEAR:
@@ -119,7 +118,6 @@ void BulletPatternGenerator::Init()
 
 		case ELEVEN_WAY_AIMING:
 			CreateLinearMultiPattern(242, 11, 300.0f, 1.0f);
-
 			AddDebugInitCode();
 		break;
 
@@ -225,37 +223,35 @@ void BulletPatternGenerator::Update()
 		break;
 		
 		case SPIRAL_MIX:
-			//UpdateSpiralMultiBullet();
 		break;
 
 		case FIVE_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case SIX_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case SEVEN_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case EIGHT_WAY_LINEAR:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case ELEVEN_WAY_AIMING:
-			UpdateLinearMultiBullet(true);
-
+			UpdateLinearMultiBullet();
 			AddDebugUpdateCode();
 		break;
 
 		case TWENTY_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case THIRTY_WAY:
-			UpdateLinearMultiBullet(false);
+			UpdateLinearMultiBullet();
 		break;
 
 		case SPIRAL_FOUR_WAY:
@@ -445,16 +441,27 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 	}
 }
 
-void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
+void BulletPatternGenerator::UpdateLinearMultiBullet()
 {
 	if (IsKeyPressed(KEY_SPACE))
 		bIsSpacePressed = true;
 
 	if(!bIsSpacePressed)
 	{
+		if (NumOfWay == 5)
+			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
+		else if (NumOfWay == 6)
+			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
+		else if (NumOfWay == 8)
+			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 65 for 8 way
+		else
+			Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
+
 		int k = 0;
 		for (int i = 0; i < NumOfWay; i++)
 		{
+			Angles[i] = Angle += Offset;
+		
 			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 			
 			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
@@ -462,14 +469,10 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 				// Update spawn point on circle
 				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
-
-				//if (Aiming)
-				//	Angles[i] = DummyLocation.x;
 			}
 			
 			k += NumOfBullets/NumOfWay;
 		}
-
 	}
 	else
 	{
@@ -737,7 +740,7 @@ void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short Amoun
 	for (int i = 0; i < NumOfBullets; i++)
 		Bullet.emplace_back(::Bullet());
 
-	float Offset = 90.0f/NumOfWay;
+	Offset = 90.0f/NumOfWay;
 	
 	if (NumOfWay == 7 || NumOfWay >= 30 || NumOfWay == 20)
 	{
@@ -746,7 +749,7 @@ void BulletPatternGenerator::CreateLinearMultiPattern(const unsigned short Amoun
 	}
 	else if (NumOfWay == 11)
 	{
-		Angle = 15.0f;
+		Angle = 15.0f; // Default: 15.0f
 		Offset = 140.0f/NumOfWay;
 	}
 	
@@ -819,7 +822,15 @@ void BulletPatternGenerator::StartShotRoutine()
 			UpdateLinearMultiPattern(false);
 		break;
 
+		case FIVE_WAY_LINEAR_LOCK_ON:
+			UpdateLinearMultiPattern(false);
+		break;
+
 		case SIX_WAY_LINEAR:
+			UpdateLinearMultiPattern(false);
+		break;
+
+		case SIX_WAY_LINEAR_LOCK_ON:
 			UpdateLinearMultiPattern(false);
 		break;
 
@@ -828,6 +839,10 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case EIGHT_WAY_LINEAR:
+			UpdateLinearMultiPattern(false);
+		break;
+
+		case EIGHT_WAY_LINEAR_LOCK_ON:
 			UpdateLinearMultiPattern(false);
 		break;
 
@@ -1087,6 +1102,8 @@ void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 {
 	ShootRate += 2;
 
+	Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15
+
 	for (int i = 0; i < NumOfWay; i++)
 	{
 		for (int j = 0; j < NumOfBullets; j++)
@@ -1097,9 +1114,14 @@ void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 				Bullet[j].Damage = GetRandomValue(20, 40);
 				Bullet[j].bActive = true;
 				CalculateDirection(j, Points[i]);
-
 				break;
 			}
+		}
+
+		if (Aiming)
+		{
+			Angles[i] = Angle += Offset;
+			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 		}
 	}
 

@@ -22,9 +22,12 @@ struct BulletPatternGenerator
 		SPIRAL_MULTI_DOUBLE,
 		SPIRAL_MIX,
 		FIVE_WAY_LINEAR,
+		FIVE_WAY_LINEAR_LOCK_ON,
 		SIX_WAY_LINEAR,
+		SIX_WAY_LINEAR_LOCK_ON,
 		SEVEN_WAY,
 		EIGHT_WAY_LINEAR,
+		EIGHT_WAY_LINEAR_LOCK_ON,
 		ELEVEN_WAY_AIMING,
 		TWENTY_WAY,
 		THIRTY_WAY,
@@ -76,6 +79,7 @@ struct BulletPatternGenerator
 	float CircleRadius{};
 	float Angle{0.0f}; // In Degrees
 	float DummySpeed{};
+	float Offset{};
 
 protected:
 	Pattern CurrentPattern{};
@@ -95,7 +99,7 @@ protected:
 	void UpdateLinearBullet(bool LockOn);
 	void UpdateSpiralBullet(bool Double);
 	void UpdateSpiralMultiBullet();
-	void UpdateLinearMultiBullet(bool Aiming);
+	void UpdateLinearMultiBullet();
 
 	// Draw functions
 	void DrawDummy() const;
