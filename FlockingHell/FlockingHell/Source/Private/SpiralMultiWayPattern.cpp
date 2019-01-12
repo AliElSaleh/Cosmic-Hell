@@ -33,23 +33,23 @@ void SpiralMultiWayPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPIRAL_MULTI_FOUR_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 4, 4, 250.0f, 300.0f, 50.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 4, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_FIVE_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 5, 4, 250.0f, 300.0f, 50.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 5, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SIX_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 6, 4, 250.0f, 300.0f, 50.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 6, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SEVEN_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 7, 4, 250.0f, 300.0f, 50.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 7, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_EIGHT_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 8, 4, 250.0f, 300.0f, 50.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 8, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		default:
@@ -121,7 +121,7 @@ void SpiralMultiWayPattern::Draw()
 			break;
 		}
 
-		DrawText(SpiralMultiWayPatternNames[CurrentPattern-21], 10, 60, 20, WHITE);
+		DrawText(SpiralMultiWayPatternNames[CurrentPattern-25], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 	}
 

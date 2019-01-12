@@ -21,7 +21,7 @@ template<typename PatternType>
 PatternType Pattern;
 
 // typedefs
-typedef SpiralOneWayPattern BulletType;
+typedef SpiralMultiWayPattern BulletType;
 
 // enums
 enum State GameState;

@@ -2,6 +2,8 @@
 
 #include "BulletPatternGenerator.h"
 #include "SpiralPattern.h"
+#include "SpiralMultiWayPattern.h"
+#include "SpiralOneWayPattern.h"
 
 #define Stringify(name) #name
 
@@ -21,6 +23,9 @@ struct SpiralMultiPattern : BulletPatternGenerator
 	void DrawDebugInfo() override;
 
 private:
-	struct SpiralPattern SpiralPattern;
+	typedef SpiralMultiWayPattern BulletType;
+
+	// For spiral mix pattern
+	BulletType SpiralPattern;
 };
 
