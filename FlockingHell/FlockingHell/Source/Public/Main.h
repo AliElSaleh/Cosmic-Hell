@@ -8,6 +8,7 @@
 #include "SpiralMultiPattern.h"
 #include "SpiralOneWayPattern.h"
 #include "SpiralMultiWayPattern.h"
+#include "Warship.h"
 
 
 // Variable Declarations
@@ -16,6 +17,7 @@
 struct Player Player;
 struct Star SmallStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
+struct Warship Warship;
 
 template<typename PatternType>
 PatternType Pattern;

@@ -17,6 +17,7 @@ void Assets::LoadSprites()
 	Load("RedBullet", "Sprites/RedBullet.png");
 	Load("Demon", "Sprites/Demon.png");
 	Load("Alien", "Sprites/Alien.png");
+	Load("Warship", "Sprites/Warship.png");
 }
 
 void Assets::UnloadSprites()
@@ -26,4 +27,5 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("RedBullet"));
 	UnloadTexture(GetSprite("Demon"));
 	UnloadTexture(GetSprite("Alien"));
+	UnloadTexture(GetSprite("Warship"));
 }
