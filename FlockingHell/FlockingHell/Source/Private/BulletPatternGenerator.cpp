@@ -232,12 +232,16 @@ void BulletPatternGenerator::CreateSpiralMultiPattern(const bool MultiWay, const
 	}
 	else
 	{
+		if (AmountOfSpirals < 1 || AmountOfSpirals > 1)
+			AmountOfSpirals = 1;
+
 		NumOfBullets = AmountOfBullets;
 		NumOfSpiral = AmountOfSpirals;
 		NumOfWay = AmountOfWays;
 		RotationSpeed = RotSpeed;
 		BulletSpeed = Speed;
 		CircleRadius = Radius;
+		Angle = 0.0f;
 
 		Bullet.reserve(NumOfBullets);
 		Points.reserve(NumOfWay);
@@ -565,6 +569,22 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case SPIRAL_FOUR_WAY:
+			UpdateSpiralMultiPattern(false);
+		break;
+
+		case SPIRAL_FIVE_WAY:
+			UpdateSpiralMultiPattern(false);
+		break;
+
+		case SPIRAL_SIX_WAY:
+			UpdateSpiralMultiPattern(false);
+		break;
+
+		case SPIRAL_SEVEN_WAY:
+			UpdateSpiralMultiPattern(false);
+		break;
+
+		case SPIRAL_EIGHT_WAY:
 			UpdateSpiralMultiPattern(false);
 		break;
 
