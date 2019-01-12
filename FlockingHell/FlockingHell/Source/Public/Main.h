@@ -7,6 +7,7 @@
 #include "EnemyManager.h"
 #include "SpiralMultiPattern.h"
 #include "SpiralOneWayPattern.h"
+#include "SpiralMultiWayPattern.h"
 
 
 // Variable Declarations
@@ -20,7 +21,7 @@ template<typename PatternType>
 PatternType Pattern;
 
 // typedefs
-typedef SpiralOneWayPattern BulletType;
+typedef SpiralMultiWayPattern BulletType;
 
 // enums
 enum State GameState;
