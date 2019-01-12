@@ -60,7 +60,7 @@ struct BulletPatternGenerator
 	virtual void Update();
 	virtual void Draw();
 
-	virtual void Delay();
+	virtual void Delay(unsigned short Seconds);
 	virtual void Resume();
 	virtual void Pause();
 
@@ -80,6 +80,7 @@ struct BulletPatternGenerator
 	unsigned short NumOfSpiral{};
 	unsigned short NumOfWay{};
 	unsigned short ShootRate{};
+	unsigned short FramesCounter{};
 
 	float BulletSpeed{};
 	float RotationSpeed{};
@@ -115,11 +116,14 @@ protected:
 	void DrawDebugPoints(unsigned short Amount);
 	virtual void DrawDebugInfo();
 
+	void CheckBulletOutsideWindow();
+
 	// Debug
 	void AddDebugInitCode();
 	void AddDebugUpdateCode();
 	virtual void AddDebugSwitchPatternCode();
 
+	bool bDelayed{};
 	bool bIsInProgress{};
 	bool bIsSpacePressed{};
 	bool bDebug{};
@@ -129,7 +133,6 @@ private:
 	void AddBullet();
 	void ApplyBulletMovement();
 	void CalculateDirection(int i, Vector2 Target);
-	void CheckBulletOutsideWindow();
 
 	// Bullet pattern updates
 	void UpdateLinearPattern();

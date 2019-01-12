@@ -131,12 +131,41 @@ void SpiralMultiWayPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
+void SpiralMultiWayPattern::Delay(const unsigned short Seconds)
+{
+	FramesCounter++;
+
+	if (!bDelayed)
+	{
+		if (Seconds == 0)
+			bDelayed = true;
+		else
+		{
+			if (((FramesCounter/(120*Seconds))%2) == 1)
+			{
+				StartShotRoutine();
+				CheckBulletOutsideWindow();
+				FramesCounter = 0;
+				bDelayed = true;
+			}	
+		}
+	}
+	else
+	{
+		StartShotRoutine();
+		CheckBulletOutsideWindow();
+	}
+}
+
 void SpiralMultiWayPattern::AddDebugSwitchPatternCode()
 {
 	if (!Bullet.empty() && bIsSpacePressed)
 		bIsInProgress = true;
 	else
+	{
 		bIsInProgress = false;
+		bDelayed= false;
+	}
 
 	// Switch bullet types with arrow keys when not firing/in progress
 	if (!bIsInProgress)

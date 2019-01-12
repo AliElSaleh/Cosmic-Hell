@@ -17,7 +17,7 @@ void BulletPatternGenerator::Draw()
 {
 }
 
-void BulletPatternGenerator::Delay()
+void BulletPatternGenerator::Delay(const unsigned short Seconds)
 {
 }
 
@@ -479,8 +479,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 	}
 	else
 	{
-		StartShotRoutine();
-		CheckBulletOutsideWindow();
+		Delay(0);
 	}
 }
 

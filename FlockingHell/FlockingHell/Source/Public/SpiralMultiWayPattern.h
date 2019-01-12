@@ -15,6 +15,8 @@ struct SpiralMultiWayPattern : BulletPatternGenerator
 	void Update() override;
 	void Draw() override;
 
+	void Delay(unsigned short Seconds) override;
+
 	void AddDebugSwitchPatternCode() override;
 	void DrawDebugInfo() override;
 };
