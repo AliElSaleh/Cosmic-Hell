@@ -190,8 +190,8 @@ void BulletPatternGenerator::CreateSpiralMultiPattern(const bool MultiWay, const
 {
 	if (MultiWay)
 	{
-		if (AmountOfSpirals < 4)
-			AmountOfSpirals = 4;
+		if (AmountOfSpirals < 3)
+			AmountOfSpirals = 3;
 		else if (AmountOfSpirals > 8)
 			AmountOfSpirals = 8;
 
@@ -260,6 +260,32 @@ void BulletPatternGenerator::CreateSpiralMultiPattern(const bool MultiWay, const
 
 		BulletRadius = Bullet[0].Radius;
 	}
+}
+
+void BulletPatternGenerator::CreateSpreadPattern(const unsigned short AmountOfBullets, const unsigned short AmountOfWays, const float Speed, const float Radius)
+{
+	NumOfBullets = AmountOfBullets;
+	NumOfWay = AmountOfWays;
+	BulletSpeed = Speed;
+	CircleRadius = Radius;
+	Angle = 45.0f;
+
+	Bullet.reserve(NumOfBullets);
+	Points.reserve(NumOfWay);
+	Angles.reserve(NumOfWay);
+
+	for (int i = 0; i < NumOfBullets; i++)
+		Bullet.emplace_back(::Bullet());
+
+	Offset = 90.0f/NumOfWay;
+
+	for (int i = 0; i < NumOfWay; i++)
+	{
+		Angles.emplace_back(Angle+=Offset);
+		Points.emplace_back(Vector2({Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)}));
+	}
+
+	BulletRadius = Bullet[0].Radius;
 }
 
 void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
@@ -483,6 +509,40 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 	}
 }
 
+void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
+{
+	if (IsKeyPressed(KEY_SPACE))
+		bIsSpacePressed = true;
+
+	if(!bIsSpacePressed)
+	{
+		if (LockOn)
+			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the starting angle 45
+
+		int k = 0;
+		for (int i = 0; i < NumOfWay; i++)
+		{		
+			if (LockOn)
+				Angles[i] = Angle += Offset;
+
+			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+			
+			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
+			{
+				// Update spawn point on circle
+				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+				Bullet[j].Location = Points[i];
+			}
+			
+			k += NumOfBullets/NumOfWay;
+		}
+	}
+	else
+	{
+		Delay(0);
+	}
+}
+
 void BulletPatternGenerator::StartShotRoutine()
 {
 	switch (CurrentPattern)
@@ -587,6 +647,10 @@ void BulletPatternGenerator::StartShotRoutine()
 			UpdateSpiralMultiPattern(false);
 		break;
 
+		case SPIRAL_MULTI_THREE_WAY:
+			UpdateSpiralMultiPattern(true);
+		break;
+
 		case SPIRAL_MULTI_FOUR_WAY:
 			UpdateSpiralMultiPattern(true);
 		break;
@@ -608,9 +672,11 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case SPREAD_EIGHT_WAY:
+			UpdateSpreadPattern();
 		break;
 
 		case SPREAD_EIGHT_WAY_LOCK_ON:
+			UpdateSpreadPattern();
 		break;
 
 		case CIRCLE:
@@ -925,6 +991,38 @@ void BulletPatternGenerator::UpdateSpiralMultiPattern(const bool MultiWay)
 			Angles[i] += RotationSpeed * GetFrameTime();
 			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 		}
+	}
+
+	ApplyBulletMovement();
+}
+
+void BulletPatternGenerator::UpdateSpreadPattern()
+{
+	ShootRate += 2;
+
+	//Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15
+
+	for (int i = 0; i < NumOfWay; i++)
+	{
+		for (int j = 0; j < NumOfBullets; j++)
+		{
+			if (!Bullet[j].bActive && ShootRate % 20 == 0)
+			{
+				Bullet[j].Location = Points[i];
+				Bullet[j].Damage = GetRandomValue(20, 40);
+				BulletSpeed += 1.5f;
+				Bullet[j].bActive = true;
+				CalculateDirection(j, Points[i]);
+				break;
+			}
+		}
+
+		//if (Aiming)
+		//{
+		//	Angles[i] = Angle += Offset;
+		//	Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
+		//}
+
 	}
 
 	ApplyBulletMovement();

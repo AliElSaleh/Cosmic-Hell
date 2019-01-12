@@ -4,6 +4,7 @@
 
 const char* SpiralMultiWayPatternNames[]
 {
+	Stringify(SPIRAL MULTI THREE WAY),
 	Stringify(SPIRAL MULTI FOUR WAY),
 	Stringify(SPIRAL MULTI FIVE WAY),
 	Stringify(SPIRAL MULTI SIX WAY),
@@ -32,20 +33,24 @@ void SpiralMultiWayPattern::Init()
 
 	switch (CurrentPattern)
 	{
+		case SPIRAL_MULTI_THREE_WAY:
+			CreateSpiralMultiPattern(true, unsigned short(600), 3, 4, 250.0f, 300.0f, 1.0f);
+		break;
+
 		case SPIRAL_MULTI_FOUR_WAY:
 			CreateSpiralMultiPattern(true, unsigned short(800), 4, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_FIVE_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 5, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(500), 5, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SIX_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 6, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(600), 6, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SEVEN_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 7, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(700), 7, 4, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_EIGHT_WAY:
@@ -64,6 +69,10 @@ void SpiralMultiWayPattern::Update()
 
 	switch (CurrentPattern)
 	{
+		case SPIRAL_MULTI_THREE_WAY:
+			UpdateSpiralMultiBullet(true);
+		break;
+
 		case SPIRAL_MULTI_FOUR_WAY:
 			UpdateSpiralMultiBullet(true);
 		break;
@@ -97,6 +106,10 @@ void SpiralMultiWayPattern::Draw()
 		
 		switch (CurrentPattern)
 		{
+			case SPIRAL_MULTI_THREE_WAY:
+				DrawDebugPoint();
+			break;
+
 			case SPIRAL_MULTI_FOUR_WAY:
 				DrawDebugPoint();
 			break;
@@ -172,7 +185,7 @@ void SpiralMultiWayPattern::AddDebugSwitchPatternCode()
 	{
 		if (IsKeyPressed(KEY_LEFT))
 		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_MULTI_FOUR_WAY)
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < SPIRAL_MULTI_THREE_WAY)
 				SetBulletPattern(static_cast<Pattern>(SPIRAL_MULTI_EIGHT_WAY));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
@@ -183,7 +196,7 @@ void SpiralMultiWayPattern::AddDebugSwitchPatternCode()
 		if (IsKeyPressed(KEY_RIGHT))
 		{
 			if (static_cast<Pattern>(int(CurrentPattern+1)) > SPIRAL_MULTI_EIGHT_WAY)
-				SetBulletPattern(static_cast<Pattern>(SPIRAL_MULTI_FOUR_WAY));
+				SetBulletPattern(static_cast<Pattern>(SPIRAL_MULTI_THREE_WAY));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
 
