@@ -11,7 +11,8 @@
 #include "SpiralMultiWayPattern.h"
 #include "CirclePattern.h"
 #include "RandomPattern.h"
-
+#include "LinearPattern.h"
+#include "LinearMultiPattern.h"
 // Variable Declarations
 //-----------------------------------------
 // Structs
@@ -25,7 +26,7 @@ template<typename PatternType>
 PatternType Pattern;
 
 // typedefs
-typedef RandomPattern BulletType;
+typedef SpiralMultiPattern BulletType;
 
 // enums
 enum State GameState;
