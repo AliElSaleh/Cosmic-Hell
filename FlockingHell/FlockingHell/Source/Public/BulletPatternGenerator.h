@@ -48,9 +48,10 @@ struct BulletPatternGenerator
 		CIRCLE_HOLE,
 		CIRCLE_HOLE_LOCK_ON,
 		RANDOM,
+		RANDOM_ALL_RANGE,
 		RANDOM_AIMING,
 		RANDOM_SPIRAL,
-		SINE_WAVE_MULTI_WAY_AIMING
+		RANDOM_SPIRAL_MULTI
 		// Possibility
 		// WAVING_FOUR_WAY
 		// WAVING_EIGHT_WAY (ALL ROUND THE CIRCLE)
@@ -105,6 +106,7 @@ protected:
 	void CreateSpiralMultiPattern(bool MultiWay, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, unsigned short AmountOfWays, float Speed, float RotSpeed, float Radius);
 	void CreateSpreadPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
 	void CreateCirclePattern(bool Hole, unsigned short AmountOfBullets, float Speed, float Radius);
+	void CreateRandomPattern(bool Spiral, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, float Speed, float RotSpeed, float Radius);
 
 	// Bullet updates
 	void UpdateLinearBullet(bool LockOn);
@@ -114,6 +116,7 @@ protected:
 	void UpdateSpiralMultiBullet(bool MultiWay);
 	void UpdateSpreadBullet(bool LockOn);
 	void UpdateCircleBullet(bool LockOn);
+	void UpdateRandomBullet(bool Spiral);
 
 	// Draw functions
 	void DrawDummy() const;
@@ -148,5 +151,6 @@ private:
 	void UpdateSpiralMultiPattern(bool MultiWay);
 	void UpdateSpreadPattern();
 	void UpdateCirclePattern();
+	void UpdateRandomPattern(bool AllRange, bool Aiming, bool Spiral);
 };
 

@@ -1,19 +1,21 @@
-#include "CirclePattern.h"
+#include "RandomPattern.h"
 #include "Assets.h"
 
-const char* CirclePatternNames[]
+const char* RandomPatternNames[]
 {
-	Stringify(CIRCLE),
-	Stringify(CIRCLE HOLE),
-	Stringify(CIRCLE HOLE LOCK ON)
+	Stringify(RANDOM),
+	Stringify(RANDOM ALL RANGE),
+	Stringify(RANDOM AIMING),
+	Stringify(RANDOM SPIRAL),
+	Stringify(RANDOM SPIRAL MULTI)
 };
 
-CirclePattern::CirclePattern()
+RandomPattern::RandomPattern()
 {
-	CirclePattern::Init();
+	RandomPattern::Init();
 }
 
-void CirclePattern::Init()
+void RandomPattern::Init()
 {
 	BulletSprite = GetAsset(RedBullet);
 	DummySprite = GetAsset(Alien);
@@ -30,17 +32,25 @@ void CirclePattern::Init()
 
 	switch (CurrentPattern)
 	{
-		case CIRCLE:
-			CreateCirclePattern(false, 40, 200.0f, 1.0f);
+		case RANDOM:
+			CreateRandomPattern(false, 100, 0, 200.0f, 0.0f, 0.0f);
 		break;
 
-		case CIRCLE_HOLE:
-			CreateCirclePattern(true, 50, 200.0f, 50.0f);
+		case RANDOM_ALL_RANGE:
+			CreateRandomPattern(false, 100, 0, 200.0f, 0.0f, 0.0f);
 		break;
 
-		case CIRCLE_HOLE_LOCK_ON:
-			CreateCirclePattern(true, 40, 200.0f, 50.0f);
+		case RANDOM_AIMING:
+			CreateRandomPattern(false, 100, 0,300.0f, 0.0f, 0.0f);
 			AddDebugInitCode();
+		break;
+
+		case RANDOM_SPIRAL:
+			CreateRandomPattern(true, 100, 1, 300.0f, 200.0f, 15.0f);
+		break;
+
+		case RANDOM_SPIRAL_MULTI:
+			CreateRandomPattern(true, 400, 4, 300.0f, 200.0f, 15.0f);
 		break;
 
 		default:
@@ -48,24 +58,32 @@ void CirclePattern::Init()
 	}
 }
 
-void CirclePattern::Update()
+void RandomPattern::Update()
 {
 	if (bDebug)
 		AddDebugSwitchPatternCode();
 
 	switch (CurrentPattern)
 	{
-		case CIRCLE:
-			UpdateCircleBullet(false);
+		case RANDOM:
+			UpdateRandomBullet(false);
 		break;
 
-		case CIRCLE_HOLE:
-			UpdateCircleBullet(false);
+		case RANDOM_ALL_RANGE:
+			UpdateRandomBullet(false);
 		break;
 
-		case CIRCLE_HOLE_LOCK_ON:
-			UpdateCircleBullet(true);
+		case RANDOM_AIMING:
+			UpdateRandomBullet(false);
 			AddDebugUpdateCode();
+		break;
+
+		case RANDOM_SPIRAL:
+			UpdateRandomBullet(true);
+		break;
+
+		case RANDOM_SPIRAL_MULTI:
+			UpdateRandomBullet(true);
 		break;
 
 		default:
@@ -73,24 +91,23 @@ void CirclePattern::Update()
 	}
 }
 
-void CirclePattern::Draw()
+void RandomPattern::Draw()
 {
 	if (bDebug)
 	{
 		DrawText("Switch patterns using the LEFT or RIGHT arrow keys", 10, 30, 16, WHITE);
-		
+
 		switch (CurrentPattern)
 		{
-			case CIRCLE:
-				DrawDebugInfo();
-			break;
-
-			case CIRCLE_HOLE:
-				DrawDebugInfo();
-			break;
-
-			case CIRCLE_HOLE_LOCK_ON:
+			case RANDOM_AIMING:
 				DrawDummy();
+			break;
+
+			case RANDOM_SPIRAL:
+				DrawDebugInfo();
+			break;
+
+			case RANDOM_SPIRAL_MULTI:
 				DrawDebugInfo();
 			break;
 
@@ -98,7 +115,7 @@ void CirclePattern::Draw()
 			break;
 		}
 		
-		DrawText(CirclePatternNames[CurrentPattern-33], 10, 60, 20, WHITE);
+		DrawText(RandomPatternNames[CurrentPattern-36], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 	}
 
@@ -108,7 +125,7 @@ void CirclePattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
-void CirclePattern::Delay(const unsigned short Seconds)
+void RandomPattern::Delay(const unsigned short Seconds)
 {
 	FramesCounter++;
 
@@ -134,7 +151,7 @@ void CirclePattern::Delay(const unsigned short Seconds)
 	}
 }
 
-void CirclePattern::AddDebugSwitchPatternCode()
+void RandomPattern::AddDebugSwitchPatternCode()
 {
 	if (!Bullet.empty() && bIsSpacePressed)
 		bIsInProgress = true;
@@ -149,8 +166,8 @@ void CirclePattern::AddDebugSwitchPatternCode()
 	{
 		if (IsKeyPressed(KEY_LEFT))
 		{
-			if (static_cast<Pattern>(int(CurrentPattern-1)) < CIRCLE)
-				SetBulletPattern(static_cast<Pattern>(CIRCLE_HOLE_LOCK_ON));
+			if (static_cast<Pattern>(int(CurrentPattern-1)) < RANDOM)
+				SetBulletPattern(static_cast<Pattern>(RANDOM_SPIRAL_MULTI));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern-1)));
 
@@ -159,8 +176,8 @@ void CirclePattern::AddDebugSwitchPatternCode()
 
 		if (IsKeyPressed(KEY_RIGHT))
 		{
-			if (static_cast<Pattern>(int(CurrentPattern+1)) > CIRCLE_HOLE_LOCK_ON)
-				SetBulletPattern(static_cast<Pattern>(CIRCLE));
+			if (static_cast<Pattern>(int(CurrentPattern+1)) > RANDOM_SPIRAL_MULTI)
+				SetBulletPattern(static_cast<Pattern>(RANDOM));
 			else
 				SetBulletPattern(static_cast<Pattern>(int(CurrentPattern+1)));
 
@@ -169,8 +186,9 @@ void CirclePattern::AddDebugSwitchPatternCode()
 	}
 }
 
-void CirclePattern::DrawDebugInfo()
+void RandomPattern::DrawDebugInfo()
 {
-	DrawDebugPoints(NumOfBullets);
-	DrawText(FormatText("Ways: %0i", NumOfBullets), 10, 120, 18, WHITE);
+	DrawDebugPoints(NumOfSpiral);
+	DrawText(FormatText("Spirals: %0i", NumOfSpiral), 10, 120, 18, WHITE);
+	DrawText(FormatText("Angle: %f", Angles[0]), 10, 140, 18, WHITE);
 }

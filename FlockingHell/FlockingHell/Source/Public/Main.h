@@ -10,7 +10,7 @@
 #include "SpiralOneWayPattern.h"
 #include "SpiralMultiWayPattern.h"
 #include "CirclePattern.h"
-
+#include "RandomPattern.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -25,7 +25,7 @@ template<typename PatternType>
 PatternType Pattern;
 
 // typedefs
-typedef CirclePattern BulletType;
+typedef RandomPattern BulletType;
 
 // enums
 enum State GameState;
