@@ -288,6 +288,34 @@ void BulletPatternGenerator::CreateSpreadPattern(const unsigned short AmountOfBu
 	BulletRadius = Bullet[0].Radius;
 }
 
+void BulletPatternGenerator::CreateCirclePattern(const bool Hole, const unsigned short AmountOfBullets, const float Speed, const float Radius)
+{
+	NumOfBullets = AmountOfBullets;
+	BulletSpeed = Speed;
+	CircleRadius = Radius;
+
+	Bullet.reserve(NumOfBullets);
+	Points.reserve(NumOfBullets);
+	Angles.reserve(NumOfBullets);
+	Angle = 90.0f;
+
+	for (int i = 0; i < NumOfBullets; i++)
+		Bullet.emplace_back(::Bullet());
+
+	if (Hole)
+		Offset = 360.0f/NumOfBullets - 0.3f;
+	else
+		Offset = 360.0f/NumOfBullets;
+
+	for (int i = 0; i < NumOfBullets; i++)
+	{
+		Angles.emplace_back(Angle+=Offset);
+		Points.emplace_back(Vector2({Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)}));
+	}
+
+	BulletRadius = Bullet[0].Radius;
+}
+
 void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 {
 	if (LockOn)
@@ -543,6 +571,34 @@ void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 	}
 }
 
+void BulletPatternGenerator::UpdateCircleBullet(const bool LockOn)
+{
+	if (IsKeyPressed(KEY_SPACE))
+		bIsSpacePressed = true;
+
+	if(!bIsSpacePressed)
+	{
+		if (LockOn)
+			Angle = Vector2Angle(Center, DummyLocation);
+
+		for (int j = 0; j < NumOfBullets; j++)
+		{
+			Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+
+			if (LockOn)
+				Angles[j] = Angle += Offset;
+
+			// Update spawn point on circle
+			Points[j] = {Center.x + CircleRadius * cosf(Angles[j]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[j]*DEG2RAD)};
+			Bullet[j].Location = Points[j];
+		}
+	}
+	else
+	{
+		Delay(0);
+	}
+}
+
 void BulletPatternGenerator::StartShotRoutine()
 {
 	switch (CurrentPattern)
@@ -680,12 +736,15 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case CIRCLE:
+			UpdateCirclePattern();
 		break;
 
 		case CIRCLE_HOLE:
+			UpdateCirclePattern();
 		break;
 
 		case CIRCLE_HOLE_LOCK_ON:
+			UpdateCirclePattern();
 		break;
 
 		case RANDOM:
@@ -1000,8 +1059,6 @@ void BulletPatternGenerator::UpdateSpreadPattern()
 {
 	ShootRate += 2;
 
-	//Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15
-
 	for (int i = 0; i < NumOfWay; i++)
 	{
 		for (int j = 0; j < NumOfBullets; j++)
@@ -1016,15 +1073,13 @@ void BulletPatternGenerator::UpdateSpreadPattern()
 				break;
 			}
 		}
-
-		//if (Aiming)
-		//{
-		//	Angles[i] = Angle += Offset;
-		//	Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
-		//}
-
 	}
 
+	ApplyBulletMovement();
+}
+
+void BulletPatternGenerator::UpdateCirclePattern()
+{
 	ApplyBulletMovement();
 }
 
@@ -1137,6 +1192,12 @@ void BulletPatternGenerator::ApplyBulletMovement()
 {
 	for (int i = 0; i < NumOfBullets; i++)
 	{
+		if (!Bullet[i].bActive)
+		{
+			CalculateDirection(i, Points[i]);
+			Bullet[i].bActive = true;
+		}
+
 		if (Bullet[i].bActive)
 		{
 			// Bullet movement

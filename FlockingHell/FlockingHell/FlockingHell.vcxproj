@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\CirclePattern.cpp" />
     <ClCompile Include="Source\Private\LinearMultiPattern.cpp" />
     <ClCompile Include="Source\Private\LinearPattern.cpp" />
     <ClCompile Include="Source\Private\EnemyManager.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\CirclePattern.h" />
     <ClInclude Include="Source\Public\LinearMultiPattern.h" />
     <ClInclude Include="Source\Public\LinearPattern.h" />
     <ClInclude Include="Source\Public\EnemyManager.h" />

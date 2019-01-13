@@ -104,6 +104,7 @@ protected:
 	void CreateLinearMultiPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
 	void CreateSpiralMultiPattern(bool MultiWay, unsigned short AmountOfBullets, unsigned short AmountOfSpirals, unsigned short AmountOfWays, float Speed, float RotSpeed, float Radius);
 	void CreateSpreadPattern(unsigned short AmountOfBullets, unsigned short AmountOfWays, float Speed, float Radius);
+	void CreateCirclePattern(bool Hole, unsigned short AmountOfBullets, float Speed, float Radius);
 
 	// Bullet updates
 	void UpdateLinearBullet(bool LockOn);
@@ -112,6 +113,7 @@ protected:
 	void UpdateLinearMultiBullet(bool Aiming);
 	void UpdateSpiralMultiBullet(bool MultiWay);
 	void UpdateSpreadBullet(bool LockOn);
+	void UpdateCircleBullet(bool LockOn);
 
 	// Draw functions
 	void DrawDummy() const;
@@ -145,5 +147,6 @@ private:
 	void UpdateLinearMultiPattern(bool Aiming);
 	void UpdateSpiralMultiPattern(bool MultiWay);
 	void UpdateSpreadPattern();
+	void UpdateCirclePattern();
 };
 
