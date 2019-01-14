@@ -25,21 +25,21 @@ void CirclePattern::Init()
 
 	ShootRate = 0;
 	DummySpeed = 200.0f;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
 	{
 		case CIRCLE:
-			CreateCirclePattern(false, 40, 200.0f, 1.0f);
+			CreateCirclePattern(false, 50, 200.0f, 1.0f);
 		break;
 
 		case CIRCLE_HOLE:
-			CreateCirclePattern(true, 50, 200.0f, 50.0f);
+			CreateCirclePattern(true, 50, 200.0f, 1.0f);
 		break;
 
 		case CIRCLE_HOLE_LOCK_ON:
-			CreateCirclePattern(true, 40, 200.0f, 50.0f);
+			CreateCirclePattern(true, 40, 200.0f, 1.0f);
 			AddDebugInitCode();
 		break;
 
@@ -105,10 +105,11 @@ void CirclePattern::Draw()
 	// Bullets
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
-			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+			if(Bullet[i].bActive)
+				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
-void CirclePattern::Delay(const unsigned short Seconds)
+void CirclePattern::Delay(const float Seconds)
 {
 	FramesCounter++;
 
@@ -118,7 +119,7 @@ void CirclePattern::Delay(const unsigned short Seconds)
 			bDelayed = true;
 		else
 		{
-			if (((FramesCounter/(120*Seconds))%2) == 1)
+			if (((FramesCounter/(120*Seconds))/2) == 1)
 			{
 				StartShotRoutine();
 				CheckBulletOutsideWindow();
@@ -136,7 +137,7 @@ void CirclePattern::Delay(const unsigned short Seconds)
 
 void CirclePattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 	{

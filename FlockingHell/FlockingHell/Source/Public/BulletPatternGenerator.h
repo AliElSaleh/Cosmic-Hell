@@ -62,13 +62,14 @@ struct BulletPatternGenerator
 	virtual void Update();
 	virtual void Draw();
 
-	virtual void Delay(unsigned short Seconds);
+	virtual void Delay(float Seconds);
 	virtual void Resume();
 	virtual void Pause();
 
 	void StartShotRoutine();
 
 	void SetBulletPattern(Pattern NewPattern);
+	void SetDelayAmount(float Seconds);
 	void SetDebug(bool Condition);
 
 	Texture2D BulletSprite{};
@@ -92,11 +93,16 @@ struct BulletPatternGenerator
 	float DummySpeed{};
 	float Offset{};
 
-protected:	
 	Vector2 Center{}; // The spawn location
-	Vector2 DummyLocation{};
+	struct Enemy *Enemy;
 
+	bool bRelease{};
+
+protected:	
+	Vector2 DummyLocation{};
 	Pattern CurrentPattern{};
+
+	float DelayAmount{};
 
 	// Pattern initialisations
 	void CreateLinearPattern(unsigned short AmountOfBullets, float Speed);
@@ -133,7 +139,6 @@ protected:
 
 	bool bDelayed{};
 	bool bIsInProgress{};
-	bool bIsSpacePressed{};
 	bool bDebug{};
 
 private:

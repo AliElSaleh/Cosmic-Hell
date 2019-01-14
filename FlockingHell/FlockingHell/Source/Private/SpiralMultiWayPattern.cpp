@@ -28,7 +28,7 @@ void SpiralMultiWayPattern::Init()
 	Points.clear();
 
 	ShootRate = 0;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
@@ -144,7 +144,7 @@ void SpiralMultiWayPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
-void SpiralMultiWayPattern::Delay(const unsigned short Seconds)
+void SpiralMultiWayPattern::Delay(const float Seconds)
 {
 	FramesCounter++;
 
@@ -154,7 +154,7 @@ void SpiralMultiWayPattern::Delay(const unsigned short Seconds)
 			bDelayed = true;
 		else
 		{
-			if (((FramesCounter/(120*Seconds))%2) == 1)
+			if (((FramesCounter/(120*Seconds))/2) == 1)
 			{
 				StartShotRoutine();
 				CheckBulletOutsideWindow();
@@ -172,7 +172,7 @@ void SpiralMultiWayPattern::Delay(const unsigned short Seconds)
 
 void SpiralMultiWayPattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 	{

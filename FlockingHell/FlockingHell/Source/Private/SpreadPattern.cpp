@@ -24,7 +24,7 @@ void SpreadPattern::Init()
 
 	ShootRate = 0;
 	DummySpeed = 200.0f;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
@@ -95,7 +95,7 @@ void SpreadPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
-void SpreadPattern::Delay(const unsigned short Seconds)
+void SpreadPattern::Delay(const float Seconds)
 {
 	FramesCounter++;
 
@@ -105,7 +105,7 @@ void SpreadPattern::Delay(const unsigned short Seconds)
 			bDelayed = true;
 		else
 		{
-			if (((FramesCounter/(120*Seconds))%2) == 1)
+			if (((FramesCounter/(120*Seconds))/2) == 1)
 			{
 				StartShotRoutine();
 				CheckBulletOutsideWindow();
@@ -123,7 +123,7 @@ void SpreadPattern::Delay(const unsigned short Seconds)
 
 void SpreadPattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 	{

@@ -23,7 +23,7 @@ void LinearPattern::Init()
 	
 	ShootRate = 0;
 	DummySpeed = 200.0f;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
@@ -105,7 +105,7 @@ void LinearPattern::Draw()
 
 void LinearPattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 		bIsInProgress = false;

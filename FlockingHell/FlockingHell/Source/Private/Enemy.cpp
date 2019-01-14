@@ -37,8 +37,6 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	DrawCircle(int(Location.x), int(Location.y), 50.0f, WHITE);
-
 	if (bActive && !bIsDead)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 
@@ -106,6 +104,11 @@ void Enemy::StartMoving()
 void Enemy::StopMoving()
 {
 	Speed = 0.0f;
+}
+
+bool Enemy::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
+{
+	return false;
 }
 
 bool Enemy::IsLowHealth() const

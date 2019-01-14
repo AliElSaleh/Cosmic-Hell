@@ -28,7 +28,7 @@ void SpiralOneWayPattern::Init()
 
 	ShootRate = 0;
 	DummySpeed = 200.0f;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
@@ -134,7 +134,7 @@ void SpiralOneWayPattern::Draw()
 
 void SpiralOneWayPattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 		bIsInProgress = false;

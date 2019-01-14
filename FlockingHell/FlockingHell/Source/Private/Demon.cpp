@@ -1,3 +1,4 @@
+#include "BulletPatternGenerator.h"
 #include "Demon.h"
 #include "Player.h"
 #include "Assets.h"
@@ -34,55 +35,64 @@ void Demon::Init()
 	DemonFrameRec.height = float(Sprite.height);
 
 
+	for (int i = 0; i < 5; i++)
+	{
+		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE);
+		CircleBullet[i].SetDelayAmount(i*0.2f);
+		CircleBullet[i].Enemy = this;
+		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		CircleBullet[i].Init();
+	}
+
 	// Bullet wave setup
-	for (int i = 0; i < MAX_PULSE_BULLETS; i++)
-	{
-		PulseBullet.Bullet[i].Sprite = BulletSprite;
-		PulseBullet.Bullet[i].Player = Player;
-		PulseBullet2ndWave.Bullet[i].Sprite = BulletSprite; // Probably use a different bullet sprite for each wave
-		PulseBullet2ndWave.Bullet[i].Player = Player;
-		PulseBullet2ndWave.Bullet[i].Speed = 400.0f; // Probably use a different bullet sprite for each wave
-		PulseBullet3rdWave.Bullet[i].Sprite = BulletSprite;
-		PulseBullet3rdWave.Bullet[i].Player = Player;
-		PulseBullet3rdWave.Bullet[i].Speed = 400.0f;
+	//for (int i = 0; i < MAX_PULSE_BULLETS; i++)
+	//{
+	//	PulseBullet.Bullet[i].Sprite = BulletSprite;
+	//	PulseBullet.Bullet[i].Player = Player;
+	//	PulseBullet2ndWave.Bullet[i].Sprite = BulletSprite; // Probably use a different bullet sprite for each wave
+	//	PulseBullet2ndWave.Bullet[i].Player = Player;
+	//	PulseBullet2ndWave.Bullet[i].Speed = 400.0f; // Probably use a different bullet sprite for each wave
+	//	PulseBullet3rdWave.Bullet[i].Sprite = BulletSprite;
+	//	PulseBullet3rdWave.Bullet[i].Player = Player;
+	//	PulseBullet3rdWave.Bullet[i].Speed = 400.0f;
+	//
+	//	for (int j = 0; j < MAX_DEMON_RAGE_BULLETS; j++)
+	//	{
+	//		BulletRage[j].Bullet[i].Sprite = BulletSprite;
+	//		BulletRage[j].Bullet[i].Player = Player;
+	//		BulletRage[j].Bullet[i].Speed = 300.0f;
+	//	}
+	//}
+	//
+	//PulseBullet.SetBulletType(PulseBullet::MULTILOOP);
+	//PulseBullet.AmountToSpawn = 30;
+	//PulseBullet.CircleRadius = 20.0f;
+	//PulseBullet.Init();
+	//
+	//PulseBullet2ndWave.SetBulletType(PulseBullet::PULSE);
+	//PulseBullet2ndWave.AmountToSpawn = 70;
+	//PulseBullet2ndWave.CircleRadius = 30.0f;
+	//PulseBullet2ndWave.Init();
+	//
+	//PulseBullet3rdWave.SetBulletType(PulseBullet::ONELOOP);
+	//PulseBullet3rdWave.AmountToSpawn = 80;
+	//PulseBullet3rdWave.CircleRadius = 30.0f;
+	//PulseBullet3rdWave.Init();
 
-		for (int j = 0; j < MAX_DEMON_RAGE_BULLETS; j++)
-		{
-			BulletRage[j].Bullet[i].Sprite = BulletSprite;
-			BulletRage[j].Bullet[i].Player = Player;
-			BulletRage[j].Bullet[i].Speed = 300.0f;
-		}
-	}
-	
-	PulseBullet.SetBulletType(PulseBullet::MULTILOOP);
-	PulseBullet.AmountToSpawn = 30;
-	PulseBullet.CircleRadius = 20.0f;
-	PulseBullet.Init();
 
-	PulseBullet2ndWave.SetBulletType(PulseBullet::PULSE);
-	PulseBullet2ndWave.AmountToSpawn = 70;
-	PulseBullet2ndWave.CircleRadius = 30.0f;
-	PulseBullet2ndWave.Init();
-
-	PulseBullet3rdWave.SetBulletType(PulseBullet::ONELOOP);
-	PulseBullet3rdWave.AmountToSpawn = 80;
-	PulseBullet3rdWave.CircleRadius = 30.0f;
-	PulseBullet3rdWave.Init();
-
-
-	// Bullet rage setup
-	for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
-	{
-		BulletRage[i].SetBulletType(PulseBullet::RAGE);
-		BulletRage[i].AmountToSpawn = 60;
-		BulletRage[i].CircleRadius = 20.0f;
-		BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
-		
-		for (int j = 0; j < MAX_PULSE_BULLETS; j++)
-			BulletRage[i].Bullet[j].Player = Player;
-		
-		BulletRage[i].Init();
-	}
+	//// Bullet rage setup
+	//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+	//{
+	//	BulletRage[i].SetBulletType(PulseBullet::RAGE);
+	//	BulletRage[i].AmountToSpawn = 60;
+	//	BulletRage[i].CircleRadius = 20.0f;
+	//	BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
+	//	
+	//	for (int j = 0; j < MAX_PULSE_BULLETS; j++)
+	//		BulletRage[i].Bullet[j].Player = Player;
+	//	
+	//	BulletRage[i].Init();
+	//}
 
 	BulletWave = FIRST;
 
@@ -110,6 +120,8 @@ void Demon::Update()
 		Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
 
+		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
+
 		UpdateDemonAnimation();
 	}
 
@@ -118,8 +130,6 @@ void Demon::Update()
 	CheckCollisionWithPlayer();
 	CheckCollisionWithPlayerBullets();
 	CheckHealth();
-
-	IsAtLocation(Destination);
 }
 
 void Demon::Draw()
@@ -131,14 +141,31 @@ void Demon::Draw()
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
 		DrawText(FormatText("X: %01i", Direction.x), 10, 100, 18, WHITE);
+		DrawCircle(SpawnLocation.x, SpawnLocation.y, 5.0f, WHITE);
 	}
 
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTextureRec(Sprite, DemonFrameRec, Location, WHITE);  // Draw part of the demon texture
+
+	//DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 	
 	DrawBullet();
 
+}
+
+bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
+{
+	if (BulletPattern.Bullet.empty())
+	{
+		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
+		StartMoving();
+		bIsDestinationSet = true;
+	}
+	else
+		bIsDestinationSet = false;
+
+	return bIsDestinationSet;
 }
 
 void Demon::UpdateBullet()
@@ -146,86 +173,97 @@ void Demon::UpdateBullet()
 	switch (BulletWave)
 	{
 		case FIRST:
-			if (IsAtLocation(Destination)) // If enemy has set a new location to go to
-				PulseBullet.bRelease = true;
+			FramesCounter++;
 
-			PulseBullet.SpawnLocation = {Hitbox.x, Hitbox.y};
-			PulseBullet.Update();
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+				
+				for (int i = 0; i < 5; i++)
+					CircleBullet[i].bRelease = true;
+			}
 
-			if (PulseBullet.IsOutsideWindow())
+			for (int i = 0; i < 5; i++)
+				CircleBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(CircleBullet[4])))
 				BulletWave = SECOND;
 		break;
 
 		case SECOND:
 			FramesCounter++;
+
+			IsAtLocation(Destination);
 			
-			PulseBullet2ndWave.SpawnLocation = {Hitbox.x, Hitbox.y};
-
-			if (((FramesCounter/12)%2) == 1) // 0.125 second
-			{
-				PulseBullet2ndWave.ReleaseAmount += ShootRate;
-				PulseBullet2ndWave.bRelease = true;
-				FramesCounter = 0;
-				StopMoving();
-			}
-
-			// To prevent game from crashing/accessing null memory
-			if (PulseBullet2ndWave.ReleaseAmount > PulseBullet2ndWave.AmountToSpawn)
-			{
-				PulseBullet2ndWave.ReleaseAmount = PulseBullet2ndWave.AmountToSpawn;
-				StartMoving();
-			}
-
-			PulseBullet2ndWave.Update();
-
-			if (PulseBullet2ndWave.IsOutsideWindow())
-			{
-				BulletWave = THIRD;
-				FramesCounter = 0;
-			}
+			//PulseBullet2ndWave.SpawnLocation = {Hitbox.x, Hitbox.y};
+			//
+			//if (((FramesCounter/12)%2) == 1) // 0.125 second
+			//{
+			//	PulseBullet2ndWave.ReleaseAmount += ShootRate;
+			//	PulseBullet2ndWave.bRelease = true;
+			//	FramesCounter = 0;
+			//	StopMoving();
+			//}
+			//
+			//// To prevent game from crashing/accessing null memory
+			//if (PulseBullet2ndWave.ReleaseAmount > PulseBullet2ndWave.AmountToSpawn)
+			//{
+			//	PulseBullet2ndWave.ReleaseAmount = PulseBullet2ndWave.AmountToSpawn;
+			//	StartMoving();
+			//}
+			//
+			//PulseBullet2ndWave.Update();
+			//
+			//if (PulseBullet2ndWave.IsOutsideWindow())
+			//{
+			//	BulletWave = THIRD;
+			//	FramesCounter = 0;
+			//}
 		break;
 
 		case THIRD:
 			FramesCounter++;
 			
-			PulseBullet3rdWave.SpawnLocation = {Hitbox.x, Hitbox.y};
-
-			if (((FramesCounter/15)%2) == 1) // 0.125 second
-			{
-				PulseBullet3rdWave.ReleaseAmount += ShootRate;
-				PulseBullet3rdWave.bRelease = true;
-				FramesCounter = 0;
-				StopMoving();
-			}
-
-			// To prevent game from crashing/accessing null memory
-			if (PulseBullet3rdWave.ReleaseAmount > PulseBullet3rdWave.AmountToSpawn)
-			{
-				PulseBullet3rdWave.ReleaseAmount = PulseBullet3rdWave.AmountToSpawn;
-				StartMoving();			
-			}
-
-			PulseBullet3rdWave.Update();
+			//PulseBullet3rdWave.SpawnLocation = {Hitbox.x, Hitbox.y};
+			//
+			//if (((FramesCounter/15)%2) == 1) // 0.125 second
+			//{
+			//	PulseBullet3rdWave.ReleaseAmount += ShootRate;
+			//	PulseBullet3rdWave.bRelease = true;
+			//	FramesCounter = 0;
+			//	StopMoving();
+			//}
+			//
+			//// To prevent game from crashing/accessing null memory
+			//if (PulseBullet3rdWave.ReleaseAmount > PulseBullet3rdWave.AmountToSpawn)
+			//{
+			//	PulseBullet3rdWave.ReleaseAmount = PulseBullet3rdWave.AmountToSpawn;
+			//	StartMoving();			
+			//}
+			//
+			//PulseBullet3rdWave.Update();
 		break;
 
 		case RAGE:
 			FramesCounter++;
 			
-			for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
-			{
-				BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
-
-				if (((FramesCounter/40)%2) == 1 && !BulletRage[i].bRelease) // 0.3 second
-				{
-					BulletRage[i].bRelease = true;
-					FramesCounter = 0;
-				}
-			
-				BulletRage[i].Update();
-
-				if (!bIsDead)
-					BulletRage[i].CheckBulletWindowCollision();
-			}
+			//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+			//{
+			//	BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
+			//
+			//	if (((FramesCounter/40)%2) == 1 && !BulletRage[i].bRelease) // 0.3 second
+			//	{
+			//		BulletRage[i].bRelease = true;
+			//		FramesCounter = 0;
+			//	}
+			//
+			//	BulletRage[i].Update();
+			//
+			//	if (!bIsDead)
+			//		BulletRage[i].CheckBulletWindowCollision();
+			//}
 		break;
 
 		default:
@@ -265,32 +303,32 @@ void Demon::UpdateDemonAnimation()
 	}
 }
 
-void Demon::DrawBullet() const
+void Demon::DrawBullet()
 {
 	switch (BulletWave)
 	{
 		case FIRST:
 			DrawText("First WAVE", 10, 50, 20, WHITE);
 
-			if (PulseBullet.bRelease) // If enemy has a new location to go to
-				PulseBullet.Draw();
+			for (int i = 0; i < 5; i++)
+				CircleBullet[i].Draw();
 		break;
 
 		case SECOND:
 			DrawText("Second WAVE", 10, 50, 20, WHITE);
 
-			PulseBullet2ndWave.Draw();
+			//PulseBullet2ndWave.Draw();
 		break;
 
 		case THIRD:
 			DrawText("Third WAVE", 10, 50, 20, WHITE);
 
-			PulseBullet3rdWave.Draw();
+			//PulseBullet3rdWave.Draw();
 		break;
 
 		case RAGE:
-			for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
-				BulletRage[i].Draw();
+			//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+			//	BulletRage[i].Draw();
 		break;
 
 		default:
@@ -328,22 +366,16 @@ void Demon::CheckHealth()
 	}
 }
 
-bool Demon::IsAtLocation(const Vector2 & GoalLocation)
+bool Demon::IsAtLocation(const Vector2 &GoalLocation)
 {
 	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE) // Is at the goal location?
 	{
-		bIsDestinationSet = false;
-
-		if (!bIsDestinationSet)
-		{
-			SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
-			bIsDestinationSet = true;
-		}
+		bIsAtLocation = true;
 	}
 	else
-		bIsDestinationSet = false;
+		bIsAtLocation = false;
 
-	return bIsDestinationSet;
+	return bIsAtLocation;
 }
 
 bool Demon::IsLowHealth() const

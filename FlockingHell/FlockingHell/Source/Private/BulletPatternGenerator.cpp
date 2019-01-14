@@ -1,5 +1,6 @@
 #include "BulletPatternGenerator.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 #include <raymath.h>
 
@@ -17,7 +18,7 @@ void BulletPatternGenerator::Draw()
 {
 }
 
-void BulletPatternGenerator::Delay(const unsigned short Seconds)
+void BulletPatternGenerator::Delay(const float Seconds)
 {
 }
 
@@ -354,15 +355,15 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 {
 	if (LockOn)
 	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
+		if (Enemy->IsAtLocation(Enemy->Destination))
+			bRelease = true;
 
-		if(!bIsSpacePressed)
+		if(!bRelease)
 		{
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
 				Bullet[i].Location = Center;
 				
 				// Calculate direction to target
@@ -377,14 +378,14 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 	}
 	else
 	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
+		if (Enemy->IsAtLocation(Enemy->Destination))
+			bRelease = true;
 
-		if (!bIsSpacePressed)
+		if (!bRelease)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
+				Center = { Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius };
 				Bullet[i].Location = Center;
 			}
 		else
@@ -403,10 +404,10 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 {
 	if (Double)
 	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
+		if (Enemy->IsAtLocation(Enemy->Destination))
+			bRelease = true;
 
-		if(!bIsSpacePressed)
+		if(!bRelease)
 		{
 			for (int i = 0; i < 2; i++)
 			{
@@ -416,7 +417,7 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 
 			for (int i = 0; i < NumOfBullets; i++)
 			{
-				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
 			}				
 		}
 		else
@@ -427,13 +428,13 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 	}
 	else
 	{
-		if (IsKeyPressed(KEY_SPACE))
-			bIsSpacePressed = true;
+		if (Enemy->IsAtLocation(Enemy->Destination))
+			bRelease = true;
 
-		if (!bIsSpacePressed)
+		if (!bRelease)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
-				Center = { GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius };
+				Center = { Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius };
 				Points[0] = { Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD) };
 
 				Bullet[i].Location = { Points[0].x - BulletRadius, Points[0].y - BulletRadius };
@@ -448,10 +449,10 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 
 void BulletPatternGenerator::UpdateSpiralMultiBullet()
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
+	if (Enemy->IsAtLocation(Enemy->Destination))
+		bRelease = true;
 
-	if(!bIsSpacePressed)
+	if(!bRelease)
 	{
 		int k = 0;
 		for (int i = 0; i < NumOfSpiral; i++)
@@ -460,7 +461,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 
 			for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
 			{
-				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius}; // Spawn point
+				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius}; // Spawn point
 
 				Bullet[j].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
 			}
@@ -477,10 +478,10 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 
 void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
+	if (Enemy->IsAtLocation(Enemy->Destination))
+		bRelease = true;
 
-	if(!bIsSpacePressed)
+	if(!bRelease)
 	{
 		if (NumOfWay == 5)
 			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
@@ -502,7 +503,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
 			{
 				// Update spawn point on circle
-				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
 			}
 			
@@ -518,10 +519,10 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 
 void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
+	if (Enemy->IsAtLocation(Enemy->Destination))
+		bRelease = true;
 
-	if(!bIsSpacePressed)
+	if(!bRelease)
 	{
 		if (MultiWay)
 		{
@@ -537,7 +538,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 					
 					for (int k = l; k < NumOfBullets/NumOfSpiral/NumOfWay+l; k++)
 					{
-						Center = {GetMousePosition().x - Bullet[k].Radius, GetMousePosition().y - Bullet[k].Radius};
+						Center = {Enemy->SpawnLocation.x - Bullet[k].Radius, Enemy->SpawnLocation.y - Bullet[k].Radius};
 						Bullet[k].Location = Points[j];
 					}
 					
@@ -557,7 +558,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 				
 				for (int k = l; k < NumOfBullets/NumOfWay+l; k++)
 				{
-					Center = {GetMousePosition().x - Bullet[k].Radius, GetMousePosition().y - Bullet[k].Radius};
+					Center = {Enemy->SpawnLocation.x - Bullet[k].Radius, Enemy->SpawnLocation.y - Bullet[k].Radius};
 					Bullet[k].Location = Points[j];
 				}
 				
@@ -567,16 +568,16 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 	}
 	else
 	{
-		Delay(0);
+		Delay(DelayAmount);
 	}
 }
 
 void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
+	if (Enemy->IsAtLocation(Enemy->Destination))
+		bRelease = true;
 
-	if(!bIsSpacePressed)
+	if(!bRelease)
 	{
 		if (LockOn)
 			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the starting angle 45
@@ -592,7 +593,7 @@ void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
 			{
 				// Update spawn point on circle
-				Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
 			}
 			
@@ -601,23 +602,20 @@ void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 	}
 	else
 	{
-		Delay(0);
+		Delay(DelayAmount);
 	}
 }
 
 void BulletPatternGenerator::UpdateCircleBullet(const bool LockOn)
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
-
-	if(!bIsSpacePressed)
+	if(!bRelease)
 	{
 		if (LockOn)
 			Angle = Vector2Angle(Center, DummyLocation);
 
 		for (int j = 0; j < NumOfBullets; j++)
 		{
-			Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius};
+			Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
 
 			if (LockOn)
 				Angles[j] = Angle += Offset;
@@ -629,16 +627,16 @@ void BulletPatternGenerator::UpdateCircleBullet(const bool LockOn)
 	}
 	else
 	{
-		Delay(0);
+		Delay(DelayAmount);
 	}
 }
 
 void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 {
-	if (IsKeyPressed(KEY_SPACE))
-		bIsSpacePressed = true;
+	if (Enemy->IsAtLocation(Enemy->Destination))
+		bRelease = true;
 
-	if (!bIsSpacePressed)
+	if (!bRelease)
 	{
 		if (NumOfSpiral > 2)
 		{
@@ -649,7 +647,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 
 				for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
 				{
-					Center = {GetMousePosition().x - Bullet[j].Radius, GetMousePosition().y - Bullet[j].Radius}; // Spawn point
+					Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius}; // Spawn point
 					Bullet[j].Location = {Points[i].x, Points[i].y};
 				}
 
@@ -661,7 +659,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
 
 				if (Spiral)
 				{
@@ -678,7 +676,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 	}
 	else
 	{
-		Delay(0);
+		Delay(DelayAmount);
 	}
 }
 
@@ -1303,7 +1301,7 @@ void BulletPatternGenerator::AddDebugUpdateCode()
 
 void BulletPatternGenerator::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 		bIsInProgress = false;
@@ -1337,14 +1335,14 @@ void BulletPatternGenerator::AddBullet()
 	// Create bullet and place in vector
 	Bullet.emplace_back(::Bullet());
 	NumOfBullets++;
-	bIsSpacePressed = false;
+	bRelease = false;
 
 	for (int i = 0; i < NumOfBullets; i++)
 	{
 		if (!Bullet[i].bActive)
 		{
 			// Set inital bullet location to be the center location
-			Center = {GetMousePosition().x - Bullet[i].Radius, GetMousePosition().y - Bullet[i].Radius};
+			Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
 			Bullet[i].Location = Center;
 
 			// Calculate direction to target
@@ -1392,6 +1390,11 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 void BulletPatternGenerator::SetBulletPattern(const Pattern NewPattern)
 {
 	CurrentPattern = NewPattern;
+}
+
+void BulletPatternGenerator::SetDelayAmount(const float Seconds)
+{
+	DelayAmount = Seconds;
 }
 
 void BulletPatternGenerator::SetDebug(const bool Condition)

@@ -4,6 +4,7 @@
 #include "Bullet.h" // <--- Forward declares player struct
 
 #define MAX_ENEMY_BULLETS 50
+struct BulletPatternGenerator;
 constexpr auto TOLERANCE = 1.0f;
 
 struct Enemy
@@ -13,12 +14,16 @@ struct Enemy
 	virtual void Update();
 	virtual void Draw();
 
+	void StartMoving();
+	void StopMoving();
+
 	struct Bullet Bullet[MAX_ENEMY_BULLETS];
 
 	Vector2 Location{};
 	Vector2 Direction{};
 	Vector2 HitboxOffset{};
 	Vector2 Destination{};
+	Vector2 SpawnLocation{};
 	Texture2D Sprite{};
 	Rectangle Hitbox{};
 	Rectangle SpriteBox{};
@@ -38,6 +43,7 @@ struct Enemy
 
 	// References to other classes
 	struct Player* Player = nullptr;
+	virtual bool IsAtLocation(const Vector2& GoalLocation);
 
 protected:
 	virtual void CheckCollisionWithPlayer();
@@ -46,13 +52,11 @@ protected:
 
 	void SetDestLocation(Vector2 DestLocation);
 	void MoveToLocation(const Vector2& DestLocation);
-	virtual bool IsAtLocation(const Vector2& GoalLocation);
 
-	void StartMoving();
-	void StopMoving();
-
+	virtual bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern);
 	virtual bool IsLowHealth() const;
 
+	bool bIsAtLocation = false;
 	bool bDebug = false;
 };
 

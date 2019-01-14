@@ -27,7 +27,7 @@ void SpiralMultiPattern::Init()
 	Points.clear();
 
 	ShootRate = 0;
-	bIsSpacePressed = false;
+	bRelease = false;
 	bIsInProgress = false;
 
 	switch (CurrentPattern)
@@ -135,7 +135,7 @@ void SpiralMultiPattern::Draw()
 
 void SpiralMultiPattern::AddDebugSwitchPatternCode()
 {
-	if (!Bullet.empty() && bIsSpacePressed)
+	if (!Bullet.empty() && bRelease)
 		bIsInProgress = true;
 	else
 		bIsInProgress = false;
