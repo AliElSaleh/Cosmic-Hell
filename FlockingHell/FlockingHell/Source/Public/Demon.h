@@ -48,7 +48,6 @@ struct Demon : Enemy
 
 protected:
 
-	//float Round(const float &Number);
 	float Round(float Number);
 
 	void UpdateBullet();
