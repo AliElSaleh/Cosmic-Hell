@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Enemy.h"
-#include "PulseBullet.h"
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
 #include "CirclePattern.h"

@@ -23,8 +23,9 @@ void CirclePattern::Init()
 	Angles.clear();
 	Points.clear();
 
+	FramesCounter = 0;
 	ShootRate = 0;
-	DummySpeed = 200.0f;
+	bDelayed = false;
 	bRelease = false;
 	bIsInProgress = false;
 
