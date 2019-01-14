@@ -304,7 +304,7 @@ void BulletPatternGenerator::CreateCirclePattern(const bool Hole, const unsigned
 		Bullet.emplace_back(::Bullet());
 
 	if (Hole)
-		Offset = 360.0f/NumOfBullets - 0.3f;
+		Offset = 360.0f/NumOfBullets - 0.1f;
 	else
 		Offset = 360.0f/NumOfBullets;
 

@@ -4,9 +4,7 @@
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
 #include "CirclePattern.h"
-
-#define MAX_DEMON_BULLETS 10
-#define MAX_DEMON_RAGE_BULLETS 5
+#include "SpiralPattern.h"
 
 struct Demon : Enemy
 {
@@ -15,8 +13,17 @@ struct Demon : Enemy
 	enum WAVE
 	{
 		FIRST,
+		FIRST_A,
+		FIRST_B,
+		FIRST_C,
 		SECOND,
+		SECOND_A,
+		SECOND_B,
+		SECOND_C,
 		THIRD,
+		THIRD_A,
+		THIRD_B,
+		THIRD_C,
 		RAGE
 	};
 
@@ -26,14 +33,12 @@ struct Demon : Enemy
 
 	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern) override;
 
-	//struct PulseBullet PulseBullet;
-	//struct PulseBullet PulseBullet2ndWave;
 	//struct PulseBullet PulseBullet3rdWave;
 	//struct PulseBullet BulletRage[MAX_DEMON_RAGE_BULLETS];
 
-	struct LinearPattern LinearBullet;
-	struct LinearMultiPattern LinearMultiBullet;
-	struct CirclePattern CircleBullet[5];
+	struct SpiralPattern SpiralBullet[4];
+	struct LinearMultiPattern LinearMultiBullet[4];
+	struct CirclePattern CircleBullet[20];
 
 	Texture2D BulletSprite{};
 
@@ -46,8 +51,7 @@ struct Demon : Enemy
 	WAVE BulletWave;
 
 protected:
-
-	float Round(float Number);
+	static float Round(float Number);
 
 	void UpdateBullet();
 	void UpdateDemonAnimation();

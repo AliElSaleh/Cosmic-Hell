@@ -31,15 +31,15 @@ void SpiralPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPIRAL_RIGHT:
-			CreateSpiralPattern(false, 200, 100.0f, 800.0f, 1.0f);
+			CreateSpiralPattern(false, 200, 100.0f, 600.0f, 1.0f);
 		break;
 
 		case SPIRAL_LEFT:
-			CreateSpiralPattern(false, 100, 150.0f, 200.0f, 1.0f);
+			CreateSpiralPattern(false, 100, 250.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_DOUBLE:
-			CreateSpiralPattern(true, 400, 250.0f, 150.0f, 20.0f);
+			CreateSpiralPattern(true, 400, 150.0f, 300.0f, 20.0f);
 		break;
 
 		default:

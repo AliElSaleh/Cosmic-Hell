@@ -21,8 +21,8 @@ void Demon::Init()
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/10, float(Sprite.height)};
-	Health = 600;
-	Speed = 120.0f;
+	Health = 1000;
+	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
 	bActive = true;
@@ -34,20 +34,92 @@ void Demon::Init()
 	DemonFrameRec.width = float(Sprite.width)/10; // 10 frames
 	DemonFrameRec.height = float(Sprite.height);
 
-
+	// FIRST WAVE
 	for (int i = 0; i < 5; i++)
 	{
 		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE);
-		CircleBullet[i].SetDelayAmount(i*0.2f);
+		CircleBullet[i].SetDelayAmount(i*0.1f);
 		CircleBullet[i].Enemy = this;
 		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 		CircleBullet[i].Init();
 	}
 
-	LinearMultiBullet.SetBulletPattern(BulletPatternGenerator::ELEVEN_WAY_AIMING);
-	LinearMultiBullet.Enemy = this;
-	LinearMultiBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-	LinearMultiBullet.Init();
+	for (int i = 5; i < 10; i++)
+	{
+		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE_HOLE);
+		CircleBullet[i].SetDelayAmount((i-5)*0.1f);
+		CircleBullet[i].Enemy = this;
+		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		CircleBullet[i].Init();
+	}
+
+	for (int i = 10; i < 15; i++)
+	{
+		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE_HOLE_LOCK_ON);
+		CircleBullet[i].SetDelayAmount((i-10)*0.1f);
+		CircleBullet[i].Enemy = this;
+		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		CircleBullet[i].Init();
+	}
+
+	for (int i = 15; i < 20; i++)
+	{
+		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE);
+		CircleBullet[i].SetDelayAmount((i-15)*0.1f);
+		CircleBullet[i].Enemy = this;
+		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		CircleBullet[i].Init();
+	}
+
+	// SECOND WAVE
+	for (int i = 0; i < 1; i++)
+	{
+		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::FIVE_WAY_LINEAR_LOCK_ON);
+		LinearMultiBullet[i].SetDelayAmount(i*5.0f);
+		LinearMultiBullet[i].Enemy = this;
+		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		LinearMultiBullet[i].Init();
+	}
+
+	for (int i = 1; i < 2; i++)
+	{
+		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::SIX_WAY_LINEAR_LOCK_ON);
+		LinearMultiBullet[i].SetDelayAmount((i-2)*3.0f);
+		LinearMultiBullet[i].Enemy = this;
+		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		LinearMultiBullet[i].Init();
+	}
+
+	for (int i = 2; i < 3; i++)
+	{
+		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::ELEVEN_WAY_AIMING);
+		LinearMultiBullet[i].SetDelayAmount((i-4)*5.0f);
+		LinearMultiBullet[i].Enemy = this;
+		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		LinearMultiBullet[i].Init();
+	}
+
+	for (int i = 3; i < 4; i++)
+	{
+		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::TWENTY_WAY);
+		LinearMultiBullet[i].SetDelayAmount((i-6)*3.0f);
+		LinearMultiBullet[i].Enemy = this;
+		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		LinearMultiBullet[i].Init();
+	}
+
+	SpiralBullet[0].SetBulletPattern(BulletPatternGenerator::SPIRAL_LEFT);
+	SpiralBullet[1].SetBulletPattern(BulletPatternGenerator::SPIRAL_RIGHT);
+	SpiralBullet[2].SetBulletPattern(BulletPatternGenerator::SPIRAL_DOUBLE);
+	SpiralBullet[3].SetBulletPattern(BulletPatternGenerator::SPIRAL_LEFT);
+
+	for (int i = 0; i < 4; i++)
+	{
+		SpiralBullet[i].SetDelayAmount(0.0f);
+		SpiralBullet[i].Enemy = this;
+		SpiralBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		SpiralBullet[i].Init();
+	}
 
 	// Bullet wave setup
 	//PulseBullet3rdWave.SetBulletType(PulseBullet::ONELOOP);
@@ -72,7 +144,7 @@ void Demon::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 + Sprite.height, 150))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth() - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }
 
 void Demon::Update()
@@ -98,11 +170,20 @@ void Demon::Update()
 
 		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 20; i++)
+		{
 			CircleBullet[i].Location = SpawnLocation;
+			CircleBullet[i].TargetLocation = Player->Location;
+		}
 
-		LinearMultiBullet.Location = SpawnLocation;
-		LinearMultiBullet.TargetLocation = Player->Location;
+		for (int i = 0; i < 10; i++)
+		{
+			LinearMultiBullet[i].Location = SpawnLocation;
+			LinearMultiBullet[i].TargetLocation = Player->Location;
+		}
+
+		for (int i = 0; i < 4; i++)
+			SpiralBullet[i].Location = SpawnLocation;
 
 		UpdateDemonAnimation();
 	}
@@ -131,7 +212,6 @@ void Demon::Draw()
 		DrawTextureRec(Sprite, DemonFrameRec, Location, WHITE);  // Draw part of the demon texture
 	
 	DrawBullet();
-
 }
 
 bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
@@ -178,6 +258,60 @@ void Demon::UpdateBullet()
 
 			// Make enemy move again and switch to the next wave
 			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(CircleBullet[4])))
+				BulletWave = FIRST_A;
+		break;
+
+		case FIRST_A:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+				
+				for (int i = 5; i < 10; i++)
+					CircleBullet[i].bRelease = true;
+			}
+
+			for (int i = 5; i < 10; i++)
+				CircleBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(CircleBullet[9])))
+				BulletWave = FIRST_B;
+		break;
+
+		case FIRST_B:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+				
+				for (int i = 10; i < 15; i++)
+					CircleBullet[i].bRelease = true;
+			}
+
+			for (int i = 10; i < 15; i++)
+				CircleBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(CircleBullet[14])))
+				BulletWave = FIRST_C;
+		break;
+
+		case FIRST_C:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+				
+				for (int i = 15; i < 20; i++)
+					CircleBullet[i].bRelease = true;
+			}
+
+			for (int i = 15; i < 20; i++)
+				CircleBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(CircleBullet[19])))
 				BulletWave = SECOND;
 		break;
 
@@ -187,42 +321,137 @@ void Demon::UpdateBullet()
 			{
 				StopMoving();
 
-				LinearMultiBullet.bRelease = true;
+				for (int i = 0; i < 1; i++)
+					LinearMultiBullet[i].bRelease = true;
 			}
 			
-			LinearMultiBullet.Update();
+			for (int i = 0; i < 1; i++)
+				LinearMultiBullet[i].Update();
 
 			// Make enemy move again and switch to the next wave
-			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet)))
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[0])))
+				BulletWave = SECOND_A;
+		break;
+
+		case SECOND_A:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				for (int i = 1; i < 2; i++)
+					LinearMultiBullet[i].bRelease = true;
+			}
+			
+			for (int i = 1; i < 2; i++)
+				LinearMultiBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[1])))
+				BulletWave = SECOND_B;
+		break;
+
+		case SECOND_B:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				for (int i = 2; i < 3; i++)
+					LinearMultiBullet[i].bRelease = true;
+			}
+			
+			for (int i = 2; i < 3; i++)
+				LinearMultiBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[2])))
+				BulletWave = SECOND_C;
+		break;
+
+		case SECOND_C:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				for (int i = 3; i < 4; i++)
+					LinearMultiBullet[i].bRelease = true;
+			}
+			
+			for (int i = 3; i < 4; i++)
+				LinearMultiBullet[i].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[3])))
 				BulletWave = THIRD;
 		break;
 
 		case THIRD:
-			FramesCounter++;
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				SpiralBullet[0].bRelease = true;
+			}
 			
-			//PulseBullet3rdWave.SpawnLocation = {Hitbox.x, Hitbox.y};
-			//
-			//if (((FramesCounter/15)%2) == 1) // 0.125 second
-			//{
-			//	PulseBullet3rdWave.ReleaseAmount += ShootRate;
-			//	PulseBullet3rdWave.bRelease = true;
-			//	FramesCounter = 0;
-			//	StopMoving();
-			//}
-			//
-			//// To prevent game from crashing/accessing null memory
-			//if (PulseBullet3rdWave.ReleaseAmount > PulseBullet3rdWave.AmountToSpawn)
-			//{
-			//	PulseBullet3rdWave.ReleaseAmount = PulseBullet3rdWave.AmountToSpawn;
-			//	StartMoving();			
-			//}
-			//
-			//PulseBullet3rdWave.Update();
+			SpiralBullet[0].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[0])))
+				BulletWave = THIRD_A;
+		break;
+
+		case THIRD_A:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				SpiralBullet[1].bRelease = true;
+			}
+			
+			SpiralBullet[1].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[1])))
+				BulletWave = THIRD_B;
+		break;
+
+		case THIRD_B:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				SpiralBullet[2].bRelease = true;
+			}
+			
+			SpiralBullet[2].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[2])))
+				BulletWave = THIRD_C;
+		break;
+
+		case THIRD_C:
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
+
+				SpiralBullet[3].bRelease = true;
+			}
+			
+			SpiralBullet[3].Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[3])))
+				BulletWave = RAGE;
 		break;
 
 		case RAGE:
-			FramesCounter++;
-			
 			//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
 			//{
 			//	BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
@@ -288,16 +517,65 @@ void Demon::DrawBullet()
 				CircleBullet[i].Draw();
 		break;
 
+		case FIRST_A:
+			DrawText("First A WAVE", 10, 50, 20, WHITE);
+
+			for (int i = 5; i < 10; i++)
+				CircleBullet[i].Draw();
+		break;
+
+		case FIRST_B:
+			DrawText("First B WAVE", 10, 50, 20, WHITE);
+
+			for (int i = 10; i < 15; i++)
+				CircleBullet[i].Draw();
+		break;
+
+		case FIRST_C:
+			DrawText("First C WAVE", 10, 50, 20, WHITE);
+
+			for (int i = 15; i < 20; i++)
+				CircleBullet[i].Draw();
+		break;
+
 		case SECOND:
 			DrawText("Second WAVE", 10, 50, 20, WHITE);
 
-			LinearMultiBullet.Draw();
+			for (int i = 0; i < 1; i++)
+				LinearMultiBullet[i].Draw();
+		break;
+
+		case SECOND_A:
+			for (int i = 1; i < 2; i++)
+				LinearMultiBullet[i].Draw();
+		break;
+
+		case SECOND_B:
+			for (int i = 2; i < 3; i++)
+				LinearMultiBullet[i].Draw();
+		break;
+
+		case SECOND_C:
+			for (int i = 3; i < 4; i++)
+				LinearMultiBullet[i].Draw();
 		break;
 
 		case THIRD:
 			DrawText("Third WAVE", 10, 50, 20, WHITE);
 
-			//PulseBullet3rdWave.Draw();
+			SpiralBullet[0].Draw();
+		break;
+
+		case THIRD_A:
+			SpiralBullet[1].Draw();
+		break;
+
+		case THIRD_B:
+			SpiralBullet[2].Draw();
+		break;
+
+		case THIRD_C:
+			SpiralBullet[3].Draw();
 		break;
 
 		case RAGE:
