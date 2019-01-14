@@ -44,6 +44,11 @@ void Demon::Init()
 		CircleBullet[i].Init();
 	}
 
+	LinearMultiBullet.SetBulletPattern(BulletPatternGenerator::ELEVEN_WAY_AIMING);
+	LinearMultiBullet.Enemy = this;
+	LinearMultiBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	LinearMultiBullet.Init();
+
 	// Bullet wave setup
 	//for (int i = 0; i < MAX_PULSE_BULLETS; i++)
 	//{
@@ -122,6 +127,12 @@ void Demon::Update()
 
 		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
 
+		for (int i = 0; i < 5; i++)
+			CircleBullet[i].Location = SpawnLocation;
+
+		LinearMultiBullet.Location = SpawnLocation;
+		LinearMultiBullet.TargetLocation = Player->Location;
+
 		UpdateDemonAnimation();
 	}
 
@@ -147,8 +158,6 @@ void Demon::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTextureRec(Sprite, DemonFrameRec, Location, WHITE);  // Draw part of the demon texture
-
-	//DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 	
 	DrawBullet();
 
@@ -168,13 +177,20 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 	return bIsDestinationSet;
 }
 
+float Demon::Round(const float Number)
+{
+    float Value = (int)(Number + 0.5);
+
+	//Value = int(Number) * 100;
+
+    return Value; 
+}
+
 void Demon::UpdateBullet()
 {
 	switch (BulletWave)
 	{
 		case FIRST:
-			FramesCounter++;
-
 			// Release bullets when enemy is at a location
 			if (IsAtLocation(Destination))
 			{
@@ -193,9 +209,19 @@ void Demon::UpdateBullet()
 		break;
 
 		case SECOND:
-			FramesCounter++;
+			// Release bullets when enemy is at a location
+			if (IsAtLocation(Destination))
+			{
+				StopMoving();
 
-			IsAtLocation(Destination);
+				LinearMultiBullet.bRelease = true;
+			}
+			
+			LinearMultiBullet.Update();
+
+			// Make enemy move again and switch to the next wave
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet)))
+				BulletWave = THIRD;
 			
 			//PulseBullet2ndWave.SpawnLocation = {Hitbox.x, Hitbox.y};
 			//
@@ -317,6 +343,7 @@ void Demon::DrawBullet()
 		case SECOND:
 			DrawText("Second WAVE", 10, 50, 20, WHITE);
 
+			LinearMultiBullet.Draw();
 			//PulseBullet2ndWave.Draw();
 		break;
 
@@ -368,10 +395,8 @@ void Demon::CheckHealth()
 
 bool Demon::IsAtLocation(const Vector2 &GoalLocation)
 {
-	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE) // Is at the goal location?
-	{
+	if (Round(Location.x) == GoalLocation.x && Round(Location.y) == GoalLocation.y) // Is at the goal location?
 		bIsAtLocation = true;
-	}
 	else
 		bIsAtLocation = false;
 

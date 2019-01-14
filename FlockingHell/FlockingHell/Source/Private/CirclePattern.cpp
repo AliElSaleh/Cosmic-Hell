@@ -31,7 +31,7 @@ void CirclePattern::Init()
 	switch (CurrentPattern)
 	{
 		case CIRCLE:
-			CreateCirclePattern(false, 50, 200.0f, 1.0f);
+			CreateCirclePattern(false, 50, 300.0f, 1.0f);
 		break;
 
 		case CIRCLE_HOLE:

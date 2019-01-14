@@ -99,7 +99,8 @@ void LinearMultiPattern::Update()
 
 		case FIVE_WAY_LINEAR_LOCK_ON:
 			UpdateLinearMultiBullet(true);
-			AddDebugUpdateCode();
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		case SIX_WAY_LINEAR:
@@ -108,7 +109,8 @@ void LinearMultiPattern::Update()
 
 		case SIX_WAY_LINEAR_LOCK_ON:
 			UpdateLinearMultiBullet(true);
-			AddDebugUpdateCode();
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		case SEVEN_WAY:
@@ -121,12 +123,15 @@ void LinearMultiPattern::Update()
 
 		case EIGHT_WAY_LINEAR_LOCK_ON:
 			UpdateLinearMultiBullet(true);
-			AddDebugUpdateCode();
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		case ELEVEN_WAY_AIMING:
 			UpdateLinearMultiBullet(false);
-			AddDebugUpdateCode();
+
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		case TWENTY_WAY:
@@ -205,7 +210,8 @@ void LinearMultiPattern::Draw()
 	// Bullets
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
-			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+			if (Bullet[i].bActive)
+				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
 void LinearMultiPattern::AddDebugSwitchPatternCode()

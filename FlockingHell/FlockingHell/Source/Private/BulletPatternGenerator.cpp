@@ -355,19 +355,16 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 {
 	if (LockOn)
 	{
-		if (Enemy->IsAtLocation(Enemy->Destination))
-			bRelease = true;
-
 		if(!bRelease)
 		{
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
+				Center = {Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius};
 				Bullet[i].Location = Center;
 				
 				// Calculate direction to target
-				CalculateDirection(i, DummyLocation);
+				CalculateDirection(i, TargetLocation);
 			}
 		}
 		else
@@ -378,14 +375,11 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 	}
 	else
 	{
-		if (Enemy->IsAtLocation(Enemy->Destination))
-			bRelease = true;
-
 		if (!bRelease)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = { Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius };
+				Center = { Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius };
 				Bullet[i].Location = Center;
 			}
 		else
@@ -396,7 +390,7 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 
 		// Calculate direction to target
 		for (int i = 0; i < NumOfBullets; i++)
-			CalculateDirection(i, DummyLocation);
+			CalculateDirection(i, TargetLocation);
 	}
 }
 
@@ -404,9 +398,6 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 {
 	if (Double)
 	{
-		if (Enemy->IsAtLocation(Enemy->Destination))
-			bRelease = true;
-
 		if(!bRelease)
 		{
 			for (int i = 0; i < 2; i++)
@@ -417,7 +408,7 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 
 			for (int i = 0; i < NumOfBullets; i++)
 			{
-				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
+				Center = {Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius};
 			}				
 		}
 		else
@@ -428,13 +419,10 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 	}
 	else
 	{
-		if (Enemy->IsAtLocation(Enemy->Destination))
-			bRelease = true;
-
 		if (!bRelease)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
-				Center = { Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius };
+				Center = { Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius };
 				Points[0] = { Center.x + CircleRadius * cosf(Angle*DEG2RAD), Center.y + CircleRadius * sinf(Angle*DEG2RAD) };
 
 				Bullet[i].Location = { Points[0].x - BulletRadius, Points[0].y - BulletRadius };
@@ -449,9 +437,6 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 
 void BulletPatternGenerator::UpdateSpiralMultiBullet()
 {
-	if (Enemy->IsAtLocation(Enemy->Destination))
-		bRelease = true;
-
 	if(!bRelease)
 	{
 		int k = 0;
@@ -461,7 +446,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 
 			for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
 			{
-				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius}; // Spawn point
+				Center = {Location.x - Bullet[j].Radius, Location.y - Bullet[j].Radius}; // Spawn point
 
 				Bullet[j].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
 			}
@@ -478,19 +463,16 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 
 void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 {
-	if (Enemy->IsAtLocation(Enemy->Destination))
-		bRelease = true;
-
 	if(!bRelease)
 	{
 		if (NumOfWay == 5)
-			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
+			Angle = Vector2Angle(Center, TargetLocation) - 45.0f; // Offset 90 degress minus the custom angle 45 for 5 way
 		if (NumOfWay == 6)
-			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
+			Angle = Vector2Angle(Center, TargetLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 6 way
 		else if (NumOfWay == 8)
-			Angle = Vector2Angle(Center, DummyLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
+			Angle = Vector2Angle(Center, TargetLocation) - 55.0f; // Offset 90 degress minus the custom angle 55 for 8 way
 		else
-			Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
+			Angle = Vector2Angle(Center, TargetLocation) - 75.0f; // Offset 90 degress minus the default angle 15 for 11 way aiming
 
 		int k = 0;
 		for (int i = 0; i < NumOfWay; i++)
@@ -503,7 +485,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
 			{
 				// Update spawn point on circle
-				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
+				Center = {Location.x - Bullet[j].Radius, Location.y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
 			}
 			
@@ -519,9 +501,6 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 
 void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 {
-	if (Enemy->IsAtLocation(Enemy->Destination))
-		bRelease = true;
-
 	if(!bRelease)
 	{
 		if (MultiWay)
@@ -538,7 +517,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 					
 					for (int k = l; k < NumOfBullets/NumOfSpiral/NumOfWay+l; k++)
 					{
-						Center = {Enemy->SpawnLocation.x - Bullet[k].Radius, Enemy->SpawnLocation.y - Bullet[k].Radius};
+						Center = {Location.x - Bullet[k].Radius, Location.y - Bullet[k].Radius};
 						Bullet[k].Location = Points[j];
 					}
 					
@@ -558,7 +537,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 				
 				for (int k = l; k < NumOfBullets/NumOfWay+l; k++)
 				{
-					Center = {Enemy->SpawnLocation.x - Bullet[k].Radius, Enemy->SpawnLocation.y - Bullet[k].Radius};
+					Center = {Location.x - Bullet[k].Radius, Location.y - Bullet[k].Radius};
 					Bullet[k].Location = Points[j];
 				}
 				
@@ -574,13 +553,10 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 
 void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 {
-	if (Enemy->IsAtLocation(Enemy->Destination))
-		bRelease = true;
-
 	if(!bRelease)
 	{
 		if (LockOn)
-			Angle = Vector2Angle(Center, DummyLocation) - 45.0f; // Offset 90 degress minus the starting angle 45
+			Angle = Vector2Angle(Center, TargetLocation) - 45.0f; // Offset 90 degress minus the starting angle 45
 
 		int k = 0;
 		for (int i = 0; i < NumOfWay; i++)
@@ -593,7 +569,7 @@ void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 			for (int j = k; j < NumOfBullets/NumOfWay+k; j++)
 			{
 				// Update spawn point on circle
-				Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
+				Center = {Location.x - Bullet[j].Radius, Location.y - Bullet[j].Radius};
 				Bullet[j].Location = Points[i];
 			}
 			
@@ -611,11 +587,11 @@ void BulletPatternGenerator::UpdateCircleBullet(const bool LockOn)
 	if(!bRelease)
 	{
 		if (LockOn)
-			Angle = Vector2Angle(Center, DummyLocation);
+			Angle = Vector2Angle(Center, TargetLocation);
 
 		for (int j = 0; j < NumOfBullets; j++)
 		{
-			Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius};
+			Center = {Location.x - Bullet[j].Radius, Location.y - Bullet[j].Radius};
 
 			if (LockOn)
 				Angles[j] = Angle += Offset;
@@ -633,9 +609,6 @@ void BulletPatternGenerator::UpdateCircleBullet(const bool LockOn)
 
 void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 {
-	if (Enemy->IsAtLocation(Enemy->Destination))
-		bRelease = true;
-
 	if (!bRelease)
 	{
 		if (NumOfSpiral > 2)
@@ -647,7 +620,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 
 				for (int j = k; j < NumOfBullets/NumOfSpiral+k; j++)
 				{
-					Center = {Enemy->SpawnLocation.x - Bullet[j].Radius, Enemy->SpawnLocation.y - Bullet[j].Radius}; // Spawn point
+					Center = {Location.x - Bullet[j].Radius, Location.y - Bullet[j].Radius}; // Spawn point
 					Bullet[j].Location = {Points[i].x, Points[i].y};
 				}
 
@@ -659,7 +632,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 			for (int i = 0; i < NumOfBullets; i++)
 			{
 				// Update bullet location to spawn location
-				Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
+				Center = {Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius};
 
 				if (Spiral)
 				{
@@ -1059,7 +1032,7 @@ void BulletPatternGenerator::UpdateLinearMultiPattern(const bool Aiming)
 {
 	ShootRate += 2;
 
-	Angle = Vector2Angle(Center, DummyLocation) - 75.0f; // Offset 90 degress minus the default angle 15
+	Angle = Vector2Angle(Center, TargetLocation) - 75.0f; // Offset 90 degress minus the default angle 15
 
 	for (int i = 0; i < NumOfWay; i++)
 	{
@@ -1234,7 +1207,7 @@ void BulletPatternGenerator::UpdateRandomPattern(const bool AllRange, const bool
 				if (AllRange)
 					CalculateDirection(i, Vector2({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))}));
 				else if (Aiming)
-					CalculateDirection(i, Vector2({float(GetRandomValue(DummyLocation.x - Deviation, DummyLocation.x + DummySprite.width + Deviation)), float(GetRandomValue(DummyLocation.y, DummyLocation.y + DummySprite.height))}));
+					CalculateDirection(i, Vector2({float(GetRandomValue(TargetLocation.x - Deviation, TargetLocation.x + DummySprite.width + Deviation)), float(GetRandomValue(TargetLocation.y, TargetLocation.y + DummySprite.height))}));
 				else
 					CalculateDirection(i, Vector2({float(GetRandomValue(Bullet[i].Location.x - Deviation, Bullet[i].Location.x + Deviation)), float(GetRandomValue(Bullet[i].Location.y, GetScreenHeight()))}));
 			
@@ -1248,7 +1221,7 @@ void BulletPatternGenerator::UpdateRandomPattern(const bool AllRange, const bool
 
 void BulletPatternGenerator::DrawDummy() const
 {
-	DrawTexture(DummySprite, int(DummyLocation.x), int(DummyLocation.y), WHITE);
+	DrawTexture(DummySprite, int(TargetLocation.x), int(TargetLocation.y), WHITE);
 }
 
 void BulletPatternGenerator::DrawDebugPoint() const
@@ -1273,7 +1246,7 @@ void BulletPatternGenerator::DrawDebugInfo()
 void BulletPatternGenerator::AddDebugInitCode()
 {
 	if (bDebug)
-		DummyLocation = {500.0f, 600.0f};
+		TargetLocation = {500.0f, 600.0f};
 }
 
 void BulletPatternGenerator::AddDebugUpdateCode()
@@ -1286,16 +1259,16 @@ void BulletPatternGenerator::AddDebugUpdateCode()
 
 		// Move dummy
 		if (IsKeyDown(KEY_A))
-			DummyLocation.x -= DummySpeed * GetFrameTime();
+			TargetLocation.x -= DummySpeed * GetFrameTime();
 
 		if (IsKeyDown(KEY_D))
-			DummyLocation.x += DummySpeed * GetFrameTime();
+			TargetLocation.x += DummySpeed * GetFrameTime();
 
 		if (IsKeyDown(KEY_S))
-			DummyLocation.y += DummySpeed * GetFrameTime();
+			TargetLocation.y += DummySpeed * GetFrameTime();
 
 		if (IsKeyDown(KEY_W))
-			DummyLocation.y -= DummySpeed * GetFrameTime();
+			TargetLocation.y -= DummySpeed * GetFrameTime();
 	}
 }
 
@@ -1342,11 +1315,11 @@ void BulletPatternGenerator::AddBullet()
 		if (!Bullet[i].bActive)
 		{
 			// Set inital bullet location to be the center location
-			Center = {Enemy->SpawnLocation.x - Bullet[i].Radius, Enemy->SpawnLocation.y - Bullet[i].Radius};
+			Center = {Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius};
 			Bullet[i].Location = Center;
 
 			// Calculate direction to target
-			CalculateDirection(i, DummyLocation);
+			CalculateDirection(i, TargetLocation);
 		}
 	}
 }

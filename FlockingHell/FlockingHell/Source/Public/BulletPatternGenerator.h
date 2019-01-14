@@ -93,13 +93,15 @@ struct BulletPatternGenerator
 	float DummySpeed{};
 	float Offset{};
 
+	Vector2 Location{GetMousePosition().x, GetMousePosition().y}; // Can be changed by other classes
 	Vector2 Center{}; // The spawn location
+	Vector2 TargetLocation{};
+
 	struct Enemy *Enemy;
 
 	bool bRelease{};
 
 protected:	
-	Vector2 DummyLocation{};
 	Pattern CurrentPattern{};
 
 	float DelayAmount{};
