@@ -24,7 +24,7 @@ void EnemyManager::Update()
 	// Remove enemy from vector on death
 	if (Enemies[0]->bIsDead)
 	{
-		if (dynamic_cast<Demon*>(Enemies[0])->SpiralBullet[3].Bullet.empty()) // TODO: Change the demon bullet system AND change condition to "if bullets == 0" in vector
+		if (dynamic_cast<Demon*>(Enemies[0])->RageBullet.Bullet.empty()) // TODO: Change the demon bullet system AND change condition to "if bullets == 0" in vector
 		{
 			RemoveEnemy(0);
 			bIsEnemyDead = true;

@@ -21,7 +21,7 @@ void Demon::Init()
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/10, float(Sprite.height)};
-	Health = 1000;
+	Health = 120;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
@@ -121,6 +121,12 @@ void Demon::Init()
 		SpiralBullet[i].Init();
 	}
 
+	RageBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MIX);
+	RageBullet.SetDelayAmount(0.0f);
+	RageBullet.Enemy = this;
+	RageBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	RageBullet.Init();
+
 	// Bullet wave setup
 	//PulseBullet3rdWave.SetBulletType(PulseBullet::ONELOOP);
 	//PulseBullet3rdWave.AmountToSpawn = 80;
@@ -142,7 +148,7 @@ void Demon::Init()
 	//	BulletRage[i].Init();
 	//}
 
-	BulletWave = FIRST;
+	BulletWave = RAGE;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth() - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }
@@ -184,6 +190,8 @@ void Demon::Update()
 
 		for (int i = 0; i < 4; i++)
 			SpiralBullet[i].Location = SpawnLocation;
+
+		RageBullet.Location = SpawnLocation;
 
 		UpdateDemonAnimation();
 	}
@@ -452,21 +460,18 @@ void Demon::UpdateBullet()
 		break;
 
 		case RAGE:
-			//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
+			//if (IsAtLocation(Destination))
 			//{
-			//	BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
-			//
-			//	if (((FramesCounter/40)%2) == 1 && !BulletRage[i].bRelease) // 0.3 second
-			//	{
-			//		BulletRage[i].bRelease = true;
-			//		FramesCounter = 0;
-			//	}
-			//
-			//	BulletRage[i].Update();
-			//
-			//	if (!bIsDead)
-			//		BulletRage[i].CheckBulletWindowCollision();
+				StopMoving();
+
+				RageBullet.bRelease = true;
 			//}
+
+			RageBullet.Update();
+
+			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(RageBullet)))
+				if (!bIsDead)
+					BulletWave = FIRST;
 		break;
 
 		default:
@@ -579,8 +584,7 @@ void Demon::DrawBullet()
 		break;
 
 		case RAGE:
-			//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
-			//	BulletRage[i].Draw();
+			RageBullet.Draw();
 		break;
 
 		default:

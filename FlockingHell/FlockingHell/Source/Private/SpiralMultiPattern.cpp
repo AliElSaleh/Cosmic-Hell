@@ -133,6 +133,32 @@ void SpiralMultiPattern::Draw()
 			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
+void SpiralMultiPattern::Delay(const float Seconds)
+{
+	FramesCounter++;
+
+	if (!bDelayed)
+	{
+		if (Seconds == 0)
+			bDelayed = true;
+		else
+		{
+			if (((FramesCounter/(120*Seconds))/2) == 1)
+			{
+				StartShotRoutine();
+				CheckBulletOutsideWindow();
+				FramesCounter = 0;
+				bDelayed = true;
+			}	
+		}
+	}
+	else
+	{
+		StartShotRoutine();
+		CheckBulletOutsideWindow();
+	}
+}
+
 void SpiralMultiPattern::AddDebugSwitchPatternCode()
 {
 	if (!Bullet.empty() && bRelease)

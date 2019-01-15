@@ -5,6 +5,7 @@
 #include "LinearMultiPattern.h"
 #include "CirclePattern.h"
 #include "SpiralPattern.h"
+#include "SpiralMultiPattern.h"
 
 struct Demon : Enemy
 {
@@ -37,6 +38,7 @@ struct Demon : Enemy
 	//struct PulseBullet BulletRage[MAX_DEMON_RAGE_BULLETS];
 
 	struct SpiralPattern SpiralBullet[4];
+	struct SpiralMultiPattern RageBullet;
 	struct LinearMultiPattern LinearMultiBullet[4];
 	struct CirclePattern CircleBullet[20];
 

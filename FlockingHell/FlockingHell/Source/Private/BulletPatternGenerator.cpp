@@ -456,8 +456,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 	}
 	else
 	{
-		StartShotRoutine();
-		CheckBulletOutsideWindow();
+		Delay(DelayAmount);
 	}
 }
 
