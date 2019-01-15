@@ -21,7 +21,7 @@ void Demon::Init()
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/10, float(Sprite.height)};
-	Health = 120;
+	Health = 2000;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
@@ -148,7 +148,7 @@ void Demon::Init()
 	//	BulletRage[i].Init();
 	//}
 
-	BulletWave = RAGE;
+	BulletWave = FIRST;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth() - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }
@@ -460,6 +460,8 @@ void Demon::UpdateBullet()
 		break;
 
 		case RAGE:
+			RageBullet.Center = SpawnLocation;
+
 			StopMoving();
 
 			RageBullet.bRelease = true;
