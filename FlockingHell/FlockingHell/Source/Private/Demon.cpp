@@ -460,18 +460,18 @@ void Demon::UpdateBullet()
 		break;
 
 		case RAGE:
-			//if (IsAtLocation(Destination))
-			//{
-				StopMoving();
+			StopMoving();
 
-				RageBullet.bRelease = true;
-			//}
+			RageBullet.bRelease = true;
 
 			RageBullet.Update();
 
 			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(RageBullet)))
 				if (!bIsDead)
-					BulletWave = FIRST;
+				{
+					BulletWave = RAGE;
+					RageBullet.Init();
+				}
 		break;
 
 		default:
