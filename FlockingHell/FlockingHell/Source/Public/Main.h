@@ -14,6 +14,7 @@
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
 #include "Boid.h"
+#include "Flock.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -23,7 +24,7 @@ struct Star SmallStars[MAX_SMALL_STARS];
 struct Star FastStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
-struct Boid Boid[50];
+struct Flock Flock;
 
 template<typename PatternType>
 PatternType Pattern;
