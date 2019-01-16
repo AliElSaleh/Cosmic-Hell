@@ -127,27 +127,6 @@ void Demon::Init()
 	RageBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 	RageBullet.Init();
 
-	// Bullet wave setup
-	//PulseBullet3rdWave.SetBulletType(PulseBullet::ONELOOP);
-	//PulseBullet3rdWave.AmountToSpawn = 80;
-	//PulseBullet3rdWave.CircleRadius = 30.0f;
-	//PulseBullet3rdWave.Init();
-
-
-	//// Bullet rage setup
-	//for (int i = 0; i < MAX_DEMON_RAGE_BULLETS; i++)
-	//{
-	//	BulletRage[i].SetBulletType(PulseBullet::RAGE);
-	//	BulletRage[i].AmountToSpawn = 60;
-	//	BulletRage[i].CircleRadius = 20.0f;
-	//	BulletRage[i].SpawnLocation = {Hitbox.x, Hitbox.y};
-	//	
-	//	for (int j = 0; j < MAX_PULSE_BULLETS; j++)
-	//		BulletRage[i].Bullet[j].Player = Player;
-	//	
-	//	BulletRage[i].Init();
-	//}
-
 	BulletWave = FIRST;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth() - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});

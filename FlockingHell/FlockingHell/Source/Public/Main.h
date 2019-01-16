@@ -13,6 +13,8 @@
 #include "RandomPattern.h"
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
+#include "Boid.h"
+
 // Variable Declarations
 //-----------------------------------------
 // Structs
@@ -21,6 +23,7 @@ struct Star SmallStars[MAX_SMALL_STARS];
 struct Star FastStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
+struct Boid Boid[50];
 
 template<typename PatternType>
 PatternType Pattern;
