@@ -14,7 +14,7 @@ void Boid::Init()
 {
 	Sprite = GetAsset(Boid);
 
-	Location = {0.0f, 0.0f};
+	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/5, float(Sprite.height)};
 	Health = 100;
 	Speed = 250.0f;
