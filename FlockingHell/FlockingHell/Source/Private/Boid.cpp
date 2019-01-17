@@ -104,7 +104,7 @@ void Boid::Update()
 		};
 
 		// Rotate towards the target
-		Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;// Lerp(CurrentRotation, atan2(Direction.y, Direction.x)*RAD2DEG, GetFrameTime()/0.1f);
+		Rotation = Lerp(CurrentRotation, atan2(Direction.y, Direction.x)*RAD2DEG, GetFrameTime()/0.1f);
 		CurrentRotation = Rotation;
 		
 		BoidDestFrameRec.x = Location.x;
@@ -128,13 +128,19 @@ void Boid::Draw()
 
 void Boid::Flock(std::vector<Boid*> *Boids)
 {
-	const auto Alignment = Align(Boids);
+	// The three flocking rules
+	auto Alignment = Align(Boids);
+	auto Cohesion = Cohere(Boids);
+	auto Separation = Separate(Boids);
+
+	// Arbitrary weights of each force
+	Alignment = Vector2Scale(Alignment, AlignMaxForce);
+	Cohesion = Vector2Scale(Cohesion, CohereMaxForce);
+	Separation = Vector2Scale(Separation, SeparateMaxForce);
+
+	// Apply forces
 	Acceleration = Vector2Add(Acceleration, Alignment);
-	
-	const auto Cohesion = Cohere(Boids);
 	Acceleration = Vector2Add(Acceleration, Cohesion);
-	
-	const auto Separation = Separate(Boids);
 	Acceleration = Vector2Add(Acceleration, Separation);
 }
 

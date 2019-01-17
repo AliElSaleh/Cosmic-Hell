@@ -42,7 +42,7 @@ private:
 	unsigned short FramesSpeed{10};
 
 	float AlignMaxForce{1.0f};
-	float CohereMaxForce{1.5f};
+	float CohereMaxForce{0.5f};
 	float SeparateMaxForce{2.0f};
 	float MaxSpeed{2.0f};
 	float MaxVelocity{};
