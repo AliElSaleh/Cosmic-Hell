@@ -68,7 +68,31 @@ void Boid::Update()
 			Location = Vector2Add(Location, Velocity);
 		}
 		else
+		{
 			Seek(Destination);
+
+			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+			{
+				SetDestLocation(GetMousePosition());
+				bLeftMousePressed = true;
+				bRightMousePressed = false;
+			}
+
+			if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+			{
+				SetDestLocation(GetMousePosition());
+				bRightMousePressed = true;
+				bLeftMousePressed = false;
+			}
+
+			if (bLeftMousePressed)
+				Seek(Destination);
+
+			if (bRightMousePressed)
+				Flee(Destination);
+
+			CheckWindowCollision();
+		}
 
 		const auto Lerp = [&](const float From, const float To, const float Time)
 		{
@@ -165,7 +189,21 @@ void Boid::Flee(const Vector2 & DestLocation)
 		return V;
 	};
 
-	DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(Location, DestLocation)), MaxVelocity);
+	// Arrival logic
+	DesiredVelocity = Vector2Subtract(DestLocation, Location);
+	const float Distance = Vector2Length(DesiredVelocity);
+
+	if (Distance > TargetRadius)
+	{
+		// Outside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(Location, DestLocation)), MaxVelocity);
+	}
+	else
+	{
+		// Inside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(Location, DestLocation)), MaxVelocity * (Distance / TargetRadius));
+	}
+
 	Steering = Vector2Subtract(DesiredVelocity, Velocity);
 
 	Direction = Velocity;
@@ -209,6 +247,21 @@ void Boid::UpdateBoidAnimation()
 	
 		BoidFrameRec.x = float(BoidCurrentFrame)*float(Sprite.width)/5; // 5 Frames
 	}
+}
+
+void Boid::CheckWindowCollision()
+{
+	// X
+	if (Location.x + float(Sprite.width)/5 < 0)
+		Location.x = GetScreenWidth() + float(Sprite.width)/5;
+	else if (Location.x - float(Sprite.width)/5 > GetScreenWidth())
+		Location.x = 0 - float(Sprite.width)/5;
+
+	// Y
+	if (Location.y + Sprite.height < 0)
+		Location.y = GetScreenHeight() + Sprite.height;
+	else if (Location.y - Sprite.height > GetScreenHeight())
+		Location.y = 0 - Sprite.height;
 }
 
 Vector2 Boid::Align(std::vector<Boid*> *Boids)

@@ -54,5 +54,9 @@ private:
 	float TargetRadius{};
 
 	void UpdateBoidAnimation();
+	void CheckWindowCollision();
+
+	bool bLeftMousePressed{};
+	bool bRightMousePressed{};
 };
 
