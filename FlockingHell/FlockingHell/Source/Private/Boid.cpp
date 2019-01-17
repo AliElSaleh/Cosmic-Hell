@@ -77,7 +77,7 @@ void Boid::Update()
 		UpdateBoidAnimation();
 	}
 
-	//IsAtLocation(Destination);
+	IsAtLocation(Destination);
 }
 
 void Boid::Draw()
@@ -85,8 +85,6 @@ void Boid::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);  // Draw part of the demon texture
-
-	DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 }
 
 void Boid::Flock(std::vector<Boid*> *Boids)
@@ -138,16 +136,8 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 {
 	Vector2 Steering{0.0f, 0.0f};
 
-	const float PerceptionRadius = 40.0f;
+	const float PerceptionRadius = 50.0f;
 	unsigned short Total = 0;
-
-	const auto SetMag = [](Vector2 V, const float Speed)
-	{
-		V.x = Speed;
-		V.y = Speed;
-	
-		return V;
-	};
 
 	const auto Limit = [](Vector2 V, const float Force)
 	{
@@ -169,7 +159,7 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 			Steering = Vector2Add(Steering, Other->Velocity);
 
 			// Set this boid's direction to the steering direction of the flock
-			Direction = Vector2Subtract(Steering, {0,0}); // I don't know why this works
+			Direction = Vector2Add(Direction, Steering);
 			Direction = Vector2Normalize(Direction);
 
 			Total++;
@@ -179,10 +169,16 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 	if (Total > 0)
 	{
 		Steering = Vector2Divide(Steering, Total);
-		Steering = SetMag(Steering, MaxSpeed);
+		Steering = Vector2Normalize(Steering);
 		Steering = Vector2Subtract(Steering, Velocity);
 		Steering = Limit(Steering, AlignMaxForce);
 	}
+	else
+	{
+		Direction = Vector2Add(Direction, Velocity);
+		Direction = Vector2Normalize(Direction);
+	}
+
 
 	return Steering;
 }
@@ -191,14 +187,19 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 {
 	Vector2 Steering{0.0f, 0.0f};
 
-	const float PerceptionRadius = 20.0f;
+	const float PerceptionRadius = 30.0f;
 	unsigned short Total = 0;
 
 	const auto SetMag = [](Vector2 V, const float Speed)
 	{
 		V.x = Speed;
 		V.y = Speed;
-	
+
+		const float Magnitude = sqrtf((V.x*V.x) + (V.y*V.y));
+
+		V.x = Magnitude;
+		V.y = Magnitude;
+
 		return V;
 	};
 
@@ -222,7 +223,7 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 			Steering = Vector2Add(Steering, Other->Location);
 
 			// Set this boid's direction to cohere to nearby flockmates
-			Direction = Vector2Subtract(Steering, Other->Location);
+			Direction = Vector2Add(Direction, Steering);
 			Direction = Vector2Normalize(Direction);
 			
 			Total++;
@@ -232,10 +233,15 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 	if (Total > 0)
 	{
 		Steering = Vector2Divide(Steering, Total);
-		Steering = Vector2Subtract(Steering, this->Location);
+		Steering = Vector2Normalize(Steering);
+		Steering = Vector2Subtract(Steering, Location);
 		Steering = SetMag(Steering, MaxSpeed);
-		Steering = Vector2Subtract(Steering, this->Velocity);
 		Steering = Limit(Steering, CohereMaxForce);
+	}
+	else
+	{
+		Direction = Vector2Add(Direction, Velocity);
+		Direction = Vector2Normalize(Direction);
 	}
 
 	return Steering;
@@ -265,14 +271,10 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 
 		if (Other != this && Distance < PerceptionRadius)
 		{
-			Vector2 Difference = Vector2Subtract(this->Location, Other->Location);
-			Difference = Vector2Divide(Difference, Distance);
+			const Vector2 Difference = Vector2Subtract(Other->Location, this->Location);
 
-			Steering = Vector2Add(Steering, Difference);
-
-			// Set this boid's direction to away from nearby flockmates
-			Direction = Vector2Subtract(Steering, Other->Velocity);
-			Direction = Vector2Normalize(Direction);
+			Steering = Vector2Add(Steering, Difference);	
+			Steering = Vector2Negate(Steering);
 
 			Total++;
 		}
@@ -281,10 +283,10 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 	if (Total > 0)
 	{
 		Steering = Vector2Divide(Steering, Total);
-		Steering = Vector2Subtract(Steering, this->Velocity);
+		Steering = Vector2Normalize(Steering);
+		Steering = Vector2Subtract(Steering, Velocity);
 		Steering = Limit(Steering, SeparateMaxForce);
 	}
-
 	
 	return Steering;
 }

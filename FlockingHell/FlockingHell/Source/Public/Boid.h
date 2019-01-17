@@ -31,9 +31,9 @@ private:
 	unsigned short BoidCurrentFrame{};
 	unsigned short FramesSpeed{10};
 
-	float AlignMaxForce{1.0f};
-	float CohereMaxForce{1.0f};
-	float SeparateMaxForce{1.0f};
+	float AlignMaxForce{0.2f};
+	float CohereMaxForce{0.1f};
+	float SeparateMaxForce{0.2f};
 	float MaxSpeed{2.0f};
 
 	float CurrentRotation{0.0f};
