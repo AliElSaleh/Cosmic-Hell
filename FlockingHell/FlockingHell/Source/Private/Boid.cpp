@@ -54,8 +54,12 @@ void Boid::Update()
 		{
 			if (V.x > Speed)
 				V.x = Speed;
+			else if (-V.x > Speed)
+				V.x = Speed;
 
 			if (V.y > Speed)
+				V.y = Speed;
+			else if (-V.y > Speed)
 				V.y = Speed;
 
 			return V;
@@ -269,7 +273,7 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 	Vector2 Steering{0.0f, 0.0f};
 
 	const float PerceptionRadius = 50.0f;
-	unsigned short Total = 0;
+	unsigned short Neighbors = 0;
 
 	const auto Limit = [](Vector2 V, const float Force)
 	{
@@ -291,51 +295,31 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 			Steering = Vector2Add(Steering, Other->Velocity);
 
 			// Set this boid's direction to the steering direction of the flock
-			Direction = Vector2Add(Direction, Steering);
+			Direction = Vector2Add(Direction, Other->Velocity);
 			Direction = Vector2Normalize(Direction);
 
-			Total++;
+			Neighbors++;
 		}
 	}
 
-	if (Total > 0)
+	if (Neighbors > 0)
 	{
-		Steering = Vector2Divide(Steering, Total);
+		Steering = Vector2Divide(Steering, Neighbors);
 		Steering = Vector2Normalize(Steering);
 		Steering = Vector2Subtract(Steering, Velocity);
 		Steering = Limit(Steering, AlignMaxForce);
 	}
-	else
-	{
-		Direction = Vector2Add(Direction, Velocity);
-		Direction = Vector2Normalize(Direction);
-	}
-
 
 	return Steering;
 }
 
 Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 {
-	// Seek function maybe??
-
-	Vector2 Steering{0.0f, 0.0f};
+	Vector2 Steering = {0.0f, 0.0f};
+	Vector2 CenterOfMass = {0.0f, 0.0f};
 
 	const float PerceptionRadius = 30.0f;
-	unsigned short Total = 0;
-
-	const auto SetMag = [](Vector2 V, const float Speed)
-	{
-		V.x = Speed;
-		V.y = Speed;
-
-		const float Magnitude = sqrtf((V.x*V.x) + (V.y*V.y));
-
-		V.x = Magnitude;
-		V.y = Magnitude;
-
-		return V;
-	};
+	unsigned short Neighbors = 0;
 
 	const auto Limit = [](Vector2 V, const float Force)
 	{
@@ -347,35 +331,30 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 
 		return V;
 	};
-
+	
 	for (auto Other : *Boids)
 	{
 		const float Distance = Vector2Distance(this->Location, Other->Location);
 
 		if (Other != this && Distance < PerceptionRadius)
 		{
-			Steering = Vector2Add(Steering, Other->Location);
+			CenterOfMass = Vector2Add(CenterOfMass, Other->Location);
 
-			// Set this boid's direction to cohere to nearby flockmates
-			Direction = Vector2Add(Direction, Steering);
+			// Set this boid's direction to the steering direction of the flock
+			Direction = Vector2Add(Direction, CenterOfMass);
 			Direction = Vector2Normalize(Direction);
-			
-			Total++;
+
+			Neighbors++;
 		}
 	}
 
-	if (Total > 0)
+	if (Neighbors > 0)
 	{
-		Steering = Vector2Divide(Steering, Total);
+		CenterOfMass = Vector2Divide(CenterOfMass, Neighbors);
+		CenterOfMass = Limit(CenterOfMass, CohereMaxForce);
+
+		Steering = Vector2Subtract(CenterOfMass, Location);
 		Steering = Vector2Normalize(Steering);
-		Steering = Vector2Subtract(Steering, Location);
-		Steering = SetMag(Steering, MaxSpeed);
-		Steering = Limit(Steering, CohereMaxForce);
-	}
-	else
-	{
-		Direction = Vector2Add(Direction, Velocity);
-		Direction = Vector2Normalize(Direction);
 	}
 
 	return Steering;
@@ -383,12 +362,9 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 
 Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 {
-	// Flee function maybe??
-
 	Vector2 Steering{0.0f, 0.0f};
 
 	const float PerceptionRadius = 30.0f;
-	unsigned short Total = 0;
 
 	const auto Limit = [](Vector2 V, const float Force)
 	{
@@ -403,26 +379,22 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 
 	for (auto Other : *Boids)
 	{
-		const float Distance = Vector2Distance(this->Location, Other->Location);
+		const float Distance = Vector2Distance(Other->Location, this->Location);
 
 		if (Other != this && Distance < PerceptionRadius)
 		{
-			const Vector2 Difference = Vector2Subtract(Other->Location, this->Location);
+			const Vector2 Heading = Vector2Subtract(this->Location, Other->Location);
 
-			Steering = Vector2Add(Steering, Difference);	
-			Steering = Vector2Negate(Steering);
+			const float Scale = Vector2Length(Heading) / sqrtf(PerceptionRadius);
 
-			Total++;
+			Steering = Vector2Divide(Vector2Normalize(Heading), Scale);
+
+			Direction = Vector2Add(Direction, Steering);
+			Direction = Vector2Normalize(Direction);
 		}
 	}
 
-	if (Total > 0)
-	{
-		Steering = Vector2Divide(Steering, Total);
-		Steering = Vector2Normalize(Steering);
-		Steering = Vector2Subtract(Steering, Velocity);
-		Steering = Limit(Steering, SeparateMaxForce);
-	}
+
 	
 	return Steering;
 }
