@@ -25,6 +25,7 @@ struct Star FastStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
+struct Boid Ship;
 
 template<typename PatternType>
 PatternType Pattern;

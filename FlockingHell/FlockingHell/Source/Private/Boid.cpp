@@ -17,6 +17,10 @@ void Boid::Init()
 
 	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
 	Velocity = {float(GetRandomValue(-3, 3)), float(GetRandomValue(-3, 3))};
+	MaxVelocity = 2.0f;
+	MaxForce = 0.2f;
+	Mass = 10.0f; // 10Kg
+	TargetRadius = 10.0f;
 
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/5, float(Sprite.height)};
 	Health = 100;
@@ -37,7 +41,7 @@ void Boid::Init()
 
 	BoidDestFrameRec = {float(GetScreenWidth())/2, float(GetScreenHeight())/2, (float(Sprite.width)/5), float(Sprite.height)};
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width/5, GetScreenWidth() - Sprite.width/5)), float(GetRandomValue(0 + Sprite.height, GetScreenHeight()))});
+	SetDestLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))});
 }
 
 void Boid::Update()
@@ -57,10 +61,14 @@ void Boid::Update()
 			return V;
 		};
 
-		// Move boids
-		Velocity = Vector2Add(Velocity, Acceleration);
-		Velocity = Limit(Velocity, MaxSpeed);
-		Location = Vector2Add(Location, Velocity);
+		if (bFlock)
+		{
+			Velocity = Vector2Add(Velocity, Acceleration);
+			Velocity = Limit(Velocity, MaxSpeed);
+			Location = Vector2Add(Location, Velocity);
+		}
+		else
+			Seek(Destination);
 
 		const auto Lerp = [&](const float From, const float To, const float Time)
 		{
@@ -68,7 +76,7 @@ void Boid::Update()
 		};
 
 		// Rotate towards the target
-		Rotation = Lerp(CurrentRotation, atan2(Direction.y, Direction.x)*RAD2DEG, GetFrameTime()/0.1f);
+		Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;// Lerp(CurrentRotation, atan2(Direction.y, Direction.x)*RAD2DEG, GetFrameTime()/0.1f);
 		CurrentRotation = Rotation;
 		
 		BoidDestFrameRec.x = Location.x;
@@ -76,8 +84,6 @@ void Boid::Update()
 
 		UpdateBoidAnimation();
 	}
-
-	IsAtLocation(Destination);
 }
 
 void Boid::Draw()
@@ -85,6 +91,11 @@ void Boid::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);  // Draw part of the demon texture
+
+	DrawCircle(Destination.x, Destination.y, 3.0f, WHITE);
+
+	if (!bFlock)
+		DrawText(FormatText("Rotation: %f", Rotation), 10, 70, 18, WHITE);
 }
 
 void Boid::Flock(std::vector<Boid*> *Boids)
@@ -97,6 +108,74 @@ void Boid::Flock(std::vector<Boid*> *Boids)
 	
 	const auto Separation = Separate(Boids);
 	Acceleration = Vector2Add(Acceleration, Separation);
+}
+
+void Boid::Seek(const Vector2 &DestLocation)
+{
+	const auto Limit = [](Vector2 V, const float Speed)
+	{
+		if (V.x > Speed)
+			V.x = Speed;
+
+		if (V.y > Speed)
+			V.y = Speed;
+
+		return V;
+	};
+
+	// Arrival logic
+	DesiredVelocity = Vector2Subtract(DestLocation, Location);
+	const float Distance = Vector2Length(DesiredVelocity);
+
+	if (Distance < TargetRadius)
+	{
+		// Inside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity * (Distance / TargetRadius));
+		SetDestLocation({float(GetRandomValue(0 + Sprite.width/5, GetScreenWidth() - Sprite.width/5)), float(GetRandomValue(0 + Sprite.height, GetScreenHeight()))});
+	}
+	else
+	{
+		// Outside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity);
+	}
+
+	Steering = Vector2Subtract(DesiredVelocity, Velocity);
+
+	Direction = Velocity;
+
+	// Movement of boid
+	Steering = Limit(Steering, MaxForce);
+	Steering = Vector2Divide(Steering, Mass);
+
+	Velocity = Limit(Vector2Add(Velocity, Steering), MaxSpeed);
+
+	Location = Vector2Add(Location, Velocity);
+}
+
+void Boid::Flee(const Vector2 & DestLocation)
+{
+	const auto Limit = [](Vector2 V, const float Speed)
+	{
+		if (V.x > Speed)
+			V.x = Speed;
+
+		if (V.y > Speed)
+			V.y = Speed;
+
+		return V;
+	};
+
+	DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(Location, DestLocation)), MaxVelocity);
+	Steering = Vector2Subtract(DesiredVelocity, Velocity);
+
+	Direction = Velocity;
+
+	Steering = Limit(Steering, MaxForce);
+	Steering = Vector2Divide(Steering, Mass);
+
+	Velocity = Limit(Vector2Add(Velocity, Steering), MaxSpeed);
+
+	Location = Vector2Add(Location, Velocity);
 }
 
 bool Boid::IsAtLocation(const Vector2 &GoalLocation)
@@ -185,6 +264,8 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 
 Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 {
+	// Seek function maybe??
+
 	Vector2 Steering{0.0f, 0.0f};
 
 	const float PerceptionRadius = 30.0f;
@@ -249,6 +330,8 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 
 Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 {
+	// Flee function maybe??
+
 	Vector2 Steering{0.0f, 0.0f};
 
 	const float PerceptionRadius = 30.0f;
