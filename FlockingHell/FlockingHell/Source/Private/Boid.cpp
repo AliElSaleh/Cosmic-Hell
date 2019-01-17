@@ -16,8 +16,7 @@ void Boid::Init()
 	Sprite = GetAsset(Boid);
 
 	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
-	Velocity = {float(GetRandomValue(1, 3)), float(GetRandomValue(1, 3))};
-	Direction = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
+	Velocity = {float(GetRandomValue(-3, 3)), float(GetRandomValue(-3, 3))};
 
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/5, float(Sprite.height)};
 	Health = 100;
@@ -86,6 +85,8 @@ void Boid::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);  // Draw part of the demon texture
+
+	DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 }
 
 void Boid::Flock(std::vector<Boid*> *Boids)
@@ -95,7 +96,7 @@ void Boid::Flock(std::vector<Boid*> *Boids)
 	
 	const auto Cohesion = Cohere(Boids);
 	Acceleration = Vector2Add(Acceleration, Cohesion);
-
+	
 	const auto Separation = Separate(Boids);
 	Acceleration = Vector2Add(Acceleration, Separation);
 }
@@ -137,8 +138,16 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 {
 	Vector2 Steering{0.0f, 0.0f};
 
-	const float PerceptionRadius = 50.0f;
+	const float PerceptionRadius = 40.0f;
 	unsigned short Total = 0;
+
+	const auto SetMag = [](Vector2 V, const float Speed)
+	{
+		V.x = Speed;
+		V.y = Speed;
+	
+		return V;
+	};
 
 	const auto Limit = [](Vector2 V, const float Force)
 	{
@@ -160,7 +169,7 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 			Steering = Vector2Add(Steering, Other->Velocity);
 
 			// Set this boid's direction to the steering direction of the flock
-			Direction = Vector2Subtract(Steering, Other->Location);
+			Direction = Vector2Subtract(Steering, {0,0}); // I don't know why this works
 			Direction = Vector2Normalize(Direction);
 
 			Total++;
@@ -170,10 +179,11 @@ Vector2 Boid::Align(std::vector<Boid*> *Boids)
 	if (Total > 0)
 	{
 		Steering = Vector2Divide(Steering, Total);
-		Steering = Vector2Subtract(Steering, this->Velocity);
+		Steering = SetMag(Steering, MaxSpeed);
+		Steering = Vector2Subtract(Steering, Velocity);
 		Steering = Limit(Steering, AlignMaxForce);
-	}	
-	
+	}
+
 	return Steering;
 }
 
@@ -211,10 +221,10 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 		{
 			Steering = Vector2Add(Steering, Other->Location);
 
-			// Set this boid's direction to the steering direction of the flock
+			// Set this boid's direction to cohere to nearby flockmates
 			Direction = Vector2Subtract(Steering, Other->Location);
 			Direction = Vector2Normalize(Direction);
-
+			
 			Total++;
 		}
 	}
@@ -226,8 +236,8 @@ Vector2 Boid::Cohere(std::vector<Boid*>* Boids)
 		Steering = SetMag(Steering, MaxSpeed);
 		Steering = Vector2Subtract(Steering, this->Velocity);
 		Steering = Limit(Steering, CohereMaxForce);
-	}	
-	
+	}
+
 	return Steering;
 }
 
@@ -235,7 +245,7 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 {
 	Vector2 Steering{0.0f, 0.0f};
 
-	const float PerceptionRadius = 40.0f;
+	const float PerceptionRadius = 30.0f;
 	unsigned short Total = 0;
 
 	const auto Limit = [](Vector2 V, const float Force)
@@ -261,8 +271,8 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 			Steering = Vector2Add(Steering, Difference);
 
 			// Set this boid's direction to away from nearby flockmates
-			//Direction = Vector2Subtract(Other->Location, Steering);
-			//Direction = Vector2Normalize(Direction);
+			Direction = Vector2Subtract(Steering, Other->Velocity);
+			Direction = Vector2Normalize(Direction);
 
 			Total++;
 		}
@@ -273,7 +283,8 @@ Vector2 Boid::Separate(std::vector<Boid*>* Boids)
 		Steering = Vector2Divide(Steering, Total);
 		Steering = Vector2Subtract(Steering, this->Velocity);
 		Steering = Limit(Steering, SeparateMaxForce);
-	}	
+	}
+
 	
 	return Steering;
 }
