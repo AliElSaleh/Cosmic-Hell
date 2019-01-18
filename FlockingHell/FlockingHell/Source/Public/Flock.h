@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Boid.h"
+#include "Ship.h"
 
 struct Flock
 {
@@ -11,6 +12,7 @@ struct Flock
 	void Draw();
 
 	std::vector<Boid*> Boids{};
+	std::vector<Ship*> Ships{};
 
 private:
 	void CheckBoidsWindowEdges();
