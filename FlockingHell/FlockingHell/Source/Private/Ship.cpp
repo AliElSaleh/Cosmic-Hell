@@ -18,7 +18,7 @@ void Ship::Init()
 	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
 	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
 	MaxVelocity = 1.0f;
-	MaxForce = 2.0f;
+	MaxForce = 0.4f;
 	Mass = 10.0f; // 10Kg
 	TargetRadius = 20.0f;
 
