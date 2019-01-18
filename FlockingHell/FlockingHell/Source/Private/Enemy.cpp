@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "Player.h"
+
 #include <raymath.h>
 
 void Enemy::Init()
@@ -45,6 +45,10 @@ void Enemy::Draw()
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), WHITE);
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED);
 	}
+}
+
+void Enemy::Flock(std::vector<Enemy*>* Boids)
+{
 }
 
 void Enemy::CheckCollisionWithPlayer()

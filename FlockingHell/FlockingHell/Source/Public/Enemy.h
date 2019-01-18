@@ -1,9 +1,11 @@
 #pragma once
-#include <raylib.h>
-#include <vector>
 #include "Bullet.h" // <--- Forward declares player struct
 
+#include <raylib.h>
+#include <vector>
+
 #define MAX_ENEMY_BULLETS 50
+
 struct BulletPatternGenerator;
 constexpr auto TOLERANCE = 1.0f;
 
@@ -14,6 +16,8 @@ struct Enemy
 	virtual void Update();
 	virtual void Draw();
 
+	virtual void Flock(std::vector<Enemy*> *Boids);
+
 	void StartMoving();
 	void StopMoving();
 
@@ -21,6 +25,7 @@ struct Enemy
 
 	Vector2 Location{};
 	Vector2 Direction{};
+	Vector2 Velocity{};
 	Vector2 HitboxOffset{};
 	Vector2 Destination{};
 	Vector2 SpawnLocation{};
@@ -28,9 +33,8 @@ struct Enemy
 	Rectangle Hitbox{};
 	Rectangle SpriteBox{};
 
-	std::vector<struct Enemy> Enemies;
-
 	float Speed{};
+	float TargetRadius{};
 
 	signed short Health{};
 	unsigned short Damage{};

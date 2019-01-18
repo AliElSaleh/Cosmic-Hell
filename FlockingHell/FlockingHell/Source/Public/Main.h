@@ -13,7 +13,6 @@
 #include "RandomPattern.h"
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
-#include "Boid.h"
 #include "Flock.h"
 #include "Ship.h"
 

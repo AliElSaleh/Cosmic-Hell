@@ -1,7 +1,8 @@
 #pragma once
-#include <vector>
-#include "Boid.h"
+
 #include "Ship.h"
+
+#include <vector>
 
 struct Flock
 {
@@ -11,11 +12,14 @@ struct Flock
 	void Update();
 	void Draw();
 
-	std::vector<Boid*> Boids{};
-	std::vector<Ship*> Ships{};
+	std::vector<Enemy*> Boids{};
 
 private:
+	Vector2 TargetLocation{};
+
 	void CheckBoidsWindowEdges();
-	void SetNewDirection();
+	void IsAtLocation(Vector2 Location);
+
+	void SetGoalLocation(Vector2 GoalLocation);
 };
 

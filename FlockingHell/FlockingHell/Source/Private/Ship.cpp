@@ -16,14 +16,14 @@ void Ship::Init()
 	Sprite = GetAsset(Boid);
 
 	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
-	Velocity = {float(GetRandomValue(-3, 3)), float(GetRandomValue(-3, 3))};
-	MaxVelocity = 2.0f;
-	MaxForce = 0.2f;
+	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
+	MaxVelocity = 1.0f;
+	MaxForce = 2.0f;
 	Mass = 10.0f; // 10Kg
-	TargetRadius = 10.0f;
+	TargetRadius = 20.0f;
 
-	Health = 100;
-	Speed = 250.0f;
+	Health = 50;
+	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
 	bActive = true;
@@ -44,16 +44,9 @@ void Ship::Init()
 void Ship::Update()
 {
 	BoidSpriteFramesCounter++;
-	
-	Destination = GetMousePosition();
-
-	const auto Lerp = [&](const float From, const float To, const float Time)
-	{
-		return From + Time * (To - From);
-	};
 
 	// Rotate towards the direction the ship is moving
-	Rotation = Lerp(CurrentRotation, atan2(Direction.y, Direction.x)*RAD2DEG, GetFrameTime()/0.1f);
+	Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;
 	CurrentRotation = Rotation;
 
 	BoidDestFrameRec.x = Location.x;
@@ -61,31 +54,42 @@ void Ship::Update()
 
 	UpdateShipAnimation();
 
-	if (IsMouseButtonPressed(0))
-		AlignmentForce += 0.1f;
-	else if(IsMouseButtonPressed(1))
-		AlignmentForce -= 0.1f;
+	if (bDebug)
+	{
+		if (IsMouseButtonPressed(0))
+			AlignmentForce += 0.1f;
+		else if(IsMouseButtonPressed(1))
+			AlignmentForce -= 0.1f;
 
-	if (IsKeyPressed(KEY_LEFT))
-		CohesionForce += 0.1f;
-	else if (IsKeyPressed(KEY_RIGHT))
-		CohesionForce -= 0.1f;
+		if (IsKeyPressed(KEY_LEFT))
+			CohesionForce += 0.1f;
+		else if (IsKeyPressed(KEY_RIGHT))
+			CohesionForce -= 0.1f;
 
-	if (IsKeyPressed(KEY_UP))
-		SeparationForce += 0.1f;
-	else if (IsKeyPressed(KEY_DOWN))
-		SeparationForce -= 0.1f;
+		if (IsKeyPressed(KEY_UP))
+			SeparationForce += 0.1f;
+		else if (IsKeyPressed(KEY_DOWN))
+			SeparationForce -= 0.1f;
+	}
 }
 
 void Ship::Draw()
 {
-	DrawCircle(GetMousePosition().x, GetMousePosition().y, 3.0f, WHITE); // Destination
+	DrawCircle(Destination.x, Destination.y, 3.0f, WHITE); // Destination
 
 	DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);
 	//DrawCircle(Location.x, Location.y, 5.0f, RED); // Ships
+
+	if (bDebug)
+	{
+		DrawText(FormatText("Alignment Force: %f", AlignmentForce), 10, 70, 18, WHITE);
+		DrawText(FormatText("Cohesion Force: %f", CohesionForce), 10, 90, 18, WHITE);
+		DrawText(FormatText("Separation Force: %f", SeparationForce), 10, 110, 18, WHITE);
+		DrawText(FormatText("Goal seeking Force: %f", GoalSeekForce), 10, 130, 18, WHITE);
+	}
 }
 
-void Ship::Flock(std::vector<Ship*>* Boids)
+void Ship::Flock(std::vector<Enemy*>* Boids)
 {
 	ApplyBehaviours(Boids);
 }
@@ -100,7 +104,6 @@ Vector2 Ship::Seek(const Vector2& DestLocation)
 	{
 		// Inside the slowing area
 		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity * (Distance / TargetRadius));
-		SetDestLocation({float(GetRandomValue(0 + Sprite.width/5, GetScreenWidth() - Sprite.width/5)), float(GetRandomValue(0 + Sprite.height, GetScreenHeight()))});
 	}
 	else
 	{
@@ -119,15 +122,10 @@ Vector2 Ship::Seek(const Vector2& DestLocation)
 	return Steering;
 }
 
-void Ship::Flee(const Vector2& DestLocation)
-{
-	
-}
-
-Vector2 Ship::Align(std::vector<Ship*>* Boids)
+Vector2 Ship::Align(std::vector<Enemy*>* Boids) const
 {
 	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float PerceptionRadius = 40.0f;
+	const float PerceptionRadius = 50.0f;
 	unsigned short Neighbors = 0;
 
 	for (auto Other : *Boids)
@@ -154,10 +152,10 @@ Vector2 Ship::Align(std::vector<Ship*>* Boids)
 	return Vector2Zero();
 }
 
-Vector2 Ship::Cohere(std::vector<Ship*>* Boids)
+Vector2 Ship::Cohere(std::vector<Enemy*>* Boids)
 {
 	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float PerceptionRadius = 50.0f;
+	const float PerceptionRadius = 60.0f;
 	unsigned short Neighbors = 0;
 
 	for (auto Other : *Boids)
@@ -181,10 +179,10 @@ Vector2 Ship::Cohere(std::vector<Ship*>* Boids)
 	return Vector2Zero();
 }
 
-Vector2 Ship::Separate(std::vector<Ship*>* Boids)
+Vector2 Ship::Separate(std::vector<Enemy*>* Boids) const
 {
 	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float DesiredSeparation = float(Sprite.width)/5;
+	const float DesiredSeparation = float(Sprite.width)/5 + 10.0f; // 10 is an Arbitrary value
 	unsigned short Neighbors = 0;
 
 	for (auto Other : *Boids)
@@ -214,39 +212,39 @@ Vector2 Ship::Separate(std::vector<Ship*>* Boids)
 	return Vector2Zero();
 }
 
-Vector2 Ship::Limit(Vector2 V, float Amount) const
+Vector2 Ship::Limit(Vector2 V, const float Amount) const
 {
-	if (V.x > Speed)
-		V.x = Speed;
+	if (V.x > Amount)
+		V.x = Amount;
 
-	if (V.y > Speed)
-		V.y = Speed;
+	if (V.y > Amount)
+		V.y = Amount;
 
 	return V;
 }
 
 void Ship::ApplyForce(const Vector2 Force)
 {
-	Velocity = Limit(Vector2Add(Velocity, Force), MaxSpeed);
-	Location = Vector2Add(Location, Velocity);
+	Velocity = Vector2Add(Velocity, Force);
+	Location = Vector2Add(Location, Vector2Scale(Velocity, Speed * GetFrameTime()));
 }
 
-void Ship::ApplyBehaviours(std::vector<Ship*>* Boids)
+void Ship::ApplyBehaviours(std::vector<Enemy*>* Boids)
 {
 	Vector2 Alignment = Align(Boids);
 	Vector2 Cohesion = Cohere(Boids);
 	Vector2 Separation = Separate(Boids);
-	//Vector2 GoalSeek = Seek(Destination);
+	Vector2 GoalSeeking = Seek(Destination);
 
 	Alignment = Vector2Scale(Alignment, AlignmentForce);
 	Cohesion = Vector2Scale(Cohesion, CohesionForce);
 	Separation = Vector2Scale(Separation, SeparationForce);		// Arbitrary weight values
-	//GoalSeek = Vector2Scale(GoalSeek, GoalSeekForce);
+	GoalSeeking = Vector2Scale(GoalSeeking, GoalSeekForce);
 
 	ApplyForce(Alignment);
 	ApplyForce(Cohesion);
 	ApplyForce(Separation);
-	//ApplyForce(GoalSeek);
+	ApplyForce(GoalSeeking);
 }
 
 void Ship::UpdateShipAnimation()

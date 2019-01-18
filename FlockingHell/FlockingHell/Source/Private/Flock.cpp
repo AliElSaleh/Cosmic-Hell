@@ -1,4 +1,5 @@
 #include "Flock.h"
+
 #include <raymath.h>
 
 Flock::Flock()
@@ -12,9 +13,7 @@ void Flock::Init()
 		for (unsigned short i = 0; i < Boids.size(); i++)
 			Boids[i]->Init();
 
-	if (!Ships.empty())
-		for (unsigned short i = 0; i < Ships.size(); i++)
-			Ships[i]->Init();
+	SetGoalLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))});
 }
 
 void Flock::Update()
@@ -24,16 +23,8 @@ void Flock::Update()
 		{
 			Boids[i]->Flock(&Boids);
 			Boids[i]->Update();
-			Boids[i]->Acceleration = {0.0f, 0.0f};
 			CheckBoidsWindowEdges();
-		}
-
-	if (!Ships.empty())
-		for (unsigned short i = 0; i < Ships.size(); i++)
-		{
-			Ships[i]->Flock(&Ships);
-			Ships[i]->Update();
-			CheckBoidsWindowEdges();
+			IsAtLocation(TargetLocation);
 		}
 }
 
@@ -42,10 +33,6 @@ void Flock::Draw()
 	if (!Boids.empty())
 		for (unsigned short i = 0; i < Boids.size(); i++)
 			Boids[i]->Draw();
-
-	if (!Ships.empty())
-		for (unsigned short i = 0; i < Ships.size(); i++)
-			Ships[i]->Draw();
 }
 
 void Flock::CheckBoidsWindowEdges()
@@ -54,37 +41,39 @@ void Flock::CheckBoidsWindowEdges()
 		for (unsigned short i = 0; i < Boids.size(); i++)
 		{
 			// X
-			if (Boids[i]->Location.x + float(Boids[i]->Sprite.width)/5 < 0)
-				Boids[i]->Location.x = GetScreenWidth() + float(Boids[i]->Sprite.width)/5;
-			else if (Boids[i]->Location.x - float(Boids[i]->Sprite.width)/5 > GetScreenWidth())
-				Boids[i]->Location.x = 0 - float(Boids[i]->Sprite.width)/5;
+			if (Boids[i]->Location.x < 0)
+				Boids[i]->Location.x = GetScreenWidth();
+			else if (Boids[i]->Location.x > GetScreenWidth())
+				Boids[i]->Location.x = 0;
 
 			// Y
-			if (Boids[i]->Location.y + Boids[i]->Sprite.height < 0)
-				Boids[i]->Location.y = GetScreenHeight() + Boids[i]->Sprite.height;
-			else if (Boids[i]->Location.y - Boids[i]->Sprite.height > GetScreenHeight())
-				Boids[i]->Location.y = 0 - Boids[i]->Sprite.height;
-		}
-
-	if (!Ships.empty())
-		for (unsigned short i = 0; i < Ships.size(); i++)
-		{
-			// X
-			if (Ships[i]->Location.x < 0)
-				Ships[i]->Location.x = GetScreenWidth();
-			else if (Ships[i]->Location.x > GetScreenWidth())
-				Ships[i]->Location.x = 0;
-
-			// Y
-			if (Ships[i]->Location.y < 0)
-				Ships[i]->Location.y = GetScreenHeight();
-			else if (Ships[i]->Location.y > GetScreenHeight())
-				Ships[i]->Location.y = 0;
+			if (Boids[i]->Location.y < 0)
+				Boids[i]->Location.y = GetScreenHeight();
+			else if (Boids[i]->Location.y > GetScreenHeight())
+				Boids[i]->Location.y = 0;
 		}
 }
 
-void Flock::SetNewDirection()
+void Flock::IsAtLocation(const Vector2 Location)
 {
-	for (unsigned short i = 0; i < Boids.size(); i++)
-		Boids[i]->Direction = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
+	if (!Boids.empty())
+		for (unsigned short i = 0; i < Boids.size(); i++)
+		{
+			const Vector2 DesiredVelocity = Vector2Subtract(Location, Boids[i]->Location);
+			const float Distance = Vector2Length(DesiredVelocity);
+
+			if (Distance < Boids[0]->TargetRadius)
+			{
+				SetGoalLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))});
+			}
+		}
+}
+
+void Flock::SetGoalLocation(const Vector2 GoalLocation)
+{
+	TargetLocation = GoalLocation;
+
+	if (!Boids.empty())
+		for (unsigned short i = 0; i < Boids.size(); i++)
+			Boids[i]->Destination = GoalLocation;
 }

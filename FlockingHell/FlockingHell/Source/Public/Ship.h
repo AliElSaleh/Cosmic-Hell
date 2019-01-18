@@ -10,35 +10,26 @@ struct Ship : Enemy
 	void Update() override;
 	void Draw() override;
 
-	void Flock(std::vector<Ship*> *Boids);
+	void Flock(std::vector<Enemy*> *Boids) override;
 
 	Vector2 Seek(const Vector2& DestLocation);
-	void Flee(const Vector2& DestLocation);
 
-	Vector2 Align(std::vector<Ship*> *Boids);
-	Vector2 Cohere(std::vector<Ship*> *Boids);
-	Vector2 Separate(std::vector<Ship*> *Boids);
+	Vector2 Align(std::vector<Enemy*> *Boids) const;
+	Vector2 Cohere(std::vector<Enemy*> *Boids);
+	Vector2 Separate(std::vector<Enemy*> *Boids) const;
 
-	Vector2 Velocity{};
 	Vector2 DesiredVelocity{};
 	Vector2 Steering{}; // Force
-	Vector2 Arrival{}; // Force
-	Vector2 Acceleration{};
 
 	float Mass{};
 
-	bool bFlock{};
-
 private:
-	float AlignmentForce{0.5f};
-	float CohesionForce{0.05f};
-	float SeparationForce{0.2f};
-	float GoalSeekForce{0.2f};
-	float MaxSpeed{2.0f};
+	float AlignmentForce{0.3f};
+	float CohesionForce{0.01f};
+	float SeparationForce{0.05f};
+	float GoalSeekForce{0.08f};
 	float MaxVelocity{};
 	float MaxForce{};
-
-	float TargetRadius{};
 	
 	float CurrentRotation{0.0f};
 	float Rotation{0.0f};
@@ -55,7 +46,7 @@ private:
 	Vector2 Limit(Vector2 V, float Amount) const;
 
 	void ApplyForce(Vector2 Force);
-	void ApplyBehaviours(std::vector<Ship*> *Boids);
+	void ApplyBehaviours(std::vector<Enemy*> *Boids);
 
 	void UpdateShipAnimation();
 };
