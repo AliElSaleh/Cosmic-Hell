@@ -15,6 +15,7 @@
 #include "LinearMultiPattern.h"
 #include "Flock.h"
 #include "Ship.h"
+#include "QuadTree.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -25,6 +26,9 @@ struct Star FastStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
+
+Section Boundary = Section(350, 400, 350, 400);
+QuadTree* QT = new QuadTree(Boundary, 4);
 
 template<typename PatternType>
 PatternType Pattern;
@@ -76,6 +80,8 @@ void DrawHighscoreScreen();
 void DrawTestScene();
 void DrawFlockingScene();
 void DrawDebugInfo();
+
+void LogQuadTree(QuadTree &Tree);
 
 void ResetGame();
 void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()

@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\QuadTree.cpp" />
     <ClCompile Include="Source\Private\Ship.cpp" />
     <ClCompile Include="Source\Private\Flock.cpp" />
     <ClCompile Include="Source\Private\RandomPattern.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\QuadTree.h" />
     <ClInclude Include="Source\Public\Globals.h" />
     <ClInclude Include="Source\Public\Ship.h" />
     <ClInclude Include="Source\Public\Flock.h" />
