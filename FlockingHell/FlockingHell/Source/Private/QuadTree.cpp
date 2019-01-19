@@ -3,23 +3,68 @@
 
 #include <raylib.h>
 
+int TotalPoints;
+
+void QuadTree::Init()
+{
+	Points.clear();
+	PointsInRange.clear();
+	TotalPoints = 0;
+	bDivided = false;
+
+	for (int i = 0; i < 300; i++)
+	{
+		const Point P = Point(GetRandomValue(10, GetScreenWidth()-PANEL_WIDTH - 10), GetRandomValue(10, GetScreenHeight() - 10));
+		Insert(P);
+	}
+
+	Range.Width = 200;
+	Range.Height = 100;
+	Range.X = GetRandomValue(Range.Width, GetScreenWidth()-PANEL_WIDTH - Range.Width);
+	Range.Y = GetRandomValue(Range.Height, GetScreenHeight() - Range.Height);
+
+	PointsInRange = Query(Range);
+
+	printf("Total points: %i", TotalPoints);
+	printf("\n");
+	printf("Points found: %u\n", unsigned(PointsInRange.size()));
+}
+
 void QuadTree::Update()
 {
-	if (IsMouseButtonDown(0) && 
-		GetMousePosition().x < GetScreenWidth()-PANEL_WIDTH && 
-		GetMousePosition().x > 0 && 
-		GetMousePosition().y < GetScreenHeight() &&
-		GetMousePosition().y > 0)
+	if (GetMousePosition().x > 0 && GetMousePosition().x < GetScreenWidth()-PANEL_WIDTH &&
+		GetMousePosition().y > 0 && GetMousePosition().y < GetScreenHeight())
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			const Point P = Point(GetMousePosition().x + GetRandomValue(-20, 20), GetMousePosition().y + GetRandomValue(-20, 20));
-			Insert(P);
-			NumberOfPoints++;
-		}
-
-		printf("Points: %i\n", NumberOfPoints);
+		if (Range.X - Range.Width <= GetScreenWidth()-PANEL_WIDTH && 
+			Range.X + Range.Width >= 0 && 
+			Range.Y - Range.Height <= GetScreenHeight() &&
+			Range.Y + Range.Height >= 0)
+		{	
+			PointsInRange = Query(Range);
+			printf("Points found: %u\n", unsigned(PointsInRange.size()));
+		}		
 	}
+	else
+		printf("Cursor outside of window.\n");
+
+	if (GetMousePosition().x + Range.Width > GetScreenWidth()-PANEL_WIDTH)
+		Range.X = GetScreenWidth()-PANEL_WIDTH - Range.Width;
+	else if (GetMousePosition().x - Range.Width < 0)
+		Range.X = Range.Width;
+	else
+		Range.X = GetMousePosition().x;
+
+
+	if (GetMousePosition().y + Range.Height > GetScreenHeight())
+		Range.Y = GetScreenHeight() - Range.Height;
+	else if (GetMousePosition().y - Range.Height < 0)
+		Range.Y = Range.Height;
+	else
+		Range.Y = GetMousePosition().y;
+
+	// Refresh
+	if (IsKeyPressed(KEY_R))
+		Init();
 }
 
 void QuadTree::Draw()
@@ -37,6 +82,43 @@ void QuadTree::Draw()
 	for (unsigned short i = 0; i < Points.size(); ++i)
 		DrawCircle(Points[i].X, Points[i].Y, 3.0f, YELLOW);
 
+	DrawRectangleLines(Range.X - Range.Width, Range.Y - Range.Height, Range.Width*2, Range.Height*2, GREEN);
+
+	for (Point P : PointsInRange)
+		DrawCircle(P.X, P.Y, 3.0f, GREEN);
+
+	DrawText("Refresh [R]", GetScreenWidth()-PANEL_WIDTH+10, 50, 20, WHITE);
+}
+
+std::vector<Point> QuadTree::Query(const Section Range)
+{
+	std::vector<Point> Found;
+
+	if (!Boundary.Intersects(Range))
+		return std::vector<Point>();
+
+	for (Point P : Points)
+	{
+		if(Range.Contains(P))
+			Found.push_back(P);
+	}
+
+	if (bDivided)
+	{
+		auto FoundChildren = Northeast->Query(Range);
+		Found.insert(Found.end(), FoundChildren.begin(), FoundChildren.end());
+
+		FoundChildren = Northwest->Query(Range);
+		Found.insert(Found.end(), FoundChildren.begin(), FoundChildren.end());
+		
+		FoundChildren = Southeast->Query(Range);
+		Found.insert(Found.end(), FoundChildren.begin(), FoundChildren.end());
+
+		FoundChildren = Southwest->Query(Range);
+		Found.insert(Found.end(), FoundChildren.begin(), FoundChildren.end());
+	}
+
+	return Found;
 }
 
 bool QuadTree::Insert(Point Point)
@@ -46,14 +128,23 @@ bool QuadTree::Insert(Point Point)
 
 	if (Points.size() < Capacity)
 	{
+		TotalPoints++;
 		Points.emplace_back(Point);
 		return true;
 	}
 
 	if (!bDivided)
 		SubDivide();
-	
+
 	return Northeast->Insert(Point) || Northwest->Insert(Point) || Southeast->Insert(Point) || Southwest->Insert(Point);
+}
+
+bool Section::Intersects(const Section Range) const
+{
+	return !(Range.X - Range.Width > this->X + this->Width ||
+		Range.X	+ Range.Width < this->X - this->Width ||
+		Range.Y - Range.Height > this->Y + this->Height ||
+		Range.Y	+ Range.Height < this->Y - this->Height);
 }
 
 void QuadTree::SubDivide()

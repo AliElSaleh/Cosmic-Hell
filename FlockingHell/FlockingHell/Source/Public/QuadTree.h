@@ -23,6 +23,7 @@ struct Section
 	}
 
 	bool Contains(Point Point) const;
+	bool Intersects(Section Range) const;
 
 	int X, Y, Width, Height;
 };
@@ -35,14 +36,19 @@ struct QuadTree
 		this->Capacity = Capacity;
 	}
 
+	void Init();
 	void Update();
 	void Draw();
+
+	std::vector<Point> Query(Section Range);
 
 	bool Insert(Point Point);
 
 	std::vector<Point> Points;
+	std::vector<Point> PointsInRange;
 
 	Section Boundary{0, 0, 0, 0};
+	Section Range{0, 0, 0, 0};
 
 	QuadTree* Northeast{};
 	QuadTree* Northwest{};
@@ -50,8 +56,6 @@ struct QuadTree
 	QuadTree* Southwest{};
 
 	unsigned short Capacity{};
-
-	int NumberOfPoints{};
 
 	bool bDivided{};
 
