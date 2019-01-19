@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "BulletPatternGenerator.h"
 #include "Bullet.h"
 #include "Enemy.h"
@@ -1204,7 +1205,7 @@ void BulletPatternGenerator::UpdateRandomPattern(const bool AllRange, const bool
 				Bullet[i].bActive = true;
 
 				if (AllRange)
-					CalculateDirection(i, Vector2({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))}));
+					CalculateDirection(i, Vector2({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))}));
 				else if (Aiming)
 					CalculateDirection(i, Vector2({float(GetRandomValue(TargetLocation.x - Deviation, TargetLocation.x + DummySprite.width + Deviation)), float(GetRandomValue(TargetLocation.y, TargetLocation.y + DummySprite.height))}));
 				else
@@ -1348,7 +1349,7 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 	if (NumOfBullets > 0)
 		for (int i = 0; i < NumOfBullets; i++)
 		{
-			if (Bullet[i].Location.x - Bullet[i].Radius > GetScreenWidth() || 
+			if (Bullet[i].Location.x > GetScreenWidth()-PANEL_WIDTH || 
 				Bullet[i].Location.x + Bullet[i].Radius < 0 ||
 				Bullet[i].Location.y - Bullet[i].Radius > GetScreenHeight() ||
 				Bullet[i].Location.y + Bullet[i].Radius < 0)

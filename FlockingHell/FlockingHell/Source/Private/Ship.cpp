@@ -1,8 +1,8 @@
+#include "Globals.h"
 #include "Ship.h"
 #include "Assets.h"
 
 #include <raymath.h>
-
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -15,7 +15,7 @@ void Ship::Init()
 {
 	Sprite = GetAsset(Boid);
 
-	Location = {float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))};
+	Location = {float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))};
 	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
 	MaxVelocity = 1.0f;
 	MaxForce = 0.4f;

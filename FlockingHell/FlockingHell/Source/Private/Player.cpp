@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "Player.h"
 #include "Bullet.h"
 #include "Assets.h"
@@ -12,7 +13,7 @@ void Player::Init()
 
 	XOffset = 15;
 	YOffset = 50;
-	Location.x = float(GetScreenWidth()) / 2 + float(XOffset);
+	Location.x = float(GetScreenWidth()-PANEL_WIDTH) / 2 + float(XOffset);
 	Location.y = float(GetScreenHeight()) - 100;
 	BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
@@ -262,11 +263,11 @@ void Player::CheckBulletOutsideWindow()
 
 void Player::CheckCollisionWithWindow()
 {
-	if (Location.x + float(Sprite.width)/4 > GetScreenWidth())
+	if (Location.x + float(Sprite.width)/4 > GetScreenWidth()-PANEL_WIDTH)
 	{
-		Location.x = GetScreenWidth() - float(Sprite.width)/4;
-		Hitbox.x = GetScreenWidth() -  float(Sprite.width)/6 - 3.0f;
-		BulletSpawnLocation.x = GetScreenWidth() - float(Sprite.width)/6 + 23.0f;
+		Location.x = GetScreenWidth()-PANEL_WIDTH - float(Sprite.width)/4;
+		Hitbox.x = GetScreenWidth()-PANEL_WIDTH -  float(Sprite.width)/6 - 3.0f;
+		BulletSpawnLocation.x = GetScreenWidth()-PANEL_WIDTH - float(Sprite.width)/6 + 23.0f;
 	}
 	
 	if (Location.y + float(Sprite.height)/2 > GetScreenHeight())

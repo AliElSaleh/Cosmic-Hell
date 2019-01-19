@@ -107,7 +107,6 @@
     <ClCompile Include="Source\Private\Assets.cpp" />
     <ClCompile Include="Source\Private\Alien.cpp" />
     <ClCompile Include="Source\Private\BulletPatternGenerator.cpp" />
-    <ClCompile Include="Source\Private\PulseBullet.cpp" />
     <ClCompile Include="Source\Private\Demon.cpp" />
     <ClCompile Include="Source\Private\Enemy.cpp" />
     <ClCompile Include="Source\Private\Bullet.cpp" />
@@ -122,6 +121,7 @@
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\Globals.h" />
     <ClInclude Include="Source\Public\Ship.h" />
     <ClInclude Include="Source\Public\Flock.h" />
     <ClInclude Include="Source\Public\RandomPattern.h" />
@@ -132,7 +132,6 @@
     <ClInclude Include="Source\Public\Assets.h" />
     <ClInclude Include="Source\Public\Alien.h" />
     <ClInclude Include="Source\Public\BulletPatternGenerator.h" />
-    <ClInclude Include="Source\Public\PulseBullet.h" />
     <ClInclude Include="Source\Public\Demon.h" />
     <ClInclude Include="Source\Public\Enemy.h" />
     <ClInclude Include="Source\Public\Bullet.h" />

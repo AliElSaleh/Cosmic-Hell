@@ -1,9 +1,9 @@
+#include "Globals.h"
 #include "Star.h"
-
 
 void Star::Init()
 {
-	Location.x = float(GetRandomValue(0, GetScreenWidth()));
+	Location.x = float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH));
 	Location.y = float(GetRandomValue(0, GetScreenHeight()));
 	Radius = 1.0f;
 	Speed = 100.0f;

@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "Enemy.h"
 
 #include <raymath.h>
@@ -15,7 +16,7 @@ void Enemy::Init()
 	bIsDead = false;
 	bDebug = false;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, GetScreenHeight() - 650))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth()-PANEL_WIDTH - Sprite.width)), float(GetRandomValue(0 + Sprite.height/2, GetScreenHeight() - 650))});
 }
 
 void Enemy::Update()
@@ -25,7 +26,7 @@ void Enemy::Update()
 		if (!IsLowHealth())
 			MoveToLocation(Destination);
 		else
-			MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 150))});
+			MoveToLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, 150))});
 
 		Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
@@ -90,7 +91,7 @@ bool Enemy::IsAtLocation(const Vector2& GoalLocation)
 
 		if (!bIsDestinationSet)
 		{
-			SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
+			SetDestLocation({float(GetRandomValue(0 + Sprite.width, GetScreenWidth()-PANEL_WIDTH - Sprite.width)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
 			bIsDestinationSet = true;
 		}
 	}

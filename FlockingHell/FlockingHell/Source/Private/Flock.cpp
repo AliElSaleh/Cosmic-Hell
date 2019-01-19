@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "Flock.h"
 
 #include <raymath.h>
@@ -13,7 +14,7 @@ void Flock::Init()
 		for (unsigned short i = 0; i < Boids.size(); i++)
 			Boids[i]->Init();
 
-	SetGoalLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))});
+	SetGoalLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))});
 }
 
 void Flock::Update()
@@ -42,8 +43,8 @@ void Flock::CheckBoidsWindowEdges()
 		{
 			// X
 			if (Boids[i]->Location.x < 0)
-				Boids[i]->Location.x = GetScreenWidth();
-			else if (Boids[i]->Location.x > GetScreenWidth())
+				Boids[i]->Location.x = GetScreenWidth()-PANEL_WIDTH;
+			else if (Boids[i]->Location.x > GetScreenWidth()-PANEL_WIDTH)
 				Boids[i]->Location.x = 0;
 
 			// Y
@@ -64,7 +65,7 @@ void Flock::IsAtLocation(const Vector2 Location)
 
 			if (Distance < Boids[0]->TargetRadius)
 			{
-				SetGoalLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, GetScreenHeight()))});
+				SetGoalLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))});
 			}
 		}
 }

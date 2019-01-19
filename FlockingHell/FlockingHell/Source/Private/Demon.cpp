@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "BulletPatternGenerator.h"
 #include "Demon.h"
 #include "Player.h"
@@ -129,7 +130,7 @@ void Demon::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth() - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }
 
 void Demon::Update()
@@ -145,7 +146,7 @@ void Demon::Update()
 		if (!IsLowHealth())
 			MoveToLocation(Destination);
 		else
-			MoveToLocation({float(GetRandomValue(0, GetScreenWidth())), float(GetRandomValue(0, 150))});
+			MoveToLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, 150))});
 
 		SpriteBox.x = Location.x;
 		SpriteBox.y = Location.y;
@@ -205,7 +206,7 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 {
 	if (BulletPattern.Bullet.empty())
 	{
-		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth() - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
+		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
 		StartMoving();
 		bIsDestinationSet = true;
 	}

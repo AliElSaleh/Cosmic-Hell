@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "Warship.h"
 #include "Player.h"
 #include "Assets.h"
@@ -26,7 +27,7 @@ void Warship::Init()
 	bIsDead = false;
 	bDebug = false;
 
-	SetDestLocation({float(GetRandomValue(0, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0, GetScreenHeight() - 700))});
+	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH-PANEL_WIDTH - Sprite.width)), float(GetRandomValue(0, GetScreenHeight() - 700))});
 }
 
 void Warship::Update()
@@ -81,7 +82,7 @@ bool Warship::IsAtLocation(const Vector2& GoalLocation)
 
 		if (!bIsDestinationSet)
 		{
-			SetDestLocation({float(GetRandomValue(0, GetScreenWidth() - Sprite.width)), float(GetRandomValue(0, GetScreenHeight() - 700))});
+			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH-PANEL_WIDTH - Sprite.width)), float(GetRandomValue(0, GetScreenHeight() - 700))});
 			bIsDestinationSet = true;
 		}
 	}

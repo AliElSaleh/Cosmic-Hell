@@ -107,7 +107,10 @@ void CirclePattern::Draw()
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
 			if(Bullet[i].bActive)
+			{
 				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+				DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
+			}
 }
 
 void CirclePattern::Delay(const float Seconds)
