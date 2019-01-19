@@ -81,7 +81,5 @@ void DrawTestScene();
 void DrawFlockingScene();
 void DrawDebugInfo();
 
-void LogQuadTree(QuadTree &Tree);
-
 void ResetGame();
 void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()

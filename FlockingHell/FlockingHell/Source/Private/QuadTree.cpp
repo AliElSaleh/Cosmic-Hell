@@ -18,8 +18,8 @@ void QuadTree::Init()
 		Insert(P);
 	}
 
-	Range.Width = 200;
-	Range.Height = 100;
+	Range.Width = 50;
+	Range.Height = 50;
 	Range.X = GetRandomValue(Range.Width, GetScreenWidth()-PANEL_WIDTH - Range.Width);
 	Range.Y = GetRandomValue(Range.Height, GetScreenHeight() - Range.Height);
 
@@ -88,6 +88,8 @@ void QuadTree::Draw()
 		DrawCircle(P.X, P.Y, 3.0f, GREEN);
 
 	DrawText("Refresh [R]", GetScreenWidth()-PANEL_WIDTH+10, 50, 20, WHITE);
+
+	DrawText(FormatText("Total Points: %02i", TotalPoints), 710, 100, 20, WHITE);
 }
 
 std::vector<Point> QuadTree::Query(const Section Range)
