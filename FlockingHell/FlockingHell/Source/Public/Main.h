@@ -27,6 +27,10 @@ struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
 
+Texture2D Panel;
+Texture2D Heart;
+Texture2D Bomb;
+
 Section Boundary = Section(350, 400, 350, 400);
 QuadTree* QT = new QuadTree(Boundary, 4);
 

@@ -19,6 +19,9 @@ void Assets::LoadSprites()
 	Load("Alien", "Sprites/Alien.png");
 	Load("Warship", "Sprites/Warship.png");
 	Load("Boid", "Sprites/Boid.png");
+	Load("Panel", "Sprites/Panel.png");
+	Load("Heart", "Sprites/Heart.png");
+	Load("Bomb", "Sprites/Bomb.png");
 }
 
 void Assets::UnloadSprites()
@@ -30,4 +33,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Alien"));
 	UnloadTexture(GetSprite("Warship"));
 	UnloadTexture(GetSprite("Boid"));
+	UnloadTexture(GetSprite("Panel"));
+	UnloadTexture(GetSprite("Heart"));
+	UnloadTexture(GetSprite("Bomb"));
 }
