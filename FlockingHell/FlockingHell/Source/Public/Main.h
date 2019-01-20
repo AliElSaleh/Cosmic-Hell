@@ -28,8 +28,8 @@ struct EnemyManager EnemyManager;
 struct Flock Flock;
 
 Texture2D Panel;
-Texture2D Heart;
-Texture2D Bomb;
+Texture2D Heart[6];
+Texture2D Bomb[4];
 
 Section Boundary = Section(350, 400, 350, 400);
 QuadTree* QT = new QuadTree(Boundary, 4);
@@ -45,6 +45,8 @@ enum State GameState;
 
 // ints
 unsigned short FramesCounter = 0; // To time the splash screen
+unsigned short BombSpriteSpacing = 40;
+unsigned short HeartSpriteSpacing = 30;
 
 // bools
 bool bDebug;
