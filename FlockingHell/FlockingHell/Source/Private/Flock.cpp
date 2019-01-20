@@ -43,13 +43,13 @@ void Flock::CheckBoidsWindowEdges()
 		{
 			// X
 			if (Boids[i]->Location.x < 0)
-				Boids[i]->Location.x = GetScreenWidth()-PANEL_WIDTH;
+				Boids[i]->Location.x = float(GetScreenWidth()-PANEL_WIDTH);
 			else if (Boids[i]->Location.x > GetScreenWidth()-PANEL_WIDTH)
 				Boids[i]->Location.x = 0;
 
 			// Y
 			if (Boids[i]->Location.y < 0)
-				Boids[i]->Location.y = GetScreenHeight();
+				Boids[i]->Location.y = float(GetScreenHeight());
 			else if (Boids[i]->Location.y > GetScreenHeight())
 				Boids[i]->Location.y = 0;
 		}

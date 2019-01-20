@@ -52,7 +52,7 @@ void QuadTree::Update()
 	else if (GetMousePosition().x - Range.Width < 0)
 		Range.X = Range.Width;
 	else
-		Range.X = GetMousePosition().x;
+		Range.X = int(GetMousePosition().x);
 
 
 	if (GetMousePosition().y + Range.Height > GetScreenHeight())
@@ -60,7 +60,7 @@ void QuadTree::Update()
 	else if (GetMousePosition().y - Range.Height < 0)
 		Range.Y = Range.Height;
 	else
-		Range.Y = GetMousePosition().y;
+		Range.Y = int(GetMousePosition().y);
 
 	// Refresh
 	if (IsKeyPressed(KEY_R))

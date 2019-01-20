@@ -36,7 +36,7 @@ void Ship::Init()
 	BoidFrameRec.x = 0.0f;
 	BoidFrameRec.y = 0.0f;
 	BoidFrameRec.width = float(Sprite.width)/5;
-	BoidFrameRec.height = Sprite.height;
+	BoidFrameRec.height = float(Sprite.height);
 
 	BoidDestFrameRec = {Location.x, Location.y, (float(Sprite.width)/5), float(Sprite.height)};
 }
@@ -75,7 +75,7 @@ void Ship::Update()
 
 void Ship::Draw()
 {
-	DrawCircle(Destination.x, Destination.y, 3.0f, WHITE); // Destination
+	DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
 
 	DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);
 	//DrawCircle(Location.x, Location.y, 5.0f, RED); // Ships

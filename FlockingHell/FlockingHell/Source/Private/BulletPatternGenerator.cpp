@@ -1182,9 +1182,9 @@ void BulletPatternGenerator::UpdateRandomPattern(const bool AllRange, const bool
 					Bullet[j].bActive = true;
 
 					if(Angles[i] > 90 && Angles[i] < 270)
-						CalculateDirection(j, Vector2({float(GetRandomValue(Points[i].x, Points[i].x - Deviation)), float(GetRandomValue(Points[i].y, Points[i].y - Deviation))}));
+						CalculateDirection(j, Vector2({float(GetRandomValue(int(Points[i].x), int(Points[i].x) - Deviation)), float(GetRandomValue(int(Points[i].y), int(Points[i].y) - Deviation))}));
 					else 
-						CalculateDirection(j, Vector2({float(GetRandomValue(Points[i].x, Points[i].x + Deviation)), float(GetRandomValue(Points[i].y, Points[i].y + Deviation))}));	
+						CalculateDirection(j, Vector2({float(GetRandomValue(int(Points[i].x), int(Points[i].x) + Deviation)), float(GetRandomValue(int(Points[i].y), int(Points[i].y) + Deviation))}));	
 
 					break;
 				}
@@ -1207,9 +1207,9 @@ void BulletPatternGenerator::UpdateRandomPattern(const bool AllRange, const bool
 				if (AllRange)
 					CalculateDirection(i, Vector2({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))}));
 				else if (Aiming)
-					CalculateDirection(i, Vector2({float(GetRandomValue(TargetLocation.x - Deviation, TargetLocation.x + DummySprite.width + Deviation)), float(GetRandomValue(TargetLocation.y, TargetLocation.y + DummySprite.height))}));
+					CalculateDirection(i, Vector2({float(GetRandomValue(int(TargetLocation.x) - Deviation, int(TargetLocation.x) + DummySprite.width + Deviation)), float(GetRandomValue(int(TargetLocation.y), int(TargetLocation.y) + DummySprite.height))}));
 				else
-					CalculateDirection(i, Vector2({float(GetRandomValue(Bullet[i].Location.x - Deviation, Bullet[i].Location.x + Deviation)), float(GetRandomValue(Bullet[i].Location.y, GetScreenHeight()))}));
+					CalculateDirection(i, Vector2({float(GetRandomValue(int(Bullet[i].Location.x) - Deviation, int(Bullet[i].Location.x) + Deviation)), float(GetRandomValue(int(Bullet[i].Location.y), GetScreenHeight()))}));
 			
 				break;
 			}

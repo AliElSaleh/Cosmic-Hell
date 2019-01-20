@@ -64,7 +64,7 @@ void Warship::Draw()
 
 	// Draw the warship sprite
 	if (bActive && !bIsDead)
-		DrawTexture(Sprite, Location.x, Location.y, WHITE);
+		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 }
 
 void Warship::CheckCollisionWithPlayer()

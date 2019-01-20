@@ -192,7 +192,7 @@ void Demon::Draw()
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
 		DrawText(FormatText("X: %01i", Direction.x), 10, 100, 18, WHITE);
-		DrawCircle(SpawnLocation.x, SpawnLocation.y, 5.0f, WHITE);
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, WHITE);
 	}
 
 	// Draw the demon sprite
@@ -218,13 +218,13 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 
 float Demon::Round(const float Number)
 {
-	float Value;
+	int Value;
 	if (Number < 0)
 		Value = (int)(Number - 0.5);
 	else
 		Value = (int)(Number + 0.5);
 
-    return Value; 
+    return float(Value); 
 }
 
 void Demon::UpdateBullet()
