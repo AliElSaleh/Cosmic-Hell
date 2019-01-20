@@ -498,35 +498,40 @@ void Demon::DrawBullet()
 	switch (BulletWave)
 	{
 		case FIRST:
-			DrawText("First WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("First WAVE", 10, 50, 20, WHITE);
 
 			for (int i = 0; i < 5; i++)
 				CircleBullet[i].Draw();
 		break;
 
 		case FIRST_A:
-			DrawText("First A WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("First A WAVE", 10, 50, 20, WHITE);
 
 			for (int i = 5; i < 10; i++)
 				CircleBullet[i].Draw();
 		break;
 
 		case FIRST_B:
-			DrawText("First B WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("First B WAVE", 10, 50, 20, WHITE);
 
 			for (int i = 10; i < 15; i++)
 				CircleBullet[i].Draw();
 		break;
 
 		case FIRST_C:
-			DrawText("First C WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("First C WAVE", 10, 50, 20, WHITE);
 
 			for (int i = 15; i < 20; i++)
 				CircleBullet[i].Draw();
 		break;
 
 		case SECOND:
-			DrawText("Second WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("Second WAVE", 10, 50, 20, WHITE);
 
 			for (int i = 0; i < 1; i++)
 				LinearMultiBullet[i].Draw();
@@ -548,7 +553,8 @@ void Demon::DrawBullet()
 		break;
 
 		case THIRD:
-			DrawText("Third WAVE", 10, 50, 20, WHITE);
+			if (bDebug)
+				DrawText("Third WAVE", 10, 50, 20, WHITE);
 
 			SpiralBullet[0].Draw();
 		break;

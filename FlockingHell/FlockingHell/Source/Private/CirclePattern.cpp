@@ -101,16 +101,16 @@ void CirclePattern::Draw()
 		
 		DrawText(CirclePatternNames[CurrentPattern-33], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
+
+		for (int i = 0; i < NumOfBullets; i++)
+			DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
 	}
 
 	// Bullets
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
 			if(Bullet[i].bActive)
-			{
 				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
-				DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
-			}
 }
 
 void CirclePattern::Delay(const float Seconds)
