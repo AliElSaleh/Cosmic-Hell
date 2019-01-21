@@ -47,9 +47,11 @@ void Assets::LoadFonts()
 	};
 
 	Load("Locust", "Fonts/CGF Locust Resistance.ttf");
+	Load("VCR", "Fonts/VCR_OSD_MONO_1.001.ttf");
 }
 
 void Assets::UnloadFonts()
 {
 	UnloadFont(GetFont("Locust"));
+	UnloadFont(GetFont("VCR"));
 }

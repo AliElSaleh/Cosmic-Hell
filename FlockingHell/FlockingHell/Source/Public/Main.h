@@ -48,6 +48,9 @@ unsigned short FramesCounter = 0; // To time the splash screen
 unsigned short BombSpriteSpacing = 40;
 unsigned short HeartSpriteSpacing = 30;
 
+unsigned short ScorePosition = 46;
+unsigned short GrazingScorePosition = 90;
+
 // bools
 bool bDebug;
 
