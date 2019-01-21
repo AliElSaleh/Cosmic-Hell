@@ -19,13 +19,22 @@ struct Assets
 		return Sprites[Name];
 	}
 
+	Font GetFont(const std::string& Name)
+	{
+		return Fonts[Name];
+	}
+
 	void LoadSprites();
 	void UnloadSprites();
+	
+	void LoadFonts();
+	void UnloadFonts();
 
 private:
 	Assets();
 	~Assets();
 
 	std::map<std::string, Texture2D> Sprites;
+	std::map<std::string, Font> Fonts;
 };
 

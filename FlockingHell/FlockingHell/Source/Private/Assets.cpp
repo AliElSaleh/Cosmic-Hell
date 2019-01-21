@@ -37,3 +37,19 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Heart"));
 	UnloadTexture(GetSprite("Bomb"));
 }
+
+void Assets::LoadFonts()
+{
+	const auto Load = [&](const std::string Name, const char* FileName)
+	{
+		const Font Font = LoadFont(FileName);
+		Fonts[Name] = Font;
+	};
+
+	Load("Locust", "Fonts/CGF Locust Resistance.ttf");
+}
+
+void Assets::UnloadFonts()
+{
+	UnloadFont(GetFont("Locust"));
+}

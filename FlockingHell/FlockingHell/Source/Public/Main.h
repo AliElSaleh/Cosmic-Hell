@@ -88,4 +88,4 @@ void DrawFlockingScene();
 void DrawDebugInfo();
 
 void ResetGame();
-void UnloadTextures(); // Unload all textures that have been loaded since InitWindow()
+void Unload(); // Unload all assets that have been loaded since InitWindow()
