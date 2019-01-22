@@ -21,7 +21,7 @@ void Player::Init()
 	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(Sprite.width)/4 + float(XOffset);
 	Hitbox.y = Location.y + float(Sprite.height)/4;
-	Spritebox = {Location.x, Location.y, float(Sprite.width)/4, float(Sprite.height)};
+	Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
 	Hitbox.width = 3;
 	Hitbox.height = 3;
 	Health = 100;
@@ -54,7 +54,7 @@ void Player::Init()
 
 	bIsDead = false;
 	bIsHit = false;
-	bDebug = false;
+	bDebug = true;
 }
 
 void Player::Update()
@@ -71,7 +71,7 @@ void Player::Update()
 		Hitbox.x = Location.x + float(Sprite.width)/4 - 45;
 		Hitbox.y = Location.y + float(Sprite.height)/4 + 22;
 
-		Spritebox = {Location.x, Location.y, float(Sprite.width)/4, float(Sprite.height)};
+		Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
 
 		Center = {Location.x + float(Sprite.width)/12 - 2.0f, Location.y + float(Sprite.height)/2 - 5.0f};
 
@@ -98,7 +98,7 @@ void Player::Draw() const
 
 	if (bDebug)
 	{
-		DrawRectangle(int(Spritebox.x), int(Spritebox.y), int(Spritebox.width), int(Spritebox.height), WHITE); // Spritebox
+		DrawRectangleLines(int(Spritebox.x), int(Spritebox.y), int(Spritebox.width), int(Spritebox.height), WHITE); // Spritebox
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), YELLOW); // Player hitbox
 	
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)

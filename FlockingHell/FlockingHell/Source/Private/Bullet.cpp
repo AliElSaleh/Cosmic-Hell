@@ -94,9 +94,11 @@ void Bullet::CheckCollisionWithPlayer() const
 	if (CheckCollisionCircleRec(CollisionOffset, Radius, Player->Spritebox) && !Player->bIsDead)
 	{
 		// Increase grazing score
-		if (bActive)
+		if (bActive && !Player->bIsHit)
 			Player->GrazingScore += GetRandomValue(130, 150) * GetFrameTime();
 	}
+
+	Player->bIsHit = false;
 }
 
 void Bullet::Clear()
