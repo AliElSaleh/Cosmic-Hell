@@ -370,8 +370,7 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 		}
 		else
 		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
+			Delay(DelayAmount);
 		}
 	}
 	else
@@ -385,8 +384,7 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 			}
 		else
 		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
+			Delay(DelayAmount);
 		}
 
 		// Calculate direction to target
@@ -414,8 +412,7 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 		}
 		else
 		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
+			Delay(DelayAmount);
 		}
 	}
 	else
@@ -430,8 +427,7 @@ void BulletPatternGenerator::UpdateSpiralBullet(const bool Double)
 			}
 		else
 		{
-			StartShotRoutine();
-			CheckBulletOutsideWindow();
+			Delay(DelayAmount);
 		}
 	}
 }
@@ -494,8 +490,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 	}
 	else
 	{
-		StartShotRoutine();
-		CheckBulletOutsideWindow();
+		Delay(DelayAmount);
 	}
 }
 

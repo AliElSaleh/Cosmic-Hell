@@ -47,6 +47,9 @@ void CirclePattern::Init()
 		default:
 		break;
 	}
+
+	for (unsigned short i = 0; i < Bullet.size(); i++)
+		Bullet[i].Init();
 }
 
 void CirclePattern::Update()
@@ -103,7 +106,10 @@ void CirclePattern::Draw()
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 
 		for (int i = 0; i < NumOfBullets; i++)
-			DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
+		{
+			//DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
+			DrawCircle(Bullet[i].CollisionOffset.x, Bullet[i].CollisionOffset.y, 3.0f, WHITE);
+		}
 	}
 
 	// Bullets
@@ -136,6 +142,9 @@ void CirclePattern::Delay(const float Seconds)
 	{
 		StartShotRoutine();
 		CheckBulletOutsideWindow();
+
+		for (unsigned short i = 0; i < Bullet.size(); i++)
+			Bullet[i].Update();
 	}
 }
 

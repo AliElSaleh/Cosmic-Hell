@@ -24,6 +24,7 @@ struct Player
 	Texture2D Sprite{};
 	Texture2D BulletSprite{};
 	Rectangle Hitbox{};
+	Rectangle Spritebox{};
 	Rectangle PlayerFrameRec{};
 	Rectangle BulletFrameRec{};
 
@@ -42,6 +43,7 @@ struct Player
 	unsigned short BulletLevel = 1;
 	unsigned short EnemiesKilled = 0;
 	unsigned short BulletDamage = 0;
+	unsigned short GrazingScore = 0;
 
 	bool bIsHit{};
 	bool bIsDead{};

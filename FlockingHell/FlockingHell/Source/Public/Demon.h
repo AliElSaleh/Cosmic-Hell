@@ -34,9 +34,6 @@ struct Demon : Enemy
 
 	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern) override;
 
-	//struct PulseBullet PulseBullet3rdWave;
-	//struct PulseBullet BulletRage[MAX_DEMON_RAGE_BULLETS];
-
 	struct SpiralPattern SpiralBullet[4];
 	struct SpiralMultiPattern RageBullet;
 	struct LinearMultiPattern LinearMultiBullet[4];

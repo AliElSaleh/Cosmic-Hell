@@ -54,6 +54,9 @@ void SpiralMultiPattern::Init()
 		default:
 		break;
 	}
+
+	for (unsigned short i = 0; i < Bullet.size(); i++)
+		Bullet[i].Init();
 }
 
 void SpiralMultiPattern::Update()
@@ -116,7 +119,14 @@ void SpiralMultiPattern::Draw()
 
 		DrawText(SpiralMultiPatternNames[CurrentPattern-6], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
+
+		for (int i = 0; i < NumOfBullets; i++)
+		{
+			//DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
+			DrawCircle(Bullet[i].CollisionOffset.x, Bullet[i].CollisionOffset.y, 3.0f, WHITE);
+		}
 	}
+
 	switch (CurrentPattern)
 	{
 		case SPIRAL_MIX:
@@ -130,7 +140,8 @@ void SpiralMultiPattern::Draw()
 	// Bullets
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
-			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+			if (Bullet[i].bActive)
+				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
 void SpiralMultiPattern::Delay(const float Seconds)
@@ -156,6 +167,9 @@ void SpiralMultiPattern::Delay(const float Seconds)
 	{
 		StartShotRoutine();
 		CheckBulletOutsideWindow();
+
+		for (unsigned short i = 0; i < Bullet.size(); i++)
+			Bullet[i].Update();
 	}
 }
 

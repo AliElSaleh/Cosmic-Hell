@@ -9,9 +9,8 @@ struct Bullet
 	void Update();
 	void Draw() const;
 
-	void CheckCollisionWithPlayer();
-
-	bool IsLocationYGreaterThan(float Y) const; // Is this bullet greater than (Y) on the Y axis
+	void CheckCollisionWithPlayerHitbox();
+	void CheckCollisionWithPlayer() const;
 
 	void Clear();
 

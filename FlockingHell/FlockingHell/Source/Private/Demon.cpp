@@ -72,6 +72,10 @@ void Demon::Init()
 		CircleBullet[i].Init();
 	}
 
+	for (int i = 0; i < 20; i++)
+		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
+			CircleBullet[i].Bullet[j].Player = Player;
+
 	// SECOND WAVE
 	for (int i = 0; i < 1; i++)
 	{
@@ -108,7 +112,13 @@ void Demon::Init()
 		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 		LinearMultiBullet[i].Init();
 	}
+	
+	for (int i = 0; i < 4; i++)
+		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
+			LinearMultiBullet[i].Bullet[j].Player = Player;
 
+
+	// THIRD WAVE
 	SpiralBullet[0].SetBulletPattern(BulletPatternGenerator::SPIRAL_LEFT);
 	SpiralBullet[1].SetBulletPattern(BulletPatternGenerator::SPIRAL_RIGHT);
 	SpiralBullet[2].SetBulletPattern(BulletPatternGenerator::SPIRAL_DOUBLE);
@@ -122,11 +132,19 @@ void Demon::Init()
 		SpiralBullet[i].Init();
 	}
 
+	for (int i = 0; i < 4; i++)
+		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
+			SpiralBullet[i].Bullet[j].Player = Player;
+
+	// RAGE
 	RageBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MIX);
 	RageBullet.SetDelayAmount(0.0f);
 	RageBullet.Enemy = this;
 	RageBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 	RageBullet.Init();
+
+	for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
+		RageBullet.Bullet[i].Player = Player;
 
 	BulletWave = FIRST;
 

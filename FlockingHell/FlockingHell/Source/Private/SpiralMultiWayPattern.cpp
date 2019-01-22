@@ -59,7 +59,10 @@ void SpiralMultiWayPattern::Init()
 
 		default:
 		break;
-	}	
+	}
+
+	for (unsigned short i = 0; i < Bullet.size(); i++)
+		Bullet[i].Init();
 }
 
 void SpiralMultiWayPattern::Update()
@@ -136,12 +139,19 @@ void SpiralMultiWayPattern::Draw()
 
 		DrawText(SpiralMultiWayPatternNames[CurrentPattern-25], 10, 60, 20, WHITE);
 		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
+
+		for (int i = 0; i < NumOfBullets; i++)
+		{
+			//DrawCircle(Bullet[i].Location.x, Bullet[i].Location.y, 3.0f, WHITE);
+			DrawCircle(Bullet[i].CollisionOffset.x, Bullet[i].CollisionOffset.y, 3.0f, WHITE);
+		}
 	}
 
 	// Bullets
 	if (!Bullet.empty())
 		for (int i = 0; i < NumOfBullets; i++)
-			DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
+			if (Bullet[i].bActive)
+				DrawTexture(BulletSprite, int(Bullet[i].Location.x), int(Bullet[i].Location.y), WHITE);
 }
 
 void SpiralMultiWayPattern::Delay(const float Seconds)
@@ -167,6 +177,9 @@ void SpiralMultiWayPattern::Delay(const float Seconds)
 	{
 		StartShotRoutine();
 		CheckBulletOutsideWindow();
+
+		for (unsigned short i = 0; i < Bullet.size(); i++)
+			Bullet[i].Update();
 	}
 }
 
