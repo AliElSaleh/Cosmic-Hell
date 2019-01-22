@@ -3,7 +3,9 @@
 #include "Demon.h"
 #include "Player.h"
 #include "Assets.h"
+
 #include <raymath.h>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -493,7 +495,7 @@ void Demon::UpdateBullet()
 			RageBullet.Center = SpawnLocation;
 
 			StopMoving();
-
+			
 			RageBullet.bRelease = true;
 
 			RageBullet.Update();
@@ -678,7 +680,7 @@ bool Demon::IsLowHealth() const
 {
 	bool bLowHealth;
 
-	Health <= 150 ? bLowHealth = true : bLowHealth = false;
+	Health <= 400 ? bLowHealth = true : bLowHealth = false;
 
 	return bLowHealth;
 }

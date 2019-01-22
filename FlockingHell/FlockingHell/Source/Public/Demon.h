@@ -60,8 +60,6 @@ protected:
 	float MaxForce{};
 	float MaxVelocity{};
 
-	static float Round(float Number);
-
 	void ApplyForce(const Vector2 Force);
 
 	void UpdateBullet();
