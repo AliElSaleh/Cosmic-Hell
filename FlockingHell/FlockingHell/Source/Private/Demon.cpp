@@ -145,7 +145,7 @@ void Demon::Init()
 	for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
 		RageBullet.Bullet[i].Player = Player;
 
-	BulletWave = THIRD_C;
+	BulletWave = FIRST;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }

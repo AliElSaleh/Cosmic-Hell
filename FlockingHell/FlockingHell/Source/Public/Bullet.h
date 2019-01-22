@@ -1,6 +1,11 @@
 #pragma once
 #include <raylib.h>
 
+#define Stringify(name) #name
+
+#define ASSETS Assets::Get()
+#define GetAsset(Name) ASSETS.GetSprite(#Name)
+
 struct Player;
 
 struct Bullet

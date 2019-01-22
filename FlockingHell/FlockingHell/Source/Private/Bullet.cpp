@@ -1,8 +1,11 @@
 #include "Bullet.h"
 #include "Player.h"
+#include "Assets.h"
 
 void Bullet::Init()
 {
+	Sprite = GetAsset(RedBullet);
+
 	Speed = 200.0f;
 	Radius = 10;
 	Damage = GetRandomValue(10, 15);
@@ -10,7 +13,7 @@ void Bullet::Init()
 	bIsHit = false;
 	CollisionOffset.x = Location.x + Radius;
 	CollisionOffset.y = Location.y + Radius;
-	bDebug = true;
+	bDebug = false;
 }
 
 void Bullet::Update()
@@ -28,10 +31,7 @@ void Bullet::Draw() const
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 
 	if (bDebug)
-	{
-		//DrawCircle(int(Location.x) + int(Sprite.width)/2, int(Location.y) + int(Sprite.height)/2, Radius, WHITE); // Enemy red bullets
-		DrawCircle(CollisionOffset.x, CollisionOffset.y, 20.0f, WHITE);
-	}
+		DrawCircle(CollisionOffset.x, CollisionOffset.y, 3.0f, WHITE);
 }
 
 void Bullet::CheckCollisionWithPlayerHitbox()
