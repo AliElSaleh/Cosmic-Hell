@@ -17,7 +17,6 @@ void Demon::Init()
 	BulletSprite = GetAsset(RedBullet);
 	Sprite = GetAsset(Demon);
 
-	Location = {300.0f, 100.0f};
 	SpawnLocation = {50.0f, 105.0f};
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
@@ -89,7 +88,7 @@ void Demon::Init()
 	for (int i = 1; i < 2; i++)
 	{
 		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::SIX_WAY_LINEAR_LOCK_ON);
-		LinearMultiBullet[i].SetDelayAmount((i-2)*3.0f);
+		LinearMultiBullet[i].SetDelayAmount(0.0f);
 		LinearMultiBullet[i].Enemy = this;
 		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 		LinearMultiBullet[i].Init();
@@ -98,7 +97,7 @@ void Demon::Init()
 	for (int i = 2; i < 3; i++)
 	{
 		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::ELEVEN_WAY_AIMING);
-		LinearMultiBullet[i].SetDelayAmount((i-4)*5.0f);
+		LinearMultiBullet[i].SetDelayAmount(0.0f);
 		LinearMultiBullet[i].Enemy = this;
 		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 		LinearMultiBullet[i].Init();
@@ -107,7 +106,7 @@ void Demon::Init()
 	for (int i = 3; i < 4; i++)
 	{
 		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::TWENTY_WAY);
-		LinearMultiBullet[i].SetDelayAmount((i-6)*3.0f);
+		LinearMultiBullet[i].SetDelayAmount(0.0f);
 		LinearMultiBullet[i].Enemy = this;
 		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
 		LinearMultiBullet[i].Init();
@@ -146,7 +145,7 @@ void Demon::Init()
 	for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
 		RageBullet.Bullet[i].Player = Player;
 
-	BulletWave = FIRST;
+	BulletWave = THIRD_C;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
 }
@@ -454,7 +453,15 @@ void Demon::UpdateBullet()
 
 			// Make enemy move again and switch to the next wave
 			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[3])))
-				BulletWave = RAGE;
+			{
+				if (!IsLowHealth())
+				{
+					Init();
+					BulletWave = FIRST;
+				}
+				else
+					BulletWave = RAGE;
+			}
 		break;
 
 		case RAGE:
@@ -612,6 +619,7 @@ void Demon::CheckCollisionWithPlayerBullets()
 			if (bActive && !bIsDead)
 			{
 				Player->ResetBullet(i);
+				Player->Score += GetRandomValue(50, 80);
 
 				Health -= Player->BulletDamage;
 			}

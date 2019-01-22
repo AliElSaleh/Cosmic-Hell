@@ -1345,9 +1345,9 @@ void BulletPatternGenerator::CheckBulletOutsideWindow()
 		for (int i = 0; i < NumOfBullets; i++)
 		{
 			if (Bullet[i].Location.x > GetScreenWidth()-PANEL_WIDTH || 
-				Bullet[i].Location.x + Bullet[i].Radius < 0 ||
+				Bullet[i].Location.x + Bullet[i].Radius*2 < 0 ||
 				Bullet[i].Location.y - Bullet[i].Radius > GetScreenHeight() ||
-				Bullet[i].Location.y + Bullet[i].Radius < 0)
+				Bullet[i].Location.y + Bullet[i].Radius*2 < 0)
 			{
 				Bullet.erase(Bullet.begin()+i);
 				NumOfBullets--;

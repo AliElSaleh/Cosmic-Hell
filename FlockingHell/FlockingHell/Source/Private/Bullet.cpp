@@ -60,7 +60,7 @@ void Bullet::CheckCollisionWithPlayer() const
 	{
 		// Increase grazing score
 		if (bActive)
-			Player->GrazingScore += 200 * GetFrameTime();
+			Player->GrazingScore += GetRandomValue(130, 150) * GetFrameTime();
 	}
 }
 
