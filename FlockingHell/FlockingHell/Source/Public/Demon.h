@@ -32,6 +32,9 @@ struct Demon : Enemy
 	void Update() override;
 	void Draw() override;
 
+	Vector2 Seek(const Vector2& DestLocation);
+	Vector2 Limit(Vector2 V, const float Amount) const;
+
 	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern) override;
 
 	struct SpiralPattern SpiralBullet[4];
@@ -50,7 +53,16 @@ struct Demon : Enemy
 	WAVE BulletWave;
 
 protected:
+	Vector2 DesiredVelocity{};
+	Vector2 Steering{};
+
+	float Mass{};
+	float MaxForce{};
+	float MaxVelocity{};
+
 	static float Round(float Number);
+
+	void ApplyForce(const Vector2 Force);
 
 	void UpdateBullet();
 	void UpdateDemonAnimation();

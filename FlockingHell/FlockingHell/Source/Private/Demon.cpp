@@ -3,7 +3,7 @@
 #include "Demon.h"
 #include "Player.h"
 #include "Assets.h"
-
+#include <raymath.h>
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -21,6 +21,11 @@ void Demon::Init()
 	HitboxOffset = {50.0f, 105.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/10 - 80, float(Sprite.height)/3};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/10, float(Sprite.height)};
+	MaxVelocity = 2.0f;
+	MaxForce = 0.5f;
+	Mass = 30.0f; // 30Kg
+	TargetRadius = 10.0f;
+
 	Health = 2000;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
@@ -161,9 +166,12 @@ void Demon::Update()
 		DemonSpriteFramesCounter++;
 
 		if (!IsLowHealth())
-			MoveToLocation(Destination);
+		{
+			const Vector2 SeekingForce = Seek(Destination);
+			ApplyForce(SeekingForce);
+		}
 		else
-			MoveToLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, 150))});
+			Seek({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, 150))});
 
 		SpriteBox.x = Location.x;
 		SpriteBox.y = Location.y;
@@ -219,6 +227,34 @@ void Demon::Draw()
 	DrawBullet();
 }
 
+Vector2 Demon::Seek(const Vector2& DestLocation)
+{
+	// Arrival logic
+	DesiredVelocity = Vector2Subtract(DestLocation, Location);
+	const float Distance = Vector2Length(DesiredVelocity);
+
+	if (Distance < TargetRadius)
+	{
+		// Inside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity * (Distance / TargetRadius));
+	}
+	else
+	{
+		// Outside the slowing area
+		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity);
+	}
+
+	Steering = Vector2Subtract(DesiredVelocity, Velocity);
+
+	Direction = Velocity;
+
+	// Movement of boid
+	Steering = Limit(Steering, MaxForce);
+	Steering = Vector2Divide(Steering, Mass);
+
+	return Steering;
+}
+
 bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
 {
 	if (BulletPattern.Bullet.empty())
@@ -231,17 +267,6 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 		bIsDestinationSet = false;
 
 	return bIsDestinationSet;
-}
-
-float Demon::Round(const float Number)
-{
-	int Value;
-	if (Number < 0)
-		Value = (int)(Number - 0.5);
-	else
-		Value = (int)(Number + 0.5);
-
-    return float(Value); 
 }
 
 void Demon::UpdateBullet()
@@ -638,7 +663,10 @@ void Demon::CheckHealth()
 
 bool Demon::IsAtLocation(const Vector2 &GoalLocation)
 {
-	if (Round(Location.x) == GoalLocation.x && Round(Location.y) == GoalLocation.y) // Is at the goal location?
+	DesiredVelocity = Vector2Subtract(GoalLocation, Location);
+	const float Distance = Vector2Length(DesiredVelocity);
+
+	if (Distance < TargetRadius)
 		bIsAtLocation = true;
 	else
 		bIsAtLocation = false;
@@ -653,4 +681,21 @@ bool Demon::IsLowHealth() const
 	Health <= 150 ? bLowHealth = true : bLowHealth = false;
 
 	return bLowHealth;
+}
+
+void Demon::ApplyForce(const Vector2 Force)
+{
+	Velocity = Vector2Add(Velocity, Force);
+	Location = Vector2Add(Location, Vector2Scale(Velocity, Speed * GetFrameTime()));
+}
+
+Vector2 Demon::Limit(Vector2 V, const float Amount) const
+{
+	if (V.x > Amount)
+		V.x = Amount;
+
+	if (V.y > Amount)
+		V.y = Amount;
+
+	return V;
 }
