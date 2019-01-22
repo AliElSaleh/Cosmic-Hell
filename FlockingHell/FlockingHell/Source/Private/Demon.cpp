@@ -178,7 +178,6 @@ void Demon::Update()
 		SpriteBox.x = Location.x;
 		SpriteBox.y = Location.y;
 
-		//Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
 
 		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
@@ -187,18 +186,32 @@ void Demon::Update()
 		{
 			CircleBullet[i].Location = SpawnLocation;
 			CircleBullet[i].TargetLocation = Player->Location;
+
+			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
+				CircleBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
 		}
 
 		for (int i = 0; i < 10; i++)
 		{
 			LinearMultiBullet[i].Location = SpawnLocation;
 			LinearMultiBullet[i].TargetLocation = Player->Location;
+
+			for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
+				LinearMultiBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
 		}
 
 		for (int i = 0; i < 4; i++)
+		{
 			SpiralBullet[i].Location = SpawnLocation;
 
+			for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
+				SpiralBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
+		}
+
 		RageBullet.Location = SpawnLocation;
+		
+		for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
+			RageBullet.Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
 
 		UpdateDemonAnimation();
 	}

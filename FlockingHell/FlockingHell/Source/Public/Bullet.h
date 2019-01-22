@@ -10,9 +10,18 @@ struct Player;
 
 struct Bullet
 {
+	enum TYPE
+	{
+		NORMAL,
+		FIRE,
+		LASER,
+	};
+
 	void Init();
 	void Update();
 	void Draw() const;
+
+	void UpdateBulletAnimation(TYPE BulletType);
 
 	void CheckCollisionWithPlayerHitbox();
 	void CheckCollisionWithPlayer() const;
@@ -37,5 +46,11 @@ struct Bullet
 	bool bActive{};
 
 private:
+	Rectangle BulletFrameRec{};
+
+	unsigned short BulletSpriteFramesCounter{};
+	unsigned short BulletCurrentFrame{};
+	unsigned short FramesSpeed{6};
+
 	bool bDebug{};
 };

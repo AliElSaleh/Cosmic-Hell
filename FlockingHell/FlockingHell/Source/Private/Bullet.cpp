@@ -4,7 +4,7 @@
 
 void Bullet::Init()
 {
-	Sprite = GetAsset(RedBullet);
+	Sprite = GetAsset(FireBullet);
 
 	Speed = 200.0f;
 	Radius = 10;
@@ -14,6 +14,11 @@ void Bullet::Init()
 	CollisionOffset.x = Location.x + Radius;
 	CollisionOffset.y = Location.y + Radius;
 	bDebug = false;
+
+	BulletFrameRec.x = 0.0f;
+	BulletFrameRec.y = 0.0f;
+	BulletFrameRec.width = float(Sprite.width)/6;
+	BulletFrameRec.height = Sprite.height;
 }
 
 void Bullet::Update()
@@ -28,10 +33,40 @@ void Bullet::Update()
 void Bullet::Draw() const
 {
 	if (bActive)
-		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
+		DrawTextureRec(Sprite, BulletFrameRec, Location, WHITE);
 
 	if (bDebug)
 		DrawCircle(CollisionOffset.x, CollisionOffset.y, 3.0f, WHITE);
+}
+
+void Bullet::UpdateBulletAnimation(const TYPE BulletType)
+{
+	switch (BulletType)
+	{
+	case NORMAL:
+		break;
+
+	case FIRE:
+		BulletSpriteFramesCounter++;
+
+		if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		{
+			BulletSpriteFramesCounter = 0;
+			BulletCurrentFrame++;
+		
+			if (BulletCurrentFrame > 5)
+				BulletCurrentFrame = 0;
+		
+			BulletFrameRec.x = float(BulletCurrentFrame)*float(Sprite.width)/6;
+		}
+		break;
+
+	case LASER:
+		break;
+
+	default:
+		break;
+	}
 }
 
 void Bullet::CheckCollisionWithPlayerHitbox()
