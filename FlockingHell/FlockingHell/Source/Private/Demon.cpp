@@ -154,7 +154,7 @@ void Demon::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 + Sprite.height, 100))});
+	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 - 10, 100))});
 }
 
 void Demon::Update()
@@ -178,7 +178,7 @@ void Demon::Update()
 		SpriteBox.x = Location.x;
 		SpriteBox.y = Location.y;
 
-		Hitbox.x = Location.x + HitboxOffset.x;
+		//Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
 
 		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
@@ -215,10 +215,9 @@ void Demon::Draw()
 	// Draw debug information
 	if (bDebug && bActive && !bIsDead)
 	{
-		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
+		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
 		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
-		DrawText(FormatText("X: %01i", Direction.x), 10, 100, 18, WHITE);
 		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, WHITE);
 	}
 
@@ -261,7 +260,7 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 {
 	if (BulletPattern.Bullet.empty())
 	{
-		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10)), float(GetRandomValue(0 - Sprite.height/4, GetScreenHeight() - 650))});
+		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10)), float(GetRandomValue(0 - 10, GetScreenHeight() - 750))});
 		StartMoving();
 		bIsDestinationSet = true;
 	}
@@ -517,6 +516,8 @@ void Demon::UpdateDemonAnimation()
 {
 	if (Direction.x > 0)
 	{
+		Hitbox.x = Location.x + HitboxOffset.x;
+
 		// Demon sprite animation
 		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
@@ -531,6 +532,8 @@ void Demon::UpdateDemonAnimation()
 	}
 	else if (Direction.x < 0)
 	{
+		Hitbox.x = Location.x + 35.0f;
+
 		// Demon sprite animation
 		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
