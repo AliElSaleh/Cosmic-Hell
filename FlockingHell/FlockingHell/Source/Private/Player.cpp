@@ -25,6 +25,8 @@ void Player::Init()
 	Hitbox.width = 3;
 	Hitbox.height = 3;
 	Health = 100;
+	Score = 0;
+	GrazingScore = 0;
 	Name = "Scarlet";
 	
 	PlayerFrameRec.x = 0.0f;

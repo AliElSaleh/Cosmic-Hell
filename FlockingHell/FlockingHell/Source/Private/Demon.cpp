@@ -516,7 +516,11 @@ void Demon::UpdateBullet()
 				if (!bIsDead)
 				{
 					BulletWave = RAGE;
+
 					RageBullet.Init();
+
+					for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
+						RageBullet.Bullet[i].Player = Player;
 				}
 		break;
 

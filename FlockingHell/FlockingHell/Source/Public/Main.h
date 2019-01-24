@@ -90,5 +90,4 @@ void DrawTestScene();
 void DrawFlockingScene();
 void DrawDebugInfo();
 
-void ResetGame();
 void Unload(); // Unload all assets that have been loaded since InitWindow()

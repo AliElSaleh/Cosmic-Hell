@@ -23,6 +23,8 @@ void Assets::LoadSprites()
 	Load("Heart", "Sprites/Heart.png");
 	Load("Bomb", "Sprites/Bomb.png");
 	Load("FireBullet", "Sprites/FireBullet.png");
+	Load("Divider", "Sprites/Divider.png");
+	Load("Explosion", "Sprites/Explosion.png");
 }
 
 void Assets::UnloadSprites()
@@ -38,6 +40,8 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Heart"));
 	UnloadTexture(GetSprite("Bomb"));
 	UnloadTexture(GetSprite("FireBullet"));
+	UnloadTexture(GetSprite("Divider"));
+	UnloadTexture(GetSprite("Explosion"));
 }
 
 void Assets::LoadFonts()
