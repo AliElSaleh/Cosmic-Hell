@@ -29,7 +29,6 @@ void EnemyManager::Update()
 			RemoveEnemy(0);
 			bIsEnemyDead = true;
 
-
 			Enemies[0]->bActive = true;
 			bIsEnemyDead = false;
 		}
@@ -43,6 +42,7 @@ void EnemyManager::Update()
 			Heart[0]->Location = Enemies[0]->Location;
 		}
 
+	// Remove heart when outside the window
 	if (!Heart.empty())
 		if (Heart[0]->IsOutsideWindow())
 			Heart.erase(Heart.begin());
