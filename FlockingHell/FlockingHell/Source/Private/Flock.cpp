@@ -42,16 +42,16 @@ void Flock::CheckBoidsWindowEdges()
 		for (unsigned short i = 0; i < Boids.size(); i++)
 		{
 			// X
-			if (Boids[i]->Location.x < 0)
+			if (Boids[i]->Location.x + Boids[i]->Sprite.width/float(Boids[i]->Frames) < 0)
 				Boids[i]->Location.x = float(GetScreenWidth()-PANEL_WIDTH);
 			else if (Boids[i]->Location.x > GetScreenWidth()-PANEL_WIDTH)
-				Boids[i]->Location.x = 0;
+				Boids[i]->Location.x = 0 - Boids[i]->Sprite.width/float(Boids[i]->Frames);
 
 			// Y
-			if (Boids[i]->Location.y < 0)
+			if (Boids[i]->Location.y + Boids[i]->Sprite.height < 0)
 				Boids[i]->Location.y = float(GetScreenHeight());
 			else if (Boids[i]->Location.y > GetScreenHeight())
-				Boids[i]->Location.y = 0;
+				Boids[i]->Location.y = 0 - Boids[i]->Sprite.height;
 		}
 }
 

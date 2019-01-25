@@ -229,8 +229,7 @@ void Demon::Draw()
 	{
 		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
-		DrawText(FormatText("Demon Health: %02i", Health), 10, 60, 20, RED); // Demon health
-		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, WHITE);
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, YELLOW);
 	}
 
 	// Draw the demon sprite
@@ -246,12 +245,10 @@ bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 	{
 		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10)), float(GetRandomValue(0 - 10, GetScreenHeight() - 750))});
 		StartMoving();
-		bIsDestinationSet = true;
+		return true;
 	}
-	else
-		bIsDestinationSet = false;
 
-	return bIsDestinationSet;
+	return false;
 }
 
 void Demon::UpdateBullet()
@@ -658,13 +655,8 @@ bool Demon::IsAtLocation(const Vector2 &GoalLocation)
 {
 	DesiredVelocity = Vector2Subtract(GoalLocation, Location);
 	const float Distance = Vector2Length(DesiredVelocity);
-
-	if (Distance < TargetRadius)
-		bIsAtLocation = true;
-	else
-		bIsAtLocation = false;
-
-	return bIsAtLocation;
+	
+	return Distance < TargetRadius;
 }
 
 bool Demon::IsLowHealth() const

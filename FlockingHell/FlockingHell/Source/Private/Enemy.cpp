@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "Enemy.h"
 
 #include <raymath.h>
@@ -9,12 +8,10 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
-
 }
 
 void Enemy::Draw()
 {
-
 }
 
 void Enemy::Flock(std::vector<Enemy*>* Boids)
@@ -31,17 +28,14 @@ void Enemy::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 
 void Enemy::CheckCollisionWithPlayer()
 {
-
 }
 
 void Enemy::CheckCollisionWithPlayerBullets()
 {
-
 }
 
 void Enemy::CheckHealth()
 {
-
 }
 
 void Enemy::ApplyForce(const Vector2 Force)
@@ -193,6 +187,14 @@ Vector2 Enemy::Seek(const Vector2 & DestLocation)
 	Steering = Vector2Divide(Steering, Mass);
 
 	return Steering;
+}
+
+void Enemy::DrawFlockingProperties() const
+{
+	DrawText(FormatText("Alignment Force: %f", AlignmentForce), 10, 70, 18, WHITE);
+	DrawText(FormatText("Cohesion Force: %f", CohesionForce), 10, 90, 18, WHITE);
+	DrawText(FormatText("Separation Force: %f", SeparationForce), 10, 110, 18, WHITE);
+	DrawText(FormatText("Goal seeking Force: %f", GoalSeekForce), 10, 130, 18, WHITE);
 }
 
 bool Enemy::IsAtLocation(const Vector2& GoalLocation)

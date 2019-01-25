@@ -50,44 +50,22 @@ void Ship::Update()
 
 	// Rotate towards the direction the ship is moving
 	Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;
-	CurrentRotation = Rotation;
 
 	DestFrameRec.x = Location.x;
 	DestFrameRec.y = Location.y;
 
 	UpdateAnimation();
-
-	if (bDebug)
-	{
-		if (IsMouseButtonPressed(0))
-			AlignmentForce += 0.1f;
-		else if(IsMouseButtonPressed(1))
-			AlignmentForce -= 0.1f;
-
-		if (IsKeyPressed(KEY_LEFT))
-			CohesionForce += 0.1f;
-		else if (IsKeyPressed(KEY_RIGHT))
-			CohesionForce -= 0.1f;
-
-		if (IsKeyPressed(KEY_UP))
-			SeparationForce += 0.1f;
-		else if (IsKeyPressed(KEY_DOWN))
-			SeparationForce -= 0.1f;
-	}
 }
 
 void Ship::Draw()
 {
-	DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
-
-	DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation + 180.0f, WHITE);
+	if (bActive && !bIsDead)
+		DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation + 180.0f, WHITE);
 
 	if (bDebug)
 	{
-		DrawText(FormatText("Alignment Force: %f", AlignmentForce), 10, 70, 18, WHITE);
-		DrawText(FormatText("Cohesion Force: %f", CohesionForce), 10, 90, 18, WHITE);
-		DrawText(FormatText("Separation Force: %f", SeparationForce), 10, 110, 18, WHITE);
-		DrawText(FormatText("Goal seeking Force: %f", GoalSeekForce), 10, 130, 18, WHITE);
+		DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
+		DrawFlockingProperties();
 	}
 }
 

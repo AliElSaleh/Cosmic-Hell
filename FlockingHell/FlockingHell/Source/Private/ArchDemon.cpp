@@ -41,8 +41,6 @@ void ArchDemon::Init()
 
 void ArchDemon::Update()
 {
-	SpriteFramesCounter++;
-
 	UpdateAnimation();
 }
 
@@ -80,6 +78,8 @@ void ArchDemon::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 
 void ArchDemon::UpdateAnimation()
 {
+	SpriteFramesCounter++;
+
 	if (Direction.x > 0)
 	{
 		// Arch Demon sprite animation

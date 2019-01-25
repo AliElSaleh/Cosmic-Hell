@@ -1,6 +1,6 @@
 #pragma once
-#include "Enemy.h"
 
+#include "Enemy.h"
 
 struct Ship : Enemy
 {
@@ -17,8 +17,7 @@ protected:
 
 	void UpdateAnimation() override;
 
-private:	
-	float CurrentRotation{0.0f};
+private:
 	float Rotation{0.0f};
 };
 
