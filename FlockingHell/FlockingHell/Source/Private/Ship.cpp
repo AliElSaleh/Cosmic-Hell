@@ -3,6 +3,7 @@
 #include "Assets.h"
 
 #include <raymath.h>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -21,16 +22,14 @@ void Ship::Init()
 	MaxForce = 0.4f;
 	Mass = 10.0f; // 10Kg
 	TargetRadius = 20.0f;
+	Frames = 5;
 
 	Health = 50;
 	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
-	bActive = true;
-	bIsDead = false;
-	bDebug = false;
 	
-	Origin.x = float(Sprite.width)/5 / 2;
+	Origin.x = float(Sprite.width)/Frames / 2;
 	Origin.y = float(Sprite.height) / 2;
 
 	FrameRec.x = 0.0f;
@@ -38,7 +37,11 @@ void Ship::Init()
 	FrameRec.width = float(Sprite.width)/5;
 	FrameRec.height = float(Sprite.height);
 
-	DestFrameRec = {Location.x, Location.y, (float(Sprite.width)/5), float(Sprite.height)};
+	DestFrameRec = {Location.x, Location.y, (float(Sprite.width)/Frames), float(Sprite.height)};
+
+	bActive = true;
+	bIsDead = false;
+	bDebug = false;
 }
 
 void Ship::Update()
@@ -52,7 +55,7 @@ void Ship::Update()
 	DestFrameRec.x = Location.x;
 	DestFrameRec.y = Location.y;
 
-	UpdateShipAnimation();
+	UpdateAnimation();
 
 	if (bDebug)
 	{
@@ -78,7 +81,6 @@ void Ship::Draw()
 	DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
 
 	DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation + 180.0f, WHITE);
-	//DrawCircle(Location.x, Location.y, 5.0f, RED); // Ships
 
 	if (bDebug)
 	{
@@ -94,146 +96,11 @@ void Ship::Flock(std::vector<Enemy*>* Boids)
 	ApplyBehaviours(Boids);
 }
 
-Vector2 Ship::Seek(const Vector2& DestLocation)
+void Ship::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 {
-	// Arrival logic
-	DesiredVelocity = Vector2Subtract(DestLocation, Location);
-	const float Distance = Vector2Length(DesiredVelocity);
-
-	if (Distance < TargetRadius)
-	{
-		// Inside the slowing area
-		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity * (Distance / TargetRadius));
-	}
-	else
-	{
-		// Outside the slowing area
-		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity);
-	}
-
-	Steering = Vector2Subtract(DesiredVelocity, Velocity);
-
-	Direction = Velocity;
-
-	// Movement of boid
-	Steering = Limit(Steering, MaxForce);
-	Steering = Vector2Divide(Steering, Mass);
-
-	return Steering;
-}
-
-Vector2 Ship::Align(std::vector<Enemy*>* Boids) const
-{
-	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float PerceptionRadius = 50.0f;
-	unsigned short Neighbors = 0;
-
-	for (auto Other : *Boids)
-	{
-		const float Distance = Vector2Distance(Location, Other->Location);
-
-		if (Distance > 0 && Distance < PerceptionRadius)
-		{
-			SumOfVectors = Vector2Add(SumOfVectors, Other->Velocity);
-			Neighbors++;
-		}
-	}
-
-	if (Neighbors > 0)
-	{
-		SumOfVectors = Vector2Divide(SumOfVectors, Neighbors); // Get the average velocity vectors
-
-		Vector2 Steer = Vector2Subtract(SumOfVectors, Velocity); // Reynold's steering formula
-		Steer = Limit(Steer, MaxForce);
-
-		return Steer;
-	}
-
-	return Vector2Zero();
-}
-
-Vector2 Ship::Cohere(std::vector<Enemy*>* Boids)
-{
-	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float PerceptionRadius = 60.0f;
-	unsigned short Neighbors = 0;
-
-	for (auto Other : *Boids)
-	{
-		const float Distance = Vector2Distance(Location, Other->Location);
-
-		if (Distance > 0 && Distance < PerceptionRadius)
-		{
-			SumOfVectors = Vector2Add(SumOfVectors, Other->Location);
-			Neighbors++;
-		}
-	}
-
-	if (Neighbors > 0)
-	{
-		SumOfVectors = Vector2Divide(SumOfVectors, Neighbors); // Get the average velocity vectors
-
-		return Seek(SumOfVectors);
-	}
-
-	return Vector2Zero();
-}
-
-Vector2 Ship::Separate(std::vector<Enemy*>* Boids) const
-{
-	Vector2 SumOfVectors = {0.0f, 0.0f};
-	const float DesiredSeparation = float(Sprite.width)/5 + 10.0f; // 10 is an Arbitrary value
-	unsigned short Neighbors = 0;
-
-	for (auto Other : *Boids)
-	{
-		const float Distance = Vector2Distance(Location, Other->Location);
-
-		if (Distance > 0 && Distance < DesiredSeparation)
-		{
-			Vector2 Difference = Vector2Subtract(Location, Other->Location);
-			Difference = Vector2Normalize(Difference);
-
-			SumOfVectors = Vector2Add(SumOfVectors, Difference);
-			Neighbors++;
-		}
-	}
-
-	if (Neighbors > 0)
-	{
-		SumOfVectors = Vector2Divide(SumOfVectors, Neighbors);
-
-		Vector2 Steer = Vector2Subtract(SumOfVectors, Velocity);
-		Steer = Limit(Steer, MaxForce);
-		
-		return Steer;
-	}
-
-	return Vector2Zero();
-}
-
-Vector2 Ship::Limit(Vector2 V, const float Amount) const
-{
-	if (V.x > Amount)
-		V.x = Amount;
-
-	if (V.y > Amount)
-		V.y = Amount;
-
-	return V;
-}
-
-void Ship::ApplyForce(const Vector2 Force)
-{
-	Velocity = Vector2Add(Velocity, Force);
-	Location = Vector2Add(Location, Vector2Scale(Velocity, Speed * GetFrameTime()));
-}
-
-void Ship::ApplyBehaviours(std::vector<Enemy*>* Boids)
-{
-	Vector2 Alignment = Align(Boids);
-	Vector2 Cohesion = Cohere(Boids);
-	Vector2 Separation = Separate(Boids);
+	Vector2 Alignment = Align(Enemies);
+	Vector2 Cohesion = Cohere(Enemies);
+	Vector2 Separation = Separate(Enemies);
 	Vector2 GoalSeeking = Seek(Destination);
 
 	Alignment = Vector2Scale(Alignment, AlignmentForce);
@@ -247,7 +114,7 @@ void Ship::ApplyBehaviours(std::vector<Enemy*>* Boids)
 	ApplyForce(GoalSeeking);
 }
 
-void Ship::UpdateShipAnimation()
+void Ship::UpdateAnimation()
 {
 	// Ship sprite animation
 	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
@@ -258,7 +125,7 @@ void Ship::UpdateShipAnimation()
 		if (CurrentFrame > 4)
 			CurrentFrame = 0;
 	
-		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/5; // 5 Frames
+		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 	}
 }
 

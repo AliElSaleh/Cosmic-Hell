@@ -16,7 +16,6 @@ Demon::Demon()
 
 void Demon::Init()
 {
-	BulletSprite = GetAsset(RedBullet);
 	Sprite = GetAsset(Demon);
 
 	SpawnLocation = {50.0f, 105.0f};
@@ -213,7 +212,7 @@ void Demon::Update()
 		for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
 			RageBullet.Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
 
-		UpdateDemonAnimation();
+		UpdateAnimation();
 	}
 
 	UpdateBullet();
@@ -239,34 +238,6 @@ void Demon::Draw()
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
 	
 	DrawBullet();
-}
-
-Vector2 Demon::Seek(const Vector2& DestLocation)
-{
-	// Arrival logic
-	DesiredVelocity = Vector2Subtract(DestLocation, Location);
-	const float Distance = Vector2Length(DesiredVelocity);
-
-	if (Distance < TargetRadius)
-	{
-		// Inside the slowing area
-		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity * (Distance / TargetRadius));
-	}
-	else
-	{
-		// Outside the slowing area
-		DesiredVelocity = Vector2Scale(Vector2Normalize(Vector2Subtract(DestLocation, Location)), MaxVelocity);
-	}
-
-	Steering = Vector2Subtract(DesiredVelocity, Velocity);
-
-	Direction = Velocity;
-
-	// Movement of boid
-	Steering = Limit(Steering, MaxForce);
-	Steering = Vector2Divide(Steering, Mass);
-
-	return Steering;
 }
 
 bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
@@ -529,7 +500,7 @@ void Demon::UpdateBullet()
 	}
 }
 
-void Demon::UpdateDemonAnimation()
+void Demon::UpdateAnimation()
 {
 	if (Direction.x > 0)
 	{
@@ -703,21 +674,4 @@ bool Demon::IsLowHealth() const
 	Health <= 400 ? bLowHealth = true : bLowHealth = false;
 
 	return bLowHealth;
-}
-
-void Demon::ApplyForce(const Vector2 Force)
-{
-	Velocity = Vector2Add(Velocity, Force);
-	Location = Vector2Add(Location, Vector2Scale(Velocity, Speed * GetFrameTime()));
-}
-
-Vector2 Demon::Limit(Vector2 V, const float Amount) const
-{
-	if (V.x > Amount)
-		V.x = Amount;
-
-	if (V.y > Amount)
-		V.y = Amount;
-
-	return V;
 }

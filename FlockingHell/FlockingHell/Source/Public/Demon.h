@@ -32,9 +32,6 @@ struct Demon : Enemy
 	void Update() override;
 	void Draw() override;
 
-	Vector2 Seek(const Vector2& DestLocation);
-	Vector2 Limit(Vector2 V, const float Amount) const;
-
 	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern) override;
 
 	struct SpiralPattern SpiralBullet[4];
@@ -42,15 +39,11 @@ struct Demon : Enemy
 	struct LinearMultiPattern LinearMultiBullet[4];
 	struct CirclePattern CircleBullet[20];
 
-	Texture2D BulletSprite{};
-
-	WAVE BulletWave;
+	WAVE BulletWave{};
 
 protected:
-	void ApplyForce(const Vector2 Force);
-
 	void UpdateBullet();
-	void UpdateDemonAnimation();
+	void UpdateAnimation() override;
 	void DrawBullet();
 
 	void CheckCollisionWithPlayer() override;

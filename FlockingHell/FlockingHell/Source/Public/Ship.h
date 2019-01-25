@@ -12,28 +12,13 @@ struct Ship : Enemy
 
 	void Flock(std::vector<Enemy*> *Boids) override;
 
-	Vector2 Seek(const Vector2& DestLocation);
+protected:
+	void ApplyBehaviours(std::vector<Enemy*> *Enemies) override;
 
-	Vector2 Align(std::vector<Enemy*> *Boids) const;
-	Vector2 Cohere(std::vector<Enemy*> *Boids);
-	Vector2 Separate(std::vector<Enemy*> *Boids) const;
+	void UpdateAnimation() override;
 
-private:
-	float AlignmentForce{0.3f};
-	float CohesionForce{0.01f};
-	float SeparationForce{0.05f};
-	float GoalSeekForce{0.08f};
-	float MaxVelocity{};
-	float MaxForce{};
-	
+private:	
 	float CurrentRotation{0.0f};
 	float Rotation{0.0f};
-
-	Vector2 Limit(Vector2 V, float Amount) const;
-
-	void ApplyForce(Vector2 Force);
-	void ApplyBehaviours(std::vector<Enemy*> *Boids);
-
-	void UpdateShipAnimation();
 };
 

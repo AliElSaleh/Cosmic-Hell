@@ -21,8 +21,6 @@ struct Enemy
 	void StartMoving();
 	void StopMoving();
 
-	struct Bullet Bullet[MAX_ENEMY_BULLETS];
-
 	Vector2 Location{};
 	Vector2 Direction{};
 	Vector2 Velocity{};
@@ -61,14 +59,34 @@ protected:
 	Vector2 DesiredVelocity{};
 	Vector2 Steering{};
 
+	// Flocking properties
+	float AlignmentForce{0.3f};
+	float CohesionForce{0.01f};
+	float SeparationForce{0.05f};
+	float GoalSeekForce{0.08f};
+
 	float Mass{};
 	float MaxForce{};
 	float MaxVelocity{};
+
+	unsigned short Frames{10};
+	
+	Vector2 Align(std::vector<Enemy*> *Boids) const;
+	Vector2 Cohere(std::vector<Enemy*> *Boids);
+	Vector2 Separate(std::vector<Enemy*> *Boids) const;
+
+	virtual Vector2 Limit(Vector2 V, float Amount) const;
+	virtual Vector2 Seek(const Vector2& DestLocation);
+
+	virtual void UpdateAnimation();
+
+	virtual void ApplyBehaviours(std::vector<Enemy*> *Enemies);
 
 	virtual void CheckCollisionWithPlayer();
 	virtual void CheckCollisionWithPlayerBullets();
 	virtual void CheckHealth();
 
+	void ApplyForce(Vector2 Force);
 	void SetDestLocation(Vector2 DestLocation);
 	void MoveToLocation(const Vector2& DestLocation);
 
