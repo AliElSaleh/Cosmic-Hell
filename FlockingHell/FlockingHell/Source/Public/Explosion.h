@@ -10,28 +10,26 @@ struct Explosion
 	Explosion();
 
 	void Init();
-	void Update();
-	void Draw();
+	void Draw() const;
 
-	bool Explode();
+	void Explode(Vector2 ExplosionLocation, unsigned short AmountOfExplosions);
 
-	bool bExploded{};
 private:
 	Vector2 Location{};
 
 	Texture2D Sprite{};
 
+	// Animation
 	Rectangle FrameRec{};
-
 	unsigned short SpriteFramesCounter{};
 	unsigned short CurrentFrame{};
 	unsigned short Frames{};
 	unsigned short FramesSpeed{30};
 
-	int Health{};
-	int FramesCounter{};
-	int LoopsLeft{};
+	unsigned short LoopsLeft{};
+	
+	bool bExploded{};
 
-	void UpdateAnimation();
+	void UpdateAnimation(unsigned short Loops);
 };
 

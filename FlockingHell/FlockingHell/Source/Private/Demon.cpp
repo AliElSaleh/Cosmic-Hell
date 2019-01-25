@@ -41,6 +41,9 @@ void Demon::Init()
 	FrameRec.width = float(Sprite.width)/Frames;
 	FrameRec.height = float(Sprite.height);
 
+	for (int i = 0; i < 20; i++)
+		DeathExplosion[i].Init();
+
 	// FIRST WAVE
 	for (int i = 0; i < 5; i++)
 	{
@@ -239,6 +242,10 @@ void Demon::Update()
 
 		UpdateAnimation();
 	}
+	
+	if (bIsDead)
+		for (int i = 0; i < 20; i++)
+			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Sprite.width/Frames)), float(GetRandomValue(Location.y, Sprite.height))}, 5);
 
 	UpdateBullet();
 
@@ -260,6 +267,9 @@ void Demon::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
+
+	for (int i = 0; i < 20; i++)
+		DeathExplosion[i].Draw();
 	
 	DrawBullet();
 }

@@ -15,8 +15,7 @@ void Explosion::Init()
 
 	Frames = 10;
 
-	Health = 100;
-	LoopsLeft = 10;
+	LoopsLeft = 0;
 
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
@@ -26,58 +25,38 @@ void Explosion::Init()
 	bExploded = false;
 }
 
-void Explosion::Update()
-{
-	FramesCounter++;
-
-	if (IsKeyDown(KEY_SPACE))
-		Health--;
-	
-	if (!bExploded)
-		if (Health < 0)
-			Explode();
-
-
-
-	//if (((FramesCounter/120)%2) == 1)
-	//{
-	//	if (!bExploded)
-	//		Explode();
-	//	else
-	//		UpdateAnimation();
-	//
-	//}
-}
-
-void Explosion::Draw()
+void Explosion::Draw() const
 {
 	if (bExploded)
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
-
-	DrawText(FormatText("Health: %02i", Health), GetScreenWidth()-PANEL_WIDTH + 10, 50, 20, WHITE);
 }
 
-bool Explosion::Explode()
+void Explosion::Explode(const Vector2 ExplosionLocation, const unsigned short AmountOfExplosions)
 {
-	UpdateAnimation();
-	return true;
+	Location = ExplosionLocation;
+
+	UpdateAnimation(AmountOfExplosions);
 }
 
-void Explosion::UpdateAnimation()
+void Explosion::UpdateAnimation(const unsigned short Loops)
 {
-	SpriteFramesCounter++;
-
-	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	if (LoopsLeft < Loops * Frames)
 	{
-		SpriteFramesCounter = 0;
-		CurrentFrame++;
-	
-		if (CurrentFrame > Frames-1)
+ 		SpriteFramesCounter++;
+
+		// Move to next frame
+		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
- 			CurrentFrame = 0;
+			SpriteFramesCounter = 0;
+			CurrentFrame++;
+		
+			if (CurrentFrame > Frames-1)
+ 				CurrentFrame = 0;
+
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
+
 			bExploded = true;
+			LoopsLeft++;
 		}
-	
-		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 	}
 }

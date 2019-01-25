@@ -6,6 +6,7 @@
 #include "CirclePattern.h"
 #include "SpiralPattern.h"
 #include "SpiralMultiPattern.h"
+#include "Explosion.h"
 
 struct Demon : Enemy
 {
@@ -42,6 +43,8 @@ struct Demon : Enemy
 	WAVE BulletWave{};
 
 protected:
+	Explosion DeathExplosion[20]{};
+
 	void UpdateBullet();
 	void UpdateAnimation() override;
 	void DrawBullet();
