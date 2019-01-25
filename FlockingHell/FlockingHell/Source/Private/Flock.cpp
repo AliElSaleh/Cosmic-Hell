@@ -51,7 +51,7 @@ void Flock::CheckBoidsWindowEdges()
 			if (Boids[i]->Location.y + Boids[i]->Sprite.height < 0)
 				Boids[i]->Location.y = float(GetScreenHeight());
 			else if (Boids[i]->Location.y > GetScreenHeight())
-				Boids[i]->Location.y = 0 - Boids[i]->Sprite.height;
+				Boids[i]->Location.y = 0 - float(Boids[i]->Sprite.height);
 		}
 }
 

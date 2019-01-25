@@ -18,7 +18,7 @@ void Bullet::InitFrames()
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
 	FrameRec.width = float(Sprite.width)/Frames;
-	FrameRec.height = Sprite.height;
+	FrameRec.height = float(Sprite.height);
 }
 
 void Bullet::Update()
@@ -36,7 +36,7 @@ void Bullet::Draw() const
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
 
 	if (bDebug)
-		DrawCircle(CollisionOffset.x, CollisionOffset.y, 3.0f, WHITE);
+		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, WHITE);
 }
 
 void Bullet::UpdateAnimation(const TYPE BulletType)
@@ -106,7 +106,7 @@ void Bullet::CheckCollisionWithPlayer() const
 	{
 		// Increase grazing score
 		if (bActive && !Player->bIsHit)
-			Player->GrazingScore += GetRandomValue(130, 150) * GetFrameTime();
+			Player->GrazingScore += unsigned short(GetRandomValue(130, 150) * GetFrameTime());
 	}
 
 	Player->bIsHit = false;
