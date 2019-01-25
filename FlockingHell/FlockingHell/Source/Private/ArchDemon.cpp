@@ -3,6 +3,7 @@
 #include "Assets.h"
 
 #include <raymath.h>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -27,14 +28,15 @@ void ArchDemon::Init()
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
-	bActive = true;
-	bIsDead = false;
-	bDebug = false;
 
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
 	FrameRec.width = float(Sprite.width)/Frames;
 	FrameRec.height = float(Sprite.height);
+
+	bActive = true;
+	bIsDead = false;
+	bDebug = false;
 }
 
 void ArchDemon::Update()

@@ -76,20 +76,7 @@ void Warship::CheckCollisionWithPlayer()
 
 bool Warship::IsAtLocation(const Vector2& GoalLocation)
 {
-	if (Location.x > GoalLocation.x - TOLERANCE && Location.y > GoalLocation.y - TOLERANCE) // Is at the goal location?
-	{
-		bIsDestinationSet = false;
-
-		if (!bIsDestinationSet)
-		{
-			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH-PANEL_WIDTH - Sprite.width)), float(GetRandomValue(0, GetScreenHeight() - 700))});
-			bIsDestinationSet = true;
-		}
-	}
-	else
-		bIsDestinationSet = false;
-
-	return bIsDestinationSet;
+	return false;
 }
 
 bool Warship::IsLowHealth() const

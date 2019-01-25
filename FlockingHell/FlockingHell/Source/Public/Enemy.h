@@ -1,13 +1,9 @@
 #pragma once
-#include "Bullet.h" // <--- Forward declares player struct
 
 #include <raylib.h>
 #include <vector>
 
-#define MAX_ENEMY_BULLETS 50
-
 struct BulletPatternGenerator;
-constexpr auto TOLERANCE = 1.0f;
 
 struct Enemy
 {
