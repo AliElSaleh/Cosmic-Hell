@@ -36,10 +36,10 @@ void Demon::Init()
 	bIsDead = false;
 	bDebug = false;
 
-	DemonFrameRec.x = 0.0f;
-	DemonFrameRec.y = 0.0f;
-	DemonFrameRec.width = float(Sprite.width)/10; // 10 frames
-	DemonFrameRec.height = float(Sprite.height);
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+	FrameRec.width = float(Sprite.width)/10; // 10 frames
+	FrameRec.height = float(Sprite.height);
 
 	// FIRST WAVE
 	for (int i = 0; i < 5; i++)
@@ -165,7 +165,7 @@ void Demon::Update()
 	// Update enemy sprite position and its components
 	if (bActive && !bIsDead)
 	{
-		DemonSpriteFramesCounter++;
+		SpriteFramesCounter++;
 
 		if (!IsLowHealth())
 		{
@@ -236,7 +236,7 @@ void Demon::Draw()
 
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
-		DrawTextureRec(Sprite, DemonFrameRec, Location, WHITE);  // Draw part of the demon texture
+		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
 	
 	DrawBullet();
 }
@@ -536,15 +536,15 @@ void Demon::UpdateDemonAnimation()
 		Hitbox.x = Location.x + HitboxOffset.x;
 
 		// Demon sprite animation
-		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
-			DemonSpriteFramesCounter = 0;
-			DemonCurrentFrame++;
+			SpriteFramesCounter = 0;
+			CurrentFrame++;
 		
-			if (DemonCurrentFrame > 4)
-				DemonCurrentFrame = 0;
+			if (CurrentFrame > 4)
+				CurrentFrame = 0;
 		
-			DemonFrameRec.x = float(DemonCurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
 		}
 	}
 	else if (Direction.x < 0)
@@ -552,15 +552,15 @@ void Demon::UpdateDemonAnimation()
 		Hitbox.x = Location.x + 35.0f;
 
 		// Demon sprite animation
-		if (DemonSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
-			DemonSpriteFramesCounter = 0;
-			DemonCurrentFrame++;
+			SpriteFramesCounter = 0;
+			CurrentFrame++;
 		
-			if (DemonCurrentFrame > 9)
-				DemonCurrentFrame = 5;
+			if (CurrentFrame > 9)
+				CurrentFrame = 5;
 		
-			DemonFrameRec.x = float(DemonCurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
 		}
 	}
 }

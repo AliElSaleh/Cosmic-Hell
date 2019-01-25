@@ -44,22 +44,9 @@ struct Demon : Enemy
 
 	Texture2D BulletSprite{};
 
-	Rectangle DemonFrameRec{};
-
-	unsigned short DemonSpriteFramesCounter{};
-	unsigned short DemonCurrentFrame{};
-	unsigned short FramesSpeed{10};
-
 	WAVE BulletWave;
 
 protected:
-	Vector2 DesiredVelocity{};
-	Vector2 Steering{};
-
-	float Mass{};
-	float MaxForce{};
-	float MaxVelocity{};
-
 	void ApplyForce(const Vector2 Force);
 
 	void UpdateBullet();

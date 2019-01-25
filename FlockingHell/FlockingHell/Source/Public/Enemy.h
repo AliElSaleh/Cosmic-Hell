@@ -29,17 +29,24 @@ struct Enemy
 	Vector2 HitboxOffset{};
 	Vector2 Destination{};
 	Vector2 SpawnLocation{};
+
 	Texture2D Sprite{};
+
 	Rectangle Hitbox{};
 	Rectangle SpriteBox{};
+	Rectangle FrameRec{};
+	Rectangle DestFrameRec{};
 
 	float Speed{};
 	float TargetRadius{};
 
+	int FramesCounter{};
 	signed short Health{};
 	unsigned short Damage{};
 	unsigned short ShootRate{};
-	int FramesCounter{};
+	unsigned short SpriteFramesCounter{};
+	unsigned short CurrentFrame{};
+	unsigned short FramesSpeed{10};
 
 	bool bIsDestinationSet{};
 	bool bActive{};
@@ -50,6 +57,14 @@ struct Enemy
 	virtual bool IsAtLocation(const Vector2& GoalLocation);
 
 protected:
+	Vector2 Origin{};
+	Vector2 DesiredVelocity{};
+	Vector2 Steering{};
+
+	float Mass{};
+	float MaxForce{};
+	float MaxVelocity{};
+
 	virtual void CheckCollisionWithPlayer();
 	virtual void CheckCollisionWithPlayerBullets();
 	virtual void CheckHealth();

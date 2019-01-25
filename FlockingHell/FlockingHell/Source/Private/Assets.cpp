@@ -25,6 +25,7 @@ void Assets::LoadSprites()
 	Load("FireBullet", "Sprites/FireBullet.png");
 	Load("Divider", "Sprites/Divider.png");
 	Load("Explosion", "Sprites/Explosion.png");
+	Load("ArchDemon", "Sprites/ArchDemon.png");
 }
 
 void Assets::UnloadSprites()
@@ -42,6 +43,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("FireBullet"));
 	UnloadTexture(GetSprite("Divider"));
 	UnloadTexture(GetSprite("Explosion"));
+	UnloadTexture(GetSprite("ArchDemon"));
 }
 
 void Assets::LoadFonts()

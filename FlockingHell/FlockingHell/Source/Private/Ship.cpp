@@ -33,24 +33,24 @@ void Ship::Init()
 	Origin.x = float(Sprite.width)/5 / 2;
 	Origin.y = float(Sprite.height) / 2;
 
-	BoidFrameRec.x = 0.0f;
-	BoidFrameRec.y = 0.0f;
-	BoidFrameRec.width = float(Sprite.width)/5;
-	BoidFrameRec.height = float(Sprite.height);
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+	FrameRec.width = float(Sprite.width)/5;
+	FrameRec.height = float(Sprite.height);
 
-	BoidDestFrameRec = {Location.x, Location.y, (float(Sprite.width)/5), float(Sprite.height)};
+	DestFrameRec = {Location.x, Location.y, (float(Sprite.width)/5), float(Sprite.height)};
 }
 
 void Ship::Update()
 {
-	BoidSpriteFramesCounter++;
+	SpriteFramesCounter++;
 
 	// Rotate towards the direction the ship is moving
 	Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;
 	CurrentRotation = Rotation;
 
-	BoidDestFrameRec.x = Location.x;
-	BoidDestFrameRec.y = Location.y;
+	DestFrameRec.x = Location.x;
+	DestFrameRec.y = Location.y;
 
 	UpdateShipAnimation();
 
@@ -77,7 +77,7 @@ void Ship::Draw()
 {
 	DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
 
-	DrawTexturePro(Sprite, BoidFrameRec, BoidDestFrameRec, Origin, Rotation + 180.0f, WHITE);
+	DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation + 180.0f, WHITE);
 	//DrawCircle(Location.x, Location.y, 5.0f, RED); // Ships
 
 	if (bDebug)
@@ -250,15 +250,15 @@ void Ship::ApplyBehaviours(std::vector<Enemy*>* Boids)
 void Ship::UpdateShipAnimation()
 {
 	// Ship sprite animation
-	if (BoidSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 	{
-		BoidSpriteFramesCounter = 0;
-		BoidCurrentFrame++;
+		SpriteFramesCounter = 0;
+		CurrentFrame++;
 	
-		if (BoidCurrentFrame > 4)
-			BoidCurrentFrame = 0;
+		if (CurrentFrame > 4)
+			CurrentFrame = 0;
 	
-		BoidFrameRec.x = float(BoidCurrentFrame)*float(Sprite.width)/5; // 5 Frames
+		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/5; // 5 Frames
 	}
 }
 

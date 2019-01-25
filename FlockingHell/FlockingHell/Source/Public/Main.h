@@ -14,6 +14,7 @@
 #include "LinearPattern.h"
 #include "LinearMultiPattern.h"
 #include "Flock.h"
+#include "ArchDemon.h"
 #include "Ship.h"
 #include "QuadTree.h"
 
@@ -26,6 +27,7 @@ struct Star FastStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_SMALL_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
+struct ArchDemon Archon;
 
 Texture2D Panel;
 Texture2D Heart[6];
