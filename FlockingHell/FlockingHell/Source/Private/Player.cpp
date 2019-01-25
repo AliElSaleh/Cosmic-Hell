@@ -106,10 +106,8 @@ void Player::Draw() const
 
 void Player::DrawBullets() const
 {
-	// Player bullets
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-			Bullet[i].Draw();
-			//DrawTextureRec(Bullet[i].Sprite, Bullet[i].FrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
+		Bullet[i].Draw();
 }
 
 void Player::ResetBullet(const short Index)
