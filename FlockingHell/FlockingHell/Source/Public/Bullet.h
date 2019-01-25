@@ -12,16 +12,17 @@ struct Bullet
 {
 	enum TYPE
 	{
-		NORMAL,
+		PLAYER,
 		FIRE,
 		LASER,
 	};
 
 	void Init();
+	void InitFrames();
 	void Update();
 	void Draw() const;
 
-	void UpdateBulletAnimation(TYPE BulletType);
+	void UpdateAnimation(TYPE BulletType);
 
 	void CheckCollisionWithPlayerHitbox();
 	void CheckCollisionWithPlayer() const;
@@ -40,17 +41,18 @@ struct Bullet
 	float Radius{10};
 	float Speed{};
 
+	unsigned short Frames{6};
 	unsigned short Damage{};
 
 	bool bIsHit{};
 	bool bActive{};
 
-private:
-	Rectangle BulletFrameRec{};
+	Rectangle FrameRec{};
 
-	unsigned short BulletSpriteFramesCounter{};
-	unsigned short BulletCurrentFrame{};
+	unsigned short SpriteFramesCounter{};
+	unsigned short CurrentFrame{};
 	unsigned short FramesSpeed{6};
 
+private:
 	bool bDebug{};
 };

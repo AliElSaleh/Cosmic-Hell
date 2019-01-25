@@ -1,24 +1,24 @@
 #include "Bullet.h"
 #include "Player.h"
-#include "Assets.h"
+
 
 void Bullet::Init()
 {
-	Sprite = GetAsset(FireBullet);
-
 	Speed = 200.0f;
 	Radius = 10;
 	Damage = GetRandomValue(10, 15);
+
 	bActive = false;
 	bIsHit = false;
-	CollisionOffset.x = Location.x + Radius;
-	CollisionOffset.y = Location.y + Radius;
 	bDebug = false;
+}
 
-	BulletFrameRec.x = 0.0f;
-	BulletFrameRec.y = 0.0f;
-	BulletFrameRec.width = float(Sprite.width)/6;
-	BulletFrameRec.height = Sprite.height;
+void Bullet::InitFrames()
+{
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+	FrameRec.width = float(Sprite.width)/Frames;
+	FrameRec.height = Sprite.height;
 }
 
 void Bullet::Update()
@@ -33,31 +33,43 @@ void Bullet::Update()
 void Bullet::Draw() const
 {
 	if (bActive)
-		DrawTextureRec(Sprite, BulletFrameRec, Location, WHITE);
+		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
 
 	if (bDebug)
 		DrawCircle(CollisionOffset.x, CollisionOffset.y, 3.0f, WHITE);
 }
 
-void Bullet::UpdateBulletAnimation(const TYPE BulletType)
+void Bullet::UpdateAnimation(const TYPE BulletType)
 {
 	switch (BulletType)
 	{
-	case NORMAL:
+	case PLAYER:
+		SpriteFramesCounter++;
+
+		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		{
+			SpriteFramesCounter = 0;
+			CurrentFrame++;
+		
+			if (CurrentFrame > Frames-1)
+				CurrentFrame = 0;
+		
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
+		}
 		break;
 
 	case FIRE:
-		BulletSpriteFramesCounter++;
+		SpriteFramesCounter++;
 
-		if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
+		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 		{
-			BulletSpriteFramesCounter = 0;
-			BulletCurrentFrame++;
+			SpriteFramesCounter = 0;
+			CurrentFrame++;
 		
-			if (BulletCurrentFrame > 5)
-				BulletCurrentFrame = 0;
+			if (CurrentFrame > Frames-1)
+				CurrentFrame = 0;
 		
-			BulletFrameRec.x = float(BulletCurrentFrame)*float(Sprite.width)/6;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 		}
 		break;
 
@@ -82,7 +94,6 @@ void Bullet::CheckCollisionWithPlayerHitbox()
 				Player->Health -= Damage;
 				Player->bIsHit = true;
 				bIsHit = true;
-				//bActive = false;
 			}
 		}
 	}

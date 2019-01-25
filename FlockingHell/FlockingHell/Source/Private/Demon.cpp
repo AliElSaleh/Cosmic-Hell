@@ -30,6 +30,7 @@ void Demon::Init()
 	Health = 2000;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
+	Frames = 10;
 	ShootRate = 5;
 	bActive = true;
 	bIsDead = false;
@@ -37,7 +38,7 @@ void Demon::Init()
 
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
-	FrameRec.width = float(Sprite.width)/10; // 10 frames
+	FrameRec.width = float(Sprite.width)/Frames;
 	FrameRec.height = float(Sprite.height);
 
 	// FIRST WAVE
@@ -79,7 +80,13 @@ void Demon::Init()
 
 	for (int i = 0; i < 20; i++)
 		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
+		{
 			CircleBullet[i].Bullet[j].Player = Player;
+			CircleBullet[i].Bullet[j].Frames = 6;
+			CircleBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
+
+			CircleBullet[i].Bullet[j].InitFrames();
+		}
 
 	// SECOND WAVE
 	for (int i = 0; i < 1; i++)
@@ -120,7 +127,13 @@ void Demon::Init()
 	
 	for (int i = 0; i < 4; i++)
 		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
+		{
 			LinearMultiBullet[i].Bullet[j].Player = Player;
+			LinearMultiBullet[i].Bullet[j].Frames = 6;
+			LinearMultiBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
+
+			LinearMultiBullet[i].Bullet[j].InitFrames();
+		}
 
 
 	// THIRD WAVE
@@ -139,7 +152,13 @@ void Demon::Init()
 
 	for (int i = 0; i < 4; i++)
 		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
+		{
 			SpiralBullet[i].Bullet[j].Player = Player;
+			SpiralBullet[i].Bullet[j].Frames = 6;
+			SpiralBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
+
+			SpiralBullet[i].Bullet[j].InitFrames();
+		}
 
 	// RAGE
 	RageBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MIX);
@@ -149,7 +168,13 @@ void Demon::Init()
 	RageBullet.Init();
 
 	for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
+	{
 		RageBullet.Bullet[i].Player = Player;
+		RageBullet.Bullet[i].Frames = 6;
+		RageBullet.Bullet[i].Sprite = GetAsset(FireBullet);
+
+		RageBullet.Bullet[i].InitFrames();
+	}
 
 	BulletWave = FIRST;
 
@@ -187,7 +212,7 @@ void Demon::Update()
 			CircleBullet[i].TargetLocation = Player->Location;
 
 			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-				CircleBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
+				CircleBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
 		}
 
 		for (int i = 0; i < 10; i++)
@@ -196,7 +221,7 @@ void Demon::Update()
 			LinearMultiBullet[i].TargetLocation = Player->Location;
 
 			for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
-				LinearMultiBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
+				LinearMultiBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
 		}
 
 		for (int i = 0; i < 4; i++)
@@ -204,13 +229,13 @@ void Demon::Update()
 			SpiralBullet[i].Location = SpawnLocation;
 
 			for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-				SpiralBullet[i].Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
+				SpiralBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
 		}
 
 		RageBullet.Location = SpawnLocation;
 		
 		for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
-			RageBullet.Bullet[j].UpdateBulletAnimation(Bullet::FIRE);
+			RageBullet.Bullet[j].UpdateAnimation(Bullet::FIRE);
 
 		UpdateAnimation();
 	}

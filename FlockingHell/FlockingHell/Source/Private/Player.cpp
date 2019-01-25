@@ -9,7 +9,6 @@
 void Player::Init()
 {
 	Sprite = GetAsset(Player);
-	BulletSprite = GetAsset(BlueBullet);
 
 	XOffset = 15;
 	YOffset = 50;
@@ -18,7 +17,6 @@ void Player::Init()
 	BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
 	BulletXOffset = 5;
-	Rotation = {0.0f, 0.0f};
 	Hitbox.x = Location.x + float(Sprite.width)/4 + float(XOffset);
 	Hitbox.y = Location.y + float(Sprite.height)/4;
 	Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
@@ -36,18 +34,18 @@ void Player::Init()
 
 	Center = {Location.x - float(Sprite.width)/12, Location.y + float(Sprite.height)/2};
 
-	BulletFrameRec.x = 0.0f;
-	BulletFrameRec.y = 0.0f;
-	BulletFrameRec.width = float(BulletSprite.width)/4; // 4 frames
-	BulletFrameRec.height = float(BulletSprite.height);
 
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
+		Bullet[i].Sprite = GetAsset(BlueBullet);
+		Bullet[i].Frames = 4;
 		Bullet[i].Location = Location;
 		Bullet[i].Radius = 3.0f;
 		Bullet[i].Speed = 500.0f;
 		Bullet[i].Damage = GetRandomValue(20, 40);
 		Bullet[i].bActive = false;
+
+		Bullet[i].InitFrames();
 	}
 
 	BulletLevel = 1;
@@ -65,7 +63,6 @@ void Player::Update()
 	if (!bIsDead)
 	{
 		PlayerSpriteFramesCounter++;
-		BulletSpriteFramesCounter++;
 
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
@@ -88,7 +85,6 @@ void Player::Update()
 
 	// Update bullets movement on key press [space]
 	UpdateBullet();
-	UpdateBulletAnimation();
 	CheckBulletOutsideWindow();
 	CheckBulletLevel();
 }
@@ -112,8 +108,8 @@ void Player::DrawBullets() const
 {
 	// Player bullets
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (Bullet[i].bActive)
-			DrawTextureRec(BulletSprite, BulletFrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
+			Bullet[i].Draw();
+			//DrawTextureRec(Bullet[i].Sprite, Bullet[i].FrameRec, Bullet[i].Location, WHITE); // Draw part of the bullet texture
 }
 
 void Player::ResetBullet(const short Index)
@@ -198,21 +194,6 @@ void Player::UpdatePlayerAnimation()
 	}
 }
 
-void Player::UpdateBulletAnimation()
-{
-	// Bullet sprite animation
-	if (BulletSpriteFramesCounter >= (GetFPS()/FramesSpeed))
-	{
-		BulletSpriteFramesCounter = 0;
-		BulletCurrentFrame++;
-
-		if (BulletCurrentFrame > 4)
-			BulletCurrentFrame = 0;
-
-		BulletFrameRec.x = float(BulletCurrentFrame)*float(BulletSprite.width)/4;
-	}
-}
-
 void Player::UpdateBullet()
 {
 	// Initialise bullets
@@ -250,8 +231,10 @@ void Player::UpdateBullet()
 			Bullet[i].Location.y -= Bullet[i].Speed * GetFrameTime();
 
 			// Move the center location with bullet movement
-			Bullet[i].Center.x = Bullet[i].Location.x + float(BulletSprite.width)/8;
-			Bullet[i].Center.y = Bullet[i].Location.y + float(BulletSprite.height);
+			Bullet[i].Center.x = Bullet[i].Location.x + float(Bullet[i].Sprite.width)/8;
+			Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
+
+			Bullet[i].UpdateAnimation(Bullet::PLAYER);
 		}
 		else
 			Bullet[i].Location = Location;
@@ -261,7 +244,7 @@ void Player::UpdateBullet()
 void Player::CheckBulletOutsideWindow()
 {
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (Bullet[i].Location.y + BulletSprite.height < 0)
+		if (Bullet[i].Location.y + Bullet[i].Sprite.height < 0)
 			ResetBullet(i);
 }
 
