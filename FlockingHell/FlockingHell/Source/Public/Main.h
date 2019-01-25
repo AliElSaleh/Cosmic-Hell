@@ -18,6 +18,7 @@
 #include "Explosion.h"
 #include "Ship.h"
 #include "QuadTree.h"
+#include "HealthPickup.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -30,6 +31,7 @@ struct EnemyManager EnemyManager;
 struct Flock Flock;
 struct ArchDemon Archon;
 struct Explosion BombExplosion;
+struct HealthPickup HeartPickup;
 
 Texture2D Panel;
 Texture2D Heart[6];

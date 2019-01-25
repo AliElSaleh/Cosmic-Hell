@@ -32,6 +32,9 @@ void EnemyManager::Update()
 			Enemies[0]->bActive = true;
 			bIsEnemyDead = false;
 		}
+
+		if (!Heart.empty())
+			Heart[0]->Update();
 	}
 
 	// Update the currently active enemy
@@ -52,6 +55,10 @@ void EnemyManager::Draw()
 {
 	if (!bIsEnemyDead)
 		Enemies[0]->Draw();
+
+	if (!Heart.empty())
+		if (Enemies[0]->bIsDead)
+			Heart[0]->Draw();
 
 	// Draw the currently active enemy
 	if (!Enemies.empty())
