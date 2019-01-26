@@ -215,7 +215,7 @@ void Demon::Update()
 			CircleBullet[i].TargetLocation = Player->Location;
 
 			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-				CircleBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
+				CircleBullet[i].Bullet[j].UpdateAnimation();
 		}
 
 		for (int i = 0; i < 10; i++)
@@ -224,7 +224,7 @@ void Demon::Update()
 			LinearMultiBullet[i].TargetLocation = Player->Location;
 
 			for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
-				LinearMultiBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
+				LinearMultiBullet[i].Bullet[j].UpdateAnimation();
 		}
 
 		for (int i = 0; i < 4; i++)
@@ -232,13 +232,13 @@ void Demon::Update()
 			SpiralBullet[i].Location = SpawnLocation;
 
 			for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-				SpiralBullet[i].Bullet[j].UpdateAnimation(Bullet::FIRE);
+				SpiralBullet[i].Bullet[j].UpdateAnimation();
 		}
 
 		RageBullet.Location = SpawnLocation;
 		
 		for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
-			RageBullet.Bullet[j].UpdateAnimation(Bullet::FIRE);
+			RageBullet.Bullet[j].UpdateAnimation();
 
 		UpdateAnimation();
 	}

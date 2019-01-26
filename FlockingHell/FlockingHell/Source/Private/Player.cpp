@@ -232,7 +232,7 @@ void Player::UpdateBullet()
 			Bullet[i].Center.x = Bullet[i].Location.x + float(Bullet[i].Sprite.width)/8;
 			Bullet[i].Center.y = Bullet[i].Location.y + float(Bullet[i].Sprite.height);
 
-			Bullet[i].UpdateAnimation(Bullet::PLAYER);
+			Bullet[i].UpdateAnimation();
 		}
 		else
 			Bullet[i].Location = Location;

@@ -39,45 +39,19 @@ void Bullet::Draw() const
 		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, WHITE);
 }
 
-void Bullet::UpdateAnimation(const TYPE BulletType)
+void Bullet::UpdateAnimation()
 {
-	switch (BulletType)
+	SpriteFramesCounter++;
+	
+	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 	{
-	case PLAYER:
-		SpriteFramesCounter++;
-
-		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
-		{
-			SpriteFramesCounter = 0;
-			CurrentFrame++;
-		
-			if (CurrentFrame > Frames-1)
-				CurrentFrame = 0;
-		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
-		}
-		break;
-
-	case FIRE:
-		SpriteFramesCounter++;
-
-		if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
-		{
-			SpriteFramesCounter = 0;
-			CurrentFrame++;
-		
-			if (CurrentFrame > Frames-1)
-				CurrentFrame = 0;
-		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
-		}
-		break;
-
-	case LASER:
-		break;
-
-	default:
-		break;
+		SpriteFramesCounter = 0;
+		CurrentFrame++;
+	
+		if (CurrentFrame > Frames-1)
+			CurrentFrame = 0;
+	
+		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 	}
 }
 
@@ -110,18 +84,4 @@ void Bullet::CheckCollisionWithPlayer() const
 	}
 
 	Player->bIsHit = false;
-}
-
-void Bullet::Clear()
-{
-	Location.x = 0.0f;
-	Location.y = 0.0f;
-	Center.x = 0;
-	Center.y = 0;
-	Speed = 200.0f;
-	Radius = 6;
-	bActive = true;
-	bIsHit = false;
-	CollisionOffset.x = Location.x + Radius;
-	CollisionOffset.y = Location.y + Radius;
 }

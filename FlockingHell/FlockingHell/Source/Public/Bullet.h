@@ -10,24 +10,15 @@ struct Player;
 
 struct Bullet
 {
-	enum TYPE
-	{
-		PLAYER,
-		FIRE,
-		LASER,
-	};
-
 	void Init();
 	void InitFrames();
 	void Update();
 	void Draw() const;
 
-	void UpdateAnimation(TYPE BulletType);
+	void UpdateAnimation();
 
 	void CheckCollisionWithPlayerHitbox();
 	void CheckCollisionWithPlayer() const;
-
-	void Clear();
 
 	Vector2 Location{};
 	Vector2 CollisionOffset{};
