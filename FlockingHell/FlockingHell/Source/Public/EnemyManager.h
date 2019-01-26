@@ -16,6 +16,7 @@ struct EnemyManager
 
 	std::vector<Enemy*> Enemies{};
 
+	void Reset();
 private:
 	std::vector<HealthPickup*> Heart{};
 

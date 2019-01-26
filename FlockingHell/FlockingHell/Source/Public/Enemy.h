@@ -2,11 +2,30 @@
 
 #include <raylib.h>
 #include <vector>
+#include "Explosion.h"
+#include "SpiralMultiPattern.h"
 
 struct BulletPatternGenerator;
 
 struct Enemy
 {
+	enum WAVE
+	{
+		FIRST,
+		FIRST_A,
+		FIRST_B,
+		FIRST_C,
+		SECOND,
+		SECOND_A,
+		SECOND_B,
+		SECOND_C,
+		THIRD,
+		THIRD_A,
+		THIRD_B,
+		THIRD_C,
+		RAGE
+	};
+
 	virtual ~Enemy() = default;
 	virtual void Init();
 	virtual void Update();
@@ -42,6 +61,8 @@ struct Enemy
 	struct Player* Player = nullptr;
 
 protected:
+	Explosion DeathExplosion[20]{};
+
 	// Animation
 	Rectangle FrameRec{};
 	Rectangle DestFrameRec{};
