@@ -22,7 +22,11 @@ void Ship::Init()
 	MaxForce = 0.4f;
 	Mass = 10.0f; // 10Kg
 	TargetRadius = 20.0f;
-	Frames = 5;
+
+	if (Sprite.width % 5 == 0)
+		Frames = 5;
+	else if (Sprite.width % 4 == 0)
+		Frames = 4;
 
 	Health = 50;
 	Speed = 100.0f;
@@ -34,7 +38,7 @@ void Ship::Init()
 
 	FrameRec.x = 0.0f;
 	FrameRec.y = 0.0f;
-	FrameRec.width = float(Sprite.width)/5;
+	FrameRec.width = float(Sprite.width)/Frames;
 	FrameRec.height = float(Sprite.height);
 
 	DestFrameRec = {Location.x, Location.y, (float(Sprite.width)/Frames), float(Sprite.height)};
@@ -60,7 +64,7 @@ void Ship::Update()
 void Ship::Draw()
 {
 	if (bActive && !bIsDead)
-		DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation + 180.0f, WHITE);
+		DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation, WHITE);
 
 	if (bDebug)
 	{
