@@ -19,7 +19,8 @@ void Warship::Init()
 
 	Location = {300.0f, 200.0f};
 
-	Health = 2000;
+	Health = 6000;
+	LowHealthThreshold = 1000;
 	Speed = 100.0f;
 	Damage = GetRandomValue(20, 30);
 	ShootRate = 5;
@@ -65,25 +66,4 @@ void Warship::Draw()
 	// Draw the warship sprite
 	if (bActive && !bIsDead)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
-}
-
-void Warship::CheckCollisionWithPlayer()
-{
-	if (bActive && !bIsDead)
-		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
-			Player->Health -= Damage;
-}
-
-bool Warship::IsAtLocation(const Vector2& GoalLocation)
-{
-	return false;
-}
-
-bool Warship::IsLowHealth() const
-{
-	bool bLowHealth;
-
-	Health <= 350 ? bLowHealth = true : bLowHealth = false;
-
-	return bLowHealth;
 }

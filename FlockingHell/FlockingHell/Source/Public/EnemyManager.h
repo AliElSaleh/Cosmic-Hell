@@ -3,6 +3,7 @@
 #include "HealthPickup.h"
 
 #include <vector>
+#include "Flock.h"
 
 struct EnemyManager
 {
@@ -15,6 +16,7 @@ struct EnemyManager
 	void Draw();
 
 	std::vector<Enemy*> Enemies{};
+	std::vector<Flock*> FlockOfEnemies{};
 
 	void Reset();
 private:

@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Flock.h"
+#include "ArchDemon.h"
 
 #include <raymath.h>
 
@@ -10,9 +11,11 @@ Flock::Flock()
 
 void Flock::Init()
 {
-	if (!Boids.empty())
-		for (unsigned short i = 0; i < Boids.size(); i++)
-			Boids[i]->Init();
+	for (int i = 0; i < 20; i++)
+		Boids.emplace_back(new Ship());
+
+	for (unsigned short i = 0; i < Boids.size(); i++)
+		Boids[i]->Init();
 
 	SetGoalLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))});
 }

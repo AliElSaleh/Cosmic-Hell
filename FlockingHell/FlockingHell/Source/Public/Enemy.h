@@ -26,6 +26,8 @@ struct Enemy
 		RAGE
 	};
 
+	WAVE BulletWave{};
+
 	virtual ~Enemy() = default;
 	virtual void Init();
 	virtual void Update();
@@ -57,6 +59,8 @@ struct Enemy
 	bool bActive{};
 	bool bIsDead{};
 
+	std::vector<Bullet> *FinalBullets;
+
 	// References to player to apply damage and recieve damage
 	struct Player* Player = nullptr;
 
@@ -83,8 +87,10 @@ protected:
 
 	// Properties of Enemy
 	signed short Health{};
+	unsigned short LowHealthThreshold{};
 	unsigned short Damage{};
 	unsigned short ShootRate{};
+	unsigned short Explosions{};
 
 	float Speed{};
 	float Mass{};
@@ -111,14 +117,14 @@ protected:
 	virtual void UpdateAnimation();
 
 	// Collision check functions
-	virtual void CheckCollisionWithPlayer();
-	virtual void CheckCollisionWithPlayerBullets();
-	virtual void CheckHealth();
+	void CheckCollisionWithPlayer() const;
+	void CheckCollisionWithPlayerBullets();
+	void CheckHealth();
 
 	// Enemy checks
-	virtual bool IsAtLocation(const Vector2& GoalLocation);
-	virtual bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern);
-	virtual bool IsLowHealth() const;
+	bool IsAtLocation(const Vector2& GoalLocation);
+	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern);
+	bool IsLowHealth() const;
 
 	bool bDebug{};
 };

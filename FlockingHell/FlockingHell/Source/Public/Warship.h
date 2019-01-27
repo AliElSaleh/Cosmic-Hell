@@ -9,11 +9,5 @@ struct Warship : Enemy
 	void Init() override;
 	void Update() override;
 	void Draw() override;
-
-private:
-	void CheckCollisionWithPlayer() override;
-
-	bool IsAtLocation(const Vector2& GoalLocation) override;
-	bool IsLowHealth() const override;
 };
 

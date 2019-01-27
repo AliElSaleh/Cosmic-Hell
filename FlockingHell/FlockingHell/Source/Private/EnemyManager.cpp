@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Demon.h"
 #include "Alien.h"
+#include "Flock.h"
 
 EnemyManager::EnemyManager()
 {
@@ -17,22 +18,33 @@ void EnemyManager::AddEnemy(Enemy *NewEnemyType)
 void EnemyManager::Update()
 {
 	// Make all enemies inactive if not in the first element of vector
-	if (!bIsEnemyDead)
-		for (unsigned short i = 1; i < Enemies.size(); i++)
-			Enemies[i]->bActive = false;
+	if (!Enemies.empty())
+		if (!bIsEnemyDead)
+			for (unsigned short i = 1; i < Enemies.size(); i++)
+				Enemies[i]->bActive = false;
 
 	// Remove enemy from vector on death
-	if (Enemies[0]->bIsDead)
-	{
-		if (dynamic_cast<Demon*>(Enemies[0])->RageBullet.Bullet.empty())
+	if (!Enemies.empty())
+		if (Enemies[0]->bIsDead)
 		{
-			RemoveEnemy(0);
-			bIsEnemyDead = true;
+			if (Enemies[0]->FinalBullets->empty())
+			{
+				RemoveEnemy(0);
+				bIsEnemyDead = true;
 
-			Enemies[0]->bActive = true;
-			bIsEnemyDead = false;
+				if (!Enemies.empty())
+				{
+					Enemies[0]->Init();
+					Enemies[0]->bActive = true;
+				}
+
+				bIsEnemyDead = false;
+			}
 		}
-	}
+
+	if (!FlockOfEnemies.empty())
+		for (unsigned short i = 0; i < FlockOfEnemies.size(); i++)
+			FlockOfEnemies[i]->Update();
 
 	// Update the currently active enemy
 	if (!Enemies.empty())
@@ -43,8 +55,13 @@ void EnemyManager::Update()
 
 void EnemyManager::Draw()
 {
-	if (!bIsEnemyDead)
-		Enemies[0]->Draw();
+	if (!Enemies.empty())
+		if (!bIsEnemyDead)
+			Enemies[0]->Draw();
+
+	if (!FlockOfEnemies.empty())
+		for (unsigned short i = 0; i < FlockOfEnemies.size(); i++)
+			FlockOfEnemies[i]->Draw();
 
 	// Draw the currently active enemy
 	if (!Enemies.empty())
@@ -52,9 +69,16 @@ void EnemyManager::Draw()
 			Enemies[i]->Draw();
 }
 
+void EnemyManager::Reset()
+{
+	Enemies.clear();
+	FlockOfEnemies.clear();
+}
+
 void EnemyManager::Init()
 {
 	Enemies.reserve(3);
+	FlockOfEnemies.emplace_back(new Flock());
 	Enemies.emplace_back(new Demon());
 	Enemies.emplace_back(new Alien());
 	Enemies.emplace_back(new Alien());

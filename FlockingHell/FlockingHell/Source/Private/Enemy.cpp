@@ -1,4 +1,6 @@
+#include "Globals.h"
 #include "Enemy.h"
+#include "Player.h"
 
 #include <raymath.h>
 
@@ -26,16 +28,35 @@ void Enemy::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 {
 }
 
-void Enemy::CheckCollisionWithPlayer()
+void Enemy::CheckCollisionWithPlayer() const
 {
+	if (bActive && !bIsDead)
+		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
+			Player->Health -= Damage;
 }
 
 void Enemy::CheckCollisionWithPlayerBullets()
 {
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+		if (CheckCollisionCircleRec(Player->Bullet[i].Center, Player->Bullet[i].Radius, Hitbox))
+			if (bActive && !bIsDead)
+			{
+				Player->ResetBullet(i);
+				Player->Score += GetRandomValue(50, 80);
+
+				Health -= Player->BulletDamage;
+			}
 }
 
 void Enemy::CheckHealth()
 {
+	if (Health <= 0 && bActive && !bIsDead)
+	{
+		Health = 0;
+		Player->BossKilled++;
+		bActive = false;
+		bIsDead = true;
+	}
 }
 
 void Enemy::ApplyForce(const Vector2 Force)
@@ -199,7 +220,10 @@ void Enemy::DrawFlockingProperties() const
 
 bool Enemy::IsAtLocation(const Vector2& GoalLocation)
 {
-	return false;
+	DesiredVelocity = Vector2Subtract(GoalLocation, Location);
+	const float Distance = Vector2Length(DesiredVelocity);
+	
+	return Distance < TargetRadius;
 }
 
 void Enemy::StartMoving()
@@ -214,10 +238,19 @@ void Enemy::StopMoving()
 
 bool Enemy::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
 {
+	if (BulletPattern.Bullet.empty())
+	{
+		if (Frames > 0)
+			SetDestLocation({float(GetRandomValue(0 + Sprite.width/Frames, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0 - 10, GetScreenHeight() - 750))});
+
+		StartMoving();
+		return true;
+	}
+
 	return false;
 }
 
 bool Enemy::IsLowHealth() const
 {
-	return false;
+	return Health <= LowHealthThreshold;
 }

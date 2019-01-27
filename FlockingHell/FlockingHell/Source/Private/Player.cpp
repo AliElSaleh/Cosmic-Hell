@@ -49,7 +49,7 @@ void Player::Init()
 	}
 
 	BulletLevel = 1;
-	EnemiesKilled = 0;
+	BossKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
 	bIsDead = false;
@@ -149,6 +149,7 @@ void Player::InitBulletLevel(const signed short Level)
 				{
 					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset; // Offset to the left by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 700.0f;
 					Bullet[i].Damage = GetRandomValue(20, 40);
 					Bullet[i].bActive = true;
 					break;
@@ -162,6 +163,7 @@ void Player::InitBulletLevel(const signed short Level)
 				{
 					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset; // Offset to the right by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 700.0f;
 					Bullet[i].Damage = GetRandomValue(20, 40);
 					Bullet[i].bActive = true;
 					break;
@@ -290,7 +292,7 @@ void Player::CheckHealth()
 
 void Player::CheckBulletLevel()
 {
-	if (EnemiesKilled > 0)
+	if (BossKilled > 0)
 	{
 		BulletLevel = 2;
 	}

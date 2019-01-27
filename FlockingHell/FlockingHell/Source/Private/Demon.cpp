@@ -4,14 +4,13 @@
 #include "Player.h"
 #include "Assets.h"
 
-#include <raymath.h>
-
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 Demon::Demon()
 {
 	Demon::Init();
+	Location = {300.0f, -300.0f};
 }
 
 void Demon::Init()
@@ -28,6 +27,8 @@ void Demon::Init()
 	TargetRadius = 10.0f;
 
 	Health = 2000;
+	LowHealthThreshold = 400;
+	Explosions = 3;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	Frames = 10;
@@ -179,6 +180,8 @@ void Demon::Init()
 		RageBullet.Bullet[i].InitFrames();
 	}
 
+	FinalBullets = &RageBullet.Bullet;
+
 	BulletWave = FIRST;
 
 	SetDestLocation({float(GetRandomValue(0 + Sprite.width/10 + 100, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10 - 100)), float(GetRandomValue(0 - 10, 100))});
@@ -245,7 +248,7 @@ void Demon::Update()
 	
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)
-			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Sprite.width/Frames)), float(GetRandomValue(Location.y, Sprite.height))}, 5);
+			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Location.x + float(Sprite.width)/Frames)), float(GetRandomValue(Location.y, Location.y + Sprite.height))}, Explosions);
 
 	UpdateBullet();
 
@@ -267,23 +270,12 @@ void Demon::Draw()
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
-
-	for (int i = 0; i < 20; i++)
-		DeathExplosion[i].Draw();
+	
+	if (bIsDead)
+		for (int i = 0; i < 20; i++)
+			DeathExplosion[i].Draw();
 	
 	DrawBullet();
-}
-
-bool Demon::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern)
-{
-	if (BulletPattern.Bullet.empty())
-	{
-		SetDestLocation({float(GetRandomValue(0 + Sprite.width/10, GetScreenWidth()-PANEL_WIDTH - Sprite.width/10)), float(GetRandomValue(0 - 10, GetScreenHeight() - 750))});
-		StartMoving();
-		return true;
-	}
-
-	return false;
 }
 
 void Demon::UpdateBullet()
@@ -547,7 +539,7 @@ void Demon::UpdateAnimation()
 			if (CurrentFrame > 4)
 				CurrentFrame = 0;
 		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 		}
 	}
 	else if (Direction.x < 0)
@@ -563,7 +555,7 @@ void Demon::UpdateAnimation()
 			if (CurrentFrame > 9)
 				CurrentFrame = 5;
 		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 		}
 	}
 }
@@ -653,52 +645,4 @@ void Demon::DrawBullet()
 		default:
 		break;
 	}
-}
-
-void Demon::CheckCollisionWithPlayer()
-{
-	if (bActive && !bIsDead)
-		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
-			Player->Health -= Damage;
-}
-
-void Demon::CheckCollisionWithPlayerBullets()
-{
-	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
-		if (CheckCollisionCircleRec(Player->Bullet[i].Center, Player->Bullet[i].Radius, Hitbox))
-			if (bActive && !bIsDead)
-			{
-				Player->ResetBullet(i);
-				Player->Score += GetRandomValue(50, 80);
-
-				Health -= Player->BulletDamage;
-			}
-}
-
-void Demon::CheckHealth()
-{
-	if (Health <= 0 && bActive && !bIsDead)
-	{
-		Health = 0;
-		Player->EnemiesKilled++;
-		bActive = false;
-		bIsDead = true;
-	}
-}
-
-bool Demon::IsAtLocation(const Vector2 &GoalLocation)
-{
-	DesiredVelocity = Vector2Subtract(GoalLocation, Location);
-	const float Distance = Vector2Length(DesiredVelocity);
-	
-	return Distance < TargetRadius;
-}
-
-bool Demon::IsLowHealth() const
-{
-	bool bLowHealth;
-
-	Health <= 400 ? bLowHealth = true : bLowHealth = false;
-
-	return bLowHealth;
 }
