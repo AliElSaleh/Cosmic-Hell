@@ -25,6 +25,7 @@ struct ArchDemon Archon;
 struct Explosion BombExplosion;
 struct HealthPickup HeartPickup;
 
+Texture2D Background;
 Texture2D Panel;
 Texture2D Heart[6];
 Texture2D Bomb[4];
