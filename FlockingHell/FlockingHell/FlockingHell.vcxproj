@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\RaylibLogo.cpp" />
     <ClCompile Include="Source\Private\HealthPickup.cpp" />
     <ClCompile Include="Source\Private\Explosion.cpp" />
     <ClCompile Include="Source\Private\ArchDemon.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\RaylibLogo.h" />
     <ClInclude Include="Source\Public\HealthPickup.h" />
     <ClInclude Include="Source\Public\Explosion.h" />
     <ClInclude Include="Source\Public\ArchDemon.h" />

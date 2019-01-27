@@ -3,22 +3,14 @@
 #include "Player.h"
 #include "Star.h"
 #include "State.h"
-#include "Demon.h"
-#include "Warship.h"
 #include "EnemyManager.h"
-#include "SpiralMultiPattern.h"
-#include "SpiralOneWayPattern.h"
-#include "SpiralMultiWayPattern.h"
 #include "CirclePattern.h"
-#include "RandomPattern.h"
-#include "LinearPattern.h"
-#include "LinearMultiPattern.h"
 #include "Flock.h"
 #include "ArchDemon.h"
 #include "Explosion.h"
-#include "Ship.h"
 #include "QuadTree.h"
 #include "HealthPickup.h"
+#include "RaylibLogo.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -39,6 +31,8 @@ Texture2D Bomb[4];
 
 Section Boundary = Section(350, 400, 350, 400);
 QuadTree* QT = new QuadTree(Boundary, 4);
+
+RaylibLogo SplashLogo;
 
 template<typename PatternType>
 PatternType Pattern;
