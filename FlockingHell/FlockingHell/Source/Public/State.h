@@ -10,7 +10,6 @@ enum State
 	PAUSE,
 	DEATH,
 	WIN,
-	LOSE,
 	STATS,
 	HIGHSCORE
 };
