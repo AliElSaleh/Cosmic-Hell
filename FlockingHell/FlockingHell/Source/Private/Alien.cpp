@@ -57,7 +57,7 @@ void Alien::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - float(Sprite.width)/Frames)), float(GetRandomValue(0, 100))});
+	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 }
 
 void Alien::Update()
@@ -86,7 +86,7 @@ void Alien::Update()
 
 	if(bIsDead)
 		for (int i = 0; i < 20; i++)
-			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Location.x + float(Sprite.width)/Frames)), float(GetRandomValue(Location.y, Location.y + Sprite.height))}, Explosions);
+			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 
 
 	CheckCollisionWithPlayer();
@@ -94,22 +94,21 @@ void Alien::Update()
 	CheckHealth();
 
 	if (IsAtLocation(Destination))
-		SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - float(Sprite.width)/Frames)), float(GetRandomValue(0, 100))});
+		SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 }
 
 void Alien::Draw()
 {
 	if (bDebug)
-		DrawRectangle(SpriteBox.x, SpriteBox.y, SpriteBox.width, SpriteBox.height, WHITE); // Sprite box
+		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // Sprite box
 
 	if (!bIsDead && bActive)
 		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 
 	if (bDebug)
 	{
-		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, RED); // Hitbox
-		DrawCircle(SpawnLocation.x, SpawnLocation.y, 3.0f, YELLOW);
-		//DrawText(FormatText("Health: %02i", Health), GetScreenWidth()-PANEL_WIDTH - 150.0f, 10.0f, 20.0f, WHITE);
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), RED); // Hitbox
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW);
 	}
 
 	if (bIsDead)

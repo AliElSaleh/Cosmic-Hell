@@ -31,20 +31,20 @@ void Planet::Update()
 
 void Planet::Draw() const
 {
-	DrawTexture(Sprite, Location.x, Location.y, WHITE);
+	DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 }
 
 void Planet::CheckPlanetWindowCollision()
 {
 	// X
 	if (Location.x > GetScreenWidth() + ArbitraryAmount)
-		Location.x = 0 - Sprite.width;
-	else if (Location.x < 0 - Sprite.width - ArbitraryAmount)
-		Location.x = GetScreenWidth();
+		Location.x = 0.0f - float(Sprite.width);
+	else if (Location.x < 0.0f - float(Sprite.width) - ArbitraryAmount)
+		Location.x = float(GetScreenWidth());
 
 	// Y
 	if (Location.y > GetScreenHeight() + ArbitraryAmount)
-		Location.y = 0 - Sprite.height;
-	else if (Location.y < 0 - Sprite.height - ArbitraryAmount)
-		Location.y = GetScreenHeight();
+		Location.y = 0.0f - float(Sprite.height);
+	else if (Location.y < 0.0f - float(Sprite.height) - ArbitraryAmount)
+		Location.y = float(GetScreenHeight());
 }

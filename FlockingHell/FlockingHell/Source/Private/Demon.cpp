@@ -217,7 +217,7 @@ void Demon::Update()
 	
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)
-			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Location.x + float(Sprite.width)/Frames)), float(GetRandomValue(Location.y, Location.y + Sprite.height))}, Explosions);
+			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 
 	UpdateBullet();
 

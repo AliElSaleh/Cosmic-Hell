@@ -27,7 +27,7 @@ void HealthPickup::Update()
 
 void HealthPickup::Draw() const
 {
-	DrawTexture(Sprite, Location.x, Location.y, WHITE);
+	DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
 }
 
 bool HealthPickup::IsOutsideWindow() const
