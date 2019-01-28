@@ -11,6 +11,7 @@
 #include "QuadTree.h"
 #include "HealthPickup.h"
 #include "RaylibLogo.h"
+#include "Planet.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -26,6 +27,7 @@ struct Explosion BombExplosion;
 struct HealthPickup HeartPickup;
 
 Texture2D Background;
+Texture2D MenuTitle;
 Texture2D Panel;
 Texture2D Heart[6];
 Texture2D Bomb[4];
@@ -34,6 +36,9 @@ Section Boundary = Section(350, 400, 350, 400);
 QuadTree* QT = new QuadTree(Boundary, 4);
 
 RaylibLogo SplashLogo;
+
+Planet BigPlanet[5];
+Planet RingPlanet[2];
 
 template<typename PatternType>
 PatternType Pattern;
@@ -45,14 +50,26 @@ typedef CirclePattern BulletType;
 enum State GameState;
 
 // ints
-unsigned short FramesCounter = 0; // To time the splash screen
+unsigned short FramesCounter = 0; // To time things
+unsigned short MenuFramesCounter = 0;
 unsigned short BombSpriteSpacing = 40;
 unsigned short HeartSpriteSpacing = 30;
 
 unsigned short ScorePosition = 46;
 unsigned short GrazingScorePosition = 90;
 
+// Menu title animation variables
+Vector2 TitleLocation{287.0f, 206.0f};
+unsigned short SpriteFramesCounter = 0;
+const unsigned short FramesSpeed = 10;
+unsigned short CurrentFrame = 0;
+const unsigned short Frames = 4;
+
+// Menu Fading animation
+float FadeAlpha{0.0f};
+
 // bools
+bool bBegan{false};
 bool bDebug;
 
 

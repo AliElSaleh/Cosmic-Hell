@@ -29,6 +29,10 @@ void Assets::LoadSprites()
 	Load("ArchDemon", "Sprites/ArchDemon.png");
 	Load("Boid v2", "Sprites/Boidv2.png");
 	Load("Background", "Sprites/Background.png");
+	Load("Planet", "Sprites/Planet.png");
+	Load("RingPlanet", "Sprites/RingPlanet.png");
+	Load("CosmicHellTitle", "Sprites/CosmicHellTitle.png");
+	Load("PressAnyKey", "Sprites/PressAnyKey.png");
 }
 
 void Assets::UnloadSprites()
@@ -50,6 +54,10 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("ArchDemon"));
 	UnloadTexture(GetSprite("Boid v2"));
 	UnloadTexture(GetSprite("Background"));
+	UnloadTexture(GetSprite("Planet"));
+	UnloadTexture(GetSprite("RingPlanet"));
+	UnloadTexture(GetSprite("CosmicHellTitle"));
+	UnloadTexture(GetSprite("PressAnyKey"));
 }
 
 void Assets::LoadFonts()

@@ -212,37 +212,6 @@ void Demon::Update()
 
 		SpawnLocation = {Location.x + float(Sprite.width) /20, Location.y + float(Sprite.height) / 2 - 30};
 
-		for (int i = 0; i < 20; i++)
-		{
-			CircleBullet[i].Location = SpawnLocation;
-			CircleBullet[i].TargetLocation = Player->Location;
-
-			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-				CircleBullet[i].Bullet[j].UpdateAnimation();
-		}
-
-		for (int i = 0; i < 10; i++)
-		{
-			LinearMultiBullet[i].Location = SpawnLocation;
-			LinearMultiBullet[i].TargetLocation = Player->Location;
-
-			for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
-				LinearMultiBullet[i].Bullet[j].UpdateAnimation();
-		}
-
-		for (int i = 0; i < 4; i++)
-		{
-			SpiralBullet[i].Location = SpawnLocation;
-
-			for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-				SpiralBullet[i].Bullet[j].UpdateAnimation();
-		}
-
-		RageBullet.Location = SpawnLocation;
-		
-		for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
-			RageBullet.Bullet[j].UpdateAnimation();
-
 		UpdateAnimation();
 	}
 	
@@ -251,6 +220,37 @@ void Demon::Update()
 			DeathExplosion[i].Explode({float(GetRandomValue(Location.x, Location.x + float(Sprite.width)/Frames)), float(GetRandomValue(Location.y, Location.y + Sprite.height))}, Explosions);
 
 	UpdateBullet();
+
+	for (int i = 0; i < 20; i++)
+	{
+		CircleBullet[i].Location = SpawnLocation;
+		CircleBullet[i].TargetLocation = Player->Location;
+
+		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
+			CircleBullet[i].Bullet[j].UpdateAnimation();
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		LinearMultiBullet[i].Location = SpawnLocation;
+		LinearMultiBullet[i].TargetLocation = Player->Location;
+
+		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
+			LinearMultiBullet[i].Bullet[j].UpdateAnimation();
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		SpiralBullet[i].Location = SpawnLocation;
+
+		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
+			SpiralBullet[i].Bullet[j].UpdateAnimation();
+	}
+
+	RageBullet.Location = SpawnLocation;
+	
+	for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
+		RageBullet.Bullet[j].UpdateAnimation();
 
 	CheckCollisionWithPlayer();
 	CheckCollisionWithPlayerBullets();
