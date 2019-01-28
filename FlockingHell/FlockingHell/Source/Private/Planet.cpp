@@ -29,6 +29,13 @@ void Planet::Update()
 	CheckPlanetWindowCollision();
 }
 
+void Planet::UpdateY()
+{
+	Location.y += Speed * GetFrameTime();
+
+	CheckPlanetWindowCollision();
+}
+
 void Planet::Draw() const
 {
 	DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);

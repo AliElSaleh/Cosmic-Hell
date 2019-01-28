@@ -7,6 +7,7 @@ struct Planet
 
 	void Init();
 	void Update();
+	void UpdateY();
 	void Draw() const;
 
 	Vector2 Location{};

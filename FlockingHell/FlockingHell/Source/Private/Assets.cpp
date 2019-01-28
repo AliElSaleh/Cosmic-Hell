@@ -29,6 +29,7 @@ void Assets::LoadSprites()
 	Load("ArchDemon", "Sprites/ArchDemon.png");
 	Load("Boid v2", "Sprites/Boidv2.png");
 	Load("Background", "Sprites/Background.png");
+	Load("GameBackground", "Sprites/GameBackground.png");
 	Load("Planet", "Sprites/Planet.png");
 	Load("RingPlanet", "Sprites/RingPlanet.png");
 	Load("CosmicHellTitle", "Sprites/CosmicHellTitle.png");
