@@ -15,11 +15,11 @@ struct Planet
 
 	Texture2D Sprite{};
 
+	float Speed{};
 
 private:
 	void CheckPlanetWindowCollision();
 
-	float Speed{};
 	float ArbitraryAmount{};
 };
 

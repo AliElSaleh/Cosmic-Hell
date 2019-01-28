@@ -21,5 +21,5 @@ void Star::Update()
 
 void Star::Draw() const
 {
-	DrawCircle(int(Location.x), int(Location.y), Radius, WHITE);
+	DrawCircle(int(Location.x), int(Location.y), Radius, LIGHTGRAY);
 }

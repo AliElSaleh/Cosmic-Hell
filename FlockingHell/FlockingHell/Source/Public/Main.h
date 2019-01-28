@@ -17,9 +17,10 @@
 //-----------------------------------------
 // Structs
 struct Player Player;
+struct Star FarStars[MAX_FAR_STARS];
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Star FastStars[MAX_SMALL_STARS];
-struct Star CloseStars[MAX_SMALL_STARS];
+struct Star FastStars[MAX_FAST_STARS];
+struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
 struct ArchDemon Archon;
@@ -104,6 +105,5 @@ void DrawStatsScreen();
 void DrawHighscoreScreen();
 void DrawTestScene();
 void DrawFlockingScene();
-void DrawDebugInfo();
 
 void Unload(); // Unload all assets that have been loaded since InitWindow()
