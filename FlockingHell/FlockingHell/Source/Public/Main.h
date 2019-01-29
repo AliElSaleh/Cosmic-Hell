@@ -19,7 +19,6 @@
 struct Player Player;
 struct Star FarStars[MAX_FAR_STARS];
 struct Star SmallStars[MAX_SMALL_STARS];
-struct Star FastStars[MAX_FAST_STARS];
 struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
 struct Flock Flock;
