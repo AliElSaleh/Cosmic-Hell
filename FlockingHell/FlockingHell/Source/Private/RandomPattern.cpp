@@ -41,8 +41,10 @@ void RandomPattern::Init()
 		break;
 
 		case RANDOM_AIMING:
-			CreateRandomPattern(false, 100, 0,300.0f, 0.0f, 0.0f);
-			AddDebugInitCode();
+			CreateRandomPattern(false, 100, 0, 300.0f, 0.0f, 0.0f);
+
+			if (bDebug)
+				AddDebugInitCode();
 		break;
 
 		case RANDOM_SPIRAL:

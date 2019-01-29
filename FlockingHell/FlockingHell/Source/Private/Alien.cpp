@@ -13,6 +13,10 @@ Alien::Alien()
 	Location = {300.0f, -300.0f};
 	Frames = 1;
 	ShootRate = 5;
+	
+	Health = 5000;
+	LowHealthThreshold = 500;
+	Explosions = 3;
 
 	bDebug = false;
 }
@@ -30,13 +34,13 @@ void Alien::Init()
 	Mass = 40.0f; // 40Kg
 	TargetRadius = 10.0f;
 	
-	Health = 3000;
-	LowHealthThreshold = 500;
-	Explosions = 3;
 	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
 	bActive = true;
 	bIsDead = false;
+
+	for (int i = 0; i < 20; i++)
+		DeathExplosion[i].Init();
 
 	// WAVE 1
 	LinearBullet.SetBulletPattern(BulletPatternGenerator::LINEAR_AIMING);
@@ -91,22 +95,27 @@ void Alien::Init()
 	}
 
 	// RAGE
-	RageBullet.SetBulletPattern(BulletPatternGenerator::RANDOM_SPIRAL_MULTI);
-	RageBullet.SetDelayAmount(0.0f);
-	RageBullet.Enemy = this;
-	RageBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-	//RageBullet.Init();
+	RageBullet[0].SetBulletPattern(BulletPatternGenerator::RANDOM_SPIRAL_MULTI);
+	RageBullet[1].SetBulletPattern(BulletPatternGenerator::RANDOM_AIMING);
 
-	//for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
-	//{
-	//	RageBullet.Bullet[i].Player = Player;
-	//	RageBullet.Bullet[i].Frames = 4;
-	//	RageBullet.Bullet[i].Sprite = GetAsset(PurpleBullet);
-	//
-	//	RageBullet.Bullet[i].InitFrames();
-	//}
+	for (int i = 0; i < 2; i++)
+	{
+		RageBullet[i].SetDelayAmount(0.0f);
+		RageBullet[i].Enemy = this;
+		RageBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+		RageBullet[i].Init();
 
-	FinalBullets = &RageBullet.Bullet;
+		for (unsigned short j = 0; j < RageBullet[i].Bullet.size(); j++)
+		{
+			RageBullet[i].Bullet[j].Player = Player;
+			RageBullet[i].Bullet[j].Frames = 4;
+			RageBullet[i].Bullet[j].Sprite = GetAsset(PurpleBullet);
+					  
+			RageBullet[i].Bullet[j].InitFrames();	
+		}
+	}
+
+	FinalBullets = &RageBullet[1].Bullet;
 
 	BulletWave = FIRST;
 
@@ -166,6 +175,9 @@ void Alien::Draw()
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Draw();
 
+	if (bActive)
+		DrawText(FormatText("Health: %02i", Health), 10, 750, 20.0f, WHITE);
+
 	DrawBullet();
 }
 
@@ -174,27 +186,28 @@ void Alien::UpdateBullet()
 	// WAVE 1
 	LinearBullet.Location = SpawnLocation;
 	LinearBullet.TargetLocation = Player->Center;
-
-	for (unsigned short i = 0; i < LinearBullet.Bullet.size(); i++)
-		LinearBullet.Bullet[i].UpdateAnimation();
+	LinearBullet.UpdateAnimation();
 
 	// WAVE 2
 	for (int i = 0; i < 2; i++)
 	{
 		SpiralBullet[i].Location = SpawnLocation;
 		SpiralBullet[i].TargetLocation = Player->Center;
-
-		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-			SpiralBullet[i].Bullet[j].UpdateAnimation();
+		SpiralBullet[i].UpdateAnimation();
 	}
 
 	// WAVE 3
 	SpiralMultiBullet.Location = SpawnLocation;
 	SpiralMultiBullet.TargetLocation = Player->Center;
+	SpiralMultiBullet.UpdateAnimation();
 
-	for (unsigned short j = 0; j < SpiralMultiBullet.Bullet.size(); j++)
-		SpiralMultiBullet.Bullet[j].UpdateAnimation();
-
+	// RAGE
+	for (int i = 0; i < 2; i++)
+	{
+		RageBullet[i].Location = SpawnLocation;
+		RageBullet[i].TargetLocation = Player->Center;
+		RageBullet[i].UpdateAnimation();
+	}
 
 	switch (BulletWave)
 	{
@@ -241,6 +254,7 @@ void Alien::UpdateBullet()
 		SpiralMultiBullet.Update();
 
 		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralMultiBullet)))
+		{
 			if (!IsLowHealth())
 			{
 				Init();
@@ -248,9 +262,42 @@ void Alien::UpdateBullet()
 			}
 			else	
 				BulletWave = RAGE;
+		}
+
 		break;
 
 	case RAGE:
+
+		StopMoving();
+
+		for (int i = 0; i < 2; i++)
+		{
+			RageBullet[i].Center = SpawnLocation;
+			RageBullet[i].bRelease = true;
+		
+			RageBullet[i].Update();
+		}
+
+		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(RageBullet[1])))
+			if (!bIsDead)
+			{
+				BulletWave = RAGE;
+
+				for (int i = 0; i < 2; i++)
+					RageBullet[i].Init();
+
+				FinalBullets = &RageBullet[1].Bullet;
+
+				for (int i = 0; i < 2; i++)
+					for (unsigned short j = 0; j < RageBullet[i].Bullet.size(); j++)
+					{
+						RageBullet[i].Bullet[j].Player = Player;
+						RageBullet[i].Bullet[i].Frames = 4;
+						RageBullet[i].Bullet[i].Sprite = GetAsset(PurpleBullet);
+						
+						RageBullet[i].Bullet[i].InitFrames();
+					}
+			}
 		break;
 
 	default:
@@ -276,6 +323,8 @@ void Alien::DrawBullet()
 		break;
 
 	case RAGE:
+		for (int i = 0; i < 2; i++)
+			RageBullet[i].Draw();
 		break;
 
 	default:

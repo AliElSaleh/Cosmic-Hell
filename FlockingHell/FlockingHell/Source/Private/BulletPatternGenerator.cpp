@@ -648,6 +648,13 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 	}
 }
 
+void BulletPatternGenerator::UpdateAnimation()
+{
+	if (!Bullet.empty())
+		for (int i = 0; i < NumOfBullets; i++)
+			Bullet[i].UpdateAnimation();
+}
+
 void BulletPatternGenerator::StartShotRoutine()
 {
 	switch (CurrentPattern)

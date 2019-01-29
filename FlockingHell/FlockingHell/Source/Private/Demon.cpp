@@ -11,6 +11,9 @@ Demon::Demon()
 {
 	Demon::Init();
 	Location = {300.0f, -300.0f};
+	Health = 2000;
+	LowHealthThreshold = 400;
+	Explosions = 3;
 }
 
 void Demon::Init()
@@ -26,9 +29,6 @@ void Demon::Init()
 	Mass = 30.0f; // 30Kg
 	TargetRadius = 10.0f;
 
-	Health = 2000;
-	LowHealthThreshold = 400;
-	Explosions = 3;
 	Speed = 140.0f;
 	Damage = GetRandomValue(1, 3);
 	Frames = 10;
@@ -253,32 +253,24 @@ void Demon::UpdateBullet()
 	{
 		CircleBullet[i].Location = SpawnLocation;
 		CircleBullet[i].TargetLocation = Player->Center;
-
-		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-			CircleBullet[i].Bullet[j].UpdateAnimation();
+		CircleBullet[i].UpdateAnimation();
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
 		LinearMultiBullet[i].Location = SpawnLocation;
 		LinearMultiBullet[i].TargetLocation = Player->Location;
-
-		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
-			LinearMultiBullet[i].Bullet[j].UpdateAnimation();
+		LinearMultiBullet[i].UpdateAnimation();
 	}
 
 	for (int i = 0; i < 4; i++)
 	{
 		SpiralBullet[i].Location = SpawnLocation;
-
-		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-			SpiralBullet[i].Bullet[j].UpdateAnimation();
+		SpiralBullet[i].UpdateAnimation();
 	}
 
 	RageBullet.Location = SpawnLocation;
-	
-	for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
-		RageBullet.Bullet[j].UpdateAnimation();
+	RageBullet.UpdateAnimation();
 
 	switch (BulletWave)
 	{
@@ -499,12 +491,11 @@ void Demon::UpdateBullet()
 		break;
 
 		case RAGE:
-			RageBullet.Center = SpawnLocation;
-
 			StopMoving();
-			
-			RageBullet.bRelease = true;
 
+			RageBullet.Center = SpawnLocation;
+			RageBullet.bRelease = true;
+			
 			RageBullet.Update();
 
 			if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(RageBullet)))
@@ -515,7 +506,13 @@ void Demon::UpdateBullet()
 					RageBullet.Init();
 
 					for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
+					{
 						RageBullet.Bullet[i].Player = Player;
+						RageBullet.Bullet[i].Frames = 6;
+						RageBullet.Bullet[i].Sprite = GetAsset(FireBullet);
+						
+						RageBullet.Bullet[i].InitFrames();
+					}
 				}
 		break;
 

@@ -68,6 +68,8 @@ struct BulletPatternGenerator
 
 	void StartShotRoutine();
 
+	void UpdateAnimation();
+
 	void SetBulletPattern(Pattern NewPattern);
 	void SetDelayAmount(float Seconds);
 	void SetDebug(bool Condition);

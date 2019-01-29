@@ -1,9 +1,7 @@
 #pragma once
 
 #include "BulletPatternGenerator.h"
-#include "SpiralPattern.h"
 #include "SpiralMultiWayPattern.h"
-#include "SpiralOneWayPattern.h"
 
 #define Stringify(name) #name
 

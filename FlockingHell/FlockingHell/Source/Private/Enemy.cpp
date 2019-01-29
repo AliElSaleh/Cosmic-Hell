@@ -32,7 +32,7 @@ void Enemy::CheckCollisionWithPlayer() const
 {
 	if (bActive && !bIsDead)
 		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
-			Player->Health -= Damage;
+			Player->Health -= 1;
 }
 
 void Enemy::CheckCollisionWithPlayerBullets()

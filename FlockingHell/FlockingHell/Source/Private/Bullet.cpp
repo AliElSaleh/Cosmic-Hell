@@ -36,7 +36,10 @@ void Bullet::Draw() const
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
 
 	if (bDebug)
-		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, WHITE);
+	{
+		DrawCircle(CollisionOffset.x, CollisionOffset.y, float(Sprite.width)/Frames/2, WHITE);
+		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, YELLOW);
+	}
 }
 
 void Bullet::UpdateAnimation()
@@ -58,7 +61,7 @@ void Bullet::UpdateAnimation()
 void Bullet::CheckCollisionWithPlayerHitbox()
 {
 	// Enemy bullet collision with player hitbox
-	if (CheckCollisionCircleRec(CollisionOffset, Radius, Player->Hitbox) && !Player->bIsDead && !Player->bInvincible)
+	if (CheckCollisionCircleRec(CollisionOffset, float(Sprite.width)/Frames/2, Player->Hitbox) && !Player->bIsDead && !Player->bInvincible)
 	{
 		if (!bIsHit)
 		{

@@ -16,7 +16,7 @@ private:
 	struct LinearPattern LinearBullet;
 	struct SpiralMultiPattern SpiralBullet[2];
 	struct SpiralMultiWayPattern SpiralMultiBullet;
-	struct RandomPattern RageBullet;
+	struct RandomPattern RageBullet[2];
 
 	void UpdateBullet();
 	void DrawBullet();
