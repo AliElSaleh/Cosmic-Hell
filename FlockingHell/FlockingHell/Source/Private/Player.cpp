@@ -10,6 +10,14 @@ void Player::Init()
 {
 	Sprite = GetAsset(Player);
 
+	Heart.clear();
+	Bomb.clear();
+
+	for (int i = 0; i < 6; i++)
+		Heart.emplace_back(GetAsset(Heart));
+	
+	Bomb.emplace_back(GetAsset(Bomb));
+
 	XOffset = 15;
 	YOffset = 50;
 	Location.x = float(GetScreenWidth()-PANEL_WIDTH) / 2 + float(XOffset);
@@ -22,7 +30,7 @@ void Player::Init()
 	Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
 	Hitbox.width = 3;
 	Hitbox.height = 3;
-	Health = 100;
+	Health = 6;
 	Score = 0;
 	GrazingScore = 0;
 	Name = "Scarlet";
@@ -52,6 +60,7 @@ void Player::Init()
 	BossKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
+	bInvincible = false;
 	bIsDead = false;
 	bIsHit = false;
 	bDebug = false;
@@ -59,7 +68,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	// Update Player location and animation if player is still alive
+	// Update location and animation if not dead
 	if (!bIsDead)
 	{
 		PlayerSpriteFramesCounter++;
@@ -77,6 +86,17 @@ void Player::Update()
 		BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
 
+		if (bIsHit)
+		{
+			PlayerHitFramesCounter++;
+			Invincibility(true, 1.0f);
+		}
+		else
+		{
+			PlayerHitFramesCounter = 0;
+			Invincibility(false, 0.0f);
+		}
+
 		UpdatePlayerAnimation();
 	}
 
@@ -92,7 +112,13 @@ void Player::Update()
 void Player::Draw() const
 {   
 	// Player sprite
-    DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
+	if (bIsHit)
+	{
+		if (PlayerHitFramesCounter/10%2)
+			DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
+	}
+	else
+		DrawTextureRec(Sprite, PlayerFrameRec, Location, WHITE);  // Draw part of the player texture
 
 	if (bDebug)
 	{
@@ -296,4 +322,45 @@ void Player::CheckBulletLevel()
 	{
 		BulletLevel = 2;
 	}
+}
+
+void Player::Invincibility(const bool Mode, const float Seconds)
+{
+	FramesCounter++;
+
+	if (Mode && Seconds > 0.0f)
+	{
+		bInvincible = true;
+
+		if (fmodf(FramesCounter/(GetFPS()*Seconds), 2) == 1)
+		{
+			FramesCounter = 0;
+
+			bInvincible = false;
+			bIsHit = false;
+		}
+	}
+	else if (Mode && Seconds <= 0.0f)
+	{
+		bInvincible = true;
+		Health = 6;
+	}
+
+	else if (!Mode && Seconds > 0.0f)
+	{
+		bInvincible = false;
+		
+		if (fmodf(FramesCounter/(GetFPS()*Seconds), 2) == 1)
+		{
+			FramesCounter = 0;
+
+			bInvincible = true;
+			bIsHit = true;
+		}
+	}
+	else if (!Mode && Seconds <= 0.0f)
+		bInvincible = false;
+
+	if (FramesCounter > 120*Seconds)
+		FramesCounter = 0;
 }

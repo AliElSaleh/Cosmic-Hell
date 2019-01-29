@@ -30,8 +30,6 @@ struct HealthPickup HeartPickup;
 Texture2D Background;
 Texture2D MenuTitle;
 Texture2D Panel;
-Texture2D Heart[6];
-Texture2D Bomb[4];
 
 Section Boundary = Section(350, 400, 350, 400);
 QuadTree* QT = new QuadTree(Boundary, 4);

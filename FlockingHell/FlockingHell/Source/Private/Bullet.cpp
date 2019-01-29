@@ -58,14 +58,15 @@ void Bullet::UpdateAnimation()
 void Bullet::CheckCollisionWithPlayerHitbox()
 {
 	// Enemy bullet collision with player hitbox
-	if (CheckCollisionCircleRec(CollisionOffset, Radius, Player->Hitbox) && !Player->bIsDead)
+	if (CheckCollisionCircleRec(CollisionOffset, Radius, Player->Hitbox) && !Player->bIsDead && !Player->bInvincible)
 	{
 		if (!bIsHit)
 		{
 			// Apply damage to player
 			if (bActive)
 			{
-				Player->Health -= Damage;
+				Player->Health -= 1;
+				Player->Heart.pop_back();
 				Player->bIsHit = true;
 				bIsHit = true;
 			}
@@ -82,6 +83,4 @@ void Bullet::CheckCollisionWithPlayer() const
 		if (bActive && !Player->bIsHit)
 			Player->GrazingScore += unsigned short(GetRandomValue(130, 150) * GetFrameTime());
 	}
-
-	Player->bIsHit = false;
 }

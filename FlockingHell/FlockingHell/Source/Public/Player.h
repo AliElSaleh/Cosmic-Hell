@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include "State.h"
 #include "Bullet.h"
-
+#include <vector>
 #define MAX_PLAYER_BULLETS 50
 
 struct Player
@@ -21,6 +21,9 @@ struct Player
 	Vector2 BulletSpawnLocation{};
 
 	Texture2D Sprite{};
+
+	std::vector<Texture2D> Heart;
+	std::vector<Texture2D> Bomb;
 
 	Rectangle Hitbox{};
 	Rectangle Spritebox{};
@@ -42,6 +45,7 @@ struct Player
 	unsigned short Score = 0;
 	unsigned short GrazingScore = 0;
 
+	bool bInvincible{};
 	bool bIsHit{};
 	bool bIsDead{};
 
@@ -55,6 +59,11 @@ private:
 	void CheckCollisionWithWindow();
 	void CheckHealth();
 	void CheckBulletLevel();
+
+	void Invincibility(bool Mode, float Seconds);
+
+	unsigned short FramesCounter{};
+	unsigned short PlayerHitFramesCounter{};
 
 	bool bDebug{};
 };
