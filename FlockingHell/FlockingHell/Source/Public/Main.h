@@ -38,6 +38,10 @@ RaylibLogo SplashLogo;
 Planet BigPlanet[5];
 Planet RingPlanet[2];
 
+// Music
+Music MenuMusic;
+Music GameMusic;
+
 template<typename PatternType>
 PatternType Pattern;
 

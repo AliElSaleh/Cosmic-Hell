@@ -78,3 +78,35 @@ void Assets::UnloadFonts()
 	UnloadFont(GetFont("Locust"));
 	UnloadFont(GetFont("VCR"));
 }
+
+void Assets::LoadSounds()
+{
+	const auto Load = [&](const std::string Name, const char* FileName)
+	{
+		const Sound Sound = LoadSound(FileName);
+		Sounds[Name] = Sound;
+	};
+}
+
+void Assets::UnloadSounds()
+{
+
+}
+
+void Assets::LoadMusic()
+{
+	const auto Load = [&](const std::string Name, const char* FileName)
+	{
+		const Music Music = LoadMusicStream(FileName);
+		PiecesOfMusic[Name] = Music;
+	};
+
+	Load("Menu", "Music/Carpenter_Brut-Escape_From_Midwich_Valley.ogg");
+	Load("Game", "Music/Carpenter_Brut-Turbo_Killer.ogg");
+}
+
+void Assets::UnloadMusic()
+{
+	UnloadMusicStream(GetMusic("Menu"));
+	UnloadMusicStream(GetMusic("Game"));
+}

@@ -24,11 +24,27 @@ struct Assets
 		return Fonts[Name];
 	}
 
+	Sound GetSound(const std::string& Name)
+	{
+		return Sounds[Name];
+	}
+
+	Music GetMusic(const std::string& Name)
+	{
+		return PiecesOfMusic[Name];
+	}
+
 	void LoadSprites();
 	void UnloadSprites();
 	
 	void LoadFonts();
 	void UnloadFonts();
+
+	void LoadSounds();
+	void UnloadSounds();
+
+	void LoadMusic();
+	void UnloadMusic();
 
 private:
 	Assets();
@@ -36,5 +52,7 @@ private:
 
 	std::map<std::string, Texture2D> Sprites;
 	std::map<std::string, Font> Fonts;
+	std::map<std::string, Sound> Sounds;
+	std::map<std::string, Music> PiecesOfMusic;
 };
 
