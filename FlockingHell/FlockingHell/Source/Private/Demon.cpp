@@ -224,7 +224,7 @@ void Demon::Update()
 	for (int i = 0; i < 20; i++)
 	{
 		CircleBullet[i].Location = SpawnLocation;
-		CircleBullet[i].TargetLocation = Player->Location;
+		CircleBullet[i].TargetLocation = Player->Center;
 
 		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
 			CircleBullet[i].Bullet[j].UpdateAnimation();

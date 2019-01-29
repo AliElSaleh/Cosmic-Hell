@@ -127,6 +127,8 @@ void Player::Draw() const
 	
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 			DrawCircle(int(Bullet[i].Center.x), int(Bullet[i].Center.y), Bullet[i].Radius, RED); // Player Bullets hitbox
+	
+		DrawCircle(Center.x, Center.y, 3.0f, YELLOW);
 	}
 }
 

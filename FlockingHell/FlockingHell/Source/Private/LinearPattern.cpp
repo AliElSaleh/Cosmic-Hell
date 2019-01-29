@@ -38,7 +38,7 @@ void LinearPattern::Init()
 		break;
 
 		case LINEAR_AIMING:
-			CreateLinearPattern(10, 500.0f);
+			CreateLinearPattern(50, 350.0f);
 			AddDebugInitCode();
 		break;
 

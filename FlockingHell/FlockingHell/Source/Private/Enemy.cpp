@@ -241,9 +241,13 @@ bool Enemy::IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern
 	if (BulletPattern.Bullet.empty())
 	{
 		if (Frames > 0)
-			SetDestLocation({float(GetRandomValue(0 + Sprite.width/Frames, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0 - 10, GetScreenHeight() - 750))});
+			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, GetScreenHeight() - 750))});
+
+		if (bDebug)
+			printf("Dest Location: X: %f, Y: %f\n", Destination.x, Destination.y);
 
 		StartMoving();
+
 		return true;
 	}
 

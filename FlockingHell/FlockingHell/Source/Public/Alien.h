@@ -2,6 +2,7 @@
 
 #include "Enemy.h"
 #include "RandomPattern.h"
+#include "LinearPattern.h"
 
 struct Alien : Enemy
 {
@@ -12,6 +13,11 @@ struct Alien : Enemy
 	void Draw() override;
 
 private:
+	struct LinearPattern LinearBullet;
+	struct SpiralPattern SpiralBullet;
 	struct RandomPattern RageBullet;
+
+	void UpdateBullet();
+	void DrawBullet();
 };
 
