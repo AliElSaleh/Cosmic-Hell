@@ -34,27 +34,27 @@ void SpiralMultiWayPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPIRAL_MULTI_THREE_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(600), 3, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(600), 3, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_FOUR_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 4, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 2, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_FIVE_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(500), 5, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(500), 5, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SIX_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(600), 6, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(600), 6, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_SEVEN_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(700), 7, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(700), 7, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_EIGHT_WAY:
-			CreateSpiralMultiPattern(true, unsigned short(800), 8, 4, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(true, unsigned short(800), 8, 4, 350.0f, 300.0f, 1.0f);
 		break;
 
 		default:

@@ -221,6 +221,34 @@ void Demon::Update()
 
 	UpdateBullet();
 
+	CheckCollisionWithPlayer();
+	CheckCollisionWithPlayerBullets();
+	CheckHealth();
+}
+
+void Demon::Draw()
+{
+	// Draw debug information
+	if (bDebug && bActive && !bIsDead)
+	{
+		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, YELLOW);
+	}
+
+	// Draw the demon sprite
+	if (bActive && !bIsDead)
+		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
+	
+	if (bIsDead)
+		for (int i = 0; i < 20; i++)
+			DeathExplosion[i].Draw();
+	
+	DrawBullet();
+}
+
+void Demon::UpdateBullet()
+{
 	for (int i = 0; i < 20; i++)
 	{
 		CircleBullet[i].Location = SpawnLocation;
@@ -252,34 +280,6 @@ void Demon::Update()
 	for (unsigned short j = 0; j < RageBullet.Bullet.size(); j++)
 		RageBullet.Bullet[j].UpdateAnimation();
 
-	CheckCollisionWithPlayer();
-	CheckCollisionWithPlayerBullets();
-	CheckHealth();
-}
-
-void Demon::Draw()
-{
-	// Draw debug information
-	if (bDebug && bActive && !bIsDead)
-	{
-		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
-		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 5.0f, YELLOW);
-	}
-
-	// Draw the demon sprite
-	if (bActive && !bIsDead)
-		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
-	
-	if (bIsDead)
-		for (int i = 0; i < 20; i++)
-			DeathExplosion[i].Draw();
-	
-	DrawBullet();
-}
-
-void Demon::UpdateBullet()
-{
 	switch (BulletWave)
 	{
 		case FIRST:

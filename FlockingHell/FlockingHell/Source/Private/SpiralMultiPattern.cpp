@@ -33,11 +33,11 @@ void SpiralMultiPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPIRAL_MULTI_RIGHT:
-			CreateSpiralMultiPattern(false, 300, 4, 200.0f, 200.0f, 1.0f);
+			CreateSpiralMultiPattern(false, 300, 4, 320.0f, 200.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_LEFT:
-			CreateSpiralMultiPattern(false, 300, 4, 200.0f, 200.0f, 1.0f);
+			CreateSpiralMultiPattern(false, 300, 4, 300.0f, 200.0f, 1.0f);
 		break;
 
 		case SPIRAL_MULTI_DOUBLE:

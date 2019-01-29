@@ -14,7 +14,8 @@ struct Alien : Enemy
 
 private:
 	struct LinearPattern LinearBullet;
-	struct SpiralPattern SpiralBullet;
+	struct SpiralMultiPattern SpiralBullet[2];
+	struct SpiralMultiWayPattern SpiralMultiBullet;
 	struct RandomPattern RageBullet;
 
 	void UpdateBullet();
