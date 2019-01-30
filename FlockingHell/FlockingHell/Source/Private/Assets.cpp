@@ -34,6 +34,7 @@ void Assets::LoadSprites()
 	Load("RingPlanet", "Sprites/RingPlanet.png");
 	Load("CosmicHellTitle", "Sprites/CosmicHellTitle.png");
 	Load("PressAnyKey", "Sprites/PressAnyKey.png");
+	Load("DeathState", "Sprites/DeathState.png");
 }
 
 void Assets::UnloadSprites()
@@ -59,6 +60,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("RingPlanet"));
 	UnloadTexture(GetSprite("CosmicHellTitle"));
 	UnloadTexture(GetSprite("PressAnyKey"));
+	UnloadTexture(GetSprite("DeathState"));
 }
 
 void Assets::LoadFonts()

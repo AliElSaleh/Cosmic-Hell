@@ -60,6 +60,9 @@ unsigned short HeartSpriteSpacing = 30;
 unsigned short ScorePosition = 46;
 unsigned short GrazingScorePosition = 90;
 
+unsigned int Highscore = 0;
+unsigned int TotalScore = 0;
+
 // Menu title animation variables
 Vector2 TitleLocation{287.0f, 206.0f};
 unsigned short SpriteFramesCounter = 0;

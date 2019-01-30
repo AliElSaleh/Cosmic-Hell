@@ -312,6 +312,7 @@ void Player::CheckHealth()
 	{
 		// Prevent negative health values
 		Health = 0;
+		Heart.clear();
 		bIsDead = true;
 		
 		*GameState = DEATH;

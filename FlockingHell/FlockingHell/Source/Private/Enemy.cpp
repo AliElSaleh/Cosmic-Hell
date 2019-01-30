@@ -32,7 +32,13 @@ void Enemy::CheckCollisionWithPlayer() const
 {
 	if (bActive && !bIsDead)
 		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
-			Player->Health -= 1;
+		{			
+			if (!Player->bIsDead)
+				Player->Health -= 1;
+
+			if (!Player->Heart.empty())
+				Player->Heart.pop_back();
+		}
 }
 
 void Enemy::CheckCollisionWithPlayerBullets()
