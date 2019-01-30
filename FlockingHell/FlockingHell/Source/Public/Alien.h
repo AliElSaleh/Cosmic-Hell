@@ -18,6 +18,8 @@ private:
 	struct SpiralMultiWayPattern SpiralMultiBullet;
 	struct RandomPattern RageBullet[2];
 
+	void UpdateAnimation() override;
+
 	void UpdateBullet();
 	void DrawBullet();
 };

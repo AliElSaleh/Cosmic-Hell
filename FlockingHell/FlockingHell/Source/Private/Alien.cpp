@@ -11,9 +11,7 @@ Alien::Alien()
 	Alien::Init();
 
 	Location = {300.0f, -300.0f};
-	Frames = 1;
-	ShootRate = 5;
-	
+
 	Health = 5000;
 	LowHealthThreshold = 500;
 	Explosions = 3;
@@ -24,6 +22,8 @@ Alien::Alien()
 void Alien::Init()
 {
 	Sprite = GetAsset(Alien);
+	Frames = 5;
+	FramesSpeed = 10;
 
 	SpawnLocation = {Location.x + 27.0f, Location.y + float(Sprite.height) - 45.0f};
 	HitboxOffset = {32.0f, 2.0f};
@@ -33,11 +33,17 @@ void Alien::Init()
 	MaxForce = 5.0f;
 	Mass = 40.0f; // 40Kg
 	TargetRadius = 10.0f;
-	
+
+	ShootRate = 5;
 	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
 	bActive = true;
 	bIsDead = false;
+
+	FrameRec.x = 0.0f;
+	FrameRec.y = 0.0f;
+	FrameRec.width = float(Sprite.width)/Frames;
+	FrameRec.height = float(Sprite.height);
 
 	for (int i = 0; i < 20; i++)
 		DeathExplosion[i].Init();
@@ -144,6 +150,8 @@ void Alien::Update()
 		Hitbox.y = Location.y + HitboxOffset.y;
 
 		SpawnLocation = {Location.x + 27.0f, Location.y + float(Sprite.height) - 45.0f};
+
+		UpdateAnimation();
 	}
 
 	if(bIsDead)
@@ -163,12 +171,12 @@ void Alien::Draw()
 		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // Sprite box
 
 	if (!bIsDead && bActive)
-		DrawTexture(Sprite, int(Location.x), int(Location.y), WHITE);
+		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
 
 	if (bDebug)
 	{
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), RED); // Hitbox
-		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW);
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW); // Bullet spawn location
 	}
 
 	if (bIsDead)
@@ -179,6 +187,22 @@ void Alien::Draw()
 		DrawText(FormatText("Health: %02i", Health), 10, 750, 20.0f, WHITE);
 
 	DrawBullet();
+}
+
+void Alien::UpdateAnimation()
+{
+	SpriteFramesCounter++;
+	
+	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	{
+		SpriteFramesCounter = 0;
+		CurrentFrame++;
+	
+		if (CurrentFrame > Frames-1)
+			CurrentFrame = 0;
+	
+		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
+	}
 }
 
 void Alien::UpdateBullet()
