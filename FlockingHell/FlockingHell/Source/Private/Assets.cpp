@@ -101,12 +101,16 @@ void Assets::LoadMusic()
 		PiecesOfMusic[Name] = Music;
 	};
 
-	Load("Menu", "Music/Carpenter_Brut-Escape_From_Midwich_Valley.ogg");
-	Load("Game", "Music/Carpenter_Brut-Turbo_Killer.ogg");
+	Load("Menu", "Music/Carpenter_Brut-Hang'Em_All.ogg");
+	Load("DemonStage", "Music/Carpenter_Brut-Turbo_Killer.ogg");
+	Load("AlienStage", "Music/Carpenter_Brut-Meet_Matt_Stryker.ogg");
+	Load("WarshipStage", "Music/Carpenter_Brut-Division_Ruine.ogg");
 }
 
 void Assets::UnloadMusic()
 {
 	UnloadMusicStream(GetMusic("Menu"));
-	UnloadMusicStream(GetMusic("Game"));
+	UnloadMusicStream(GetMusic("DemonStage"));
+	UnloadMusicStream(GetMusic("AlienStage"));
+	UnloadMusicStream(GetMusic("WarshipStage"));
 }
