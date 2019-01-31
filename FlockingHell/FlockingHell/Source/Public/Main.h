@@ -111,4 +111,8 @@ void DrawHighscoreScreen();
 void DrawTestScene();
 void DrawFlockingScene();
 
+// Load/Save system
+void LoadHighscore();
+void SaveHighscore();
+
 void Unload(); // Unload all assets that have been loaded since InitWindow()
