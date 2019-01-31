@@ -10,6 +10,12 @@ Flock::Flock()
 		Boids.emplace_back(new Ship());
 }
 
+Flock::Flock(const unsigned short AmountOfBoids)
+{
+	for (int i = 0; i < AmountOfBoids; i++)
+		Boids.emplace_back(new Ship());
+}
+
 void Flock::Init()
 {
 	for (unsigned short i = 0; i < Boids.size(); i++)

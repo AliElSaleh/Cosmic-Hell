@@ -7,6 +7,7 @@
 struct Flock
 {
 	Flock();
+	Flock(unsigned short AmountOfBoids);
 
 	void Init();
 	void Update();

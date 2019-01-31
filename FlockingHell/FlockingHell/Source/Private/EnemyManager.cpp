@@ -80,7 +80,7 @@ void EnemyManager::Init()
 	Enemies.reserve(3);
 	FlockOfEnemies.reserve(3);
 
-	FlockOfEnemies.emplace_back(new Flock());
+	FlockOfEnemies.emplace_back(new Flock(20));
 	Enemies.emplace_back(new Alien());
 	Enemies.emplace_back(new Demon());
 	Enemies.emplace_back(new Alien());
