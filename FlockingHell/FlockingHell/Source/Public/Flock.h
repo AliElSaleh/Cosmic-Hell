@@ -7,7 +7,7 @@
 struct Flock
 {
 	Flock();
-	Flock(unsigned short AmountOfBoids);
+	explicit Flock(unsigned short AmountOfBoids);
 
 	void Init();
 	void Update();
@@ -15,6 +15,7 @@ struct Flock
 
 	std::vector<Enemy*> Boids{};
 
+	struct Player* Player{};
 private:
 	Vector2 TargetLocation{};
 

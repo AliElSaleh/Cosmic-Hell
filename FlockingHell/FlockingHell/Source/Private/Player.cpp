@@ -58,6 +58,7 @@ void Player::Init()
 
 	BulletLevel = 1;
 	BossKilled = 0;
+	EnemiesKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
 	bInvincible = false;

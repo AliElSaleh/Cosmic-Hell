@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Ship.h"
 #include "Assets.h"
+#include "Player.h"
 
 #include <raymath.h>
 
@@ -9,6 +10,9 @@
 
 Ship::Ship()
 {
+	Location = {float(GetRandomValue(-150, -GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(-500, -300))};
+	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
+
 	Ship::Init();
 }
 
@@ -16,8 +20,8 @@ void Ship::Init()
 {
 	Sprite = GetAsset(Boid);
 
-	Location = {float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))};
-	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
+	SpawnLocation = {Location.x, Location.y};
+
 	MaxVelocity = 1.0f;
 	MaxForce = 0.4f;
 	Mass = 10.0f; // 10Kg
@@ -27,6 +31,10 @@ void Ship::Init()
 		Frames = 5;
 	else if (Sprite.width % 4 == 0)
 		Frames = 4;
+
+	HitboxOffset = {float(Sprite.width)/Frames / 2, float(Sprite.height) / 2};
+	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/Frames, float(Sprite.height)/2};
+	SpriteBox = {Location.x, Location.y, float(Sprite.width)/Frames, float(Sprite.height)};
 
 	Health = 50;
 	Speed = 100.0f;
@@ -46,19 +54,63 @@ void Ship::Init()
 	bActive = true;
 	bIsDead = false;
 	bDebug = false;
+
+	DeathExplosion[0].Init();
+
+	Explosions = 2;
+
+	// Initialise bullets
+	LinearBullet.SetBulletPattern(BulletPatternGenerator::LINEAR_LOCK_ON);
+	LinearBullet.SetDelayAmount(0.0f);
+	LinearBullet.Enemy = this;
+	LinearBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	LinearBullet.Init();
+
+	for (unsigned short j = 0; j < LinearBullet.Bullet.size(); j++)
+	{
+		LinearBullet.Bullet[j].Player = Player;
+		LinearBullet.Bullet[j].Frames = 4;
+		LinearBullet.Bullet[j].Sprite = GetAsset(PurpleBullet); // TODO: Green bullet
+
+		LinearBullet.Bullet[j].InitFrames();
+	}
+
+	FinalBullets = &LinearBullet.Bullet;
 }
 
 void Ship::Update()
 {
-	SpriteFramesCounter++;
+	if (bActive && !bIsDead)
+	{
+		// Rotate towards the direction the ship is moving
+		Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;
 
-	// Rotate towards the direction the ship is moving
-	Rotation = atan2(Direction.y, Direction.x)*RAD2DEG;
+		DestFrameRec.x = Location.x;
+		DestFrameRec.y = Location.y;
 
-	DestFrameRec.x = Location.x;
-	DestFrameRec.y = Location.y;
+		SpriteBox.x = DestFrameRec.x;
+		SpriteBox.y = DestFrameRec.y;
 
-	UpdateAnimation();
+		Hitbox = {DestFrameRec.x - HitboxOffset.x, DestFrameRec.y - Origin.y, float(Sprite.width)/Frames, float(Sprite.height)/2};
+
+		SpawnLocation = {DestFrameRec.x, DestFrameRec.y};
+
+		UpdateAnimation();
+	}
+
+	if(bIsDead)
+	{
+		Player->EnemiesKilled++;
+
+		LinearBullet.bRelease = true;
+		
+		DeathExplosion[0].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
+	}
+
+	UpdateBullet();
+
+	CheckCollisionWithPlayerBullets();
+	CheckHealth();
 }
 
 void Ship::Draw()
@@ -68,9 +120,18 @@ void Ship::Draw()
 
 	if (bDebug)
 	{
-		DrawCircle(int(Destination.x), int(Destination.y), 3.0f, WHITE); // Destination
-		DrawFlockingProperties();
+		DrawCircle(SpawnLocation.x, SpawnLocation.y, 3.0f, BLUE); // Bullet spawn location
+
+		DrawRectangleLines(DestFrameRec.x - Origin.x, DestFrameRec.y - Origin.y, Sprite.width/Frames, Sprite.height, RED); // Sprite box
+		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, GRAY); // Hitbox
 	}
+
+	if(bIsDead)
+		DeathExplosion[0].Draw();
+
+	DrawBullet();
+
+	DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 }
 
 void Ship::Flock(std::vector<Enemy*>* Boids)
@@ -98,7 +159,8 @@ void Ship::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 
 void Ship::UpdateAnimation()
 {
-	// Ship sprite animation
+	SpriteFramesCounter++;
+
 	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
 	{
 		SpriteFramesCounter = 0;
@@ -108,6 +170,51 @@ void Ship::UpdateAnimation()
 			CurrentFrame = 0;
 	
 		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
+	}
+}
+
+void Ship::UpdateBullet()
+{
+	LinearBullet.Location = SpawnLocation;
+	LinearBullet.TargetLocation = Player->Center;
+	LinearBullet.UpdateAnimation();
+
+	switch (BulletWave)
+	{
+	case FIRST:
+		FramesCounter++;
+
+		if (FramesCounter/GetRandomValue(240, 360)%2)
+			LinearBullet.bRelease = true;
+			
+		LinearBullet.Update();
+	
+
+		if (LinearBullet.Bullet.empty())
+			if (!bIsDead)
+			{
+				Init();
+				FramesCounter = 0;
+				BulletWave = FIRST;
+			}
+
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Ship::DrawBullet()
+{
+	switch (BulletWave)
+	{
+	case FIRST:
+			LinearBullet.Draw();
+		break;
+
+	default:
+		break;
 	}
 }
 

@@ -216,8 +216,12 @@ void Demon::Update()
 	}
 	
 	if (bIsDead)
+	{
+		Player->BossKilled++;
+		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
+	}
 
 	UpdateBullet();
 

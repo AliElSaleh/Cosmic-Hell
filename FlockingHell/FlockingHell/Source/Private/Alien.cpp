@@ -155,8 +155,12 @@ void Alien::Update()
 	}
 
 	if(bIsDead)
+	{
+		Player->BossKilled++;
+		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
+	}
 
 	UpdateBullet();
 
@@ -168,7 +172,7 @@ void Alien::Update()
 void Alien::Draw()
 {
 	if (bDebug)
-		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // Sprite box
+		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // Sprite box
 
 	if (!bIsDead && bActive)
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
@@ -177,14 +181,14 @@ void Alien::Draw()
 	{
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), RED); // Hitbox
 		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW); // Bullet spawn location
+
+		if (bActive)
+			DrawText(FormatText("Health: %02i", Health), 10, 750, 20.0f, WHITE);
 	}
 
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Draw();
-
-	if (bActive)
-		DrawText(FormatText("Health: %02i", Health), 10, 750, 20.0f, WHITE);
 
 	DrawBullet();
 }

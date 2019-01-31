@@ -153,7 +153,7 @@ private:
 
 	// Bullet pattern updates
 	void UpdateLinearPattern();
-	void UpdateLinearTargetPattern();
+	void UpdateLinearTargetPattern(bool Aiming);
 	void UpdateSpiralPattern(bool Left, bool Right);
 	void UpdateSpiralMultiPattern(bool Left, bool Right);
 	void UpdateLinearMultiPattern(bool Aiming);

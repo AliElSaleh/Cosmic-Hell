@@ -23,6 +23,7 @@ private:
 	std::vector<HealthPickup*> Heart{};
 
 	void RemoveEnemy(unsigned short Where);
+	void RemoveEnemyFromFlock(unsigned short Where);
 
 	bool bIsEnemyDead{};
 };

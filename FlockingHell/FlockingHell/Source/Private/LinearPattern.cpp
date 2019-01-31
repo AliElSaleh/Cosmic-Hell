@@ -63,12 +63,16 @@ void LinearPattern::Update()
 
 		case LINEAR_LOCK_ON:
 			UpdateLinearBullet(true);
-			AddDebugUpdateCode();
+
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		case LINEAR_AIMING:
 			UpdateLinearBullet(false);
-			AddDebugUpdateCode();
+
+			if (bDebug)
+				AddDebugUpdateCode();
 		break;
 
 		default:

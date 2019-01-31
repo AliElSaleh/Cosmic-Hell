@@ -42,6 +42,17 @@ void EnemyManager::Update()
 			}
 		}
 
+	// Remove flock enemy from vector on death
+	if (!FlockOfEnemies.empty())
+		if (!FlockOfEnemies[0]->Boids.empty())
+			for (unsigned short i = 0; i < FlockOfEnemies[0]->Boids.size(); i++)
+				if (FlockOfEnemies[0]->Boids[i]->bIsDead)
+				{
+					if (FlockOfEnemies[0]->Boids[i]->FinalBullets->empty())
+						RemoveEnemyFromFlock(i);
+				}
+
+
 	if (!FlockOfEnemies.empty())
 		for (unsigned short i = 0; i < FlockOfEnemies.size(); i++)
 			FlockOfEnemies[i]->Update();
@@ -50,7 +61,6 @@ void EnemyManager::Update()
 	if (!Enemies.empty())
 		for (unsigned short i = 0; i < Enemies.size(); i++)
 			Enemies[i]->Update();
-
 }
 
 void EnemyManager::Draw()
@@ -92,4 +102,10 @@ void EnemyManager::RemoveEnemy(const unsigned short Where)
 {
 	if (!Enemies.empty())
 		Enemies.erase(Enemies.begin()+Where);
+}
+
+void EnemyManager::RemoveEnemyFromFlock(const unsigned short Where)
+{
+	if (!FlockOfEnemies.empty())
+		FlockOfEnemies[0]->Boids.erase(FlockOfEnemies[0]->Boids.begin()+Where);
 }

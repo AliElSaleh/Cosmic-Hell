@@ -381,6 +381,7 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 				// Update bullet location to spawn location
 				Center = { Location.x - Bullet[i].Radius, Location.y - Bullet[i].Radius };
 				Bullet[i].Location = Center;
+				CalculateDirection(i, TargetLocation);
 			}
 		else
 		{
@@ -388,8 +389,8 @@ void BulletPatternGenerator::UpdateLinearBullet(const bool LockOn)
 		}
 
 		// Calculate direction to target
-		for (int i = 0; i < NumOfBullets; i++)
-			CalculateDirection(i, TargetLocation);
+		//for (int i = 0; i < NumOfBullets; i++)
+		//	CalculateDirection(i, TargetLocation);
 	}
 }
 
@@ -664,11 +665,11 @@ void BulletPatternGenerator::StartShotRoutine()
 		break;
 
 		case LINEAR_LOCK_ON:
-			UpdateLinearTargetPattern();
+			UpdateLinearTargetPattern(false);
 		break;
 
 		case LINEAR_AIMING:
-			UpdateLinearTargetPattern();
+			UpdateLinearTargetPattern(true);
 		break;
 
 		case SPIRAL_RIGHT:
@@ -853,7 +854,7 @@ void BulletPatternGenerator::UpdateLinearPattern()
 	}
 }
 
-void BulletPatternGenerator::UpdateLinearTargetPattern()
+void BulletPatternGenerator::UpdateLinearTargetPattern(const bool Aiming)
 {
 	ShootRate += 2;
 
@@ -864,6 +865,10 @@ void BulletPatternGenerator::UpdateLinearTargetPattern()
 			Bullet[i].Location = Center;
 			Bullet[i].Damage = GetRandomValue(20, 40);
 			Bullet[i].bActive = true;
+
+			if (Aiming)
+				CalculateDirection(i, TargetLocation);
+
 			break;
 		}
 	}

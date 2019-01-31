@@ -19,9 +19,12 @@ Flock::Flock(const unsigned short AmountOfBoids)
 void Flock::Init()
 {
 	for (unsigned short i = 0; i < Boids.size(); i++)
+	{
+		Boids[i]->Player = Player;
 		Boids[i]->Init();
+	}
 
-	SetGoalLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))});
+	SetGoalLocation({float(GetRandomValue(150, GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(100, 200))});
 }
 
 void Flock::Update()
@@ -31,7 +34,7 @@ void Flock::Update()
 		{
 			Boids[i]->Flock(&Boids);
 			Boids[i]->Update();
-			CheckBoidsWindowEdges();
+			//CheckBoidsWindowEdges();
 			IsAtLocation(TargetLocation);
 		}
 }
@@ -72,7 +75,7 @@ void Flock::IsAtLocation(const Vector2 Location)
 
 			if (Distance < Boids[0]->TargetRadius)
 			{
-				SetGoalLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH)), float(GetRandomValue(0, GetScreenHeight()))});
+				SetGoalLocation({float(GetRandomValue(150, GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(100, 200))});
 			}
 		}
 }

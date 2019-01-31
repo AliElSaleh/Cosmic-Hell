@@ -1,6 +1,5 @@
 #include "Explosion.h"
 #include "Assets.h"
-#include "Globals.h"
 
 Explosion::Explosion()
 {

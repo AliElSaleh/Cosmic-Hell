@@ -59,7 +59,6 @@ void Enemy::CheckHealth()
 	if (Health <= 0 && bActive && !bIsDead)
 	{
 		Health = 0;
-		Player->BossKilled++;
 		bActive = false;
 		bIsDead = true;
 	}
