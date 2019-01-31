@@ -62,6 +62,7 @@ unsigned short GrazingScorePosition = 90;
 
 unsigned int Highscore = 0;
 unsigned int TotalScore = 0;
+unsigned int ScoreCounter = 0;
 
 // Menu title animation variables
 Vector2 TitleLocation{287.0f, 206.0f};
