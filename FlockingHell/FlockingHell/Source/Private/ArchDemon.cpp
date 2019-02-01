@@ -160,7 +160,7 @@ void ArchDemon::UpdateAnimation()
 			if (CurrentFrame > 4)
 				CurrentFrame = 0;
 		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 		}
 	}
 	else if (Direction.x < 0)
@@ -174,7 +174,7 @@ void ArchDemon::UpdateAnimation()
 			if (CurrentFrame > 9)
 				CurrentFrame = 5;
 		
-			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/10;
+			FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
 		}
 	}
 }

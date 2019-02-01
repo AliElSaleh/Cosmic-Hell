@@ -75,6 +75,8 @@ void RocketShip::Init()
 	}
 
 	FinalBullets = &LinearBullet.Bullet;
+
+	BulletWave = FIRST;
 }
 
 void RocketShip::Update()
