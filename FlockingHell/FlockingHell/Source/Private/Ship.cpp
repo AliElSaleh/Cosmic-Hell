@@ -10,8 +10,10 @@
 
 Ship::Ship()
 {
-	Location = {float(GetRandomValue(-150, -GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(-500, -300))};
+	Location = {float(GetRandomValue(-150, -GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(-400, -700))};
 	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
+
+	Health = 100;
 
 	Ship::Init();
 }
@@ -36,7 +38,6 @@ void Ship::Init()
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/Frames, float(Sprite.height)/2};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/Frames, float(Sprite.height)};
 
-	Health = 50;
 	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
 	ShootRate = 5;
@@ -70,7 +71,7 @@ void Ship::Init()
 	{
 		LinearBullet.Bullet[j].Player = Player;
 		LinearBullet.Bullet[j].Frames = 4;
-		LinearBullet.Bullet[j].Sprite = GetAsset(PurpleBullet); // TODO: Green bullet
+		LinearBullet.Bullet[j].Sprite = GetAsset(GreenBullet);
 
 		LinearBullet.Bullet[j].InitFrames();
 	}
@@ -124,14 +125,14 @@ void Ship::Draw()
 
 		DrawRectangleLines(DestFrameRec.x - Origin.x, DestFrameRec.y - Origin.y, Sprite.width/Frames, Sprite.height, RED); // Sprite box
 		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, GRAY); // Hitbox
+	
+		DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 	}
 
 	if(bIsDead)
 		DeathExplosion[0].Draw();
 
 	DrawBullet();
-
-	DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
 }
 
 void Ship::Flock(std::vector<Enemy*>* Boids)

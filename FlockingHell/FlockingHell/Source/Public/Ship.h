@@ -23,8 +23,6 @@ private:
 
 	float Rotation{0.0f};
 
-	unsigned short FramesCounter{};
-
 	void UpdateBullet();
 	void DrawBullet();
 };

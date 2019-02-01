@@ -7,7 +7,7 @@
 struct Flock
 {
 	Flock();
-	explicit Flock(unsigned short AmountOfBoids);
+	explicit Flock(bool bShip, unsigned short AmountOfBoids);
 
 	void Init();
 	void Update();

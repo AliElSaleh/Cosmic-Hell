@@ -41,7 +41,9 @@ void CirclePattern::Init()
 
 		case CIRCLE_HOLE_LOCK_ON:
 			CreateCirclePattern(true, 100, 200.0f, 1.0f);
-			AddDebugInitCode();
+
+			if (bDebug)
+				AddDebugInitCode();
 		break;
 
 		default:

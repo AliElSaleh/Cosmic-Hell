@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "LinearPattern.h"
 
 struct ArchDemon : Enemy
 {
@@ -12,14 +13,13 @@ struct ArchDemon : Enemy
 	void Flock(std::vector<Enemy*>* Boids) override;
 	void ApplyBehaviours(std::vector<Enemy*> *Enemies) override;
 
-	//bool IsAtLocation(const Vector2& GoalLocation) override;
-	//bool IsBulletSequenceComplete(const BulletPatternGenerator& BulletPattern) override;
-	
-	//void CheckCollisionWithPlayer() override;
-	//void CheckCollisionWithPlayerBullets() override;
-	//void CheckHealth() override;
-
 protected:
 	void UpdateAnimation() override;
+
+private:
+	void UpdateBullet();
+	void DrawBullet();
+
+	struct LinearPattern LinearBullet{};
 };
 

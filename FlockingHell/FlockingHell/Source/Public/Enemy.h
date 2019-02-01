@@ -126,6 +126,9 @@ protected:
 	bool IsBulletSequenceComplete(const BulletPatternGenerator &BulletPattern);
 	bool IsLowHealth() const;
 
+	// Timing
+	unsigned short FramesCounter{};
+
 	bool bDebug{};
 };
 

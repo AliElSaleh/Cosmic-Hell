@@ -10,10 +10,18 @@ Flock::Flock()
 		Boids.emplace_back(new Ship());
 }
 
-Flock::Flock(const unsigned short AmountOfBoids)
+Flock::Flock(const bool bShip, const unsigned short AmountOfBoids)
 {
-	for (int i = 0; i < AmountOfBoids; i++)
-		Boids.emplace_back(new Ship());
+	if (bShip)
+	{
+		for (int i = 0; i < AmountOfBoids; i++)
+			Boids.emplace_back(new Ship());
+	}
+	else
+	{
+		for (int i = 0; i < AmountOfBoids; i++)
+			Boids.emplace_back(new ArchDemon());
+	}
 }
 
 void Flock::Init()
@@ -34,7 +42,6 @@ void Flock::Update()
 		{
 			Boids[i]->Flock(&Boids);
 			Boids[i]->Update();
-			//CheckBoidsWindowEdges();
 			IsAtLocation(TargetLocation);
 		}
 }
