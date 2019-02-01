@@ -193,22 +193,6 @@ void Alien::Draw()
 	DrawBullet();
 }
 
-void Alien::UpdateAnimation()
-{
-	SpriteFramesCounter++;
-	
-	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
-	{
-		SpriteFramesCounter = 0;
-		CurrentFrame++;
-	
-		if (CurrentFrame > Frames-1)
-			CurrentFrame = 0;
-	
-		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
-	}
-}
-
 void Alien::UpdateBullet()
 {
 	// WAVE 1

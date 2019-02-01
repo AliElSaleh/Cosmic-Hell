@@ -16,8 +16,6 @@ struct RocketShip : Enemy
 protected:
 	void ApplyBehaviours(std::vector<Enemy*> *Enemies) override;
 
-	void UpdateAnimation() override;
-
 private:
 	struct LinearPattern LinearBullet{};
 

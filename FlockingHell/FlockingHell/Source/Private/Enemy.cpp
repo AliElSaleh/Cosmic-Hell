@@ -22,6 +22,18 @@ void Enemy::Flock(std::vector<Enemy*>* Boids)
 
 void Enemy::UpdateAnimation()
 {
+	SpriteFramesCounter++;
+
+	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
+	{
+		SpriteFramesCounter = 0;
+		CurrentFrame++;
+	
+		if (CurrentFrame > Frames-1)
+			CurrentFrame = 0;
+	
+		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
+	}
 }
 
 void Enemy::ApplyBehaviours(std::vector<Enemy*>* Enemies)

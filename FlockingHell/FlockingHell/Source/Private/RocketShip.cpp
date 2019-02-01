@@ -29,10 +29,7 @@ void RocketShip::Init()
 	Mass = 10.0f; // 10Kg
 	TargetRadius = 20.0f;
 
-	if (Sprite.width % 5 == 0)
-		Frames = 5;
-	else if (Sprite.width % 4 == 0)
-		Frames = 4;
+	Frames = 5;
 
 	HitboxOffset = {float(Sprite.width)/Frames / 2, float(Sprite.height) / 2};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/Frames, float(Sprite.height)/2};
@@ -156,22 +153,6 @@ void RocketShip::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 	ApplyForce(Cohesion);
 	ApplyForce(Separation);
 	ApplyForce(GoalSeeking);
-}
-
-void RocketShip::UpdateAnimation()
-{
-	SpriteFramesCounter++;
-
-	if (SpriteFramesCounter >= (GetFPS()/FramesSpeed))
-	{
-		SpriteFramesCounter = 0;
-		CurrentFrame++;
-	
-		if (CurrentFrame > 4)
-			CurrentFrame = 0;
-	
-		FrameRec.x = float(CurrentFrame)*float(Sprite.width)/Frames;
-	}
 }
 
 void RocketShip::UpdateBullet()

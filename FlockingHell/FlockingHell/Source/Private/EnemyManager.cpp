@@ -112,7 +112,7 @@ void EnemyManager::Init()
 
 	Enemies.emplace_back(new Demon());
 	Enemies.emplace_back(new Alien());
-	Enemies.emplace_back(new Alien());
+	Enemies.emplace_back(new Alien()); // TODO: Warship
 
 	bIsEnemyDead = false;
 }
