@@ -37,6 +37,7 @@ void Assets::LoadSprites()
 	Load("PressAnyKey", "Sprites/PressAnyKey.png");
 	Load("DeathState", "Sprites/DeathState.png");
 	Load("PauseState", "Sprites/PauseState.png");
+	Load("WinState", "Sprites/WinState.png");
 }
 
 void Assets::UnloadSprites()
@@ -65,6 +66,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("PressAnyKey"));
 	UnloadTexture(GetSprite("DeathState"));
 	UnloadTexture(GetSprite("PauseState"));
+	UnloadTexture(GetSprite("WinState"));
 }
 
 void Assets::LoadFonts()

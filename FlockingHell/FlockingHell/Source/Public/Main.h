@@ -41,6 +41,7 @@ Planet RingPlanet[2];
 // Music
 Music MenuMusic;
 Music GameMusic;
+Music WinMusic;
 
 template<typename PatternType>
 PatternType Pattern;
