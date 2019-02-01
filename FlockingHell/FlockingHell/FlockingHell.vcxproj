@@ -125,6 +125,7 @@
     <ClCompile Include="Source\Private\SpiralMultiWayPattern.cpp" />
     <ClCompile Include="Source\Private\Warship.cpp" />
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
+    <ClCompile Include="Source\Private\Spacecraft.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Planet.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Source\Public\SpiralMultiWayPattern.h" />
     <ClInclude Include="Source\Public\Warship.h" />
     <ClInclude Include="Source\Public\SpreadPattern.h" />
+    <ClInclude Include="Source\Public\Spacecraft.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
