@@ -58,6 +58,7 @@ void RocketShip::Init()
 	Explosions = 2;
 
 	// Initialise bullets
+	LinearBullet.Bullet.clear();
 	LinearBullet.SetBulletPattern(BulletPatternGenerator::LINEAR_LOCK_ON);
 	LinearBullet.SetDelayAmount(0.0f);
 	LinearBullet.Enemy = this;
@@ -96,11 +97,12 @@ void RocketShip::Update()
 		UpdateAnimation();
 	}
 
-	if(bIsDead)
+	if (bIsDead)
 	{
 		Player->EnemiesKilled++;
 
 		LinearBullet.bRelease = true;
+		FramesCounter = 0;
 		
 		DeathExplosion[0].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 	}
@@ -167,10 +169,12 @@ void RocketShip::UpdateBullet()
 		FramesCounter++;
 
 		if (FramesCounter/GetRandomValue(240, 360)%2)
+		{
 			LinearBullet.bRelease = true;
+			FramesCounter = 0;
+		}
 			
 		LinearBullet.Update();
-	
 
 		if (LinearBullet.Bullet.empty())
 			if (!bIsDead)
