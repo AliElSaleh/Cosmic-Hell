@@ -7,7 +7,7 @@
 Flock::Flock()
 {
 	for (int i = 0; i < 10; i++)
-		Boids.emplace_back(new Ship());
+		Boids.emplace_back(new RocketShip());
 }
 
 Flock::Flock(const bool bShip, const unsigned short AmountOfBoids)
@@ -15,7 +15,7 @@ Flock::Flock(const bool bShip, const unsigned short AmountOfBoids)
 	if (bShip)
 	{
 		for (int i = 0; i < AmountOfBoids; i++)
-			Boids.emplace_back(new Ship());
+			Boids.emplace_back(new RocketShip());
 	}
 	else
 	{

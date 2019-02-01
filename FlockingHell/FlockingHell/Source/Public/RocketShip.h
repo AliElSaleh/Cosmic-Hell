@@ -3,9 +3,9 @@
 #include "Enemy.h"
 #include "LinearPattern.h"
 
-struct Ship : Enemy
+struct RocketShip : Enemy
 {
-	Ship();
+	RocketShip();
 
 	void Init() override;
 	void Update() override;

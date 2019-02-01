@@ -1,5 +1,5 @@
 #include "Globals.h"
-#include "Ship.h"
+#include "RocketShip.h"
 #include "Assets.h"
 #include "Player.h"
 
@@ -8,17 +8,17 @@
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
-Ship::Ship()
+RocketShip::RocketShip()
 {
 	Location = {float(GetRandomValue(-150, -GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(-400, -700))};
 	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
 
 	Health = 100;
 
-	Ship::Init();
+	RocketShip::Init();
 }
 
-void Ship::Init()
+void RocketShip::Init()
 {
 	Sprite = GetAsset(Boid);
 
@@ -79,7 +79,7 @@ void Ship::Init()
 	FinalBullets = &LinearBullet.Bullet;
 }
 
-void Ship::Update()
+void RocketShip::Update()
 {
 	if (bActive && !bIsDead)
 	{
@@ -114,7 +114,7 @@ void Ship::Update()
 	CheckHealth();
 }
 
-void Ship::Draw()
+void RocketShip::Draw()
 {
 	if (bActive && !bIsDead)
 		DrawTexturePro(Sprite, FrameRec, DestFrameRec, Origin, Rotation, WHITE);
@@ -135,12 +135,12 @@ void Ship::Draw()
 	DrawBullet();
 }
 
-void Ship::Flock(std::vector<Enemy*>* Boids)
+void RocketShip::Flock(std::vector<Enemy*>* Boids)
 {
 	ApplyBehaviours(Boids);
 }
 
-void Ship::ApplyBehaviours(std::vector<Enemy*>* Enemies)
+void RocketShip::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 {
 	Vector2 Alignment = Align(Enemies);
 	Vector2 Cohesion = Cohere(Enemies);
@@ -158,7 +158,7 @@ void Ship::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 	ApplyForce(GoalSeeking);
 }
 
-void Ship::UpdateAnimation()
+void RocketShip::UpdateAnimation()
 {
 	SpriteFramesCounter++;
 
@@ -174,7 +174,7 @@ void Ship::UpdateAnimation()
 	}
 }
 
-void Ship::UpdateBullet()
+void RocketShip::UpdateBullet()
 {
 	LinearBullet.Location = SpawnLocation;
 	LinearBullet.TargetLocation = Player->Center;
@@ -206,7 +206,7 @@ void Ship::UpdateBullet()
 	}
 }
 
-void Ship::DrawBullet()
+void RocketShip::DrawBullet()
 {
 	switch (BulletWave)
 	{

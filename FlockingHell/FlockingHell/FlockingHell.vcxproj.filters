@@ -78,9 +78,6 @@
     <ClCompile Include="Source\Private\Flock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Ship.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Private\QuadTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,6 +94,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\Planet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\RocketShip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +167,6 @@
     <ClInclude Include="Source\Public\Flock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Public\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -189,6 +186,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Planet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\RocketShip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

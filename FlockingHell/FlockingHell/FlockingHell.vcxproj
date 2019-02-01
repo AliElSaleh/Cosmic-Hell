@@ -103,7 +103,7 @@
     <ClCompile Include="Source\Private\Explosion.cpp" />
     <ClCompile Include="Source\Private\ArchDemon.cpp" />
     <ClCompile Include="Source\Private\QuadTree.cpp" />
-    <ClCompile Include="Source\Private\Ship.cpp" />
+    <ClCompile Include="Source\Private\RocketShip.cpp" />
     <ClCompile Include="Source\Private\Flock.cpp" />
     <ClCompile Include="Source\Private\RandomPattern.cpp" />
     <ClCompile Include="Source\Private\CirclePattern.cpp" />
@@ -134,7 +134,7 @@
     <ClInclude Include="Source\Public\ArchDemon.h" />
     <ClInclude Include="Source\Public\QuadTree.h" />
     <ClInclude Include="Source\Public\Globals.h" />
-    <ClInclude Include="Source\Public\Ship.h" />
+    <ClInclude Include="Source\Public\RocketShip.h" />
     <ClInclude Include="Source\Public\Flock.h" />
     <ClInclude Include="Source\Public\RandomPattern.h" />
     <ClInclude Include="Source\Public\CirclePattern.h" />
