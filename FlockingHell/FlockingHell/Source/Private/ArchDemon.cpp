@@ -108,12 +108,12 @@ void ArchDemon::Draw()
 
 	if (bDebug)
 	{
-		DrawRectangleLines(Location.x, Location.y, Sprite.width/Frames, Sprite.height, RED); // Spritebox
-		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, YELLOW); // Hitbox
+		DrawRectangleLines(int(Location.x), int(Location.y), Sprite.width/Frames, Sprite.height, RED); // Spritebox
+		DrawRectangleRec(Hitbox, YELLOW);
 
-		DrawCircle(SpawnLocation.x, SpawnLocation.y, 3.0f, BLUE); // Bullet spawn location
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, BLUE); // Bullet spawn location
 
-		DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
+		DrawCircle(int(Destination.x), int(Destination.y), 5.0f, WHITE);
 	}
 
 	if(bIsDead)

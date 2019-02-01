@@ -122,12 +122,12 @@ void RocketShip::Draw()
 
 	if (bDebug)
 	{
-		DrawCircle(SpawnLocation.x, SpawnLocation.y, 3.0f, BLUE); // Bullet spawn location
+		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, BLUE); // Bullet spawn location
 
-		DrawRectangleLines(DestFrameRec.x - Origin.x, DestFrameRec.y - Origin.y, Sprite.width/Frames, Sprite.height, RED); // Sprite box
-		DrawRectangle(Hitbox.x, Hitbox.y, Hitbox.width, Hitbox.height, GRAY); // Hitbox
+		DrawRectangleLines(int(DestFrameRec.x) - int(Origin.x), int(DestFrameRec.y) - int(Origin.y), Sprite.width/Frames, Sprite.height, RED); // Sprite box
+		DrawRectangleRec(Hitbox, YELLOW);
 	
-		DrawCircle(Destination.x, Destination.y, 5.0f, WHITE);
+		DrawCircle(int(Destination.x), int(Destination.y), 5.0f, WHITE);
 	}
 
 	if(bIsDead)

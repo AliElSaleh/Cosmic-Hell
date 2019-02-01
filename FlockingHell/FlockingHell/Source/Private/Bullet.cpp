@@ -37,7 +37,7 @@ void Bullet::Draw() const
 
 	if (bDebug)
 	{
-		DrawCircle(CollisionOffset.x, CollisionOffset.y, float(Sprite.width)/Frames/2, WHITE);
+		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), float(Sprite.width)/Frames/2, WHITE);
 		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, YELLOW);
 	}
 }

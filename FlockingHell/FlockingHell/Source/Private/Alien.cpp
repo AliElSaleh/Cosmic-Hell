@@ -179,11 +179,11 @@ void Alien::Draw()
 
 	if (bDebug)
 	{
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), RED); // Hitbox
+		DrawRectangleRec(Hitbox, YELLOW);
 		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW); // Bullet spawn location
 
 		if (bActive)
-			DrawText(FormatText("Health: %02i", Health), 10, 750, 20.0f, WHITE);
+			DrawText(FormatText("Health: %02i", Health), 10, 750, 20, WHITE);
 	}
 
 	if (bIsDead)

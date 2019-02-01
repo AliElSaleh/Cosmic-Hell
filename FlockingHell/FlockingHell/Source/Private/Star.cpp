@@ -16,7 +16,7 @@ void Star::Update()
 
 	// Check stars outside window
 	if (Location.y - Radius > GetScreenHeight())
-		Location.y = GetRandomValue(-100, 0);
+		Location.y = float(GetRandomValue(-100, 0));
 }
 
 void Star::Draw() const
