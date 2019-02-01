@@ -4,27 +4,22 @@
 
 #include <raymath.h>
 
-Flock::Flock()
+template <class T>
+Flock<T>::Flock()
 {
 	for (int i = 0; i < 10; i++)
-		Boids.emplace_back(new RocketShip());
+		Boids.emplace_back(new T());
 }
 
-Flock::Flock(const bool bShip, const unsigned short AmountOfBoids)
+template <class T>
+Flock<T>::Flock(const unsigned short AmountOfBoids)
 {
-	if (bShip)
-	{
-		for (int i = 0; i < AmountOfBoids; i++)
-			Boids.emplace_back(new RocketShip());
-	}
-	else
-	{
-		for (int i = 0; i < AmountOfBoids; i++)
-			Boids.emplace_back(new ArchDemon());
-	}
+	for (int i = 0; i < AmountOfBoids; i++)
+		Boids.emplace_back(new T());
 }
 
-void Flock::Init()
+template <class T>
+void Flock<T>::Init()
 {
 	for (unsigned short i = 0; i < Boids.size(); i++)
 	{
@@ -35,7 +30,8 @@ void Flock::Init()
 	SetGoalLocation({float(GetRandomValue(150, GetScreenWidth()-PANEL_WIDTH - 150)), float(GetRandomValue(100, 200))});
 }
 
-void Flock::Update()
+template <class T>
+void Flock<T>::Update()
 {
 	if (!Boids.empty())
 		for (unsigned short i = 0; i < Boids.size(); i++)
@@ -46,14 +42,16 @@ void Flock::Update()
 		}
 }
 
-void Flock::Draw()
+template <class T>
+void Flock<T>::Draw()
 {
 	if (!Boids.empty())
 		for (unsigned short i = 0; i < Boids.size(); i++)
 			Boids[i]->Draw();
 }
 
-void Flock::CheckBoidsWindowEdges()
+template <class T>
+void Flock<T>::CheckBoidsWindowEdges()
 {
 	if (!Boids.empty())
 		for (unsigned short i = 0; i < Boids.size(); i++)
@@ -72,7 +70,8 @@ void Flock::CheckBoidsWindowEdges()
 		}
 }
 
-void Flock::IsAtLocation(const Vector2 Location)
+template <class T>
+void Flock<T>::IsAtLocation(const Vector2 Location)
 {
 	if (!Boids.empty())
 		for (unsigned short i = 0; i < Boids.size(); i++)
@@ -87,7 +86,8 @@ void Flock::IsAtLocation(const Vector2 Location)
 		}
 }
 
-void Flock::SetGoalLocation(const Vector2 GoalLocation)
+template <class T>
+void Flock<T>::SetGoalLocation(const Vector2 GoalLocation)
 {
 	TargetLocation = GoalLocation;
 

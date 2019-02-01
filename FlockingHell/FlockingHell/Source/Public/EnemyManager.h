@@ -16,7 +16,7 @@ struct EnemyManager
 	void Draw();
 
 	std::vector<Enemy*> Enemies{};
-	std::vector<Flock*> FlockOfEnemies{};
+	std::vector<Flock<Enemy>*> FlockOfEnemies{};
 
 	void Reset();
 private:

@@ -21,7 +21,7 @@ struct Star FarStars[MAX_FAR_STARS];
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
-struct Flock Flock;
+struct Flock<Enemy> Flock;
 struct ArchDemon Archon;
 struct Explosion BombExplosion;
 struct HealthPickup HeartPickup;

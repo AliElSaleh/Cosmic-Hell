@@ -2,6 +2,8 @@
 #include "Demon.h"
 #include "Alien.h"
 #include "Flock.h"
+#include "ArchDemon.h"
+#include "Spacecraft.h"
 
 EnemyManager::EnemyManager()
 {
@@ -104,9 +106,9 @@ void EnemyManager::Init()
 	Enemies.reserve(3);
 	FlockOfEnemies.reserve(3);
 
-	FlockOfEnemies.emplace_back(new Flock(false, 20));
-	FlockOfEnemies.emplace_back(new Flock(true, 40));
-	FlockOfEnemies.emplace_back(new Flock(true, 40));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(20)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<Spacecraft>(40)));
 
 	Enemies.emplace_back(new Demon());
 	Enemies.emplace_back(new Alien());

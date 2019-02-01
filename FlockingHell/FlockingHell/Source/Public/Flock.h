@@ -4,10 +4,11 @@
 
 #include <vector>
 
+template <class T>
 struct Flock
 {
 	Flock();
-	explicit Flock(bool bShip, unsigned short AmountOfBoids);
+	explicit Flock(unsigned short AmountOfBoids);
 
 	void Init();
 	void Update();
@@ -25,3 +26,4 @@ private:
 	void SetGoalLocation(Vector2 GoalLocation);
 };
 
+#include "../Private/Flock.cpp"
