@@ -45,8 +45,19 @@ void EnemyManager::Update()
 				RemoveEnemy(0);
 
 				if (!FlockOfEnemies.empty())
+				{
 					if (FlockOfEnemies[0]->Boids.empty())
+					{
 						RemoveFlock(0);
+
+						// Initialise the next flock in the vector
+						for (unsigned short i = 0; i < FlockOfEnemies[0]->Boids.size(); i++)
+						{
+							FlockOfEnemies[0]->Boids[i]->Init();
+							FlockOfEnemies[0]->Boids[i]->bActive = true;
+						}
+					}
+				}
 
 				bIsEnemyDead = true;
 
