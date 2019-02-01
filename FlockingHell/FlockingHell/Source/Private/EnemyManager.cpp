@@ -44,8 +44,9 @@ void EnemyManager::Update()
 			{
 				RemoveEnemy(0);
 
-				if (FlockOfEnemies[0]->Boids.empty())
-					RemoveFlock(0);
+				if (!FlockOfEnemies.empty())
+					if (FlockOfEnemies[0]->Boids.empty())
+						RemoveFlock(0);
 
 				bIsEnemyDead = true;
 
@@ -74,8 +75,7 @@ void EnemyManager::Update()
 
 	// Update the currently active enemy
 	if (!Enemies.empty())
-		for (unsigned short i = 0; i < Enemies.size(); i++)
-			Enemies[i]->Update();
+		Enemies[0]->Update();
 }
 
 void EnemyManager::Draw()
@@ -91,8 +91,7 @@ void EnemyManager::Draw()
 
 	// Draw the currently active enemy
 	if (!Enemies.empty())
-		for (unsigned short i = 0; i < Enemies.size(); i++)
-			Enemies[i]->Draw();
+		Enemies[0]->Draw();
 }
 
 void EnemyManager::Reset()
