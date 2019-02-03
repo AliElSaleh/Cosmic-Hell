@@ -94,11 +94,13 @@ void Assets::LoadSounds()
 		const Sound Sound = LoadSound(FileName);
 		Sounds[Name] = Sound;
 	};
+
+	Load("MenuSelect", "Sounds/complete.ogg");
 }
 
 void Assets::UnloadSounds()
 {
-
+	UnloadSound(GetSound("MenuSelect"));
 }
 
 void Assets::LoadMusic()

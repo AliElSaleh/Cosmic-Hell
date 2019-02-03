@@ -223,6 +223,24 @@ void Demon::Update()
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 	}
 
+	if (IsKeyPressed(KEY_B))
+	{
+		for (unsigned short i = 0; i < 20; i++)
+		{
+			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
+			{
+				if (CircleBullet[i].Bullet[j].bActive)
+				{
+					CircleBullet[i].Bullet[j].bActive = false;
+					CircleBullet[i].Bullet[j].bIsHit = true;
+
+					CircleBullet[i].Bullet.clear();
+					CircleBullet[i].NumOfBullets = 0;
+				}				
+			}
+		}
+	}
+
 	UpdateBullet();
 
 	CheckCollisionWithPlayer();

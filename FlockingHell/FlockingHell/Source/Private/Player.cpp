@@ -16,7 +16,8 @@ void Player::Init()
 	for (int i = 0; i < 6; i++)
 		Heart.emplace_back(GetAsset(Heart));
 	
-	Bomb.emplace_back(GetAsset(Bomb));
+	for (int i = 0; i < 2; i++)
+		Bomb.emplace_back(GetAsset(Bomb));
 
 	XOffset = 15;
 	YOffset = 50;

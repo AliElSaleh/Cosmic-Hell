@@ -12,6 +12,7 @@
 #include "HealthPickup.h"
 #include "RaylibLogo.h"
 #include "Planet.h"
+#include "Bomb.h"
 
 // Variable Declarations
 //-----------------------------------------
@@ -25,6 +26,8 @@ struct Flock<Enemy> Flock;
 struct ArchDemon Archon;
 struct Explosion BombExplosion;
 struct HealthPickup HeartPickup;
+struct Bomb Bombs[4];
+
 
 Texture2D Background;
 Texture2D MenuTitle;

@@ -1,8 +1,11 @@
 #pragma once
 #include <raylib.h>
+#include <vector>
+
 #include "State.h"
 #include "Bullet.h"
-#include <vector>
+#include "Bomb.h"
+
 #define MAX_PLAYER_BULLETS 50
 
 struct Player
@@ -24,6 +27,8 @@ struct Player
 
 	std::vector<Texture2D> Heart;
 	std::vector<Texture2D> Bomb;
+
+	struct Bomb	Bombs[4];
 
 	Rectangle Hitbox{};
 	Rectangle Spritebox{};
