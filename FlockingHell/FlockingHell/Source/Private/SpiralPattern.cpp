@@ -78,7 +78,7 @@ void SpiralPattern::Draw()
 {
 	if (bDebug)
 	{
-		DrawText("Switch patterns using the LEFT or RIGHT arrow keys", 10, 30, 16, WHITE);
+		RDrawText("Switch patterns using the LEFT or RIGHT arrow keys", 10, 30, 16, WHITE);
 		
 		switch (CurrentPattern)
 		{
@@ -98,8 +98,8 @@ void SpiralPattern::Draw()
 			break;
 		}
 
-		DrawText(SpiralPatternNames[CurrentPattern-3], 10, 60, 20, WHITE);
-		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
+		RDrawText(SpiralPatternNames[CurrentPattern-3], 10, 60, 20, WHITE);
+		RDrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 	}
 
 	// Bullets
@@ -173,5 +173,5 @@ void SpiralPattern::AddDebugSwitchPatternCode()
 void SpiralPattern::DrawDebugInfo()
 {
 	DrawDebugPoints(NumOfSpiral);
-	DrawText(FormatText("Spirals: %0i", NumOfSpiral), 10, 120, 18, WHITE);
+	RDrawText(FormatText("Spirals: %0i", NumOfSpiral), 10, 120, 18, WHITE);
 }

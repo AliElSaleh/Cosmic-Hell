@@ -14,6 +14,8 @@
 #include "Planet.h"
 #include "Bomb.h"
 
+#include <WS2tcpip.h>
+
 // Variable Declarations
 //-----------------------------------------
 // Structs
@@ -27,7 +29,6 @@ struct ArchDemon Archon;
 struct Explosion BombExplosion;
 struct HealthPickup HeartPickup;
 struct Bomb Bombs[4];
-
 
 Texture2D Background;
 Texture2D MenuTitle;
@@ -78,6 +79,14 @@ const unsigned short Frames = 4;
 // Menu Fading animation
 float FadeAlpha{0.0f};
 
+// Server
+WSADATA Data;
+WORD Version;
+SOCKET Socket{};
+sockaddr_in Hint{};
+std::string DataToSend;
+char Buffer[4096];
+
 // bools
 bool bBegan{false};
 bool bDebug;
@@ -88,6 +97,8 @@ bool bDebug;
 void Init(); // Initialise application
 void InitGame(); // Create instances of objects and initialise their member variables
 void SetGameState(State state); // Sets the next frame's current game state to the specified state
+bool ConnectToServer();
+void SendData();
 
 void Update(); // Update logic depending on the current game state
 void Draw(); // Render graphics depending on the current game state

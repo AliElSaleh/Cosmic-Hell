@@ -565,7 +565,7 @@ void InitWindow(int width, int height, const char *title)
 }
 
 // Close window and unload OpenGL context
-void CloseWindow(void)
+void RCloseWindow(void)
 {
 #if defined(SUPPORT_GIF_RECORDING)
     if (gifRecording)
@@ -771,7 +771,7 @@ int GetScreenHeight(void)
 }
 
 // Show mouse cursor
-void ShowCursor()
+void RShowCursor()
 {
 #if defined(PLATFORM_DESKTOP)
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -866,7 +866,7 @@ void EndDrawing(void)
         if (((gifFramesCounter/15)%2) == 1)
         {
             DrawCircle(30, screenHeight - 20, 10, RED);
-            DrawText("RECORDING", 50, screenHeight - 25, 10, MAROON);
+            RDrawText("RECORDING", 50, screenHeight - 25, 10, MAROON);
         }
         
         rlglDraw();                 // Draw RECORDING message
@@ -3898,7 +3898,7 @@ static void LogoAnimation(void)
 
                 DrawRectangle(screenWidth/2 - 112, screenHeight/2 - 112, 224, 224, Fade(RAYWHITE, alpha));
 
-                DrawText(SubText("raylib", 0, lettersCount), screenWidth/2 - 44, screenHeight/2 + 48, 50, Fade(BLACK, alpha));
+                RDrawText(SubText("raylib", 0, lettersCount), screenWidth/2 - 44, screenHeight/2 + 48, 50, Fade(BLACK, alpha));
             }
 
         EndDrawing();

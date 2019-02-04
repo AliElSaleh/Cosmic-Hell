@@ -183,7 +183,7 @@ void Alien::Draw()
 		DrawCircle(int(SpawnLocation.x), int(SpawnLocation.y), 3.0f, YELLOW); // Bullet spawn location
 
 		if (bActive)
-			DrawText(FormatText("Health: %02i", Health), 10, 750, 20, WHITE);
+			RDrawText(FormatText("Health: %02i", Health), 10, 750, 20, WHITE);
 	}
 
 	if (bIsDead)

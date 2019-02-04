@@ -735,7 +735,7 @@ extern "C" {            // Prevents name mangling of functions
 
 // Window-related functions
 RLAPI void InitWindow(int width, int height, const char *title);  // Initialize window and OpenGL context
-RLAPI void CloseWindow(void);                                     // Close window and unload OpenGL context
+RLAPI void RCloseWindow(void);                                     // Close window and unload OpenGL context
 RLAPI bool IsWindowReady(void);                                   // Check if window has been initialized successfully
 RLAPI bool WindowShouldClose(void);                               // Check if KEY_ESCAPE pressed or Close icon pressed
 RLAPI bool IsWindowMinimized(void);                               // Check if window has been minimized (or lost focus)
@@ -750,7 +750,7 @@ RLAPI int GetScreenWidth(void);                                   // Get current
 RLAPI int GetScreenHeight(void);                                  // Get current screen height
 
 // Cursor-related functions
-RLAPI void ShowCursor(void);                                      // Shows cursor
+RLAPI void RShowCursor(void);                                      // Shows cursor
 RLAPI void HideCursor(void);                                      // Hides cursor
 RLAPI bool IsCursorHidden(void);                                  // Check if cursor is not visible
 RLAPI void EnableCursor(void);                                    // Enables cursor (unlock cursor)
@@ -1001,8 +1001,8 @@ RLAPI void UnloadFont(Font font);                                               
 
 // Text drawing functions
 RLAPI void DrawFPS(int posX, int posY);                                                     // Shows current FPS
-RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
-RLAPI void DrawTextEx(Font font, const char* text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
+RLAPI void RDrawText(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
+RLAPI void RDrawTextEx(Font font, const char* text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
 
 // Text misc. functions
 RLAPI int MeasureText(const char *text, int fontSize);                                      // Measure string width for default font
@@ -1155,7 +1155,7 @@ RLAPI void UnloadWave(Wave wave);                                     // Unload 
 RLAPI void UnloadSound(Sound sound);                                  // Unload sound
 
 // Wave/Sound management functions
-RLAPI void PlaySound(Sound sound);                                    // Play a sound
+RLAPI void RPlaySound(Sound sound);                                    // Play a sound
 RLAPI void PauseSound(Sound sound);                                   // Pause a sound
 RLAPI void ResumeSound(Sound sound);                                  // Resume a paused sound
 RLAPI void StopSound(Sound sound);                                    // Stop playing a sound

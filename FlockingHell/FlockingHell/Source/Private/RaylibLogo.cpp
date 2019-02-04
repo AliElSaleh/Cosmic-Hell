@@ -88,7 +88,7 @@ void RaylibLogo::Draw() const
 {
 	if (AnimState == 0)
 	{
-		DrawText(SubText("Developed using", 0, LettersCount), int(Location.x + 40), int(Location.y + 100), 22, Fade(GRAY, Alpha));
+		RDrawText(SubText("Developed using", 0, LettersCount), int(Location.x + 40), int(Location.y + 100), 22, Fade(GRAY, Alpha));
 	}
 	
 	if (AnimState == 1)
@@ -121,7 +121,7 @@ void RaylibLogo::Draw() const
 
         DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224, Fade(RAYWHITE, Alpha));
 
-        DrawText(SubText("raylib", 0, LettersCount), GetScreenWidth()/2 - 44, GetScreenHeight()/2 + 48, 50, Fade(BLACK, Alpha));
+        RDrawText(SubText("raylib", 0, LettersCount), GetScreenWidth()/2 - 44, GetScreenHeight()/2 + 48, 50, Fade(BLACK, Alpha));
     }
 }
 

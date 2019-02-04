@@ -87,9 +87,9 @@ void QuadTree::Draw()
 	for (Point P : PointsInRange)
 		DrawCircle(P.X, P.Y, 3.0f, GREEN);
 
-	DrawText("Refresh [R]", GetScreenWidth()-PANEL_WIDTH+10, 50, 20, WHITE);
+	RDrawText("Refresh [R]", GetScreenWidth()-PANEL_WIDTH+10, 50, 20, WHITE);
 
-	DrawText(FormatText("Total Points: %02i", TotalPoints), 710, 100, 20, WHITE);
+	RDrawText(FormatText("Total Points: %02i", TotalPoints), 710, 100, 20, WHITE);
 }
 
 std::vector<Point> QuadTree::Query(const Section Range)

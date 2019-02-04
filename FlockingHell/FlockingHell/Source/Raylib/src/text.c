@@ -558,7 +558,7 @@ void UnloadFont(Font font)
 // Draw text (using default font)
 // NOTE: fontSize work like in any drawing program but if fontSize is lower than font-base-size, then font-base-size is used
 // NOTE: chars spacing is proportional to fontSize
-void DrawText(const char *text, int posX, int posY, int fontSize, Color color)
+void RDrawText(const char *text, int posX, int posY, int fontSize, Color color)
 {
     // Check if default font has been loaded
     if (GetFontDefault().texture.id != 0)
@@ -569,13 +569,13 @@ void DrawText(const char *text, int posX, int posY, int fontSize, Color color)
         if (fontSize < defaultFontSize) fontSize = defaultFontSize;
         int spacing = fontSize/defaultFontSize;
 
-        DrawTextEx(GetFontDefault(), text, position, (float)fontSize, (float)spacing, color);
+        RDrawTextEx(GetFontDefault(), text, position, (float)fontSize, (float)spacing, color);
     }
 }
 
 // Draw text using Font
 // NOTE: chars spacing is NOT proportional to fontSize
-void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint)
+void RDrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint)
 {
     int length = strlen(text);
     int textOffsetX = 0;        // Offset between characters
@@ -772,7 +772,7 @@ void DrawFPS(int posX, int posY)
     }
     
     // NOTE: We have rounding errors every frame, so it oscillates a lot
-    DrawText(FormatText("%2i FPS", fps), posX, posY, 20, LIME);
+    RDrawText(FormatText("%2i FPS", fps), posX, posY, 20, LIME);
 }
 
 //----------------------------------------------------------------------------------

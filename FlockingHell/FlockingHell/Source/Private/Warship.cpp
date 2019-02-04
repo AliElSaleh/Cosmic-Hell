@@ -60,7 +60,7 @@ void Warship::Draw()
 	{
 		DrawRectangle(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
 		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
-		DrawText(FormatText("Warship Health: %02i", Health), 10, 60, 20, RED); // Warship health
+		RDrawText(FormatText("Warship Health: %02i", Health), 10, 60, 20, RED); // Warship health
 	}
 
 	// Draw the warship sprite

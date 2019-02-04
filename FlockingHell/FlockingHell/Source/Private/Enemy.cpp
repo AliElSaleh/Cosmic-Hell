@@ -229,10 +229,10 @@ Vector2 Enemy::Seek(const Vector2 & DestLocation)
 
 void Enemy::DrawFlockingProperties() const
 {
-	DrawText(FormatText("Alignment Force: %f", AlignmentForce), 10, 70, 18, WHITE);
-	DrawText(FormatText("Cohesion Force: %f", CohesionForce), 10, 90, 18, WHITE);
-	DrawText(FormatText("Separation Force: %f", SeparationForce), 10, 110, 18, WHITE);
-	DrawText(FormatText("Goal seeking Force: %f", GoalSeekForce), 10, 130, 18, WHITE);
+	RDrawText(FormatText("Alignment Force: %f", AlignmentForce), 10, 70, 18, WHITE);
+	RDrawText(FormatText("Cohesion Force: %f", CohesionForce), 10, 90, 18, WHITE);
+	RDrawText(FormatText("Separation Force: %f", SeparationForce), 10, 110, 18, WHITE);
+	RDrawText(FormatText("Goal seeking Force: %f", GoalSeekForce), 10, 130, 18, WHITE);
 }
 
 bool Enemy::IsAtLocation(const Vector2& GoalLocation)

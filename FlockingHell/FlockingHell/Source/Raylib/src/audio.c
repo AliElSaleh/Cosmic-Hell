@@ -1050,7 +1050,7 @@ void UpdateSound(Sound sound, const void *data, int samplesCount)
 }
 
 // Play a sound
-void PlaySound(Sound sound)
+void RPlaySound(Sound sound)
 {
 #if USE_MINI_AL
     PlayAudioBuffer((AudioBuffer *)sound.audioBuffer);

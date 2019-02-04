@@ -55,7 +55,7 @@ struct Player
 	bool bIsHit{};
 	bool bIsDead{};
 
-	const char* Name{};
+	std::string Name{};
 
 private:
 	void InitBulletLevel(signed short Level);

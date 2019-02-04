@@ -83,7 +83,7 @@ void CirclePattern::Draw()
 {
 	if (bDebug)
 	{
-		DrawText("Switch patterns using the LEFT or RIGHT arrow keys", 10, 30, 16, WHITE);
+		RDrawText("Switch patterns using the LEFT or RIGHT arrow keys", 10, 30, 16, WHITE);
 		
 		switch (CurrentPattern)
 		{
@@ -104,8 +104,8 @@ void CirclePattern::Draw()
 			break;
 		}
 		
-		DrawText(CirclePatternNames[CurrentPattern-33], 10, 60, 20, WHITE);
-		DrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
+		RDrawText(CirclePatternNames[CurrentPattern-33], 10, 60, 20, WHITE);
+		RDrawText(FormatText("Bullets: %0i", Bullet.size()), 10, 90, 18, WHITE);
 	}
 
 	// Bullets
@@ -181,5 +181,5 @@ void CirclePattern::AddDebugSwitchPatternCode()
 void CirclePattern::DrawDebugInfo()
 {
 	DrawDebugPoints(NumOfBullets);
-	DrawText(FormatText("Ways: %0i", NumOfBullets), 10, 120, 18, WHITE);
+	RDrawText(FormatText("Ways: %0i", NumOfBullets), 10, 120, 18, WHITE);
 }
