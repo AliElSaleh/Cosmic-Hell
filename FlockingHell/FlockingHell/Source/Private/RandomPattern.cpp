@@ -1,5 +1,7 @@
 #include "RandomPattern.h"
 #include "Assets.h"
+#include "Enemy.h"
+#include "Player.h"
 
 const char* RandomPatternNames[]
 {
@@ -94,6 +96,11 @@ void RandomPattern::Update()
 		default:
 		break;
 	}
+
+	// Player's bomb mechanic
+	if (IsKeyPressed(KEY_B))
+		if (Enemy->Player->BombsLeft >= 0)
+			DestroyActiveBullets();
 }
 
 void RandomPattern::Draw()

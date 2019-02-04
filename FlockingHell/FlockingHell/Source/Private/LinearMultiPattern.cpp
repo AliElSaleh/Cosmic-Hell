@@ -1,5 +1,7 @@
 #include "LinearMultiPattern.h"
 #include "Assets.h"
+#include "Enemy.h"
+#include "Player.h"
 
 const char* LinearMultiPatternNames[]
 {
@@ -148,6 +150,11 @@ void LinearMultiPattern::Update()
 		default:
 		break;
 	}
+
+	// Player's bomb mechanic
+	if (IsKeyPressed(KEY_B))
+		if (Enemy->Player->BombsLeft >= 0)
+			DestroyActiveBullets();
 }
 
 void LinearMultiPattern::Draw()

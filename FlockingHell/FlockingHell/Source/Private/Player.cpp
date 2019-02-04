@@ -32,6 +32,7 @@ void Player::Init()
 	Hitbox.width = 3;
 	Hitbox.height = 3;
 	Health = 6;
+	BombsLeft = unsigned short(Bomb.size());
 	Score = 0;
 	GrazingScore = 0;
 	Name = "Scarlet";
@@ -97,6 +98,17 @@ void Player::Update()
 		{
 			PlayerHitFramesCounter = 0;
 			Invincibility(false, 0.0f);
+		}
+
+		if (IsKeyPressed(KEY_B))
+		{
+			if (BombsLeft < 0)
+				BombsLeft = -1;
+			else
+				BombsLeft--;
+
+			if (!Bomb.empty())
+				Bomb.pop_back();
 		}
 
 		UpdatePlayerAnimation();

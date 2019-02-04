@@ -1,5 +1,7 @@
 #include "SpreadPattern.h"
 #include "Assets.h"
+#include "Enemy.h"
+#include "Player.h"
 
 const char* SpreadPatternNames[]
 {
@@ -65,6 +67,11 @@ void SpreadPattern::Update()
 		default:
 		break;
 	}
+
+	// Player's bomb mechanic
+	if (IsKeyPressed(KEY_B))
+		if (Enemy->Player->BombsLeft >= 0)
+			DestroyActiveBullets();
 }
 
 void SpreadPattern::Draw()

@@ -1,5 +1,7 @@
 #include "SpiralPattern.h"
 #include "Assets.h"
+#include "Enemy.h"
+#include "Player.h"
 
 const char* SpiralPatternNames[]
 {
@@ -72,6 +74,11 @@ void SpiralPattern::Update()
 		default:
 		break;
 	}
+
+	// Player's bomb mechanic
+	if (IsKeyPressed(KEY_B))
+		if (Enemy->Player->BombsLeft >= 0)
+			DestroyActiveBullets();
 }
 
 void SpiralPattern::Draw()

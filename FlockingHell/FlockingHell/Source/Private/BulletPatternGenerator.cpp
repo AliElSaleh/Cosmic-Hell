@@ -4,7 +4,7 @@
 #include "Enemy.h"
 
 #include <raymath.h>
-
+#include <algorithm>
 BulletPatternGenerator::~BulletPatternGenerator() = default;
 
 void BulletPatternGenerator::Init()
@@ -647,6 +647,18 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 	{
 		Delay(DelayAmount);
 	}
+}
+
+void BulletPatternGenerator::DestroyActiveBullets()
+{
+	const auto Predicate = [](const ::Bullet &b) { return b.bActive; };
+	
+	for (int i = 0; i < NumOfBullets; i++)
+		if (Bullet[i].bActive)
+		{
+			Bullet.erase(std::remove_if(Bullet.begin(), Bullet.end(), Predicate), Bullet.end());
+			NumOfBullets = unsigned short(Bullet.size());
+		}
 }
 
 void BulletPatternGenerator::UpdateAnimation()

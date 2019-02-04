@@ -128,6 +128,8 @@ protected:
 	void UpdateCircleBullet(bool LockOn);
 	void UpdateRandomBullet(bool Spiral);
 
+	void DestroyActiveBullets();
+
 	// Draw functions
 	void DrawDummy() const;
 	void DrawDebugPoint() const;

@@ -97,7 +97,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Private\Bomb.cpp" />
     <ClCompile Include="Source\Private\Planet.cpp" />
     <ClCompile Include="Source\Private\RaylibLogo.cpp" />
     <ClCompile Include="Source\Private\HealthPickup.cpp" />
@@ -132,7 +131,6 @@
     <ClCompile Include="Source\Private\Spacecraft.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Public\Bomb.h" />
     <ClInclude Include="Source\Public\Planet.h" />
     <ClInclude Include="Source\Public\RaylibLogo.h" />
     <ClInclude Include="Source\Public\HealthPickup.h" />

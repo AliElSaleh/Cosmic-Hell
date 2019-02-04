@@ -4,7 +4,6 @@
 
 #include "State.h"
 #include "Bullet.h"
-#include "Bomb.h"
 
 #define MAX_PLAYER_BULLETS 50
 
@@ -28,8 +27,6 @@ struct Player
 	std::vector<Texture2D> Heart;
 	std::vector<Texture2D> Bomb;
 
-	struct Bomb	Bombs[4];
-
 	Rectangle Hitbox{};
 	Rectangle Spritebox{};
 	Rectangle PlayerFrameRec{};
@@ -37,6 +34,7 @@ struct Player
 	State* GameState = nullptr;
 
 	signed short Health{};
+	signed short BombsLeft = 0;
 	unsigned short XOffset{}; // Offset sprite location by X amount of pixels from mouse position
 	unsigned short YOffset{}; // Offset sprite location by Y amount of pixels from mouse position
 	unsigned short BulletXOffset = 5;

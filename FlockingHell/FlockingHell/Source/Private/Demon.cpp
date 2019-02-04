@@ -9,7 +9,6 @@
 
 Demon::Demon()
 {
-	Demon::Init();
 	Location = {300.0f, -300.0f};
 	Health = 2000;
 	LowHealthThreshold = 400;
@@ -83,6 +82,7 @@ void Demon::Init()
 	}
 
 	for (int i = 0; i < 20; i++)
+	{
 		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
 		{
 			CircleBullet[i].Bullet[j].Player = Player;
@@ -90,7 +90,9 @@ void Demon::Init()
 			CircleBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
 
 			CircleBullet[i].Bullet[j].InitFrames();
+			
 		}
+	}
 
 	// SECOND WAVE
 	for (int i = 0; i < 1; i++)
@@ -130,6 +132,7 @@ void Demon::Init()
 	}
 	
 	for (int i = 0; i < 4; i++)
+	{
 		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
 		{
 			LinearMultiBullet[i].Bullet[j].Player = Player;
@@ -137,7 +140,8 @@ void Demon::Init()
 			LinearMultiBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
 
 			LinearMultiBullet[i].Bullet[j].InitFrames();
-		}
+		}		
+	}
 
 
 	// THIRD WAVE
@@ -155,6 +159,7 @@ void Demon::Init()
 	}
 
 	for (int i = 0; i < 4; i++)
+	{
 		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
 		{
 			SpiralBullet[i].Bullet[j].Player = Player;
@@ -162,7 +167,8 @@ void Demon::Init()
 			SpiralBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
 
 			SpiralBullet[i].Bullet[j].InitFrames();
-		}
+		}		
+	}
 
 	// RAGE
 	RageBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MIX);
@@ -179,7 +185,7 @@ void Demon::Init()
 
 		RageBullet.Bullet[i].InitFrames();
 	}
-
+	
 	FinalBullets = &RageBullet.Bullet;
 
 	BulletWave = FIRST;
@@ -221,24 +227,6 @@ void Demon::Update()
 		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
-	}
-
-	if (IsKeyPressed(KEY_B))
-	{
-		for (unsigned short i = 0; i < 20; i++)
-		{
-			for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-			{
-				if (CircleBullet[i].Bullet[j].bActive)
-				{
-					CircleBullet[i].Bullet[j].bActive = false;
-					CircleBullet[i].Bullet[j].bIsHit = true;
-
-					CircleBullet[i].Bullet.clear();
-					CircleBullet[i].NumOfBullets = 0;
-				}				
-			}
-		}
 	}
 
 	UpdateBullet();
@@ -371,12 +359,7 @@ void Demon::UpdateBullet()
 		case SECOND:
 			// Release bullets when enemy is at a location
 			if (IsAtLocation(Destination))
-			{
 				StopMoving();
-
-				for (int i = 0; i < 1; i++)
-					LinearMultiBullet[i].bRelease = true;
-			}
 			
 			for (int i = 0; i < 1; i++)
 				LinearMultiBullet[i].Update();
