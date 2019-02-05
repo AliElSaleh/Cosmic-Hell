@@ -107,8 +107,9 @@ void UpdateGame(); // Game Update loop
 void UpdatePauseScreen();
 void UpdateDeathScreen();
 void UpdateWinScreen();
+void UpdateLeaderboardScreen();
 void UpdateStatsScreen();
-void UpdateHighscoreScreen();
+void UpdateCreditsScreen();
 void UpdateTestScene();
 void UpdateFlockingScene();
 
@@ -119,8 +120,9 @@ void DrawMenuScreen();
 void DrawPauseScreen();
 void DrawDeathScreen();
 void DrawWinScreen();
+void DrawLeaderboardScreen();
 void DrawStatsScreen();
-void DrawHighscoreScreen();
+void DrawCreditsScreen();
 void DrawTestScene();
 void DrawFlockingScene();
 

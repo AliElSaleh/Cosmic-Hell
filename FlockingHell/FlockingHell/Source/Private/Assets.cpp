@@ -29,7 +29,8 @@ void Assets::LoadSprites()
 	Load("Explosion", "Sprites/Explosion.png");
 	Load("ArchDemon", "Sprites/ArchDemon.png");
 	Load("Boid v2", "Sprites/Boidv2.png");
-	Load("Background", "Sprites/Background.png");
+	Load("MainMenu", "Sprites/Background.png");
+	Load("OptionsMenu", "Sprites/OptionsMenu.png");
 	Load("GameBackground", "Sprites/GameBackground.png");
 	Load("Planet", "Sprites/Planet.png");
 	Load("RingPlanet", "Sprites/RingPlanet.png");
@@ -38,6 +39,7 @@ void Assets::LoadSprites()
 	Load("DeathState", "Sprites/DeathState.png");
 	Load("PauseState", "Sprites/PauseState.png");
 	Load("WinState", "Sprites/WinState.png");
+	Load("Leaderboard", "Sprites/Leaderboard.png");
 }
 
 void Assets::UnloadSprites()
@@ -59,7 +61,8 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Explosion"));
 	UnloadTexture(GetSprite("ArchDemon"));
 	UnloadTexture(GetSprite("Boid v2"));
-	UnloadTexture(GetSprite("Background"));
+	UnloadTexture(GetSprite("MainMenu"));
+	UnloadTexture(GetSprite("OptionsMenu"));
 	UnloadTexture(GetSprite("Planet"));
 	UnloadTexture(GetSprite("RingPlanet"));
 	UnloadTexture(GetSprite("CosmicHellTitle"));
@@ -67,6 +70,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("DeathState"));
 	UnloadTexture(GetSprite("PauseState"));
 	UnloadTexture(GetSprite("WinState"));
+	UnloadTexture(GetSprite("Leaderboard"));
 }
 
 void Assets::LoadFonts()
