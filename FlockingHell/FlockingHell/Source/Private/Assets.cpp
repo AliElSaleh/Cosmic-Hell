@@ -40,6 +40,7 @@ void Assets::LoadSprites()
 	Load("PauseState", "Sprites/PauseState.png");
 	Load("WinState", "Sprites/WinState.png");
 	Load("Leaderboard", "Sprites/Leaderboard.png");
+	Load("StatsScreen", "Sprites/StatsState.png");
 }
 
 void Assets::UnloadSprites()
@@ -71,6 +72,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("PauseState"));
 	UnloadTexture(GetSprite("WinState"));
 	UnloadTexture(GetSprite("Leaderboard"));
+	UnloadTexture(GetSprite("StatsScreen"));
 }
 
 void Assets::LoadFonts()

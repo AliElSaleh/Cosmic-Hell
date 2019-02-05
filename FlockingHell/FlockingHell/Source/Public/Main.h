@@ -13,7 +13,7 @@
 #include "RaylibLogo.h"
 #include "Planet.h"
 
-#include <WS2tcpip.h>
+#include <WS2tcpip.h> // Sending and recieving data from server
 
 // Variable Declarations
 //-----------------------------------------
@@ -84,8 +84,10 @@ SOCKET Socket{};
 sockaddr_in Hint{};
 std::string DataToSend;
 char Buffer[4096];
+unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
 
 // bools
+bool bConnected{false};
 bool bBegan{false};
 bool bDebug;
 
