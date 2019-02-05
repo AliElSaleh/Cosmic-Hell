@@ -17,6 +17,7 @@ void Assets::LoadSprites()
 	Load("RedBullet", "Sprites/RedBullet.png");
 	Load("PurpleBullet", "Sprites/PurpleBullet.png");
 	Load("GreenBullet", "Sprites/GreenBullet.png");
+	Load("FireBullet", "Sprites/FireBullet.png");
 	Load("Demon", "Sprites/Demon.png");
 	Load("Alien", "Sprites/Alien.png");
 	Load("Warship", "Sprites/Warship.png");
@@ -24,7 +25,6 @@ void Assets::LoadSprites()
 	Load("Panel", "Sprites/Panel.png");
 	Load("Heart", "Sprites/Heart.png");
 	Load("Bomb", "Sprites/Bomb.png");
-	Load("FireBullet", "Sprites/FireBullet.png");
 	Load("Divider", "Sprites/Divider.png");
 	Load("Explosion", "Sprites/Explosion.png");
 	Load("ArchDemon", "Sprites/ArchDemon.png");

@@ -90,7 +90,6 @@ void Demon::Init()
 			CircleBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
 
 			CircleBullet[i].Bullet[j].InitFrames();
-			
 		}
 	}
 
@@ -253,7 +252,7 @@ void Demon::Draw()
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Draw();
-	
+
 	DrawBullet();
 }
 
@@ -359,7 +358,12 @@ void Demon::UpdateBullet()
 		case SECOND:
 			// Release bullets when enemy is at a location
 			if (IsAtLocation(Destination))
+			{
 				StopMoving();
+
+				for (int i = 0; i < 1; i++)
+					LinearMultiBullet[i].bRelease = true;
+			}
 			
 			for (int i = 0; i < 1; i++)
 				LinearMultiBullet[i].Update();
