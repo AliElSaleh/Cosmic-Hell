@@ -118,6 +118,7 @@ void Assets::LoadMusic()
 	};
 
 	Load("Menu", "Music/Carpenter_Brut-Hang'Em_All.ogg");
+	Load("Credits", "Music/Carpenter_Brut-Sexkiller_On_The_Loose.ogg");
 	Load("DemonStage", "Music/Carpenter_Brut-Turbo_Killer.ogg");
 	Load("AlienStage", "Music/Carpenter_Brut-Meet_Matt_Stryker.ogg");
 	Load("WarshipStage", "Music/Carpenter_Brut-Division_Ruine.ogg");
@@ -126,6 +127,7 @@ void Assets::LoadMusic()
 void Assets::UnloadMusic()
 {
 	UnloadMusicStream(GetMusic("Menu"));
+	UnloadMusicStream(GetMusic("Credits"));
 	UnloadMusicStream(GetMusic("DemonStage"));
 	UnloadMusicStream(GetMusic("AlienStage"));
 	UnloadMusicStream(GetMusic("WarshipStage"));
