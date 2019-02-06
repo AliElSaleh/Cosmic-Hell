@@ -98,6 +98,14 @@ void Enemy::MoveToLocation(const Vector2& DestLocation)
 	Location.y += Direction.y * Speed * GetFrameTime();
 }
 
+void Enemy::UpdateBullet()
+{
+}
+
+void Enemy::DrawBullet()
+{
+}
+
 Vector2 Enemy::Align(std::vector<Enemy*>* Boids) const
 {
 	Vector2 SumOfVectors = {0.0f, 0.0f};

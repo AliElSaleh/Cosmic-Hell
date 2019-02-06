@@ -16,9 +16,9 @@ struct Demon : Enemy
 
 	
 protected:
-	void UpdateBullet();
+	void UpdateBullet() override;
 	void UpdateAnimation() override;
-	void DrawBullet();
+	void DrawBullet() override;
 
 private:
 	struct CirclePattern CircleBullet[20];

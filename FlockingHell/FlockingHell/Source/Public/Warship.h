@@ -9,5 +9,9 @@ struct Warship : Enemy
 	void Init() override;
 	void Update() override;
 	void Draw() override;
+
+protected:
+	void UpdateBullet() override;
+	void DrawBullet() override;
 };
 

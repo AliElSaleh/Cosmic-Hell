@@ -97,6 +97,9 @@ protected:
 	float MaxForce{};
 	float MaxVelocity{};
 
+	virtual void UpdateBullet();
+	virtual void DrawBullet();
+
 	// Flocking functions
 	Vector2 Align(std::vector<Enemy*> *Boids) const;
 	Vector2 Cohere(std::vector<Enemy*> *Boids);

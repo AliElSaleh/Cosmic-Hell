@@ -17,8 +17,8 @@ protected:
 	void UpdateAnimation() override;
 
 private:
-	void UpdateBullet();
-	void DrawBullet();
+	void UpdateBullet() override;
+	void DrawBullet() override;
 
 	struct LinearPattern LinearBullet{};
 };

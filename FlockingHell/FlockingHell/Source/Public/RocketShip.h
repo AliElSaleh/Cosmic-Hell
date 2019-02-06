@@ -21,7 +21,7 @@ private:
 
 	float Rotation{0.0f};
 
-	void UpdateBullet();
-	void DrawBullet();
+	void UpdateBullet() override;
+	void DrawBullet() override;
 };
 

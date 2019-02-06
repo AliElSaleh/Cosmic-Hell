@@ -18,7 +18,7 @@ private:
 	struct SpiralMultiWayPattern SpiralMultiBullet;
 	struct RandomPattern RageBullet[2];
 
-	void UpdateBullet();
-	void DrawBullet();
+	void UpdateBullet() override;
+	void DrawBullet() override;
 };
 
