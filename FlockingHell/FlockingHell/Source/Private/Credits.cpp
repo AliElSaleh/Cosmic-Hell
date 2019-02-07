@@ -38,7 +38,6 @@ void Credits::AddName(const std::string& Name, const Category Category)
 
 void Credits::Update()
 {
-
 	Location.y -= Speed * GetFrameTime();
 
 	if (Volume < 0.0f)

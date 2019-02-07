@@ -63,6 +63,7 @@ void Player::Init()
 	EnemiesKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
+	bChangeMusic = false;
 	bInvincible = false;
 	bIsDead = false;
 	bIsHit = false;

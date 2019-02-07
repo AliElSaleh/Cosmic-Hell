@@ -91,6 +91,7 @@ unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
 // bools
 bool bConnected{false};
 bool bBegan{false};
+bool bMusicSet{false};
 bool bDebug;
 
 

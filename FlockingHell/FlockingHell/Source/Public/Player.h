@@ -49,6 +49,7 @@ struct Player
 	unsigned int Score = 0;
 	unsigned int GrazingScore = 0;
 
+	bool bChangeMusic{};
 	bool bInvincible{};
 	bool bIsHit{};
 	bool bIsDead{};

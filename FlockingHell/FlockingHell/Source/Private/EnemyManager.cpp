@@ -117,13 +117,13 @@ void EnemyManager::Init()
 	Enemies.reserve(3);
 	FlockOfEnemies.reserve(3);
 
-	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<Spacecraft>(30)));
 	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(20)));
 	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<Spacecraft>(30)));
 
-	Enemies.emplace_back(new Warship());
 	Enemies.emplace_back(new Demon());
 	Enemies.emplace_back(new Alien());
+	Enemies.emplace_back(new Warship());
 
 	bIsEnemyDead = false;
 }
