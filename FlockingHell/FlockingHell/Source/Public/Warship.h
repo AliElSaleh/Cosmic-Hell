@@ -17,6 +17,7 @@ protected:
 
 private:
 	struct LinearPattern LinearBullet[4];
+	struct SpiralMultiWayPattern SpiralMultiWayBullet[3];
 
 	Vector2 SpawnLocation[4]{};
 	Vector2 CanonSpawnLocation{};
