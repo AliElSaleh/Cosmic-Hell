@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Enemy.h"
+#include "LinearPattern.h"
 
-struct Warship : Enemy
+struct Warship final : Enemy
 {
 	Warship();
 
@@ -13,5 +14,11 @@ struct Warship : Enemy
 protected:
 	void UpdateBullet() override;
 	void DrawBullet() override;
+
+private:
+	struct LinearPattern LinearBullet[4];
+
+	Vector2 SpawnLocation[4]{};
+	Vector2 CanonSpawnLocation{};
 };
 
