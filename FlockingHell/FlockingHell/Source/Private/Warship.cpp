@@ -22,7 +22,9 @@ void Warship::Init()
 	Sprite = GetAsset(Warship);
 
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/Frames, float(Sprite.height)};
-	Hitbox = {Location.x + 96.0f, Location.y + 50.0f, 90.0f, 80.0f};
+
+	Hitbox[0] = {Location.x + 96.0f, Location.y + 50.0f, 90.0f, 80.0f};
+	Hitbox[1] = {Location.x + 260.0f, Location.y + 50.0f, 90.0f, 80.0f};
 
 	CanonSpawnLocation = { Location.x + float(Sprite.width) / Frames / 2 + 30.0f, Location.y + float(Sprite.height) - 10.0f };
 
@@ -120,17 +122,17 @@ void Warship::Update()
 		SpriteBox.y = Location.y;
 
 		// Update hitbox location
-		Hitbox.x = Location.x + 96.0f;
-		Hitbox.y = Location.y + 50.0f;
+		Hitbox[0] = {Location.x + 96.0f, Location.y + 50.0f, 90.0f, 80.0f};
+		Hitbox[1] = {Location.x + 260.0f, Location.y + 50.0f, 90.0f, 80.0f};
 
 		// Middle
-		CanonSpawnLocation = { Location.x + float(Sprite.width) / Frames / 2 + 25.0f, Location.y + float(Sprite.height) - 10.0f };
+		CanonSpawnLocation = {Location.x + float(Sprite.width) / Frames / 2 + 25.0f, Location.y + float(Sprite.height) - 10.0f};
 
 		// Left to right
-		SpawnLocation[0] = { Location.x + 115.0f, Location.y + float(Sprite.height) };
-		SpawnLocation[1] = { Location.x + 145.0f, Location.y + float(Sprite.height) };
-		SpawnLocation[2] = { Location.x + 290.0f, Location.y + float(Sprite.height) };
-		SpawnLocation[3] = { Location.x + 320.0f, Location.y + float(Sprite.height) };
+		SpawnLocation[0] = {Location.x + 115.0f, Location.y + float(Sprite.height)};
+		SpawnLocation[1] = {Location.x + 145.0f, Location.y + float(Sprite.height)};
+		SpawnLocation[2] = {Location.x + 290.0f, Location.y + float(Sprite.height)};
+		SpawnLocation[3] = {Location.x + 320.0f, Location.y + float(Sprite.height)};
 
 		UpdateAnimation();
 	}
@@ -156,7 +158,9 @@ void Warship::Draw()
 	if (bDebug && bActive && !bIsDead)
 	{
 		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // A rectangle that its width/height is the same as the sprite's width/height
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), GRAY); // Hitbox
+
+		for (int i = 0; i < 2; i++)
+			DrawRectangle(int(Hitbox[i].x), int(Hitbox[i].y), int(Hitbox[i].width), int(Hitbox[i].height), GRAY); // Hitbox
 
 		DrawCircle(int(CanonSpawnLocation.x), int(CanonSpawnLocation.y), 5.0f, RED); // The big canon in the middle of the warship
 
@@ -292,4 +296,18 @@ void Warship::DrawBullet()
 	default:
 		break;
 	}
+}
+
+void Warship::CheckCollisionWithPlayerBullets()
+{
+	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
+		for (int j = 0; j < 2; j++)
+			if (CheckCollisionCircleRec(Player->Bullet[i].Center, Player->Bullet[i].Radius, Hitbox[j]))
+				if (bActive && !bIsDead)
+				{
+					Player->ResetBullet(i);
+					Player->Score += GetRandomValue(50, 80);
+
+					Health -= Player->BulletDamage;
+				}
 }

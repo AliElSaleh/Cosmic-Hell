@@ -121,7 +121,7 @@ protected:
 
 	// Collision check functions
 	void CheckCollisionWithPlayer() const;
-	void CheckCollisionWithPlayerBullets();
+	virtual void CheckCollisionWithPlayerBullets();
 	void CheckHealth();
 
 	// Enemy checks
