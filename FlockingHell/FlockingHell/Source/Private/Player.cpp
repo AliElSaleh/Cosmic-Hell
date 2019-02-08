@@ -63,6 +63,8 @@ void Player::Init()
 	EnemiesKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
+	bWasBombUsed = false;
+	bCanUseBomb = true;
 	bChangeMusic = false;
 	bInvincible = false;
 	bIsDead = false;
@@ -77,6 +79,7 @@ void Player::Update()
 	{
 		PlayerSpriteFramesCounter++;
 
+		// Update the player's location and its components
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
 
@@ -90,6 +93,7 @@ void Player::Update()
 		BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
 
+		// Player's invincibility mechanic
 		if (bIsHit)
 		{
 			PlayerHitFramesCounter++;
@@ -101,17 +105,37 @@ void Player::Update()
 			Invincibility(false, 0.0f);
 		}
 
-		if (IsKeyPressed(KEY_B))
+		// Bomb mechanic
+		if (bCanUseBomb)
 		{
-			if (BombsLeft < 0)
-				BombsLeft = -1;
-			else
-				BombsLeft--;
+			if (IsKeyPressed(KEY_B))
+			{
+				bWasBombUsed = true;
+				bCanUseBomb = false;
+				
+				if (BombsLeft < 0)
+					BombsLeft = -1;
+				else
+					BombsLeft--;
 
-			if (!Bomb.empty())
-				Bomb.pop_back();
+				if (!Bomb.empty())
+					Bomb.pop_back();
+			}
+		}
+		else
+		{
+			BombCooldownTimer++;
+			bWasBombUsed = false;
+			
+			if (BombCooldownTimer/360%2)
+			{
+				BombCooldownTimer = 0;
+				bWasBombUsed = false;
+				bCanUseBomb = true;
+			}
 		}
 
+		// To prevent negative values
 		if (Score < 0)
 			Score = 0;
 

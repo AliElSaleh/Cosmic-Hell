@@ -47,10 +47,13 @@ struct Player
 	unsigned short BossKilled = 0;
 	unsigned short EnemiesKilled = 0;
 	unsigned short BulletDamage = 0;
+	unsigned short BombCooldownTimer = 0;
 	unsigned int GrazingScore = 0;
 
 	bool bChangeMusic{};
 	bool bInvincible{};
+	bool bWasBombUsed{};
+	bool bCanUseBomb{};
 	bool bIsHit{};
 	bool bIsDead{};
 

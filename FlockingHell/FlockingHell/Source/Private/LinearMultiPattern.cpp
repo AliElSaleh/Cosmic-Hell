@@ -153,7 +153,7 @@ void LinearMultiPattern::Update()
 
 	// Player's bomb mechanic
 	if (IsKeyPressed(KEY_B))
-		if (Enemy->Player->BombsLeft >= 0)
+		if (Enemy->Player->BombsLeft >= 0 && Enemy->Player->bWasBombUsed)
 			DestroyActiveBullets();
 }
 
