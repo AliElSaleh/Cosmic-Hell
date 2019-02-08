@@ -99,7 +99,7 @@ void Warship::Init()
 
 	BulletWave = FIRST;
 
-	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 150))});
+	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 }
 
 void Warship::Update()
@@ -115,7 +115,7 @@ void Warship::Update()
 			ApplyForce(SeekingForce);
 		}
 		else
-			Seek({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width / Frames)), float(GetRandomValue(0, 150))});
+			Seek({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width / Frames)), float(GetRandomValue(0, 100))});
 
 		// Update sprite box location
 		SpriteBox.x = Location.x;
@@ -253,7 +253,7 @@ void Warship::UpdateBullet()
 	case SECOND:
 		if (IsAtLocation(Destination))
 		{
-			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 150))});
+			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 		}
 
 		break;

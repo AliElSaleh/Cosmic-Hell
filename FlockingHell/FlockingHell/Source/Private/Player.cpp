@@ -112,6 +112,9 @@ void Player::Update()
 				Bomb.pop_back();
 		}
 
+		if (Score < 0)
+			Score = 0;
+
 		UpdatePlayerAnimation();
 	}
 

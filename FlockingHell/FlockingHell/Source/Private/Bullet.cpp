@@ -69,6 +69,7 @@ void Bullet::CheckCollisionWithPlayerHitbox()
 			if (bActive)
 			{
 				Player->Health -= 1;
+				Player->Score -= GetRandomValue(100, 150);
 				Player->Heart.pop_back();
 				Player->bIsHit = true;
 				bIsHit = true;

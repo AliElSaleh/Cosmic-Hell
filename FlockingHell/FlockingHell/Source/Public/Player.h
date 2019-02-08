@@ -35,6 +35,7 @@ struct Player
 
 	signed short Health{};
 	signed short BombsLeft = 0;
+	signed int Score = 0;
 	unsigned short XOffset{}; // Offset sprite location by X amount of pixels from mouse position
 	unsigned short YOffset{}; // Offset sprite location by Y amount of pixels from mouse position
 	unsigned short BulletXOffset = 5;
@@ -46,7 +47,6 @@ struct Player
 	unsigned short BossKilled = 0;
 	unsigned short EnemiesKilled = 0;
 	unsigned short BulletDamage = 0;
-	unsigned int Score = 0;
 	unsigned int GrazingScore = 0;
 
 	bool bChangeMusic{};
