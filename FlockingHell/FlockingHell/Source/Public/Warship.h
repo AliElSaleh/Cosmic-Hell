@@ -16,6 +16,8 @@ protected:
 	void DrawBullet() override;
 
 	void CheckCollisionWithPlayerBullets() override;
+
+	void IncreasePlayerScore() override;
 private:
 	Rectangle Hitbox[2]{};
 

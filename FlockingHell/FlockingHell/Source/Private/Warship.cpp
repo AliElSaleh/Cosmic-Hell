@@ -311,3 +311,8 @@ void Warship::CheckCollisionWithPlayerBullets()
 					Health -= Player->BulletDamage;
 				}
 }
+
+void Warship::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(50, 60);
+}

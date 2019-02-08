@@ -20,5 +20,7 @@ private:
 
 	void UpdateBullet() override;
 	void DrawBullet() override;
+
+	void IncreasePlayerScore() override;
 };
 

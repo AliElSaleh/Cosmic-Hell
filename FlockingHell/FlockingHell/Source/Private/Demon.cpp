@@ -653,3 +653,8 @@ void Demon::DrawBullet()
 		break;
 	}
 }
+
+void Demon::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(30, 40);
+}

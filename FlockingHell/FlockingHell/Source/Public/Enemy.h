@@ -100,6 +100,8 @@ protected:
 	virtual void UpdateBullet();
 	virtual void DrawBullet();
 
+	virtual void IncreasePlayerScore();
+
 	// Flocking functions
 	Vector2 Align(std::vector<Enemy*> *Boids) const;
 	Vector2 Cohere(std::vector<Enemy*> *Boids);

@@ -158,6 +158,11 @@ void Spacecraft::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 	ApplyForce(GoalSeeking);
 }
 
+void Spacecraft::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(20, 30);
+}
+
 void Spacecraft::UpdateBullet()
 {
 	LinearBullet.Location = SpawnLocation;

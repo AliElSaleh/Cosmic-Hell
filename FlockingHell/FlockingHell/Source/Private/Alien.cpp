@@ -345,3 +345,8 @@ void Alien::DrawBullet()
 	}
 }
 
+void Alien::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(40, 50);
+}
+

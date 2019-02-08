@@ -159,6 +159,11 @@ void RocketShip::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 	ApplyForce(GoalSeeking);
 }
 
+void RocketShip::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(15, 25);
+}
+
 void RocketShip::UpdateBullet()
 {
 	LinearBullet.Location = SpawnLocation;

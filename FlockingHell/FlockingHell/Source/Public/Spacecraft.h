@@ -16,6 +16,8 @@ struct Spacecraft : Enemy
 protected:
 	void ApplyBehaviours(std::vector<Enemy*> *Enemies) override;
 
+	void IncreasePlayerScore() override;
+
 private:
 	struct LinearPattern LinearBullet{};
 

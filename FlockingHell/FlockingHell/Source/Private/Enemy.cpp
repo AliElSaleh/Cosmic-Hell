@@ -60,7 +60,7 @@ void Enemy::CheckCollisionWithPlayerBullets()
 			if (bActive && !bIsDead)
 			{
 				Player->ResetBullet(i);
-				Player->Score += GetRandomValue(50, 80);
+				IncreasePlayerScore();
 
 				Health -= Player->BulletDamage;
 			}
@@ -103,6 +103,10 @@ void Enemy::UpdateBullet()
 }
 
 void Enemy::DrawBullet()
+{
+}
+
+void Enemy::IncreasePlayerScore()
 {
 }
 

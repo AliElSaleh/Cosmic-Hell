@@ -16,6 +16,8 @@ struct ArchDemon : Enemy
 protected:
 	void UpdateAnimation() override;
 
+	void IncreasePlayerScore() override;
+
 private:
 	void UpdateBullet() override;
 	void DrawBullet() override;

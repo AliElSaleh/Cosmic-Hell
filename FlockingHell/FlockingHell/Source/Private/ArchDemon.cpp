@@ -179,6 +179,11 @@ void ArchDemon::UpdateAnimation()
 	}
 }
 
+void ArchDemon::IncreasePlayerScore()
+{
+	Player->Score += GetRandomValue(10, 20);
+}
+
 void ArchDemon::UpdateBullet()
 {
 	LinearBullet.Location = SpawnLocation;
