@@ -100,8 +100,6 @@ void Spacecraft::Update()
 
 	if(bIsDead)
 	{
-		Player->EnemiesKilled++;
-
 		LinearBullet.bRelease = true;
 		FramesCounter = 0;
 		

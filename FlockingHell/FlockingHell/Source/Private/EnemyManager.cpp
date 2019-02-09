@@ -5,6 +5,7 @@
 #include "ArchDemon.h"
 #include "Spacecraft.h"
 #include "Warship.h"
+#include "Player.h"
 
 EnemyManager::EnemyManager()
 {
@@ -43,6 +44,9 @@ void EnemyManager::Update()
 		{
 			if (Enemies[0]->FinalBullets->empty())
 			{
+				Enemies[0]->Player->BossKilled++;
+				Enemies[0]->Player->bChangeMusic = true;
+
 				RemoveEnemy(0);
 
 				if (!FlockOfEnemies.empty())
@@ -78,7 +82,10 @@ void EnemyManager::Update()
 			for (unsigned short i = 0; i < FlockOfEnemies[0]->Boids.size(); i++)
 				if (FlockOfEnemies[0]->Boids[i]->bIsDead)
 					if (FlockOfEnemies[0]->Boids[i]->FinalBullets->empty())
+					{
+						FlockOfEnemies[0]->Boids[i]->Player->EnemiesKilled++;
 						RemoveEnemyFromFlock(i);
+					}
 
 	// Update the currently active flock
 	if (!FlockOfEnemies.empty())
@@ -117,13 +124,13 @@ void EnemyManager::Init()
 	Enemies.reserve(3);
 	FlockOfEnemies.reserve(3);
 
-	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(25)));
-	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
 	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<Spacecraft>(30)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(25)));
 
-	Enemies.emplace_back(new Demon());
-	Enemies.emplace_back(new Alien());
 	Enemies.emplace_back(new Warship());
+	Enemies.emplace_back(new Alien());
+	Enemies.emplace_back(new Demon());
 
 	bIsEnemyDead = false;
 }

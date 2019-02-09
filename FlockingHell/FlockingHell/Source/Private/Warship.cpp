@@ -52,7 +52,7 @@ void Warship::Init()
 
 	bActive = true;
 	bIsDead = false;
-	bDebug = true;
+	bDebug = false;
 
 	// WAVE 1
 	for (int i = 0; i < 4; i++)
@@ -141,7 +141,7 @@ void Warship::Update()
 
 	if (bIsDead)
 	{
-		Player->BossKilled++;
+		
 	}
 
 	UpdateBullet();

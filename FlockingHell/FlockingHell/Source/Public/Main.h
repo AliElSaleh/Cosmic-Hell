@@ -69,6 +69,7 @@ float FadeAlpha{0.0f};
 
 // Music fading in game
 float MusicFade{0.0f};
+bool bMusicFaded{false};
 
 // Server
 WSADATA Data;
@@ -82,7 +83,6 @@ unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
 // bools
 bool bConnected{false};
 bool bBegan{false};
-bool bMusicSet{false};
 bool bDebug;
 
 

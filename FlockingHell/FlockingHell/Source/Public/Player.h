@@ -27,9 +27,9 @@ struct Player
 	std::vector<Texture2D> Heart;
 	std::vector<Texture2D> Bomb;
 
-	Rectangle Hitbox{};
-	Rectangle Spritebox{};
-	Rectangle PlayerFrameRec{};
+	struct Rectangle Hitbox{};
+	struct Rectangle Spritebox{};
+	struct Rectangle PlayerFrameRec{};
 
 	State* GameState = nullptr;
 

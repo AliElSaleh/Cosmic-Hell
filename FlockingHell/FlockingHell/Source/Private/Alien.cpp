@@ -25,7 +25,7 @@ void Alien::Init()
 	Frames = 5;
 	FramesSpeed = 10;
 
-	SpawnLocation = {Location.x + 27.0f, Location.y + float(Sprite.height) - 45.0f};
+	SpawnLocation = {Location.x + 33.0f, Location.y + float(Sprite.height) - 45.0f};
 	HitboxOffset = {32.0f, 2.0f};
 	Hitbox = {Location.x + HitboxOffset.x, Location.y + HitboxOffset.y, float(Sprite.width)/Frames-60.0f, float(Sprite.height)/5};
 	SpriteBox = {Location.x, Location.y, float(Sprite.width)/Frames, float(Sprite.height)};
@@ -149,16 +149,14 @@ void Alien::Update()
 		Hitbox.x = Location.x + HitboxOffset.x;
 		Hitbox.y = Location.y + HitboxOffset.y;
 
-		SpawnLocation = {Location.x + 27.0f, Location.y + float(Sprite.height) - 45.0f};
+		SpawnLocation = {Location.x + 33.0f, Location.y + float(Sprite.height) - 45.0f};
 
 		UpdateAnimation();
 	}
 
 	if(bIsDead)
 	{
-		Player->BossKilled++;
 		Player->BulletLevel = 3;
-		Player->bChangeMusic = true;
 		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
