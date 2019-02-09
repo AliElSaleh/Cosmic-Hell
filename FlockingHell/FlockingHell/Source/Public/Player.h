@@ -47,6 +47,7 @@ struct Player
 	unsigned short BossKilled = 0;
 	unsigned short EnemiesKilled = 0;
 	unsigned short BulletDamage = 0;
+	unsigned short BombRegenTimer = 0;
 	unsigned short BombCooldownTimer = 0;
 	unsigned int GrazingScore = 0;
 

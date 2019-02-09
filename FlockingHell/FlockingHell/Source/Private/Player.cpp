@@ -63,6 +63,9 @@ void Player::Init()
 	EnemiesKilled = 0;
 	BulletDamage = GetRandomValue(10, 15);
 
+	BombRegenTimer = 0;
+	BombCooldownTimer = 0;
+
 	bWasBombUsed = false;
 	bCanUseBomb = true;
 	bChangeMusic = false;
@@ -78,6 +81,7 @@ void Player::Update()
 	if (!bIsDead)
 	{
 		PlayerSpriteFramesCounter++;
+		BombRegenTimer++;
 
 		// Update the player's location and its components
 		Location.x = GetMousePosition().x - XOffset - 2;
@@ -135,6 +139,16 @@ void Player::Update()
 			}
 		}
 
+		if (BombRegenTimer/2400%2)
+		{
+			if (Bomb.size() < 4)
+				Bomb.emplace_back(GetAsset(Bomb));
+
+			BombsLeft++;
+
+			BombRegenTimer = 0;
+		}
+
 		// To prevent negative values
 		if (Score < 0)
 			Score = 0;
@@ -142,6 +156,7 @@ void Player::Update()
 		UpdatePlayerAnimation();
 	}
 
+	// Player checks
 	CheckCollisionWithWindow();
 	CheckHealth();
 
