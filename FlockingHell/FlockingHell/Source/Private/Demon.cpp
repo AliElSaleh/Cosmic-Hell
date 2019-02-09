@@ -223,6 +223,7 @@ void Demon::Update()
 	if (bIsDead)
 	{
 		Player->BossKilled++;
+		Player->BulletLevel = 2;
 		Player->bChangeMusic = true;
 		
 		for (int i = 0; i < 20; i++)

@@ -163,7 +163,6 @@ void Player::Update()
 	// Update bullets movement on key press [space]
 	UpdateBullet();
 	CheckBulletOutsideWindow();
-	CheckBulletLevel();
 }
 
 void Player::Draw() const
@@ -373,14 +372,6 @@ void Player::CheckHealth()
 		bIsDead = true;
 		
 		*GameState = DEATH;
-	}
-}
-
-void Player::CheckBulletLevel()
-{
-	if (BossKilled > 0)
-	{
-		BulletLevel = 2;
 	}
 }
 

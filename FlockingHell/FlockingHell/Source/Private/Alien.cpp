@@ -157,6 +157,7 @@ void Alien::Update()
 	if(bIsDead)
 	{
 		Player->BossKilled++;
+		Player->BulletLevel = 3;
 		Player->bChangeMusic = true;
 		
 		for (int i = 0; i < 20; i++)

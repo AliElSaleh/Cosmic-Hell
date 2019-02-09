@@ -67,7 +67,6 @@ private:
 	void CheckBulletOutsideWindow();
 	void CheckCollisionWithWindow();
 	void CheckHealth();
-	void CheckBulletLevel();
 
 	void Invincibility(bool Mode, float Seconds);
 
