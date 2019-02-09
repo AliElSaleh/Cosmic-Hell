@@ -80,7 +80,7 @@ void LinearMultiPattern::Init()
 		break;
 
 		case THIRTY_WAY:
-			CreateLinearMultiPattern(300, 30, 300.0f, 1.0f);
+			CreateLinearMultiPattern(600, 60, 300.0f, 1.0f);
 		break;
 
 		default:

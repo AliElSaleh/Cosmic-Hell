@@ -16,12 +16,13 @@ struct Demon : Enemy
 
 	
 protected:
+	void InitBullet(BulletPatternGenerator& BulletPattern, float Delay, BulletPatternGenerator::Pattern Pattern) override;
 	void UpdateBullet() override;
-	void UpdateAnimation() override;
 	void DrawBullet() override;
 
-	void IncreasePlayerScore() override;
+	void UpdateAnimation() override;
 
+	void IncreasePlayerScore() override;
 private:
 	struct CirclePattern CircleBullet[20];
 	struct LinearMultiPattern LinearMultiBullet[4];

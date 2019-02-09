@@ -12,12 +12,14 @@ struct Warship final : Enemy
 	void Draw() override;
 
 protected:
+	void InitBullet(BulletPatternGenerator& BulletPattern, const Vector2& SpawnLocation, float Delay, BulletPatternGenerator::Pattern Pattern) override;
 	void UpdateBullet() override;
 	void DrawBullet() override;
 
 	void CheckCollisionWithPlayerBullets() override;
 
 	void IncreasePlayerScore() override;
+
 private:
 	Rectangle Hitbox[2]{};
 

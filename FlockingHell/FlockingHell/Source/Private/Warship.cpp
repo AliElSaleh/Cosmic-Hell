@@ -56,46 +56,12 @@ void Warship::Init()
 
 	// WAVE 1
 	for (int i = 0; i < 4; i++)
-	{
-		LinearBullet[i].SetBulletPattern(BulletPatternGenerator::LINEAR_LOCK_ON);
-		LinearBullet[i].SetDelayAmount(i * 0.1f);
-		LinearBullet[i].Enemy = this;
-		LinearBullet[i].Center = { Location.x + SpawnLocation[i].x, Location.y + SpawnLocation[i].y };
-		LinearBullet[i].Init();
-
-		for (unsigned short j = 0; j < LinearBullet[i].Bullet.size(); j++)
-		{
-			LinearBullet[i].Bullet[j].Player = Player;
-			LinearBullet[i].Bullet[j].Location = SpawnLocation[i];
-			LinearBullet[i].Bullet[j].Frames = 1;
-			LinearBullet[i].Bullet[j].Sprite = GetAsset(RedBullet);
-
-			LinearBullet[i].Bullet[j].InitFrames();
-		}
-	}
+		InitBullet(LinearBullet[i], SpawnLocation[i], i * 0.1f, BulletPatternGenerator::LINEAR_LOCK_ON);
 
 	// WAVE 2
-	SpiralMultiWayBullet[0].SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_THREE_WAY);
-	SpiralMultiWayBullet[1].SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_FIVE_WAY);
-	SpiralMultiWayBullet[2].SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_SEVEN_WAY);
-
-	for (int i = 0; i < 3; i++)
-	{
-		SpiralMultiWayBullet[i].SetDelayAmount(0.0f);
-		SpiralMultiWayBullet[i].Enemy = this;
-		SpiralMultiWayBullet[i].Center = {Location.x + CanonSpawnLocation.x, Location.y + CanonSpawnLocation.y};
-		SpiralMultiWayBullet[i].Init();
-
-		for (unsigned short j = 0; j < SpiralMultiWayBullet[i].Bullet.size(); j++)
-		{
-			SpiralMultiWayBullet[i].Bullet[j].Player = Player;
-			SpiralMultiWayBullet[i].Bullet[j].Location = CanonSpawnLocation;
-			SpiralMultiWayBullet[i].Bullet[j].Frames = 1;
-			SpiralMultiWayBullet[i].Bullet[j].Sprite = GetAsset(RedBullet);
-
-			SpiralMultiWayBullet[i].Bullet[j].InitFrames();			
-		}
-	}
+	InitBullet(SpiralMultiWayBullet[0], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_THREE_WAY);
+	InitBullet(SpiralMultiWayBullet[1], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_FIVE_WAY);
+	InitBullet(SpiralMultiWayBullet[2], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_SEVEN_WAY);
 
 	BulletWave = FIRST;
 
@@ -171,6 +137,25 @@ void Warship::Draw()
 	}
 
 	DrawBullet();
+}
+
+void Warship::InitBullet(BulletPatternGenerator& BulletPattern, const Vector2& SpawnLocation, const float Delay, const BulletPatternGenerator::Pattern Pattern)
+{
+	BulletPattern.SetBulletPattern(Pattern);
+	BulletPattern.SetDelayAmount(Delay);
+	BulletPattern.Enemy = this;
+	BulletPattern.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	BulletPattern.Init();
+
+	for (unsigned short j = 0; j < BulletPattern.Bullet.size(); j++)
+	{
+		BulletPattern.Bullet[j].Player = Player;
+		BulletPattern.Bullet[j].Location = SpawnLocation;
+		BulletPattern.Bullet[j].Frames = 1;
+		BulletPattern.Bullet[j].Sprite = GetAsset(RedBullet);
+	
+		BulletPattern.Bullet[j].InitFrames();
+	}
 }
 
 void Warship::UpdateBullet()

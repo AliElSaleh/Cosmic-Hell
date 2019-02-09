@@ -98,6 +98,18 @@ void Enemy::MoveToLocation(const Vector2& DestLocation)
 	Location.y += Direction.y * Speed * GetFrameTime();
 }
 
+void Enemy::InitBullet(BulletPatternGenerator& BulletPattern, BulletPatternGenerator::Pattern Pattern)
+{
+}
+
+void Enemy::InitBullet(BulletPatternGenerator& BulletPattern, float Delay, BulletPatternGenerator::Pattern Pattern)
+{
+}
+
+void Enemy::InitBullet(BulletPatternGenerator & BulletPattern, const Vector2 & SpawnLocation, float Delay, BulletPatternGenerator::Pattern Pattern)
+{
+}
+
 void Enemy::UpdateBullet()
 {
 }

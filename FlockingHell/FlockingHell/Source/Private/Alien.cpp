@@ -14,7 +14,7 @@ Alien::Alien()
 
 	Location = {300.0f, -300.0f};
 
-	Health = 600;
+	Health = 7000;
 	LowHealthThreshold = 500;
 	Explosions = 3;
 
@@ -51,77 +51,23 @@ void Alien::Init()
 		DeathExplosion[i].Init();
 
 	// WAVE 1
-	LinearBullet.SetBulletPattern(BulletPatternGenerator::LINEAR_AIMING);
-	LinearBullet.SetDelayAmount(0.0f);
-	LinearBullet.Enemy = this;
-	LinearBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-	LinearBullet.Init();
+	InitBullet(LinearBullet, BulletPatternGenerator::LINEAR_AIMING);
 
-	for (unsigned short i = 0; i < LinearBullet.Bullet.size(); i++)
-	{
-		LinearBullet.Bullet[i].Player = Player;
-		LinearBullet.Bullet[i].Frames = 4;
-		LinearBullet.Bullet[i].Sprite = GetAsset(PurpleBullet);
-		
-		LinearBullet.Bullet[i].InitFrames();
-	}
+	InitBullet(LinearMultiBullet[0], BulletPatternGenerator::TWENTY_WAY);
+	InitBullet(LinearMultiBullet[1], BulletPatternGenerator::THIRTY_WAY);
 
 	// WAVE 2
-	SpiralBullet[0].SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_RIGHT);
-	SpiralBullet[1].SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_LEFT);
+	InitBullet(SpiralBullet[0], BulletPatternGenerator::SPIRAL_MULTI_RIGHT);
+	InitBullet(SpiralBullet[1], BulletPatternGenerator::SPIRAL_MULTI_LEFT);
 
-	for (int i = 0; i < 2; i++)
-	{
-		SpiralBullet[i].SetDelayAmount(0.0f);
-		SpiralBullet[i].Enemy = this;
-		SpiralBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		SpiralBullet[i].Init();
-
-		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-		{
-			SpiralBullet[i].Bullet[j].Player = Player;
-			SpiralBullet[i].Bullet[j].Frames = 4;
-			SpiralBullet[i].Bullet[j].Sprite = GetAsset(PurpleBullet);
-
-			SpiralBullet[i].Bullet[j].InitFrames();
-		}
-	}
+	InitBullet(SpreadBullet, BulletPatternGenerator::SPREAD_EIGHT_WAY_LOCK_ON);
 
 	// WAVE 3
-	SpiralMultiBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MULTI_FIVE_WAY);
-	SpiralMultiBullet.SetDelayAmount(0.0f);
-	SpiralMultiBullet.Enemy = this;
-	SpiralMultiBullet.Init();
-
-	for (unsigned short j = 0; j < SpiralMultiBullet.Bullet.size(); j++)
-	{
-		SpiralMultiBullet.Bullet[j].Player = Player;
-		SpiralMultiBullet.Bullet[j].Frames = 4;
-		SpiralMultiBullet.Bullet[j].Sprite = GetAsset(PurpleBullet);
-
-		SpiralMultiBullet.Bullet[j].InitFrames();
-	}
+	InitBullet(SpiralMultiBullet, BulletPatternGenerator::SPIRAL_MULTI_FIVE_WAY);
 
 	// RAGE
-	RageBullet[0].SetBulletPattern(BulletPatternGenerator::RANDOM_SPIRAL_MULTI);
-	RageBullet[1].SetBulletPattern(BulletPatternGenerator::RANDOM_AIMING);
-
-	for (int i = 0; i < 2; i++)
-	{
-		RageBullet[i].SetDelayAmount(0.0f);
-		RageBullet[i].Enemy = this;
-		RageBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		RageBullet[i].Init();
-
-		for (unsigned short j = 0; j < RageBullet[i].Bullet.size(); j++)
-		{
-			RageBullet[i].Bullet[j].Player = Player;
-			RageBullet[i].Bullet[j].Frames = 4;
-			RageBullet[i].Bullet[j].Sprite = GetAsset(PurpleBullet);
-					  
-			RageBullet[i].Bullet[j].InitFrames();	
-		}
-	}
+	InitBullet(RageBullet[0], BulletPatternGenerator::RANDOM_SPIRAL_MULTI);
+	InitBullet(RageBullet[1], BulletPatternGenerator::RANDOM_AIMING);
 
 	FinalBullets = &RageBullet[1].Bullet;
 
@@ -201,12 +147,37 @@ void Alien::Draw()
 	DrawBullet();
 }
 
+void Alien::InitBullet(BulletPatternGenerator &BulletPattern, const BulletPatternGenerator::Pattern Pattern)
+{
+	BulletPattern.SetBulletPattern(Pattern);
+	BulletPattern.SetDelayAmount(0.0f);
+	BulletPattern.Enemy = this;
+	BulletPattern.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	BulletPattern.Init();
+
+	for (unsigned short i = 0; i < BulletPattern.Bullet.size(); i++)
+	{
+		BulletPattern.Bullet[i].Player = Player;
+		BulletPattern.Bullet[i].Frames = 4;
+		BulletPattern.Bullet[i].Sprite = GetAsset(PurpleBullet);
+		
+		BulletPattern.Bullet[i].InitFrames();
+	}
+}
+
 void Alien::UpdateBullet()
 {
 	// WAVE 1
 	LinearBullet.Location = SpawnLocation;
 	LinearBullet.TargetLocation = Player->Center;
 	LinearBullet.UpdateAnimation();
+
+	for (int i = 0; i < 2; i++)
+	{
+		LinearMultiBullet[i].Location = SpawnLocation;
+		LinearMultiBullet[i].TargetLocation = Player->Center;
+		LinearMultiBullet[i].UpdateAnimation();
+	}
 
 	// WAVE 2
 	for (int i = 0; i < 2; i++)
@@ -215,6 +186,10 @@ void Alien::UpdateBullet()
 		SpiralBullet[i].TargetLocation = Player->Center;
 		SpiralBullet[i].UpdateAnimation();
 	}
+
+	SpreadBullet.Location = SpawnLocation;
+	SpreadBullet.TargetLocation = Player->Center;
+	SpreadBullet.UpdateAnimation();
 
 	// WAVE 3
 	SpiralMultiBullet.Location = SpawnLocation;
@@ -242,6 +217,36 @@ void Alien::UpdateBullet()
 		LinearBullet.Update();
 
 		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearBullet)))
+			BulletWave = FIRST_A;
+
+		break;
+
+	case FIRST_A:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			LinearMultiBullet[0].bRelease = true;
+		}
+
+		LinearMultiBullet[0].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[0])))
+			BulletWave = FIRST_B;
+
+		break;
+
+		case FIRST_B:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			LinearMultiBullet[1].bRelease = true;
+		}
+
+		LinearMultiBullet[1].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(LinearMultiBullet[1])))
 			BulletWave = SECOND;
 
 		break;
@@ -259,6 +264,21 @@ void Alien::UpdateBullet()
 			SpiralBullet[i].Update();
 
 		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(SpiralBullet[1])))
+			BulletWave = SECOND_A;
+
+		break;
+
+	case SECOND_A:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			SpreadBullet.bRelease = true;
+		}
+
+		SpreadBullet.Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(SpreadBullet)))
 			BulletWave = THIRD;
 
 		break;
@@ -333,9 +353,21 @@ void Alien::DrawBullet()
 		LinearBullet.Draw();
 		break;
 
+	case FIRST_A:
+		LinearMultiBullet[0].Draw();
+		break;
+
+	case FIRST_B:
+		LinearMultiBullet[1].Draw();
+		break;
+
 	case SECOND:
 		for (int i = 0; i < 2; i++)
 			SpiralBullet[i].Draw();
+		break;
+
+	case SECOND_A:
+		SpreadBullet.Draw();
 		break;
 
 	case THIRD:

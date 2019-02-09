@@ -97,6 +97,9 @@ protected:
 	float MaxForce{};
 	float MaxVelocity{};
 
+	virtual void InitBullet(BulletPatternGenerator& BulletPattern, BulletPatternGenerator::Pattern Pattern);
+	virtual void InitBullet(BulletPatternGenerator& BulletPattern, float Delay, BulletPatternGenerator::Pattern Pattern);
+	virtual void InitBullet(BulletPatternGenerator& BulletPattern, const Vector2& SpawnLocation, float Delay, BulletPatternGenerator::Pattern Pattern);
 	virtual void UpdateBullet();
 	virtual void DrawBullet();
 

@@ -12,7 +12,7 @@
 Demon::Demon()
 {
 	Location = {300.0f, -300.0f};
-	Health = 3000;
+	Health = 2500;
 	LowHealthThreshold = 400;
 	Explosions = 3;
 }
@@ -48,144 +48,31 @@ void Demon::Init()
 
 	// FIRST WAVE
 	for (int i = 0; i < 5; i++)
-	{
-		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE);
-		CircleBullet[i].SetDelayAmount(i*0.1f);
-		CircleBullet[i].Enemy = this;
-		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		CircleBullet[i].Init();
-	}
+		InitBullet(CircleBullet[i], i*0.1f, BulletPatternGenerator::CIRCLE);
 
 	for (int i = 5; i < 10; i++)
-	{
-		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE_HOLE);
-		CircleBullet[i].SetDelayAmount((i-5)*0.1f);
-		CircleBullet[i].Enemy = this;
-		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		CircleBullet[i].Init();
-	}
+		InitBullet(CircleBullet[i], (i-5)*0.1f, BulletPatternGenerator::CIRCLE_HOLE);
 
 	for (int i = 10; i < 15; i++)
-	{
-		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE_HOLE_LOCK_ON);
-		CircleBullet[i].SetDelayAmount((i-10)*0.1f);
-		CircleBullet[i].Enemy = this;
-		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		CircleBullet[i].Init();
-	}
+		InitBullet(CircleBullet[i], (i-10)*0.1f, BulletPatternGenerator::CIRCLE_HOLE_LOCK_ON);
 
 	for (int i = 15; i < 20; i++)
-	{
-		CircleBullet[i].SetBulletPattern(BulletPatternGenerator::CIRCLE);
-		CircleBullet[i].SetDelayAmount((i-15)*0.1f);
-		CircleBullet[i].Enemy = this;
-		CircleBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		CircleBullet[i].Init();
-	}
-
-	for (int i = 0; i < 20; i++)
-	{
-		for (unsigned short j = 0; j < CircleBullet[i].Bullet.size(); j++)
-		{
-			CircleBullet[i].Bullet[j].Player = Player;
-			CircleBullet[i].Bullet[j].Frames = 6;
-			CircleBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
-
-			CircleBullet[i].Bullet[j].InitFrames();
-		}
-	}
+		InitBullet(CircleBullet[i], (i-15)*0.1f, BulletPatternGenerator::CIRCLE);
 
 	// SECOND WAVE
-	for (int i = 0; i < 1; i++)
-	{
-		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::FIVE_WAY_LINEAR_LOCK_ON);
-		LinearMultiBullet[i].SetDelayAmount(i*5.0f);
-		LinearMultiBullet[i].Enemy = this;
-		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		LinearMultiBullet[i].Init();
-	}
-
-	for (int i = 1; i < 2; i++)
-	{
-		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::SIX_WAY_LINEAR_LOCK_ON);
-		LinearMultiBullet[i].SetDelayAmount(0.0f);
-		LinearMultiBullet[i].Enemy = this;
-		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		LinearMultiBullet[i].Init();
-	}
-
-	for (int i = 2; i < 3; i++)
-	{
-		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::ELEVEN_WAY_AIMING);
-		LinearMultiBullet[i].SetDelayAmount(0.0f);
-		LinearMultiBullet[i].Enemy = this;
-		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		LinearMultiBullet[i].Init();
-	}
-
-	for (int i = 3; i < 4; i++)
-	{
-		LinearMultiBullet[i].SetBulletPattern(BulletPatternGenerator::TWENTY_WAY);
-		LinearMultiBullet[i].SetDelayAmount(0.0f);
-		LinearMultiBullet[i].Enemy = this;
-		LinearMultiBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		LinearMultiBullet[i].Init();
-	}
-	
-	for (int i = 0; i < 4; i++)
-	{
-		for (unsigned short j = 0; j < LinearMultiBullet[i].Bullet.size(); j++)
-		{
-			LinearMultiBullet[i].Bullet[j].Player = Player;
-			LinearMultiBullet[i].Bullet[j].Frames = 6;
-			LinearMultiBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
-
-			LinearMultiBullet[i].Bullet[j].InitFrames();
-		}		
-	}
-
+	InitBullet(LinearMultiBullet[0], 0.0f, BulletPatternGenerator::FIVE_WAY_LINEAR_LOCK_ON);
+	InitBullet(LinearMultiBullet[1], 0.0f, BulletPatternGenerator::SIX_WAY_LINEAR_LOCK_ON);
+	InitBullet(LinearMultiBullet[2], 0.0f, BulletPatternGenerator::ELEVEN_WAY_AIMING);
+	InitBullet(LinearMultiBullet[3], 0.0f, BulletPatternGenerator::TWENTY_WAY);
 
 	// THIRD WAVE
-	SpiralBullet[0].SetBulletPattern(BulletPatternGenerator::SPIRAL_LEFT);
-	SpiralBullet[1].SetBulletPattern(BulletPatternGenerator::SPIRAL_RIGHT);
-	SpiralBullet[2].SetBulletPattern(BulletPatternGenerator::SPIRAL_DOUBLE);
-	SpiralBullet[3].SetBulletPattern(BulletPatternGenerator::SPIRAL_LEFT);
-
-	for (int i = 0; i < 4; i++)
-	{
-		SpiralBullet[i].SetDelayAmount(0.0f);
-		SpiralBullet[i].Enemy = this;
-		SpiralBullet[i].Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-		SpiralBullet[i].Init();
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		for (unsigned short j = 0; j < SpiralBullet[i].Bullet.size(); j++)
-		{
-			SpiralBullet[i].Bullet[j].Player = Player;
-			SpiralBullet[i].Bullet[j].Frames = 6;
-			SpiralBullet[i].Bullet[j].Sprite = GetAsset(FireBullet);
-
-			SpiralBullet[i].Bullet[j].InitFrames();
-		}		
-	}
+	InitBullet(SpiralBullet[0], 0.0f, BulletPatternGenerator::SPIRAL_LEFT);
+	InitBullet(SpiralBullet[1], 0.0f, BulletPatternGenerator::SPIRAL_RIGHT);
+	InitBullet(SpiralBullet[2], 0.0f, BulletPatternGenerator::SPIRAL_DOUBLE);
+	InitBullet(SpiralBullet[3], 0.0f, BulletPatternGenerator::SPIRAL_LEFT);
 
 	// RAGE
-	RageBullet.SetBulletPattern(BulletPatternGenerator::SPIRAL_MIX);
-	RageBullet.SetDelayAmount(0.0f);
-	RageBullet.Enemy = this;
-	RageBullet.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
-	RageBullet.Init();
-
-	for (unsigned short i = 0; i < RageBullet.Bullet.size(); i++)
-	{
-		RageBullet.Bullet[i].Player = Player;
-		RageBullet.Bullet[i].Frames = 6;
-		RageBullet.Bullet[i].Sprite = GetAsset(FireBullet);
-
-		RageBullet.Bullet[i].InitFrames();
-	}
+	InitBullet(RageBullet, 0.0f, BulletPatternGenerator::SPIRAL_MIX);
 	
 	FinalBullets = &RageBullet.Bullet;
 
@@ -259,6 +146,24 @@ void Demon::Draw()
 			DeathExplosion[i].Draw();
 
 	DrawBullet();
+}
+
+void Demon::InitBullet(BulletPatternGenerator& BulletPattern, const float Delay, const BulletPatternGenerator::Pattern Pattern)
+{
+	BulletPattern.SetBulletPattern(Pattern);
+	BulletPattern.SetDelayAmount(Delay);
+	BulletPattern.Enemy = this;
+	BulletPattern.Center = {Location.x + SpawnLocation.x, Location.y + SpawnLocation.y};
+	BulletPattern.Init();
+
+	for (unsigned short i = 0; i < BulletPattern.Bullet.size(); i++)
+	{
+		BulletPattern.Bullet[i].Player = Player;
+		BulletPattern.Bullet[i].Frames = 6;
+		BulletPattern.Bullet[i].Sprite = GetAsset(FireBullet);
+		
+		BulletPattern.Bullet[i].InitFrames();
+	}
 }
 
 void Demon::UpdateBullet()

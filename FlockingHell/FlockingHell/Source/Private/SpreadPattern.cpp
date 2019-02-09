@@ -32,12 +32,14 @@ void SpreadPattern::Init()
 	switch (CurrentPattern)
 	{
 		case SPREAD_EIGHT_WAY:
-			CreateSpreadPattern(80, 8, 200.0f, 50.0f);
+			CreateSpreadPattern(80, 8, 250.0f, 1.0f);
 		break;
 
 		case SPREAD_EIGHT_WAY_LOCK_ON:
-			CreateSpreadPattern(160, 8, 200.0f, 50.0f);
-			AddDebugInitCode();
+			CreateSpreadPattern(240, 8, 250.0f, 1.0f);
+
+			if (bDebug)
+				AddDebugInitCode();
 		break;
 
 		default:
