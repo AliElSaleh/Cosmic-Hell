@@ -35,7 +35,11 @@ void Player::Init()
 	BombsLeft = unsigned short(Bomb.size());
 	Score = 0;
 	GrazingScore = 0;
-	Name = "Scarlet";
+	ShootRate = 0;
+
+	FramesCounter = 0;
+	PlayerSpriteFramesCounter = 0;
+	PlayerHitFramesCounter = 0;
 	
 	PlayerFrameRec.x = 0.0f;
 	PlayerFrameRec.y = 0.0f;
@@ -44,7 +48,7 @@ void Player::Init()
 
 	Center = {Location.x - float(Sprite.width)/12, Location.y + float(Sprite.height)/2};
 
-
+	// Bullets
 	for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 	{
 		Bullet[i].Sprite = GetAsset(BlueBullet);
@@ -52,7 +56,7 @@ void Player::Init()
 		Bullet[i].Location = Location;
 		Bullet[i].Radius = 3.0f;
 		Bullet[i].Speed = 500.0f;
-		Bullet[i].Damage = GetRandomValue(20, 40);
+		Bullet[i].Damage = GetRandomValue(10, 15);
 		Bullet[i].bActive = false;
 
 		Bullet[i].InitFrames();
@@ -61,7 +65,6 @@ void Player::Init()
 	BulletLevel = 1;
 	BossKilled = 0;
 	EnemiesKilled = 0;
-	BulletDamage = GetRandomValue(10, 15);
 
 	BombRegenTimer = 0;
 	BombCooldownTimer = 0;
@@ -184,7 +187,7 @@ void Player::Draw() const
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 			DrawCircle(int(Bullet[i].Center.x), int(Bullet[i].Center.y), Bullet[i].Radius, RED); // Player Bullets hitbox
 	
-		DrawCircle(int(Center.x), int(Center.y), 3.0f, YELLOW);
+		DrawCircle(int(Center.x), int(Center.y), 3.0f, YELLOW); // Player's center
 	}
 }
 
@@ -369,6 +372,7 @@ void Player::CheckHealth()
 		// Prevent negative health values
 		Health = 0;
 		Heart.clear();
+		Bomb.clear();
 		bIsDead = true;
 		
 		*GameState = DEATH;

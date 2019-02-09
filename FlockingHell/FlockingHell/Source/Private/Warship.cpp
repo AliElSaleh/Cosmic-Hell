@@ -308,7 +308,7 @@ void Warship::CheckCollisionWithPlayerBullets()
 					Player->ResetBullet(i);
 					Player->Score += GetRandomValue(50, 80);
 
-					Health -= Player->BulletDamage;
+					Health -= Player->Bullet[i].Damage;
 				}
 }
 
