@@ -5,7 +5,7 @@
 #include "State.h"
 #include "Bullet.h"
 
-#define MAX_PLAYER_BULLETS 50
+#define MAX_PLAYER_BULLETS 100
 
 struct Player
 {

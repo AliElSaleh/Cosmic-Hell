@@ -62,7 +62,7 @@ void Enemy::CheckCollisionWithPlayerBullets()
 				Player->ResetBullet(i);
 				IncreasePlayerScore();
 
-				Health -= Player->Bullet[i].Damage;
+				Health -= Player->Bullet[0].Damage;
 			}
 }
 

@@ -55,7 +55,7 @@ void Player::Init()
 		Bullet[i].Frames = 4;
 		Bullet[i].Location = Location;
 		Bullet[i].Radius = 3.0f;
-		Bullet[i].Speed = 500.0f;
+		Bullet[i].Speed = 600.0f;
 		Bullet[i].Damage = GetRandomValue(10, 15);
 		Bullet[i].bActive = false;
 
@@ -142,7 +142,8 @@ void Player::Update()
 			}
 		}
 
-		if (BombRegenTimer/2400%2)
+		// Bomb regeneration/refill
+		if (BombRegenTimer/3600%2)
 		{
 			if (Bomb.size() < 4)
 				Bomb.emplace_back(GetAsset(Bomb));
@@ -219,7 +220,7 @@ void Player::InitBulletLevel(const signed short Level)
 				if (!Bullet[i].bActive && ShootRate % 20 == 0)
 				{
 					Bullet[i].Location = BulletSpawnLocation;
-					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].Damage = GetRandomValue(10, 15);
 					Bullet[i].bActive = true;
 					break;
 				}
@@ -237,7 +238,7 @@ void Player::InitBulletLevel(const signed short Level)
 					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset; // Offset to the left by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
 					Bullet[i].Speed = 700.0f;
-					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].Damage = GetRandomValue(10, 15);
 					Bullet[i].bActive = true;
 					break;
 				}
@@ -251,7 +252,7 @@ void Player::InitBulletLevel(const signed short Level)
 					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset; // Offset to the right by 5 pixels to make room for other half of bullets
 					Bullet[i].Location.y = BulletSpawnLocation.y;
 					Bullet[i].Speed = 700.0f;
-					Bullet[i].Damage = GetRandomValue(20, 40);
+					Bullet[i].Damage = GetRandomValue(10, 15);
 					Bullet[i].bActive = true;
 					break;
 				}
@@ -259,6 +260,64 @@ void Player::InitBulletLevel(const signed short Level)
 		break;
 
 		case 3:
+			ShootRate += 4;
+			BulletXOffset = 15;
+			
+			// Left of gun - 0 to 24 bullets
+			for (int i = 0; i < MAX_PLAYER_BULLETS/4; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 28 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset; // Offset to the left by 15 pixels to make room for other half of bullets
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 800.0f;
+					Bullet[i].Damage = GetRandomValue(10, 15);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
+
+			// Middle left of gun - 25 - 49 bullets
+			for (int i = 25; i < MAX_PLAYER_BULLETS/2; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 28 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x - BulletXOffset + 10; // Offset to the right by 10 pixels to make room for other half of bullets
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 800.0f;
+					Bullet[i].Damage = GetRandomValue(10, 15);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
+
+			// Middle right of gun - 50 to 74 bullets
+			for (int i = 50; i < MAX_PLAYER_BULLETS - MAX_PLAYER_BULLETS/4; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 28 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset - 10; // Offset to the right by 10 pixels to make room for other half of bullets
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 800.0f;
+					Bullet[i].Damage = GetRandomValue(10, 15);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}	
+
+			// Right of gun - 75 to 99 bullets
+			for (int i = 75; i < MAX_PLAYER_BULLETS; i++)
+			{
+				if (!Bullet[i].bActive && ShootRate % 28 == 0)
+				{
+					Bullet[i].Location.x = BulletSpawnLocation.x + BulletXOffset; // Offset to the right by 15 pixels to make room for other half of bullets
+					Bullet[i].Location.y = BulletSpawnLocation.y;
+					Bullet[i].Speed = 800.0f;
+					Bullet[i].Damage = GetRandomValue(10, 15);
+					Bullet[i].bActive = true;
+					break;
+				}
+			}
 		break;
 
 		default:

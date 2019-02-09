@@ -9,7 +9,7 @@
 Warship::Warship()
 {
 	Location = {400, -400};
-	Health = 10000;
+	Health = 30000;
 	LowHealthThreshold = 1000;
 	Frames = 6;
 	Explosions = 6;
@@ -98,6 +98,8 @@ void Warship::Init()
 	}
 
 	BulletWave = FIRST;
+
+	FinalBullets = {};
 
 	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 }
@@ -306,9 +308,9 @@ void Warship::CheckCollisionWithPlayerBullets()
 				if (bActive && !bIsDead)
 				{
 					Player->ResetBullet(i);
-					Player->Score += GetRandomValue(50, 80);
-
-					Health -= Player->Bullet[i].Damage;
+					IncreasePlayerScore();
+					
+					Health -= Player->Bullet[0].Damage;
 				}
 }
 

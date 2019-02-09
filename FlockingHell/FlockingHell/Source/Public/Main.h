@@ -5,11 +5,6 @@
 #include "State.h"
 #include "EnemyManager.h"
 #include "CirclePattern.h"
-#include "Flock.h"
-#include "ArchDemon.h"
-#include "Explosion.h"
-#include "QuadTree.h"
-#include "HealthPickup.h"
 #include "RaylibLogo.h"
 #include "Planet.h"
 #include "Credits.h"
@@ -24,21 +19,17 @@ struct Star FarStars[MAX_FAR_STARS];
 struct Star SmallStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
-struct Flock<Enemy> Flock;
-struct ArchDemon Archon;
-struct Explosion BombExplosion;
-struct HealthPickup HeartPickup;
 struct Credits Credits;
 
+// UI
 Texture2D Background;
 Texture2D MenuTitle;
 Texture2D Panel;
 
-Section Boundary = Section(350, 400, 350, 400);
-QuadTree* QT = new QuadTree(Boundary, 4);
-
+// Splash screen
 RaylibLogo SplashLogo;
 
+// Planets
 Planet BigPlanet[5];
 Planet RingPlanet[2];
 
@@ -46,9 +37,6 @@ Planet RingPlanet[2];
 Music MenuMusic;
 Music GameMusic;
 Music WinMusic;
-
-template<typename PatternType>
-PatternType Pattern;
 
 // typedefs
 typedef CirclePattern BulletType;
@@ -78,6 +66,9 @@ const unsigned short Frames = 4;
 
 // Menu Fading animation
 float FadeAlpha{0.0f};
+
+// Music fading in game
+float MusicFade{0.0f};
 
 // Server
 WSADATA Data;

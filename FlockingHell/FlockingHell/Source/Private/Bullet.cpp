@@ -69,8 +69,11 @@ void Bullet::CheckCollisionWithPlayerHitbox()
 			if (bActive)
 			{
 				Player->Health -= 1;
-				Player->Score -= GetRandomValue(100, 150);
-				Player->Heart.pop_back();
+				Player->Score -= Player->Score/100 * 5; // Take off 5 percent of the player's current score
+
+				if (!Player->Heart.empty())
+					Player->Heart.pop_back();
+
 				Player->bIsHit = true;
 				bIsHit = true;
 			}
@@ -85,6 +88,6 @@ void Bullet::CheckCollisionWithPlayer() const
 	{
 		// Increase grazing score
 		if (bActive && !Player->bIsHit)
-			Player->GrazingScore += unsigned short(GetRandomValue(130, 150) * GetFrameTime());
+			Player->GrazingScore += unsigned short(GetRandomValue(200, 230) * GetFrameTime());
 	}
 }

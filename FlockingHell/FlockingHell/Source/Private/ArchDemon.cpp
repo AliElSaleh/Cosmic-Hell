@@ -13,7 +13,7 @@ ArchDemon::ArchDemon()
 	Location = {float(GetRandomValue(-150, -GetScreenWidth()-PANEL_WIDTH-150)), float(GetRandomValue(-400, -700))};
 	Velocity = {float(GetRandomValue(-2, 2)), float(GetRandomValue(-2, 2))};
 
-	Health = 70;
+	Health = 100;
 
 	ArchDemon::Init();
 }
