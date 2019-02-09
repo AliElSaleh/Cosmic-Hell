@@ -139,7 +139,7 @@ void SpiralMultiPattern::Draw()
 
 	// Bullets
 	if (!Bullet.empty())
-		for (int i = 0; i < NumOfBullets; i++)
+		for (int i = 0; i < Bullet.size(); i++)
 			Bullet[i].Draw();
 }
 

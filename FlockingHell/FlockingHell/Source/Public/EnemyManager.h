@@ -26,6 +26,7 @@ private:
 	void RemoveFlock(unsigned short Where);
 	void RemoveEnemyFromFlock(unsigned short Where);
 
+	bool bWasPreviousEnemyDead{};
 	bool bIsEnemyDead{};
 };
 

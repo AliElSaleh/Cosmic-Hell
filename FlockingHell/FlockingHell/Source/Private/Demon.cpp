@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Assets.h"
 
+#include <algorithm>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -223,6 +225,9 @@ void Demon::Update()
 	if (bIsDead)
 	{
 		Player->BulletLevel = 2;
+
+		const auto Predicate = [](const Bullet &b) { return !b.bActive; };
+		RageBullet.Bullet.erase(std::remove_if(RageBullet.Bullet.begin(), RageBullet.Bullet.end(), Predicate), RageBullet.Bullet.end());
 		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);

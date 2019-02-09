@@ -117,7 +117,7 @@ void CirclePattern::Draw()
 
 	// Bullets
 	if (!Bullet.empty())
-		for (int i = 0; i < NumOfBullets; i++)
+		for (int i = 0; i < Bullet.size(); i++)
 			Bullet[i].Draw();
 }
 
@@ -187,6 +187,6 @@ void CirclePattern::AddDebugSwitchPatternCode()
 
 void CirclePattern::DrawDebugInfo()
 {
-	DrawDebugPoints(NumOfBullets);
-	RDrawText(FormatText("Ways: %0i", NumOfBullets), 10, 120, 18, WHITE);
+	DrawDebugPoints(Bullet.size());
+	RDrawText(FormatText("Ways: %0i", Bullet.size()), 10, 120, 18, WHITE);
 }

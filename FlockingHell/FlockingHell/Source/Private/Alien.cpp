@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "Player.h"
 
+#include <algorithm>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
@@ -12,7 +14,7 @@ Alien::Alien()
 
 	Location = {300.0f, -300.0f};
 
-	Health = 7000;
+	Health = 600;
 	LowHealthThreshold = 500;
 	Explosions = 3;
 
@@ -157,6 +159,12 @@ void Alien::Update()
 	if(bIsDead)
 	{
 		Player->BulletLevel = 3;
+
+		// Remove inactive bullets
+		const auto Predicate = [](const Bullet &b) { return !b.bActive; };
+
+		for (int i = 0; i < 2; i++)
+			RageBullet[i].Bullet.erase(std::remove_if(RageBullet[i].Bullet.begin(), RageBullet[i].Bullet.end(), Predicate), RageBullet[i].Bullet.end());
 		
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
@@ -304,10 +312,10 @@ void Alien::UpdateBullet()
 					for (unsigned short j = 0; j < RageBullet[i].Bullet.size(); j++)
 					{
 						RageBullet[i].Bullet[j].Player = Player;
-						RageBullet[i].Bullet[i].Frames = 4;
-						RageBullet[i].Bullet[i].Sprite = GetAsset(PurpleBullet);
+						RageBullet[i].Bullet[j].Frames = 4;
+						RageBullet[i].Bullet[j].Sprite = GetAsset(PurpleBullet);
 						
-						RageBullet[i].Bullet[i].InitFrames();
+						RageBullet[i].Bullet[j].InitFrames();
 					}
 			}
 		break;
