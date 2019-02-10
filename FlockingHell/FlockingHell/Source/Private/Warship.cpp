@@ -2,14 +2,16 @@
 #include "Warship.h"
 #include "Player.h"
 #include "Assets.h"
+
 #include <algorithm>
+
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 Warship::Warship()
 {
 	Location = {400, -400};
-	Health = 2000;
+	Health = 30000;
 	LowHealthThreshold = 1000;
 	Frames = 6;
 	Explosions = 6;

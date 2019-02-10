@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "HealthPickup.h"
 
 #include <vector>
 #include "Flock.h"
@@ -19,9 +18,10 @@ struct EnemyManager
 	std::vector<Flock<Enemy>*> FlockOfEnemies{};
 
 	void Reset();
-private:
-	//std::vector<HealthPickup*> Heart{};
 
+	bool bAllEnemiesDefeated{false};
+
+private:
 	void RemoveEnemy(unsigned short Where);
 	void RemoveFlock(unsigned short Where);
 	void RemoveEnemyFromFlock(unsigned short Where);

@@ -96,8 +96,9 @@ void EnemyManager::Update()
 	if (!Enemies.empty())
 		Enemies[0]->Update();
 
-	//if (FlockOfEnemies.empty() && Enemies.empty())
-	//	bAllEnemiesDefeated = true;
+	// Are all enemies dead
+	if (FlockOfEnemies.empty() && Enemies.empty())
+		bAllEnemiesDefeated = true;
 }
 
 void EnemyManager::Draw()
@@ -127,13 +128,13 @@ void EnemyManager::Init()
 	Enemies.reserve(3);
 	FlockOfEnemies.reserve(3);
 
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(25)));
+	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
 	FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<Spacecraft>(30)));
-	//FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<ArchDemon>(25)));
-	//FlockOfEnemies.emplace_back(reinterpret_cast<Flock<Enemy>*>(new Flock<RocketShip>(40)));
 
+	Enemies.emplace_back(new Demon());
+	Enemies.emplace_back(new Alien());
 	Enemies.emplace_back(new Warship());
-	//Enemies.emplace_back(new Demon());
-	//Enemies.emplace_back(new Alien());
 
 	bIsEnemyDead = false;
 }
