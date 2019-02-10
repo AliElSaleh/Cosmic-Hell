@@ -449,7 +449,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet()
 				Bullet[j].Location = {Points[i].x - BulletRadius, Points[i].y - BulletRadius};
 			}
 
-			k += Bullet.size()/NumOfSpiral;
+			k += unsigned short(Bullet.size())/NumOfSpiral;
 		}
 	}
 	else
@@ -486,7 +486,7 @@ void BulletPatternGenerator::UpdateLinearMultiBullet(const bool Aiming)
 				Bullet[j].Location = Points[i];
 			}
 			
-			k += Bullet.size()/NumOfWay;
+			k += unsigned short(Bullet.size())/NumOfWay;
 		}
 	}
 	else
@@ -517,7 +517,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 						Bullet[k].Location = Points[j];
 					}
 					
-					l += Bullet.size()/NumOfSpiral/NumOfWay;
+					l += unsigned short(Bullet.size())/NumOfSpiral/NumOfWay;
 				}
 
 				h += NumOfWay;
@@ -537,7 +537,7 @@ void BulletPatternGenerator::UpdateSpiralMultiBullet(const bool MultiWay)
 					Bullet[k].Location = Points[j];
 				}
 				
-				l += Bullet.size()/NumOfWay;
+				l += unsigned short(Bullet.size())/NumOfWay;
 			}
 		}
 	}
@@ -569,7 +569,7 @@ void BulletPatternGenerator::UpdateSpreadBullet(const bool LockOn)
 				Bullet[j].Location = Points[i];
 			}
 			
-			k += Bullet.size()/NumOfWay;
+			k += unsigned short(Bullet.size())/NumOfWay;
 		}
 	}
 	else
@@ -620,7 +620,7 @@ void BulletPatternGenerator::UpdateRandomBullet(const bool Spiral)
 					Bullet[j].Location = {Points[i].x, Points[i].y};
 				}
 
-				k += Bullet.size()/NumOfSpiral;
+				k += unsigned short(Bullet.size())/NumOfSpiral;
 			}
 		}
 		else
@@ -915,7 +915,7 @@ void BulletPatternGenerator::UpdateSpiralPattern(const bool Left, const bool Rig
 		Points[1] = {Center.x + CircleRadius * cosf(Angles[1]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[1]*DEG2RAD)};
 		Angles[1] -= RotationSpeed * GetFrameTime();
 
-		for (int i = Bullet.size()/2; i < Bullet.size(); i++)
+		for (unsigned short i = unsigned short(Bullet.size())/2; i < unsigned short(Bullet.size()); i++)
 		{
 			if (!Bullet[i].bActive && ShootRate % 28 == 0)
 			{
@@ -996,7 +996,7 @@ void BulletPatternGenerator::UpdateSpiralMultiPattern(const bool Left, const boo
 			Points[i] = {Center.x + CircleRadius * cosf(Angles[i]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[i]*DEG2RAD)};
 			Angles[i] -= RotationSpeed * GetFrameTime();
 
-			for (int j = Bullet.size()/2; j < Bullet.size(); j++)
+			for (unsigned short j = unsigned short(Bullet.size())/2; j < unsigned short(Bullet.size()); j++)
 			{
 				if (!Bullet[j].bActive && ShootRate % 28 == 0)
 				{
@@ -1106,7 +1106,7 @@ void BulletPatternGenerator::UpdateSpiralMultiPattern(const bool MultiWay)
 				Angles[j] += RotationSpeed * GetFrameTime();
 				Points[j] = {Center.x + CircleRadius * cosf(Angles[j]*DEG2RAD), Center.y + CircleRadius * sinf(Angles[j]*DEG2RAD)};
 
-				h += Bullet.size()/NumOfSpiral/NumOfWay;
+				h += unsigned short(Bullet.size())/NumOfSpiral/NumOfWay;
 			}
 
 			l += NumOfWay;

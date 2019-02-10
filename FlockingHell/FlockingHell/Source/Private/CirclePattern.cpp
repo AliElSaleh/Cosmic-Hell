@@ -187,6 +187,6 @@ void CirclePattern::AddDebugSwitchPatternCode()
 
 void CirclePattern::DrawDebugInfo()
 {
-	DrawDebugPoints(Bullet.size());
-	RDrawText(FormatText("Ways: %0i", Bullet.size()), 10, 120, 18, WHITE);
+	DrawDebugPoints(unsigned short(Bullet.size()));
+	RDrawText(FormatText("Ways: %0i", unsigned short(Bullet.size())), 10, 120, 18, WHITE);
 }

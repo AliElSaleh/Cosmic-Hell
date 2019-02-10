@@ -80,17 +80,17 @@ void Credits::Draw()
 {	
 	for (auto It = List.begin(); It != List.end(); ++It)
 	{
-		RDrawTextEx(CreditsFont, GetCategory(It->first).c_str(), Vector2Add(Location, {Spacing.x + CategorySpacing, Spacing.y}), CreditsFont.baseSize, 0.0f, WHITE); // Category
+		RDrawTextEx(CreditsFont, GetCategory(It->first).c_str(), Vector2Add(Location, {Spacing.x + CategorySpacing, Spacing.y}), float(CreditsFont.baseSize), 0.0f, WHITE); // Category
 		Spacing.x += 50;
 		Spacing.y += 50;
-		RDrawTextEx(CreditsFont, It->first.c_str(), Vector2Add(Location, Spacing), CreditsFont.baseSize, 0.0f, WHITE); // Person's name
+		RDrawTextEx(CreditsFont, It->first.c_str(), Vector2Add(Location, Spacing), float(CreditsFont.baseSize), 0.0f, WHITE); // Person's name
 		Spacing.x = -20;
 		Spacing.y += 100;
 		CategorySpacing = 140; 
 	}
 
 	if (bShowMessage)
-		RDrawTextEx(CreditsFont, "Thank you for playing!", {float(GetScreenWidth())/2 - MeasureText("Thank you for playing!", 20), float(GetScreenHeight())/2 - 50}, CreditsFont.baseSize, 0.0f, Fade(WHITE, Alpha));
+		RDrawTextEx(CreditsFont, "Thank you for playing!", {float(GetScreenWidth())/2 - MeasureText("Thank you for playing!", 20), float(GetScreenHeight())/2 - 50}, float(CreditsFont.baseSize), 0.0f, Fade(WHITE, Alpha));
 
 	Spacing.x = 0.0f;
 	Spacing.y = 0.0f;
