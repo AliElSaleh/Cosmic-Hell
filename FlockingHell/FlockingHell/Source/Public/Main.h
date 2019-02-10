@@ -116,8 +116,6 @@ void UpdateWinScreen();
 void UpdateLeaderboardScreen();
 void UpdateStatsScreen();
 void UpdateCreditsScreen();
-void UpdateTestScene();
-void UpdateFlockingScene();
 
 void DrawSplashScreen();
 void DrawGame(); // Game Render loop
@@ -130,8 +128,6 @@ void DrawWinScreen();
 void DrawLeaderboardScreen();
 void DrawStatsScreen();
 void DrawCreditsScreen();
-void DrawTestScene();
-void DrawFlockingScene();
 
 // Load/Save system
 void LoadHighscore();
