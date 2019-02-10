@@ -2,10 +2,9 @@
 
 enum State
 {
-	TEST = 0,
-	FLOCKING_TEST,
 	SPLASH,
 	MENU,
+	OPTIONS,
 	GAME,
 	PAUSE,
 	DEATH,

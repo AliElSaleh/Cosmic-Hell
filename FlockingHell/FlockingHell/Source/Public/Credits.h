@@ -4,8 +4,6 @@
 #include <map>
 #include <vector>
 
-#include "State.h"
-
 enum class Category
 {
 	NONE, PROGRAMMING_ART, MUSIC
@@ -21,9 +19,9 @@ struct Credits
 	void Update();
 	void Draw();
 
-	State *GameState = nullptr;
 	Music Music{};
 
+	bool bFinished{false};
 private:
 	std::string GetCategory(const std::string& Name);
 
@@ -40,7 +38,6 @@ private:
 	std::map<std::string, Category> List; // A map of the persons name tied to their category
 
 	bool bFadeOut{false};
-	bool bFinished{false};
 	bool bShowMessage{false};
 
 	bool IsOutsideWindow() const;

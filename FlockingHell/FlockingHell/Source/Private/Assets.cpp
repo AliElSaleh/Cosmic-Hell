@@ -39,8 +39,14 @@ void Assets::LoadSprites()
 	Load("DeathState", "Sprites/DeathState.png");
 	Load("PauseState", "Sprites/PauseState.png");
 	Load("WinState", "Sprites/WinState.png");
-	Load("Leaderboard", "Sprites/Leaderboard.png");
+	Load("LeaderboardScreen", "Sprites/LeaderboardScreen.png");
 	Load("StatsScreen", "Sprites/StatsState.png");
+	Load("Selector", "Sprites/Selector.png");
+	Load("StartGame", "Sprites/StartGame.png");
+	Load("Leaderboard", "Sprites/Leaderboard.png");
+	Load("Stats", "Sprites/Stats.png");
+	Load("Credits", "Sprites/Credits.png");
+	Load("Quit", "Sprites/Quit.png");
 }
 
 void Assets::UnloadSprites()
@@ -71,8 +77,14 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("DeathState"));
 	UnloadTexture(GetSprite("PauseState"));
 	UnloadTexture(GetSprite("WinState"));
-	UnloadTexture(GetSprite("Leaderboard"));
+	UnloadTexture(GetSprite("LeaderboardScreen"));
 	UnloadTexture(GetSprite("StatsScreen"));
+	UnloadTexture(GetSprite("Selector"));
+	UnloadTexture(GetSprite("StartGame"));
+	UnloadTexture(GetSprite("Leaderboard"));
+	UnloadTexture(GetSprite("Stats"));
+	UnloadTexture(GetSprite("Credits"));
+	UnloadTexture(GetSprite("Quit"));
 }
 
 void Assets::LoadFonts()

@@ -70,7 +70,6 @@ void Credits::Update()
 			Alpha = 0.0f;
 			Volume = 0.0f;
 			bFinished = true;
-			*GameState = MENU;
 		}
 		
 		bShowMessage = true;

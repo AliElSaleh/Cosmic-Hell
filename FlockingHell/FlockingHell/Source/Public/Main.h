@@ -25,6 +25,7 @@ struct Credits Credits;
 Texture2D Background;
 Texture2D MenuTitle;
 Texture2D Panel;
+Texture2D Selector;
 
 // Splash screen
 RaylibLogo SplashLogo;
@@ -67,6 +68,13 @@ const unsigned short Frames = 4;
 // Menu Fading animation
 float FadeAlpha{0.0f};
 
+// Options menu variables
+Vector2 StartLocation{359.0f, 388.0f};
+Vector2 EndLocation{359.0f, 628.0f};
+Vector2 SelectorLocation{};
+signed short Index{0};
+unsigned short JumpAmount{60};
+
 // Music fading in game
 float MusicFade{0.0f};
 bool bMusicFaded{false};
@@ -81,6 +89,7 @@ char Buffer[4096];
 unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
 
 // bools
+bool bEntered{false}; // To connect immediately upon entering the leaderboard game state
 bool bConnected{false};
 bool bBegan{false};
 bool bDebug;
@@ -99,6 +108,7 @@ void Draw(); // Render graphics depending on the current game state
 
 void UpdateSplashScreen();
 void UpdateMenuScreen();
+void UpdateOptionsScreen();
 void UpdateGame(); // Game Update loop
 void UpdatePauseScreen();
 void UpdateDeathScreen();
@@ -113,6 +123,7 @@ void DrawSplashScreen();
 void DrawGame(); // Game Render loop
 void DrawGameUI();
 void DrawMenuScreen();
+void DrawOptionsScreen();
 void DrawPauseScreen();
 void DrawDeathScreen();
 void DrawWinScreen();
