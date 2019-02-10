@@ -37,7 +37,7 @@ void Warship::Init()
 
 	MaxVelocity = 1.5f;
 	MaxForce = 0.5f;
-	Mass = 100.0f; // 30Kg
+	Mass = 100.0f; // 100Kg
 	TargetRadius = 20.0f;
 
 	Speed = 100.0f;
@@ -58,12 +58,40 @@ void Warship::Init()
 	for (int i = 0; i < 4; i++)
 		InitBullet(LinearBullet[i], SpawnLocation[i], i * 0.1f, BulletPatternGenerator::LINEAR_LOCK_ON);
 
-	// WAVE 2
 	InitBullet(SpiralMultiWayBullet[0], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_THREE_WAY);
 	InitBullet(SpiralMultiWayBullet[1], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_FIVE_WAY);
 	InitBullet(SpiralMultiWayBullet[2], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_MULTI_SEVEN_WAY);
 
-	BulletWave = FIRST;
+	// WAVE 2
+	for (int i = 0; i < 4; i++)
+		InitBullet(LinearAimingBullet[i], SpawnLocation[i], i * 0.1f, BulletPatternGenerator::LINEAR_LOCK_ON);
+	InitBullet(LinearAimingBullet[4], CanonSpawnLocation, 0.0f, BulletPatternGenerator::LINEAR_AIMING);
+
+	// 2A
+	for (int i = 0; i < 5; i++)
+		InitBullet(CircleBullet[i], CanonSpawnLocation, i * 0.1f, BulletPatternGenerator::CIRCLE);
+
+	// 2B
+	InitBullet(SpiralOneWayBullet[0], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_FOUR_WAY);
+
+	// 2C
+	InitBullet(SpiralOneWayBullet[1], CanonSpawnLocation, 0.0f, BulletPatternGenerator::SPIRAL_EIGHT_WAY);
+
+	// WAVE 3
+	InitBullet(SpiralMultiBullet[0], SpawnLocation[0], 0.0f, BulletPatternGenerator::SPIRAL_MULTI_RIGHT);
+	InitBullet(SpiralMultiBullet[1], SpawnLocation[1], 0.0f, BulletPatternGenerator::SPIRAL_MULTI_LEFT);
+	InitBullet(SpiralMultiBullet[2], SpawnLocation[2], 0.0f, BulletPatternGenerator::SPIRAL_MULTI_RIGHT);
+	InitBullet(SpiralMultiBullet[3], SpawnLocation[3], 0.0f, BulletPatternGenerator::SPIRAL_MULTI_LEFT);
+
+	// 3A
+	for (int i = 0; i < 4; i++)
+		InitBullet(LinearMultiBullet[i], SpawnLocation[i], 0.0f, BulletPatternGenerator::SIX_WAY_LINEAR);
+
+	// 3B
+	for (int i = 5; i < 9; i++)
+		InitBullet(LinearAimingBullet[i], SpawnLocation[i-5], i * 0.1f, BulletPatternGenerator::LINEAR_AIMING);
+
+	BulletWave = THIRD_B;
 
 	FinalBullets = {};
 
@@ -135,6 +163,8 @@ void Warship::Draw()
 		for (int i = 0; i < 4; i++)
 			DrawCircle(int(SpawnLocation[i].x), int(SpawnLocation[i].y), 3.0f, YELLOW); // The 4 small canons on warship
 	}
+		
+	RDrawText(FormatText("Health: %i", Health), 10, 750, 20, WHITE);
 
 	DrawBullet();
 }
@@ -162,19 +192,32 @@ void Warship::UpdateBullet()
 {
 	// WAVE 1
 	for (unsigned short i = 0; i < 4; i++)
-	{
-		LinearBullet[i].Location = SpawnLocation[i];
-		LinearBullet[i].TargetLocation = Player->Center;
-		LinearBullet[i].UpdateAnimation();
-	}
+		UpdateBulletComponents(LinearBullet[i], SpawnLocation[i], Player->Center);
+
+	for (unsigned short i = 0; i < 3; i++)
+		UpdateBulletComponents(SpiralMultiWayBullet[i], CanonSpawnLocation, Player->Center);
 
 	// WAVE 2
-	for (unsigned short i = 0; i < 3; i++)
-	{
-		SpiralMultiWayBullet[i].Location = CanonSpawnLocation;
-		SpiralMultiWayBullet[i].TargetLocation = Player->Center;
-		SpiralMultiWayBullet[i].UpdateAnimation();
-	}
+	for (unsigned short i = 0; i < 4; i++)
+		UpdateBulletComponents(LinearAimingBullet[i], SpawnLocation[i], Player->Center);
+
+	UpdateBulletComponents(LinearAimingBullet[4], CanonSpawnLocation, Player->Center);
+
+	for (unsigned short i = 0; i < 5; i++)
+		UpdateBulletComponents(CircleBullet[i], CanonSpawnLocation, Player->Center);
+
+	for (unsigned short i = 0; i < 2; i++)
+		UpdateBulletComponents(SpiralOneWayBullet[i], CanonSpawnLocation, Player->Center);
+
+	// WAVE 3
+	for (unsigned short i = 0; i < 4; i++)
+		UpdateBulletComponents(SpiralMultiBullet[i], SpawnLocation[i], Player->Center);
+
+	for (unsigned short i = 0; i < 4; i++)
+		UpdateBulletComponents(LinearMultiBullet[i], SpawnLocation[i], Player->Center);
+
+	for (unsigned short i = 5; i < 9; i++)
+		UpdateBulletComponents(LinearAimingBullet[i], SpawnLocation[i-5], Player->Center);
 
 	switch (BulletWave)
 	{
@@ -240,9 +283,120 @@ void Warship::UpdateBullet()
 	case SECOND:
 		if (IsAtLocation(Destination))
 		{
-			SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
+			StopMoving();
+
+			for (int i = 0; i < 5; i++)
+				LinearAimingBullet[i].bRelease = true;
 		}
 
+		for (int i = 0; i < 5; i++)
+			LinearAimingBullet[i].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(LinearAimingBullet[4])))
+			BulletWave = SECOND_A;
+
+		break;
+
+	case SECOND_A:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			for (int i = 0; i < 5; i++)
+				CircleBullet[i].bRelease = true;
+		}
+
+		for (int i = 0; i < 5; i++)
+			CircleBullet[i].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(CircleBullet[4])))
+			BulletWave = SECOND_B;
+
+		break;
+
+	case SECOND_B:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			SpiralOneWayBullet[0].bRelease = true;
+		}
+
+		SpiralOneWayBullet[0].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(SpiralOneWayBullet[0])))
+			BulletWave = SECOND_C;
+		break;
+
+	case SECOND_C:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			SpiralOneWayBullet[1].bRelease = true;
+		}
+
+		SpiralOneWayBullet[1].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(SpiralOneWayBullet[1])))
+			BulletWave = THIRD;
+		break;
+
+	case THIRD:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			for (unsigned short i = 0; i < 4; i++)
+				SpiralMultiBullet[i].bRelease = true;
+		}
+
+		for (unsigned short i = 0; i < 4; i++)
+			SpiralMultiBullet[i].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(SpiralMultiBullet[3])))
+			BulletWave = THIRD_A;
+		break;
+
+	case THIRD_A:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			for (unsigned short i = 0; i < 4; i++)
+				LinearMultiBullet[i].bRelease = true;
+		}
+
+		for (unsigned short i = 0; i < 4; i++)
+			LinearMultiBullet[i].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(LinearMultiBullet[3])))
+			BulletWave = THIRD_B;
+
+		break;
+
+	case THIRD_B:
+		if (IsAtLocation(Destination))
+		{
+			StopMoving();
+
+			for (unsigned short i = 5; i < 9; i++)
+				LinearAimingBullet[i].bRelease = true;
+		}
+
+		for (unsigned short i = 5; i < 9; i++)
+			LinearAimingBullet[i].Update();
+
+		if (IsBulletSequenceComplete(dynamic_cast<const BulletPatternGenerator&>(LinearAimingBullet[8])))
+		{
+			if (!IsLowHealth())
+			{
+				Init();
+				BulletWave = FIRST;
+			}
+			else
+				BulletWave = RAGE;
+		}
 		break;
 
 	case RAGE:
@@ -275,6 +429,36 @@ void Warship::DrawBullet()
 		break;
 
 	case SECOND:
+		for (int i = 0; i < 5; i++)
+			LinearAimingBullet[i].Draw();
+		break;
+
+	case SECOND_A:
+		for (int i = 0; i < 5; i++)
+			CircleBullet[i].Draw();
+		break;
+
+	case SECOND_B:
+		SpiralOneWayBullet[0].Draw();
+		break;
+
+	case SECOND_C:
+		SpiralOneWayBullet[1].Draw();
+		break;
+
+	case THIRD:
+		for (unsigned short i = 0; i < 4; i++)
+			SpiralMultiBullet[i].Draw();
+		break;
+
+	case THIRD_A:
+		for (unsigned short i = 0; i < 4; i++)
+			LinearMultiBullet[i].Draw();
+		break;
+
+	case THIRD_B:
+		for (unsigned short i = 5; i < 9; i++)
+			LinearAimingBullet[i].Draw();
 		break;
 
 	case RAGE:
@@ -283,6 +467,13 @@ void Warship::DrawBullet()
 	default:
 		break;
 	}
+}
+
+void Warship::UpdateBulletComponents(BulletPatternGenerator& BulletPattern, const Vector2 & Location, const Vector2 & TargetLocation) const
+{
+	BulletPattern.Location = Location;
+	BulletPattern.TargetLocation = TargetLocation;
+	BulletPattern.UpdateAnimation();
 }
 
 void Warship::CheckCollisionWithPlayerBullets()

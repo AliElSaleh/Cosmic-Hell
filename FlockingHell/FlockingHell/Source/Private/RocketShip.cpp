@@ -58,7 +58,6 @@ void RocketShip::Init()
 	Explosions = 2;
 
 	// Initialise bullets
-	LinearBullet.Bullet.clear();
 	LinearBullet.SetBulletPattern(BulletPatternGenerator::LINEAR_LOCK_ON);
 	LinearBullet.SetDelayAmount(0.0f);
 	LinearBullet.Enemy = this;

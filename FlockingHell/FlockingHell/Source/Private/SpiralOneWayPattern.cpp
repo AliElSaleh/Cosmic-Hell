@@ -51,7 +51,7 @@ void SpiralOneWayPattern::Init()
 		break;
 
 		case SPIRAL_EIGHT_WAY:
-			CreateSpiralMultiPattern(false, unsigned short(800), 1, 8, 250.0f, 300.0f, 1.0f);
+			CreateSpiralMultiPattern(false, unsigned short(800), 1, 8, 300.0f, 300.0f, 1.0f);
 		break;
 
 		default:
