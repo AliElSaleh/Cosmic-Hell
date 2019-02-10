@@ -2,14 +2,14 @@
 #include "Warship.h"
 #include "Player.h"
 #include "Assets.h"
-
+#include <algorithm>
 #define ASSETS Assets::Get()
 #define GetAsset(Name) ASSETS.GetSprite(#Name)
 
 Warship::Warship()
 {
 	Location = {400, -400};
-	Health = 30000;
+	Health = 2000;
 	LowHealthThreshold = 1000;
 	Frames = 6;
 	Explosions = 6;
@@ -43,6 +43,9 @@ void Warship::Init()
 	Speed = 100.0f;
 	Damage = GetRandomValue(20, 30);
 	ShootRate = 5;
+
+	for (int i = 0; i < 20; i++)
+		DeathExplosion[i].Init();
 
 	Frames = 6;
 	FrameRec.x = 0.0f;
@@ -89,11 +92,15 @@ void Warship::Init()
 
 	// 3B
 	for (int i = 5; i < 9; i++)
-		InitBullet(LinearAimingBullet[i], SpawnLocation[i-5], i * 0.1f, BulletPatternGenerator::LINEAR_AIMING);
+		InitBullet(LinearAimingBullet[i], SpawnLocation[i-5], 0.0f, BulletPatternGenerator::LINEAR_AIMING);
 
-	BulletWave = THIRD_B;
+	// RAGE
+	for (int i = 0; i < 4; i++)
+		InitBullet(RageBullet[i], SpawnLocation[i], 0.0f, BulletPatternGenerator::RANDOM_SPIRAL_MULTI);
 
-	FinalBullets = {};
+	BulletWave = FIRST;
+
+	FinalBullets = &RageBullet[3].Bullet;
 
 	SetDestLocation({float(GetRandomValue(0, GetScreenWidth()-PANEL_WIDTH - Sprite.width/Frames)), float(GetRandomValue(0, 100))});
 }
@@ -135,7 +142,13 @@ void Warship::Update()
 
 	if (bIsDead)
 	{
+		const auto Predicate = [](const Bullet &b) { return !b.bActive; };
+
+		for (int i = 0; i < 4; i++)
+			RageBullet[i].Bullet.erase(std::remove_if(RageBullet[i].Bullet.begin(), RageBullet[i].Bullet.end(), Predicate), RageBullet[i].Bullet.end());
 		
+		for (int i = 0; i < 20; i++)
+			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 	}
 
 	UpdateBullet();
@@ -163,7 +176,11 @@ void Warship::Draw()
 		for (int i = 0; i < 4; i++)
 			DrawCircle(int(SpawnLocation[i].x), int(SpawnLocation[i].y), 3.0f, YELLOW); // The 4 small canons on warship
 	}
-		
+	
+	if (bIsDead)
+		for (int i = 0; i < 20; i++)
+			DeathExplosion[i].Draw();
+
 	RDrawText(FormatText("Health: %i", Health), 10, 750, 20, WHITE);
 
 	DrawBullet();
@@ -218,6 +235,10 @@ void Warship::UpdateBullet()
 
 	for (unsigned short i = 5; i < 9; i++)
 		UpdateBulletComponents(LinearAimingBullet[i], SpawnLocation[i-5], Player->Center);
+
+	// RAGE
+	for (unsigned short i = 0; i < 4; i++)
+		UpdateBulletComponents(RageBullet[i], SpawnLocation[i], Player->Center);
 
 	switch (BulletWave)
 	{
@@ -400,6 +421,35 @@ void Warship::UpdateBullet()
 		break;
 
 	case RAGE:
+		StopMoving();
+
+		for (int i = 0; i < 4; i++)
+		{
+			RageBullet[i].Center = SpawnLocation[i];
+			RageBullet[i].bRelease = true;
+			RageBullet[i].Update();
+		}
+		
+		if (IsBulletSequenceComplete(dynamic_cast<BulletPatternGenerator&>(RageBullet[3])))
+			if (!bIsDead)
+			{
+				BulletWave = RAGE;
+
+				for (int i = 0; i < 4; i++)
+				{
+					RageBullet[i].Init();
+
+					for (unsigned short j = 0; j < RageBullet[i].Bullet.size(); j++)
+					{
+						RageBullet[i].Bullet[j].Player = Player;
+						RageBullet[i].Bullet[j].Frames = 1;
+						RageBullet[i].Bullet[j].Sprite = GetAsset(RedBullet);
+						
+						RageBullet[i].Bullet[j].InitFrames();
+					}
+				}
+			}
+
 		break;
 
 	default:
@@ -462,6 +512,8 @@ void Warship::DrawBullet()
 		break;
 
 	case RAGE:
+		for (int i = 0; i < 4; i++)
+			RageBullet[i].Draw();
 		break;
 
 	default:

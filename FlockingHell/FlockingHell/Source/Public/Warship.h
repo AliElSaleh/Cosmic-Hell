@@ -6,6 +6,7 @@
 #include "SpiralOneWayPattern.h"
 #include "SpiralMultiPattern.h"
 #include "LinearMultiPattern.h"
+#include "RandomPattern.h"
 
 struct Warship final : Enemy
 {
@@ -36,6 +37,7 @@ private:
 	struct SpiralOneWayPattern SpiralOneWayBullet[2];
 	struct SpiralMultiPattern SpiralMultiBullet[4];
 	struct LinearMultiPattern LinearMultiBullet[4];
+	struct RandomPattern RageBullet[4];
 
 	Vector2 SpawnLocation[4]{};
 	Vector2 CanonSpawnLocation{};
