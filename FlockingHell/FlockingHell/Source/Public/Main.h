@@ -89,7 +89,7 @@ char Buffer[4096];
 unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
 
 // bools
-bool bSoundPlayed{false};
+bool bSoundPlayed[5]{false};
 bool bEntered{false}; // To connect immediately upon entering the leaderboard game state
 bool bConnected{false};
 bool bBegan{false};
