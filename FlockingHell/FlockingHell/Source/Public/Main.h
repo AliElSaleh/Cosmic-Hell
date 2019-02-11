@@ -20,6 +20,7 @@ struct Star SmallStars[MAX_SMALL_STARS];
 struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
 struct Credits Credits;
+struct Stats LifetimeStats;
 
 // UI
 Texture2D Background;
@@ -29,6 +30,9 @@ Texture2D Selector;
 
 // Splash screen
 RaylibLogo SplashLogo;
+
+// Fonts
+Font PixelFont;
 
 // Planets
 Planet BigPlanet[5];
@@ -55,8 +59,10 @@ unsigned short ScorePosition = 46;
 unsigned short GrazingScorePosition = 90;
 
 unsigned int Highscore = 0;
+unsigned int HighGrazingScore = 0;
 unsigned int TotalScore = 0;
 unsigned int ScoreCounter = 0;
+unsigned short GamesPlayed = 0;
 
 // Menu title animation variables
 Vector2 TitleLocation{287.0f, 206.0f};
@@ -112,6 +118,7 @@ void UpdateMenuScreen();
 void UpdateOptionsScreen();
 void UpdateGame(); // Game Update loop
 void UpdatePauseScreen();
+void UpdateStats();
 void UpdateDeathScreen();
 void UpdateWinScreen();
 void UpdateLeaderboardScreen();

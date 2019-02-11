@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include "Bullet.h"
+#include "Stats.h"
 
 #define MAX_PLAYER_BULLETS 100
 
@@ -33,9 +34,14 @@ struct Player
 
 	State* GameState = nullptr;
 
+	struct Stats Stats{};
+
 	signed short Health{};
 	signed short BombsLeft = 0;
 	signed int Score = 0;
+	unsigned short Deaths = 0;
+	unsigned short Hits = 0;
+	unsigned short BombsUsed = 0;
 	unsigned short XOffset{}; // Offset sprite location by X amount of pixels from mouse position
 	unsigned short YOffset{}; // Offset sprite location by Y amount of pixels from mouse position
 	unsigned short BulletXOffset = 5;
@@ -72,5 +78,6 @@ private:
 	unsigned short FramesCounter{};
 	unsigned short PlayerHitFramesCounter{};
 
+	bool bWasHit{false};
 	bool bDebug{};
 };

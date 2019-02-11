@@ -69,6 +69,7 @@ void Player::Init()
 	BombRegenTimer = 0;
 	BombCooldownTimer = 0;
 
+	bWasHit = false;
 	bWasBombUsed = false;
 	bCanUseBomb = true;
 	bChangeMusic = false;
@@ -117,6 +118,7 @@ void Player::Update()
 		{
 			if (IsKeyPressed(KEY_B))
 			{
+				BombsUsed++;
 				bWasBombUsed = true;
 				bCanUseBomb = false;
 				

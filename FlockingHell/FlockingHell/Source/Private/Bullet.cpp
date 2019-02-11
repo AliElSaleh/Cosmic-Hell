@@ -75,6 +75,7 @@ void Bullet::CheckCollisionWithPlayerHitbox()
 					Player->Heart.pop_back();
 
 				Player->bIsHit = true;
+				Player->Hits++;
 				bIsHit = true;
 			}
 		}

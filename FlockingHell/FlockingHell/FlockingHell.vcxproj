@@ -130,6 +130,7 @@
     <ClCompile Include="Source\Private\Warship.cpp" />
     <ClCompile Include="Source\Private\SpreadPattern.cpp" />
     <ClCompile Include="Source\Private\Spacecraft.cpp" />
+    <ClCompile Include="Source\Private\Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Credits.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Source\Public\Warship.h" />
     <ClInclude Include="Source\Public\SpreadPattern.h" />
     <ClInclude Include="Source\Public\Spacecraft.h" />
+    <ClInclude Include="Source\Public\Stats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
