@@ -7,7 +7,9 @@ struct Stats
 	void Save();
 	void Load();
 
-	void Update(const Stats& PlayerStats);
+	void UpdateTimePlayed();
+
+	void Clear();
 
 	unsigned int LifetimeKills{};
 	unsigned int LifetimeDeaths{};
@@ -21,9 +23,13 @@ struct Stats
 	unsigned int Highscore{};
 	unsigned int HighGrazingScore{};
 
-	unsigned int TotalTimePlayed{};
+	unsigned int TotalTimePlayedHrs{};
+	unsigned int TotalTimePlayedMin{};
+	unsigned int TotalTimePlayedSec{};
 	unsigned int TotalGamesPlayed{};
 	unsigned int TotalFlawlessRuns{};
+
+	unsigned int FramesCounter{};
 
 	bool bUpdated{false};
 };

@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <raylib.h>
 
 Stats::Stats() = default;
 
@@ -28,7 +29,9 @@ void Stats::Save()
 	SaveStats.write(reinterpret_cast<char*>(&FlyingEnemiesKilled), sizeof(FlyingEnemiesKilled));
 	SaveStats.write(reinterpret_cast<char*>(&BossEnemiesKilled), sizeof(BossEnemiesKilled));
 	SaveStats.write(reinterpret_cast<char*>(&TotalEnemiesKilled), sizeof(TotalEnemiesKilled));
-	SaveStats.write(reinterpret_cast<char*>(&TotalTimePlayed), sizeof(TotalTimePlayed));
+	SaveStats.write(reinterpret_cast<char*>(&TotalTimePlayedHrs), sizeof(TotalTimePlayedHrs));
+	SaveStats.write(reinterpret_cast<char*>(&TotalTimePlayedMin), sizeof(TotalTimePlayedMin));
+	SaveStats.write(reinterpret_cast<char*>(&TotalTimePlayedSec), sizeof(TotalTimePlayedSec));
 	SaveStats.write(reinterpret_cast<char*>(&TotalGamesPlayed), sizeof(TotalGamesPlayed));
 	SaveStats.write(reinterpret_cast<char*>(&TotalFlawlessRuns), sizeof(TotalFlawlessRuns));
 	SaveStats.close();
@@ -66,7 +69,9 @@ void Stats::Load()
 		LoadStats.read(reinterpret_cast<char*>(&FlyingEnemiesKilled), sizeof(FlyingEnemiesKilled));
 		LoadStats.read(reinterpret_cast<char*>(&BossEnemiesKilled), sizeof(BossEnemiesKilled));
 		LoadStats.read(reinterpret_cast<char*>(&TotalEnemiesKilled), sizeof(TotalEnemiesKilled));
-		LoadStats.read(reinterpret_cast<char*>(&TotalTimePlayed), sizeof(TotalTimePlayed));
+		LoadStats.read(reinterpret_cast<char*>(&TotalTimePlayedHrs), sizeof(TotalTimePlayedHrs));
+		LoadStats.read(reinterpret_cast<char*>(&TotalTimePlayedMin), sizeof(TotalTimePlayedMin));
+		LoadStats.read(reinterpret_cast<char*>(&TotalTimePlayedSec), sizeof(TotalTimePlayedSec));
 		LoadStats.read(reinterpret_cast<char*>(&TotalGamesPlayed), sizeof(TotalGamesPlayed));
 		LoadStats.read(reinterpret_cast<char*>(&TotalFlawlessRuns), sizeof(TotalFlawlessRuns));
 	}
@@ -74,24 +79,48 @@ void Stats::Load()
 	LoadStats.close();
 }
 
-void Stats::Update(const Stats & PlayerStats)
+void Stats::UpdateTimePlayed()
 {
-	Highscore = PlayerStats.Highscore;
-	HighGrazingScore = PlayerStats.HighGrazingScore;
+	FramesCounter++;
 
-	LifetimeKills = PlayerStats.LifetimeKills;
-	LifetimeDeaths = PlayerStats.LifetimeDeaths;
-	LifetimeHits = PlayerStats.LifetimeHits;
-	LifetimeBombsUsed = PlayerStats.LifetimeBombsUsed;
+	if (FramesCounter/GetFPS()%2)
+	{
+		FramesCounter = 0;
+		TotalTimePlayedSec++;
+	}
 
-	FlyingEnemiesKilled = PlayerStats.FlyingEnemiesKilled;
-	BossEnemiesKilled  = PlayerStats.BossEnemiesKilled;
-	TotalEnemiesKilled = PlayerStats.TotalEnemiesKilled;
+	if (TotalTimePlayedSec > 59)
+	{
+		TotalTimePlayedSec = 0;
+		FramesCounter = 0;
+		TotalTimePlayedMin++;
+	}
 
-	TotalTimePlayed = PlayerStats.TotalTimePlayed;
-	TotalGamesPlayed = PlayerStats.TotalGamesPlayed;
-	TotalFlawlessRuns = PlayerStats.TotalFlawlessRuns;
+	if (TotalTimePlayedMin > 59)
+	{
+		TotalTimePlayedMin = 0;
+		TotalTimePlayedHrs++;
+	}
+}
 
-	bUpdated = true;
+void Stats::Clear()
+{
+	LifetimeKills = 0;
+	LifetimeDeaths = 0;
+	LifetimeHits = 0;
+	LifetimeBombsUsed = 0;
+
+	FlyingEnemiesKilled = 0;
+	BossEnemiesKilled = 0;
+	TotalEnemiesKilled = 0;
+
+	Highscore = 0;
+	HighGrazingScore = 0;
+
+	TotalTimePlayedHrs = 0;
+	TotalTimePlayedMin = 0;
+	TotalTimePlayedSec = 0;
+	TotalGamesPlayed = 0;
+	TotalFlawlessRuns = 0;
 }
 

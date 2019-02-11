@@ -36,6 +36,9 @@ void Player::Init()
 	Score = 0;
 	GrazingScore = 0;
 	ShootRate = 0;
+	Deaths = 0;
+	Hits = 0;
+	BombsUsed = 0;
 
 	FramesCounter = 0;
 	PlayerSpriteFramesCounter = 0;
@@ -435,6 +438,7 @@ void Player::CheckHealth()
 		Heart.clear();
 		Bomb.clear();
 		bIsDead = true;
+		Deaths++;
 		
 		*GameState = DEATH;
 	}
