@@ -8,6 +8,7 @@
 #include "RaylibLogo.h"
 #include "Planet.h"
 #include "Credits.h"
+#include "Leaderboard.h"
 
 #include <WS2tcpip.h> // Sending and recieving data from server
 
@@ -21,6 +22,7 @@ struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
 struct Credits Credits;
 struct Stats LifetimeStats;
+struct Leaderboard Leaderboard;
 
 // UI
 Texture2D Background;
@@ -91,11 +93,22 @@ WSADATA Data;
 WORD Version;
 SOCKET Socket{};
 sockaddr_in Hint{};
-std::string DataToSend;
-char Buffer[4096];
+std::string HighscoreString;
+std::string GrazingScoreString;
+std::string DeathsString;
+std::string BombsUsedString;
+std::string FlawlessRunsString;
+const char* Buffer[1000000];
+char ReceiveBuffer[1000000];
+std::string Stats[6];
+unsigned short ServerSendDelay{50};
+unsigned short StatsIndex{0};
 unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
+unsigned short ServerFramesCounter{};
 
 // bools
+bool bDataSent{false};
+bool bDataReceived{false};
 bool bSoundPlayed[5]{false};
 bool bEntered{false}; // To connect immediately upon entering the leaderboard game state
 bool bConnected{false};

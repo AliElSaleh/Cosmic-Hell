@@ -39,6 +39,7 @@ void Player::Init()
 	Deaths = 0;
 	Hits = 0;
 	BombsUsed = 0;
+	Name = "Kratos";
 
 	FramesCounter = 0;
 	PlayerSpriteFramesCounter = 0;
