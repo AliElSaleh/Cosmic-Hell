@@ -22,6 +22,7 @@ struct Star CloseStars[MAX_CLOSE_STARS];
 struct EnemyManager EnemyManager;
 struct Credits Credits;
 struct Stats LifetimeStats;
+struct Stats DummyStats[10];
 struct Leaderboard Leaderboard;
 
 // UI

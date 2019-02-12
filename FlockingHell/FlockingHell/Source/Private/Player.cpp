@@ -39,7 +39,7 @@ void Player::Init()
 	Deaths = 0;
 	Hits = 0;
 	BombsUsed = 0;
-	Name = "Kratos";
+	Name = "Kratos"; // 8 characters maximum for leaderboard
 
 	FramesCounter = 0;
 	PlayerSpriteFramesCounter = 0;

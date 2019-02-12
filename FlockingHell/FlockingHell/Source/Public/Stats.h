@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 struct Stats
 {
@@ -10,6 +11,8 @@ struct Stats
 	void UpdateTimePlayed();
 
 	void Clear();
+
+	std::string Name{};
 
 	unsigned int LifetimeKills{};
 	unsigned int LifetimeDeaths{};

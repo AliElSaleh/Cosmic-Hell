@@ -20,6 +20,7 @@ void Stats::Save()
 		exit(EXIT_FAILURE);
 	}
 
+	SaveStats.write(reinterpret_cast<char*>(&Name), Name.size());
 	SaveStats.write(reinterpret_cast<char*>(&Highscore), sizeof(Highscore));
 	SaveStats.write(reinterpret_cast<char*>(&HighGrazingScore), sizeof(HighGrazingScore));
 	SaveStats.write(reinterpret_cast<char*>(&LifetimeKills), sizeof(LifetimeKills));
@@ -60,6 +61,7 @@ void Stats::Load()
 
 	while (LoadStats.tellg() < Size)
 	{
+		LoadStats.read(reinterpret_cast<char*>(&Name), Name.size());
 		LoadStats.read(reinterpret_cast<char*>(&Highscore), sizeof(Highscore));
 		LoadStats.read(reinterpret_cast<char*>(&HighGrazingScore), sizeof(HighGrazingScore));
 		LoadStats.read(reinterpret_cast<char*>(&LifetimeKills), sizeof(LifetimeKills));
@@ -105,6 +107,8 @@ void Stats::UpdateTimePlayed()
 
 void Stats::Clear()
 {
+	Name = "";
+
 	LifetimeKills = 0;
 	LifetimeDeaths = 0;
 	LifetimeHits = 0;
