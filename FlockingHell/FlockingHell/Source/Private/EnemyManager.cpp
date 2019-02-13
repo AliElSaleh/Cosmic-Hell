@@ -121,6 +121,7 @@ void EnemyManager::Reset()
 {
 	Enemies.clear();
 	FlockOfEnemies.clear();
+	bAllEnemiesDefeated = false;
 }
 
 void EnemyManager::Init()
