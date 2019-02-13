@@ -48,6 +48,7 @@ void SpiralMultiPattern::Init()
 		case SPIRAL_MIX:
 			SpiralPattern.SetBulletPattern(SPIRAL_MULTI_FOUR_WAY);
 			SpiralPattern.Init();
+			SpiralPattern.Enemy = Enemy;
 
 			CreateSpiralMultiPattern(true, 800, 4, 200.0f, 100.0f, 1.0f);
 		break;
