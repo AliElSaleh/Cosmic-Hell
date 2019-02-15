@@ -177,13 +177,13 @@ void Warship::Draw()
 
 		for (int i = 0; i < 4; i++)
 			DrawCircle(int(SpawnLocation[i].x), int(SpawnLocation[i].y), 3.0f, YELLOW); // The 4 small canons on warship
+		
+		RDrawText(FormatText("Health: %i", Health), 10, 750, 20, WHITE);
 	}
 	
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)
 			DeathExplosion[i].Draw();
-
-	RDrawText(FormatText("Health: %i", Health), 10, 750, 20, WHITE);
 
 	DrawBullet();
 }

@@ -12,7 +12,7 @@
 Demon::Demon()
 {
 	Location = {300.0f, -300.0f};
-	Health = 2500;
+	Health = 2000;
 	LowHealthThreshold = 400;
 	Explosions = 3;
 }

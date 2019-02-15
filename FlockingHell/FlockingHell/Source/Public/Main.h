@@ -23,7 +23,7 @@ struct EnemyManager EnemyManager;
 struct Credits Credits;
 struct Stats LifetimeStats;
 struct Stats DummyStats[10];
-struct Leaderboard Leaderboard;
+//struct Leaderboard Leaderboard;
 
 // UI
 Texture2D Background;
@@ -121,9 +121,8 @@ bool bDebug;
 //-----------------------------------------
 void Init(); // Initialise application
 void InitGame(); // Create instances of objects and initialise their member variables
-void SetGameState(State state); // Sets the next frame's current game state to the specified state
+void SetGameState(State State); // Sets the next frame's current game state to the specified state
 bool ConnectToServer();
-void SendData();
 
 void Update(); // Update logic depending on the current game state
 void Draw(); // Render graphics depending on the current game state

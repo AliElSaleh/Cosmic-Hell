@@ -14,7 +14,7 @@ Alien::Alien()
 
 	Location = {300.0f, -300.0f};
 
-	Health = 7000;
+	Health = 5000;
 	LowHealthThreshold = 500;
 	Explosions = 3;
 
