@@ -19,6 +19,11 @@ struct Assets
 		return Sprites[Name];
 	}
 
+	Image GetImage(const std::string& Name)
+	{
+		return Images[Name];
+	}
+
 	Font GetFont(const std::string& Name)
 	{
 		return Fonts[Name];
@@ -36,6 +41,8 @@ struct Assets
 
 	void LoadSprites();
 	void UnloadSprites();
+
+	void LoadImages();
 	
 	void LoadFonts();
 	void UnloadFonts();
@@ -54,5 +61,6 @@ private:
 	std::map<std::string, Font> Fonts;
 	std::map<std::string, Sound> Sounds;
 	std::map<std::string, Music> PiecesOfMusic;
+	std::map<std::string, Image> Images;
 };
 

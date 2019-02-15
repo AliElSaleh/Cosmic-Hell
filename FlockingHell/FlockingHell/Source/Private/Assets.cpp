@@ -87,6 +87,17 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Quit"));
 }
 
+void Assets::LoadImages()
+{
+	const auto Load = [&](const std::string Name, const char* FileName)
+	{
+		const Image Image = LoadImage(FileName);
+		Images[Name] = Image;
+	};
+
+	Load("Icon", "Images/Cosmic-Hell_Logo.png");
+}
+
 void Assets::LoadFonts()
 {
 	const auto Load = [&](const std::string Name, const char* FileName)

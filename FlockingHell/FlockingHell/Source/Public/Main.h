@@ -24,6 +24,7 @@ struct Credits Credits;
 struct Stats LifetimeStats;
 struct Stats DummyStats[10];
 //struct Leaderboard Leaderboard;
+struct Image Icon;
 
 // UI
 Texture2D Background;
