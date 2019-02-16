@@ -29,7 +29,7 @@ void Bullet::Update()
 	CheckCollisionWithPlayer();
 	CheckCollisionWithPlayerHitbox();
 
-	if (Speed <= 0.0f && bActive)
+	if (Speed <= 0.0f)
 		bActive = false;
 }
 

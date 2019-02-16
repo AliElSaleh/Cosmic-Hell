@@ -122,17 +122,20 @@ void Player::Update()
 		{
 			if (IsKeyPressed(KEY_B))
 			{
-				BombsUsed++;
-				bWasBombUsed = true;
-				bCanUseBomb = false;
-				
-				if (BombsLeft < 0)
-					BombsLeft = -1;
+				if (BombsLeft < 1)
+					BombsLeft = 0;
 				else
-					BombsLeft--;
+				{
+					BombsUsed++;
+					
+					bWasBombUsed = true;
+					bCanUseBomb = false;
 
-				if (!Bomb.empty())
-					Bomb.pop_back();
+					BombsLeft--;
+					
+					if (!Bomb.empty())
+						Bomb.pop_back();
+				}
 			}
 		}
 		else
@@ -149,12 +152,17 @@ void Player::Update()
 		}
 
 		// Bomb regeneration/refill
-		if (BombRegenTimer/3600%2)
+		if (BombRegenTimer/3600%2) // 30 sec
 		{
 			if (Bomb.size() < 4)
+			{
 				Bomb.emplace_back(GetAsset(Bomb));
-
-			BombsLeft++;
+				
+				if (BombsLeft <= 0)
+					BombsLeft = 1;
+				else
+					BombsLeft++;
+			}
 
 			BombRegenTimer = 0;
 		}
