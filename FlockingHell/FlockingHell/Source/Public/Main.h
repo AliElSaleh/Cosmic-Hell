@@ -83,6 +83,7 @@ float FadeAlpha{0.0f};
 Vector2 StartLocation{359.0f, 388.0f};
 Vector2 EndLocation{359.0f, 628.0f};
 Vector2 SelectorLocation{};
+Vector2 PreviousMousePosition{};
 signed short Index{0};
 unsigned short JumpAmount{60};
 
