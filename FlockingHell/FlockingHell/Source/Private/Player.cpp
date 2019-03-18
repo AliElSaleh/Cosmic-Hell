@@ -13,7 +13,7 @@ void Player::Init()
 	Heart.clear();
 	Bomb.clear();
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 5; i++)
 		Heart.emplace_back(GetAsset(Heart));
 	
 	for (int i = 0; i < 2; i++)
@@ -32,6 +32,7 @@ void Player::Init()
 	Hitbox.width = 3;
 	Hitbox.height = 3;
 	Health = 6;
+	BombsLeft = unsigned short(Heart.size());
 	BombsLeft = unsigned short(Bomb.size());
 	Score = 0;
 	GrazingScore = 0;
@@ -70,6 +71,7 @@ void Player::Init()
 	BossKilled = 0;
 	EnemiesKilled = 0;
 
+	HealthRegenTimer = 0;
 	BombRegenTimer = 0;
 	BombCooldownTimer = 0;
 
@@ -89,6 +91,7 @@ void Player::Update()
 	if (!bIsDead)
 	{
 		PlayerSpriteFramesCounter++;
+		HealthRegenTimer++;
 		BombRegenTimer++;
 
 		// Update the player's location and its components
@@ -165,6 +168,22 @@ void Player::Update()
 			}
 
 			BombRegenTimer = 0;
+		}
+
+		// Health regeneration/refill
+		if (HealthRegenTimer/7200%2) // 60 sec
+		{
+			if (Heart.size() < 6)
+			{
+				Heart.emplace_back(GetAsset(Heart));
+				
+				if (HeartsLeft <= 0)
+					HeartsLeft = 1;
+				else
+					HeartsLeft++;
+			}
+
+			HealthRegenTimer = 0;
 		}
 
 		// To prevent negative values

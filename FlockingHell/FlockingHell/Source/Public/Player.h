@@ -37,6 +37,7 @@ struct Player
 	struct Stats Stats{};
 
 	signed short Health{};
+	signed short HeartsLeft = 0;
 	signed short BombsLeft = 0;
 	signed int Score = 0;
 	unsigned short Deaths = 0;
@@ -52,6 +53,7 @@ struct Player
 	unsigned short BulletLevel = 1;
 	unsigned short BossKilled = 0;
 	unsigned short EnemiesKilled = 0;
+	unsigned short HealthRegenTimer = 0;
 	unsigned short BombRegenTimer = 0;
 	unsigned short BombCooldownTimer = 0;
 	unsigned int GrazingScore = 0;
