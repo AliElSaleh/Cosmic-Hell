@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\HealthBar.cpp" />
     <ClCompile Include="Source\Private\Leaderboard.cpp" />
     <ClCompile Include="Source\Private\Credits.cpp" />
     <ClCompile Include="Source\Private\Planet.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Source\Private\Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\HealthBar.h" />
     <ClInclude Include="Source\Public\Leaderboard.h" />
     <ClInclude Include="Source\Public\Credits.h" />
     <ClInclude Include="Source\Public\Planet.h" />

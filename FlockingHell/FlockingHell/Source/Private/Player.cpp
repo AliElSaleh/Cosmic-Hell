@@ -114,7 +114,7 @@ void Player::Update()
 		else
 		{
 			PlayerHitFramesCounter = 0;
-			Invincibility(false, 0.0f);
+			Invincibility(true, 0.0f);
 		}
 
 		// Bomb mechanic

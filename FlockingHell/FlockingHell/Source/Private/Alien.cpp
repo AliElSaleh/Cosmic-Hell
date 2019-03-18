@@ -18,6 +18,8 @@ Alien::Alien()
 	LowHealthThreshold = 500;
 	Explosions = 3;
 
+	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 40.0f, 5.0f, Health, PURPLE};
+
 	bDebug = false;
 }
 
@@ -39,6 +41,7 @@ void Alien::Init()
 	ShootRate = 5;
 	Speed = 100.0f;
 	Damage = GetRandomValue(1, 3);
+	bIsBoss = true;
 	bActive = true;
 	bIsDead = false;
 
@@ -129,7 +132,10 @@ void Alien::Draw()
 		DrawRectangleLines(int(SpriteBox.x), int(SpriteBox.y), int(SpriteBox.width), int(SpriteBox.height), WHITE); // Sprite box
 
 	if (!bIsDead && bActive)
+	{
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
+		HealthBar.Draw();
+	}
 
 	if (bDebug)
 	{

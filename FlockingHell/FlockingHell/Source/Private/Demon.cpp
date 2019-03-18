@@ -15,6 +15,8 @@ Demon::Demon()
 	Health = 2000;
 	LowHealthThreshold = 400;
 	Explosions = 3;
+
+	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 40.0f, 5.0f, Health, ORANGE};
 }
 
 void Demon::Init()
@@ -34,6 +36,8 @@ void Demon::Init()
 	Damage = GetRandomValue(1, 3);
 	Frames = 10;
 	ShootRate = 5;
+
+	bIsBoss = true;
 	bActive = true;
 	bIsDead = false;
 	bDebug = false;
@@ -139,7 +143,10 @@ void Demon::Draw()
 
 	// Draw the demon sprite
 	if (bActive && !bIsDead)
+	{
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);  // Draw part of the demon texture
+		HealthBar.Draw();
+	}
 	
 	if (bIsDead)
 		for (int i = 0; i < 20; i++)

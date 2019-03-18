@@ -16,7 +16,7 @@ Warship::Warship()
 	Frames = 6;
 	Explosions = 6;
 
-	Warship::Init();
+	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 40.0f, 5.0f, Health, RED};
 }
 
 void Warship::Init()
@@ -55,6 +55,7 @@ void Warship::Init()
 	FrameRec.width = float(Sprite.width)/Frames;
 	FrameRec.height = float(Sprite.height);
 
+	bIsBoss = true;
 	bActive = true;
 	bIsDead = false;
 	bDebug = false;
@@ -164,7 +165,10 @@ void Warship::Draw()
 {
 	// Draw the warship sprite
 	if (bActive && !bIsDead)
+	{
 		DrawTextureRec(Sprite, FrameRec, Location, WHITE);
+		HealthBar.Draw();
+	}
 
 	if (bDebug && bActive && !bIsDead)
 	{
@@ -539,7 +543,9 @@ void Warship::CheckCollisionWithPlayerBullets()
 				{
 					Player->ResetBullet(i);
 					IncreasePlayerScore();
-					
+
+					HealthBar.Update(Health);
+						
 					Health -= Player->Bullet[0].Damage;
 				}
 }

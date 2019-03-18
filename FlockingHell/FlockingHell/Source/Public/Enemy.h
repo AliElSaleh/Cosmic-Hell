@@ -4,6 +4,8 @@
 #include <vector>
 #include "Explosion.h"
 #include "SpiralMultiPattern.h"
+#include "HealthBar.h"
+#include "Globals.h"
 
 struct BulletPatternGenerator;
 
@@ -56,6 +58,7 @@ struct Enemy
 	// Each inherited class will set the amount of frames of the sprite sheet to properly separate when flocking with local flockmates
 	unsigned short Frames{10};
 
+	bool bIsBoss{};
 	bool bActive{};
 	bool bIsDead{};
 
@@ -96,6 +99,8 @@ protected:
 	float Mass{};
 	float MaxForce{};
 	float MaxVelocity{};
+
+	HealthBar HealthBar{};
 
 	virtual void InitBullet(BulletPatternGenerator& BulletPattern, BulletPatternGenerator::Pattern Pattern);
 	virtual void InitBullet(BulletPatternGenerator& BulletPattern, float Delay, BulletPatternGenerator::Pattern Pattern);

@@ -62,6 +62,9 @@ void Enemy::CheckCollisionWithPlayerBullets()
 				Player->ResetBullet(i);
 				IncreasePlayerScore();
 
+				if (bIsBoss)
+					HealthBar.Update(Health);
+
 				Health -= Player->Bullet[0].Damage;
 			}
 }

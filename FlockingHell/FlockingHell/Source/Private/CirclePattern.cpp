@@ -137,11 +137,15 @@ void CirclePattern::Delay(const float Seconds)
 				CheckBulletOutsideWindow();
 				FramesCounter = 0;
 				bDelayed = true;
+			
+				//SetSoundVolume(GetSound(Fire), 2.0f);
+				//RPlaySound(GetSound(Fire));
 			}	
 		}
 	}
 	else
 	{
+
 		StartShotRoutine();
 		CheckBulletOutsideWindow();
 

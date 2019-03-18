@@ -124,6 +124,7 @@ void Assets::LoadSounds()
 		Sounds[Name] = Sound;
 	};
 
+	Load("Fire", "Sounds/BulletFire.wav");
 	Load("MenuSelect", "Sounds/complete.ogg");
 	Load("Switch", "Sounds/switch13.wav");
 	Load("Select", "Sounds/Click.wav");
@@ -131,6 +132,7 @@ void Assets::LoadSounds()
 
 void Assets::UnloadSounds()
 {
+	UnloadSound(GetSound("Fire"));
 	UnloadSound(GetSound("MenuSelect"));
 	UnloadSound(GetSound("Switch"));
 	UnloadSound(GetSound("Select"));
