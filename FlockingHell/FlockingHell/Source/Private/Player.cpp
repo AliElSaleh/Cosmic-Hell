@@ -13,7 +13,7 @@ void Player::Init()
 	Heart.clear();
 	Bomb.clear();
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 		Heart.emplace_back(GetAsset(Heart));
 	
 	for (int i = 0; i < 2; i++)
@@ -117,7 +117,7 @@ void Player::Update()
 		else
 		{
 			PlayerHitFramesCounter = 0;
-			Invincibility(true, 0.0f);
+			Invincibility(false, 0.0f);
 		}
 
 		// Bomb mechanic
@@ -176,11 +176,8 @@ void Player::Update()
 			if (Heart.size() < 6)
 			{
 				Heart.emplace_back(GetAsset(Heart));
-				
-				if (HeartsLeft <= 0)
-					HeartsLeft = 1;
-				else
-					HeartsLeft++;
+				HeartsLeft++;
+				Health++;
 			}
 
 			HealthRegenTimer = 0;

@@ -43,7 +43,7 @@ void Enemy::ApplyBehaviours(std::vector<Enemy*>* Enemies)
 void Enemy::CheckCollisionWithPlayer() const
 {
 	if (bActive && !bIsDead)
-		if (CheckCollisionRecs(Player->Hitbox, SpriteBox))
+		if (CheckCollisionRecs(Player->Hitbox, SpriteBox) && !Player->bInvincible)
 		{			
 			if (!Player->bIsDead)
 				Player->Health -= 1;
