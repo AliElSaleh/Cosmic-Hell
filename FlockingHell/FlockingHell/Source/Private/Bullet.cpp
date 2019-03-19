@@ -5,7 +5,7 @@
 void Bullet::Init()
 {
 	Speed = 200.0f;
-	Radius = 10;
+	Radius = 8;
 	Damage = GetRandomValue(10, 15);
 
 	bActive = false;
@@ -23,8 +23,8 @@ void Bullet::InitFrames()
 
 void Bullet::Update()
 {
-	CollisionOffset.x = Location.x + Radius;
-	CollisionOffset.y = Location.y + Radius;
+	CollisionOffset.x = Location.x + float(Sprite.width)/Frames/2;
+	CollisionOffset.y = Location.y + float(Sprite.height)/2;
 
 	CheckCollisionWithPlayer();
 	CheckCollisionWithPlayerHitbox();
@@ -41,7 +41,6 @@ void Bullet::Draw() const
 	if (bDebug)
 	{
 		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), float(Sprite.width)/Frames/2, WHITE);
-		DrawCircle(int(CollisionOffset.x), int(CollisionOffset.y), 3.0f, YELLOW);
 	}
 }
 
@@ -78,7 +77,7 @@ void Bullet::CheckCollisionWithPlayerHitbox()
 					Player->Heart.pop_back();
 
 				Player->bIsHit = true;
-				Player->Hits++;
+				Player->Hits++; // To store in the stats files and display on stats screen
 				bIsHit = true;
 			}
 		}

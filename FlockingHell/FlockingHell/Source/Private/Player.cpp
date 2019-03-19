@@ -26,11 +26,11 @@ void Player::Init()
 	BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset;
 	BulletSpawnLocation.y = Location.y;
 	BulletXOffset = 5;
-	Hitbox.x = Location.x + float(Sprite.width)/4 + float(XOffset);
-	Hitbox.y = Location.y + float(Sprite.height)/4;
+	Hitbox.width = 2;
+	Hitbox.height = 2;
+	Hitbox.x = Location.x + float(Sprite.width)/4 - float(Sprite.width)/4/2 - XOffset + 2; // Offset X by XOffset + 2 pixels
+	Hitbox.y = Location.y + float(Sprite.height)/2 - 5; // Offset Y by 5 pixels
 	Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
-	Hitbox.width = 3;
-	Hitbox.height = 3;
 	Health = 6;
 	BombsLeft = unsigned short(Heart.size());
 	BombsLeft = unsigned short(Bomb.size());
@@ -99,12 +99,12 @@ void Player::Update()
 		Location.x = GetMousePosition().x - XOffset - 2;
 		Location.y = GetMousePosition().y - YOffset;
 
-		Hitbox.x = Location.x + float(Sprite.width)/4 - 45;
-		Hitbox.y = Location.y + float(Sprite.height)/4 + 22;
-
 		Spritebox = {Location.x, Location.y, float(Sprite.width)/4 - 20, float(Sprite.height)};
 
 		Center = {Location.x + float(Sprite.width)/12 - 2.0f, Location.y + float(Sprite.height)/2 - 5.0f};
+
+		Hitbox.x = Location.x + float(Sprite.width)/4 - float(Sprite.width)/4/2 - XOffset + 2; // Offset X by XOffset + 2 pixels
+		Hitbox.y = Location.y + float(Sprite.height)/2 - 5; // Offset Y by 5 pixels
 
 		BulletSpawnLocation.x = Location.x + float(Sprite.width)/4 - XOffset - 3;
 		BulletSpawnLocation.y = Location.y;
@@ -118,7 +118,7 @@ void Player::Update()
 		else
 		{
 			PlayerHitFramesCounter = 0;
-			Invincibility(true, 0.0f);
+			Invincibility(false, 0.0f);
 		}
 
 		// Bomb mechanic
@@ -214,12 +214,13 @@ void Player::Draw() const
 	if (bDebug)
 	{
 		DrawRectangleLines(int(Spritebox.x), int(Spritebox.y), int(Spritebox.width), int(Spritebox.height), WHITE); // Spritebox
-		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), YELLOW); // Player hitbox
 	
 		for (int i = 0; i < MAX_PLAYER_BULLETS; i++)
 			DrawCircle(int(Bullet[i].Center.x), int(Bullet[i].Center.y), Bullet[i].Radius, RED); // Player Bullets hitbox
 	
 		DrawCircle(int(Center.x), int(Center.y), 3.0f, YELLOW); // Player's center
+
+		DrawRectangle(int(Hitbox.x), int(Hitbox.y), int(Hitbox.width), int(Hitbox.height), BLUE); // Player hitbox
 	}
 }
 
