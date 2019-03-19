@@ -64,6 +64,7 @@ struct Player
 	bool bCanUseBomb{};
 	bool bIsHit{};
 	bool bIsDead{};
+	bool bWarshipDefeated{};
 
 	std::string Name{};
 

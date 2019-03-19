@@ -154,6 +154,7 @@ void Warship::Update()
 			DeathExplosion[i].Explode({float(GetRandomValue(int(Location.x), int(Location.x) + Sprite.width/Frames)), float(GetRandomValue(int(Location.y), int(Location.y) + Sprite.height))}, Explosions);
 
 		Player->bInvincible = true;
+		Player->bWarshipDefeated = true;
 	}
 
 	UpdateBullet();

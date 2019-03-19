@@ -75,6 +75,7 @@ void Player::Init()
 	BombRegenTimer = 0;
 	BombCooldownTimer = 0;
 
+	bWarshipDefeated = false;
 	bWasHit = false;
 	bWasBombUsed = false;
 	bCanUseBomb = true;
@@ -117,7 +118,7 @@ void Player::Update()
 		else
 		{
 			PlayerHitFramesCounter = 0;
-			Invincibility(false, 0.0f);
+			Invincibility(true, 0.0f);
 		}
 
 		// Bomb mechanic

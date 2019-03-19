@@ -91,6 +91,10 @@ unsigned short JumpAmount{60};
 float MusicFade{0.0f};
 bool bMusicFaded{false};
 
+// Win screen fading from game state
+float WinFadeAlpha{0.0f};
+unsigned short WinFramesCounter{0};
+
 // Server
 WSADATA Data;
 WORD Version;
@@ -106,7 +110,7 @@ char ReceiveBuffer[1000000];
 std::string Stats[6];
 unsigned short ServerSendDelay{50};
 unsigned short StatsIndex{0};
-unsigned short ReconnectDelay{7200}; // 1 minute (in frames)
+unsigned short ReconnectDelay{7200}; // 1 minute (in frames) at 120fps
 unsigned short ServerFramesCounter{};
 
 // bools
