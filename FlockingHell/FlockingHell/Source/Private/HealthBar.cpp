@@ -1,4 +1,6 @@
+#include "Globals.h"
 #include "HealthBar.h"
+
 #include <cstdio>
 
 HealthBar::HealthBar(const float X, const float Y, const float Width, const float Height, const short Health, const ::Color Color)
@@ -33,6 +35,7 @@ void HealthBar::Update(const float Health)
 void HealthBar::Draw()
 {
 	DrawRectangleRec(Bar, Color);
+	DrawTexture(GetAsset(HealthBar), int(Bar.x) - 3, int(Bar.y) - 2, WHITE);
 }
 
 void HealthBar::SetSize(const float NormalizedHealth)

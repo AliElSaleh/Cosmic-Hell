@@ -18,7 +18,7 @@ Alien::Alien()
 	LowHealthThreshold = 500;
 	Explosions = 3;
 
-	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 40.0f, 5.0f, Health, PURPLE};
+	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 46.0f, 4.0f, Health, PURPLE};
 
 	bDebug = false;
 }

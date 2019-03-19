@@ -47,6 +47,7 @@ void Assets::LoadSprites()
 	Load("Stats", "Sprites/Stats.png");
 	Load("Credits", "Sprites/Credits.png");
 	Load("Quit", "Sprites/Quit.png");
+	Load("HealthBar", "Sprites/HealthBar.png");
 }
 
 void Assets::UnloadSprites()
@@ -85,6 +86,7 @@ void Assets::UnloadSprites()
 	UnloadTexture(GetSprite("Stats"));
 	UnloadTexture(GetSprite("Credits"));
 	UnloadTexture(GetSprite("Quit"));
+	UnloadTexture(GetSprite("DemonHealthBar"));
 }
 
 void Assets::LoadImages()

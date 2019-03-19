@@ -12,11 +12,11 @@ Warship::Warship()
 {
 	Location = {400, -400};
 	Health = 30000;
-	LowHealthThreshold = 1000;
+	LowHealthThreshold = 5000;
 	Frames = 6;
 	Explosions = 6;
 
-	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 40.0f, 5.0f, Health, RED};
+	HealthBar = {20.0f, GetScreenHeight() - 30.0f, GetScreenWidth() - PANEL_WIDTH - 46.0f, 4.0f, Health, RED};
 }
 
 void Warship::Init()
